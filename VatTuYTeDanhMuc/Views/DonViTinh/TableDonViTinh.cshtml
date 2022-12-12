@@ -1,23 +1,36 @@
-﻿<div class="card">
+﻿@{
+    webContext context = new webContext();
+    NhanVien getNhanVien(int? id){
+        return context.NhanVien.Find(id);
+    }
+    List<Dvt> getListDVT(){
+        return context.Dvt.ToList();
+    }
+}
+
+<div class="card">
         <div class="card-body">
             <table id="example" >
                 <thead>
                     <tr>
-                        <th>Mã phiếu</th>
-                        <th>Ngày nhập kho</th>
-                        <th>Người lập đơn</th>
-                        <th>Giá trị</th>
-                        <th>Trạng thái</th>
-                        <th>Tùy chọn</th>
+                        <th>Mã đơn vị tính</th>
+                        <th>Tên đơn vị tính</th>
+                        <th>Nhân viên tạo</th>
+                        <th>Ngày tạo</th>
+                        <th>Nhân viên sửa</th>
+                        <th>Ngày sửa</th>
+                        <th>Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach(Dvt dvt in getListDVT()){
                     <tr>
-                        <td>DX01</td>
-                        <td>24/12/2022</td>
-                        <td>Trần Uy</td>
-                        <td>1.200.000.000vnđ</td>
-                        <td>Hoàn thành</td>
+                        <td>@dvt.MaDvt</td>
+                        <td>@dvt.TenDvt</td>
+                        <td>@getNhanVien(@dvt.Nvtao).TenNv</td>
+                        <td>@dvt.NgayTao</td>
+                        <td>@getNhanVien(@dvt.Nvsua).TenNv</td>
+                        <td>@dvt.NgaySua</td>
                         <td>
                             <a href="#">
                                 <i
@@ -34,73 +47,7 @@
                               <a href="Phieunhap.html"> Xem </a>
                         </td>
                     </tr>
-                    <tr>
-                        <td>DX01</td>
-                        <td>24/12/2021</td>
-                        <td>Trần Uy</td>
-                        <td>1.200.000.000vnđ</td>
-                        <td>Hoàn thành</td>
-                        <td>
-                            <a href="Phieunhap.html">
-                                <i
-                                  class="bi bi-pencil-square"
-                                  style="margin-right: 10px; margin-left: 10px"
-                                ></i>
-                              </a>
-                              <a href="">
-                                <i
-                                  class="bi bi-trash"
-                                  style="margin-right: 10px; margin-left: 10px"
-                                ></i>
-                              </a>
-                              <a href="#"> Xem </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>DX01</td>
-                        <td>24/12/2021</td>
-                        <td>Thanh Ý</td>
-                        <td>1.200.000.000vnđ</td>
-                        <td>Hoàn thành</td>
-                        <td>
-                            <a href="#">
-                                <i
-                                  class="bi bi-pencil-square"
-                                  style="margin-right: 10px; margin-left: 10px"
-                                ></i>
-                              </a>
-                              <a href="">
-                                <i
-                                  class="bi bi-trash"
-                                  style="margin-right: 10px; margin-left: 10px"
-                                ></i>
-                              </a>
-                              <a href="Phieunhap.html"> Xem </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>DX01</td>
-                        <td>24/12/2021</td>
-                        <td>Trần Uy</td>
-                        <td>1.200.000.000vnđ</td>
-                        <td>Hoàn thành</td>
-                        <td>
-                            <a href="Phieunhap.html">
-                                <i
-                                  class="bi bi-pencil-square"
-                                  style="margin-right: 10px; margin-left: 10px"
-                                ></i>
-                              </a>
-                              <a href="">
-                                <i
-                                  class="bi bi-trash"
-                                  style="margin-right: 10px; margin-left: 10px"
-                                ></i>
-                              </a>
-                              <a href="#"> Xem </a>
-                        </td>
-                    </tr>
-
+                    }
                 </tbody>
             </table>
         </div>

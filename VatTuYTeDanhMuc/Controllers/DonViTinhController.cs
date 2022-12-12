@@ -6,6 +6,7 @@ namespace VatTuYTeDanhMuc.Controllers
     {
         public IActionResult Table()
         {
+            ViewData["Title"] = "Danh mục đơn vị tính";
             return View("TableDonViTinh");
         }
     }

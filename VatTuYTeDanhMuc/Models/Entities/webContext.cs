@@ -499,6 +499,8 @@ namespace VatTuYTeDanhMuc.Models.Entities
 
                 entity.Property(e => e.Active).HasDefaultValueSql("((1))");
 
+                entity.Property(e => e.Dvchinh).HasColumnName("DVChinh");
+
                 entity.Property(e => e.Iddvt).HasColumnName("IDDVT");
 
                 entity.Property(e => e.Idhh).HasColumnName("IDHH");
@@ -510,6 +512,8 @@ namespace VatTuYTeDanhMuc.Models.Entities
                 entity.Property(e => e.Nvsua).HasColumnName("NVSua");
 
                 entity.Property(e => e.Nvtao).HasColumnName("NVTao");
+
+                entity.Property(e => e.SlquyDoi).HasColumnName("SLQuyDoi");
 
                 entity.HasOne(d => d.IddvtNavigation)
                     .WithMany(p => p.HhDvt)
