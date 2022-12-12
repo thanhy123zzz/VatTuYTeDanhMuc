@@ -1,0 +1,31 @@
+﻿@model VatTuYTeDanhMuc.Models.Entities.Dvt
+@{
+
+}
+
+<div class="card">
+            <div class="card-body"  >
+                    <form action="/DonViTinh/insertDonViTinh" method="post">
+                        <div class="modal-header text-center">						
+                            <h4 class="modal-title "><b>Thêm đơn vị tính</b></h4>
+                        </div>
+                        <div class="modal-body">		
+                          <div class="form-group">
+                            <label style="margin:7px 0;">Mã đơn vị tính</label>
+                            <input asp-for="@Model.MaDvt" type="text" class="form-control" required>
+                          </div>
+                          <div class="form-group">
+                              <label style="margin:7px 0;">Tên đơn vị tính</label>
+                              <input asp-for="@Model.TenDvt" type="text" class="form-control" required>
+                          </div>
+                        </div>
+                        <div class="modal-footer" style="justify-content:space-between">        
+                            <button class="btn btn-secondary" onclick="window.history.go(-1);">
+                                Quay lại
+                                </button>
+                            <input type="submit" class="btn btn-primary" value="Thêm">
+                        </div>
+                    </form>
+
+            </div>
+        </div>

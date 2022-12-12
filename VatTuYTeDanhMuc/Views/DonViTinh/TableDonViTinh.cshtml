@@ -1,16 +1,22 @@
 ﻿@{
     webContext context = new webContext();
     NhanVien getNhanVien(int? id){
-        return context.NhanVien.Find(id);
+        NhanVien nv = context.NhanVien.Find(id);
+        if (nv != null) return nv;
+        else return new NhanVien();
     }
     List<Dvt> getListDVT(){
-        return context.Dvt.ToList();
+        return context.Dvt.Where(x=>x.Active == true).ToList();
     }
 }
 
 <div class="card">
         <div class="card-body">
-            <table id="example" >
+            <div class="row">
+                <div style="display:flex; justify-content:end;margin-bottom:7px">
+                    <a href="/DonViTinh/ViewInsertDVT" style="width:20%" class="btn btn-secondary">Thêm mới</a></div>
+            </div>
+            <table id="tableDonViTinh" >
                 <thead>
                     <tr>
                         <th>Mã đơn vị tính</th>
@@ -32,13 +38,13 @@
                         <td>@getNhanVien(@dvt.Nvsua).TenNv</td>
                         <td>@dvt.NgaySua</td>
                         <td>
-                            <a href="#">
+                                <a href="/DonViTinh/ViewUpdateDVT/@dvt.Id">
                                 <i
                                   class="bi bi-pencil-square"
                                   style="margin-right: 10px; margin-left: 10px"
                                 ></i>
                               </a>
-                              <a href="">
+                               <a href="/DonViTinh/xoa/@dvt.Id" onclick="return confirm('Bạn có xoá đơn vị tính này?')">
                                 <i
                                   class="bi bi-trash"
                                   style="margin-right: 10px; margin-left: 10px"
