@@ -1,1 +1,56 @@
-﻿<h1>Nước sản xuất</h1>
+﻿@model VatTuYTeDanhMuc.Models.Entities.NuocSanXuat
+<a class="btn btn-dark" asp-controller="NuocSanXuat" asp-action="Add1">Thêm</a>
+<div class="card">
+        <div class="card-body">
+            <table id="nuocsx" class="table" >
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên nước sản xuất</th>
+                        <th>Mã nước sản xuất</th>
+                        <th>Nhân viên tạo</th>
+                        <th>Ngày tạo</th>
+                        <th>Nhân viên tạo</th>
+                        <th>Nhân viên sửa</th>
+                        <th>Ngày sửa</th>
+                        <th>Mã chi nhánh</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.nuocsx)
+                   {
+                       
+                   
+                    <tr>
+                            <td>@item.Id</td>
+                            <td>@item.TenNsx</td>
+                            <td>@item.MaNsx</td>
+                            <td>@item.Nvtao</td>
+                            <td>@item.NgayTao</td>
+                            <td>@item.Nvsua</td>
+                            <td>@item.NgaySua</td>
+                            <td>@item.Idcn</td>
+                        <td>
+                            <a href="#">
+                                <i
+                                  class="bi bi-pencil-square"
+                                  style="margin-right: 10px; margin-left: 10px"
+                                ></i>
+                              </a>
+                              <a href="">
+                                <i
+                                  class="bi bi-trash"
+                                  style="margin-right: 10px; margin-left: 10px"
+                                ></i>
+                              </a>
+                              <a href="Phieunhap.html"> Xem </a>
+                        </td>
+                    </tr>
+                    }
+                    
+                    
+
+                </tbody>
+            </table>
+        </div>
+       </div>
