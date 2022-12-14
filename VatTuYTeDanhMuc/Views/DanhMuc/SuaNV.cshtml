@@ -1,0 +1,104 @@
+﻿<div class="pagetitle">
+    <h1>Sửa nhân viên</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+            <li class="breadcrumb-item">Danh mục</li>
+            <li class="breadcrumb-item"><a href="Nhanvien">Nhân viên</a></li>
+            <li class="breadcrumb-item"><a href="SuaNV">Sửa nhân viên</a></li>
+        </ol>
+    </nav>
+</div>
+<!-- End Page Title -->
+
+<section class="section">
+    <div class="card">
+
+        <div class="card-body">
+            <form action="" method="get">
+                <div class="form1-header text-center">
+                    <h4 class="form1-title "><b>Sửa thông tin nhân viên</b></h4>
+                </div>
+                <div class="form1-body">
+                    <div class="form-group" style="display: flex; ">
+                        <div>
+                            <label style="margin-bottom: 70px;">Hình ảnh</label>
+                            <input name="hinhanh" class="form-control" type="file" id="Fileimage" onchange="chooseFile1(this)" accept="image/gif image/png image/jpeg">
+                        </div>
+                        <div style="max-width: 300px; max-height:250px; margin-left: 10px;">
+                            <img src="" alt="" width="300px" height="250px" id="image1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Mã nhân viên</label>
+                        <input name="mahh" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Tên nhân viên</label>
+                        <input name="name" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Giới tính</label>
+                        <select name="gioitinh" id="gioitinh" class="form-control">
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Ngày sinh</label>
+                        <input name="name" type="date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Địa chỉ</label>
+                        <input name="name" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Quê quán</label>
+                        <input name="name" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Số điện thoại</label>
+                        <input name="name" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input name="name" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>CCCD</label>
+                        <input name="name" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nhóm nhân viên</label>
+                        <input name="name" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Chi nhánh</label>
+                        <input name="name" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nhân viên tạo</label>
+                        <input name="type" type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Ngày tạo</label>
+                        <input type="date" name="image" class="form-control" required></input>
+                    </div>
+                    <div class="form-group">
+                        <label>Nhân viên sửa </label>
+                        <input name="image" class="form-control" required></input>
+                    </div>
+                    <div class="form-group">
+                        <label>Ngày sửa</label>
+                        <input type="date" name="image" class="form-control" required></input>
+                    </div>
+
+                </div>
+                <div class="form1-footer">
+                    <input type="submit" class="btn btn-primary" value="Lưu">
+                </div>
+            </form>
+
+        </div>
+    </div>
+</section>
