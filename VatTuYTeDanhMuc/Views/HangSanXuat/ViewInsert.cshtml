@@ -1,0 +1,46 @@
+﻿@model VatTuYTeDanhMuc.Models.Entities.HangSanXuat
+
+
+
+<h1>Thêm hãng sản xuất</h1>
+
+<h4>hãng sản xuất</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Insert">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+           
+            <div class="form-group">
+                <label asp-for="MaHsx" class="control-label"></label>
+                <input asp-for="MaHsx" class="form-control" />
+                <span asp-validation-for="MaHsx" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TenHsx" class="control-label"></label>
+                <input asp-for="TenHsx" class="form-control" />
+                <span asp-validation-for="TenHsx" class="text-danger"></span>
+            </div>
+           
+           
+           
+    
+            <div class="form-group">
+                <label asp-for="Idcn" class="control-label"></label>
+                <input asp-for="Idcn" class="form-control" />
+                <span asp-validation-for="Idcn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="table">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

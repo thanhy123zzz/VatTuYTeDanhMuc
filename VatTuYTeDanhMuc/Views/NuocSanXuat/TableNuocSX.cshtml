@@ -1,8 +1,24 @@
 ﻿@model VatTuYTeDanhMuc.Models.Entities.NuocSanXuat
-<a class="btn btn-dark" asp-controller="NuocSanXuat" asp-action="Add1">Thêm</a>
+@{
+    webContext context = new webContext();
+    NhanVien getNhanVien(int? id)
+    {
+        NhanVien nv = context.NhanVien.Find(id);
+        if (nv != null) return nv;
+        else return new NhanVien();
+    }
+    List<NuocSanXuat> getListNSX()
+    {
+        return context.NuocSanXuat.Where(x => x.Active == true).ToList();
+    }
+}
 <div class="card">
         <div class="card-body">
-            <table id="nuocsx" class="table" >
+            <div class="row">
+                <div style="display:flex; justify-content:end;margin-bottom:7px">
+                    <a href="/NuocSanXuat/ViewInsertNSX" style="width:20%" class="btn btn-secondary">Thêm mới</a></div>
+            </div>
+            <table id="tableDonViTinh" class="table" >
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -10,14 +26,14 @@
                         <th>Mã nước sản xuất</th>
                         <th>Nhân viên tạo</th>
                         <th>Ngày tạo</th>
-                        <th>Nhân viên tạo</th>
                         <th>Nhân viên sửa</th>
                         <th>Ngày sửa</th>
                         <th>Mã chi nhánh</th>
+                        <th>Tùy chọn</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in ViewBag.nuocsx)
+                @foreach (NuocSanXuat item in getListNSX())
                    {
                        
                    
@@ -25,25 +41,25 @@
                             <td>@item.Id</td>
                             <td>@item.TenNsx</td>
                             <td>@item.MaNsx</td>
-                            <td>@item.Nvtao</td>
+                            <td>@getNhanVien(@item.Nvtao).TenNv</td>
                             <td>@item.NgayTao</td>
-                            <td>@item.Nvsua</td>
+                            <td>@getNhanVien(@item.Nvsua).TenNv</td>
                             <td>@item.NgaySua</td>
                             <td>@item.Idcn</td>
                         <td>
-                            <a href="#">
-                                <i
+                                     <a href="/NuocSanXuat/Update/@item.Id">
+                                    <i
                                   class="bi bi-pencil-square"
                                   style="margin-right: 10px; margin-left: 10px"
                                 ></i>
-                              </a>
-                              <a href="">
-                                <i
+                                  </a>
+                                           <a href="/NuocSanXuat/delete/@item.Id" onclick="return confirm('Bạn có xoá nhà sản xuất này?')">
+                                    <i
                                   class="bi bi-trash"
                                   style="margin-right: 10px; margin-left: 10px"
                                 ></i>
-                              </a>
-                              <a href="Phieunhap.html"> Xem </a>
+                                  </a>
+                                  <a href="Phieunhap.html"> Xem </a>
                         </td>
                     </tr>
                     }

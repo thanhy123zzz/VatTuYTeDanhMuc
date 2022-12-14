@@ -16,55 +16,70 @@ namespace VatTuYTeDanhMuc.Controllers
         [Route("/NuocSanXuat")]
         public IActionResult Table()
         {
+            ViewData["Title"] = "Danh mục nước sản xuất";
             webContext context = new webContext();
             ViewBag.nuocsx = context.NuocSanXuat.ToList();
             return View("TableNuocSX");
         }
-       //[ Route("/Them")]
-        public IActionResult Add()
+
+        //hiển thị view thêm nhà sản xuất
+       public IActionResult ViewInsertNSX()
         {
-                return View();
-        }
-        public IActionResult Add1()
-        {
+            ViewData["Title"] = "Thêm danh mục đơn vị tính";
+
             return View();
         }
-        public IActionResult InsertNuocSX(NuocSanXuat nuocSanXuat)
+
+        // thêm nhà sản xuất
+        [HttpPost]
+       public IActionResult InsertNSX(NuocSanXuat nsx)
         {
             webContext context = new webContext();
-            nuocSanXuat.Nvtao = 3;
-            nuocSanXuat.Nvsua = 3;
-            context.Add(nuocSanXuat);
+            nsx.Nvtao = 3;
+            nsx.NgayTao = DateTime.Now;
+            context.Add(nsx);
             context.SaveChanges();
+            return RedirectToAction("table");
 
-            return RedirectToAction("Table");
-            
         }
-        public IActionResult InsertHangSX(HangSanXuat h)
+        //xóa nhà sản xuất
+        [Route("/NuocSanXuat/delete/{id}")]
+        public IActionResult Delete(int id)
         {
             webContext context = new webContext();
-            
-            context.Add(h);
+            NuocSanXuat nsx = context.NuocSanXuat.Find(id);
+            nsx.Active = false;
+
+            context.NuocSanXuat.Update(nsx);
             context.SaveChanges();
-
-            return RedirectToAction("Table");
-
+            return RedirectToAction("table");
         }
+
+        // dẫn tới view update
+        [Route("/NuocSanXuat/Update/{id}")]
         public IActionResult ViewUpdate(int id)
         {
             webContext context = new webContext();
-            HangSanXuat nsx = context.HangSanXuat.Find(id);
+            NuocSanXuat nsx = context.NuocSanXuat.Find(id);
             return View(nsx);
         }
-        public IActionResult ViewUpdateDVT(int id)
+
+        //update nhà sản xuất
+        public IActionResult Update(NuocSanXuat nsx)
         {
-            ViewData["Title"] = "Sửa đơn vị tính";
             webContext context = new webContext();
-            Dvt dvt = context.Dvt.Find(id);
-            return View(dvt);
+            NuocSanXuat n = context.NuocSanXuat.Find(nsx.Id);
+
+            n.MaNsx = nsx.MaNsx;
+            n.TenNsx = nsx.TenNsx;
+            n.Idcn = nsx.Idcn;
+            n.Nvsua = 3;
+            n.NgaySua = DateTime.Now;
+
+            context.NuocSanXuat.Update(n);
+            context.SaveChanges();
+            return RedirectToAction("table");
         }
-
-
 
     }
 }

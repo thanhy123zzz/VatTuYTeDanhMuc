@@ -1,0 +1,72 @@
+﻿@model VatTuYTeDanhMuc.Models.Entities.HangSanXuat
+@{
+    webContext context = new webContext();
+    NhanVien getNhanVien(int? id)
+    {
+        NhanVien nv = context.NhanVien.Find(id);
+        if (nv != null) return nv;
+        else return new NhanVien();
+    }
+    List<HangSanXuat> getListHSX()
+    {
+        return context.HangSanXuat.Where(x => x.Active == true).ToList();
+    }
+}
+<div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div style="display:flex; justify-content:end;margin-bottom:7px">
+                    <a href="/HangSanXuat/ViewInsert" style="width:20%" class="btn btn-secondary">Thêm mới</a></div>
+            </div>
+            <table id="tableDonViTinh" class="table" >
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Mã hãng sản xuất</th> 
+                        <th>Tên hãng sản xuất</th>
+                        <th>Nhân viên tạo</th>
+                        <th>Ngày tạo</th>
+                        <th>Nhân viên sửa</th>
+                        <th>Ngày sửa</th>
+                        <th>Mã chi nhánh</th>
+                        <th>Tùy chọn</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (HangSanXuat item in getListHSX())
+                {
+
+
+                        <tr>
+                                <td>@item.Id</td>
+                                    <td>@item.TenHsx</td>
+                                    <td>@item.MaHsx</td>
+                                    <td>@getNhanVien(@item.Nvtao).TenNv</td>
+                                    <td>@item.NgayTao</td>
+                                    <td>@getNhanVien(@item.Nvsua).TenNv</td>
+                                    <td>@item.NgaySua</td>
+                                    <td>@item.Idcn</td>
+                            <td>
+                                         <a href="/HangSanXuat/Update/@item.Id">
+                                        <i
+                                  class="bi bi-pencil-square"
+                                  style="margin-right: 10px; margin-left: 10px"
+                                ></i>
+                                      </a>
+                                               <a href="/HangSanXuat/Delete/@item.Id" onclick="return confirm('Bạn có xoá hãng sản xuất này?')">
+                                        <i
+                                  class="bi bi-trash"
+                                  style="margin-right: 10px; margin-left: 10px"
+                                ></i>
+                                      </a>
+                                      <a href="Phieunhap.html"> Xem </a>
+                            </td>
+                        </tr>
+                }
+
+
+
+                </tbody>
+            </table>
+        </div>
+       </div>
