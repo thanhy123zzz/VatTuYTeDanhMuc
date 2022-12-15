@@ -1,0 +1,55 @@
+﻿@model VatTuYTeDanhMuc.Models.Entities.HhDvt
+@{
+    webContext context = new webContext();
+    List<HangHoa> getListHH(){
+        return context.HangHoa.Where(x => x.Active == true).ToList();
+    }
+    List<Dvt> getDVT(){
+        return context.Dvt.Where(x => x.Active == true).ToList();
+
+    }
+}
+
+<div class="card">
+            <div class="card-body"  >
+                    <form action="/HH_DVT/insertHH_DVT" method="post">
+                        <div class="modal-header text-center">						
+                            <h4 class="modal-title "><b>@ViewData["Title"]</b></h4>
+                        </div>
+                        <div class="modal-body">		
+                          <div class="form-group">
+                            <label style="margin:7px 0;">Hàng hoá</label>
+                            <select required class="form-control" name="Idhh">
+                                @foreach(HangHoa hh in getListHH()){
+                                <option value="@hh.Id">
+                                    @hh.TenHh
+                                </option>
+                                }
+                            </select>
+                          </div>
+                          <div class="form-group">
+                              <label style="margin:7px 0;">Đơn vị tính</label>
+                              <select required class="form-control" name="Iddvt">
+                                @foreach (Dvt hh in getDVT())
+                                {
+                                    <option value="@hh.Id">
+                                        @hh.TenDvt
+                                    </option>
+                                }
+                            </select>
+                          </div>
+                          <div class="form-group">
+                              <label style="margin:7px 0;">Số lượng quy đổi</label>
+                              <input asp-for="@Model.SlquyDoi" min="0" type="number" class="form-control" required>
+                          </div>
+                        </div>
+                        <div class="modal-footer" style="justify-content:space-between">        
+                            <button class="btn btn-secondary" onclick="window.history.go(-1);">
+                                Quay lại
+                                </button>
+                            <input type="submit" class="btn btn-primary" value="Thêm">
+                        </div>
+                    </form>
+
+            </div>
+        </div>

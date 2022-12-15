@@ -29,7 +29,9 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public DateTime? NgaySua { get; set; }
         public bool? Active { get; set; }
         public int? Idcn { get; set; }
+        public int? Iddvtchinh { get; set; }
 
+        public virtual Dvt IddvtchinhNavigation { get; set; }
         public virtual HangSanXuat IdhsxNavigation { get; set; }
         public virtual NhomHangHoa IdnhhNavigation { get; set; }
         public virtual NuocSanXuat IdnsxNavigation { get; set; }

@@ -55,7 +55,7 @@ namespace VatTuYTeDanhMuc.Models.Entities
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Data Source=TRANUY\\SQLEXPRESS;Initial Catalog=web;User ID=sa;Password=123");
+                optionsBuilder.UseSqlServer("Data Source=LAPTOP-FPKNLS6A\\SQLEXPRESS;Initial Catalog=web;Persist Security Info=True;User ID=sa;Password=123456");
             }
         }
 
@@ -376,9 +376,7 @@ namespace VatTuYTeDanhMuc.Models.Entities
                     .HasName("unique_MaDVVC")
                     .IsUnique();
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("ID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Active).HasDefaultValueSql("((1))");
 
@@ -417,6 +415,8 @@ namespace VatTuYTeDanhMuc.Models.Entities
 
                 entity.Property(e => e.Idcn).HasColumnName("IDCN");
 
+                entity.Property(e => e.Iddvtchinh).HasColumnName("IDDVTChinh");
+
                 entity.Property(e => e.Idhsx).HasColumnName("IDHSX");
 
                 entity.Property(e => e.Idnhh).HasColumnName("IDNHH");
@@ -438,6 +438,11 @@ namespace VatTuYTeDanhMuc.Models.Entities
                 entity.Property(e => e.TenHh)
                     .HasColumnName("TenHH")
                     .HasMaxLength(500);
+
+                entity.HasOne(d => d.IddvtchinhNavigation)
+                    .WithMany(p => p.HangHoa)
+                    .HasForeignKey(d => d.Iddvtchinh)
+                    .HasConstraintName("FK__HangHoa__IDDVTCh__4AD81681");
 
                 entity.HasOne(d => d.IdhsxNavigation)
                     .WithMany(p => p.HangHoa)
@@ -464,9 +469,7 @@ namespace VatTuYTeDanhMuc.Models.Entities
                     .HasName("unique_MaHSX")
                     .IsUnique();
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("ID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Active).HasDefaultValueSql("((1))");
 
@@ -493,13 +496,9 @@ namespace VatTuYTeDanhMuc.Models.Entities
             {
                 entity.ToTable("HH_DVT");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("ID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Active).HasDefaultValueSql("((1))");
-
-                entity.Property(e => e.Dvchinh).HasColumnName("DVChinh");
 
                 entity.Property(e => e.Iddvt).HasColumnName("IDDVT");
 
