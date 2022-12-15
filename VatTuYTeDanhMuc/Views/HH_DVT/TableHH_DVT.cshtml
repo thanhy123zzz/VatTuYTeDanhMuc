@@ -1,4 +1,3 @@
-
 ﻿@{
     webContext context = new webContext();
     NhanVien getNhanVien(int? id)
@@ -7,23 +6,32 @@
         if (nv != null) return nv;
         else return new NhanVien();
     }
-    List<NhomNhanVien> getListDVT()
-
+    List<HhDvt> getListHH_Dvt()
     {
-        return context.NhomNhanVien.Where(x => x.Active == true).ToList();
+        return context.HhDvt.Where(x => x.Active == true).ToList();
+    }
+
+    HangHoa getHangHoa(int? id){
+        return context.HangHoa.Find(id);
+    }
+
+    Dvt getDVT(int? id){
+        return context.Dvt.Find(id);
     }
 }
+
 <div class="card">
         <div class="card-body">
             <div class="row">
                 <div style="display:flex; justify-content:end;margin-bottom:7px">
-                    <a href="/NhomNhanVien/ViewInsertNhomNV" style="width:20%" class="btn btn-secondary">Thêm mới</a></div>
+                    <a href="/HH_DVT/ViewInsertHH_DVT" style="width:20%" class="btn btn-secondary">Thêm mới</a></div>
             </div>
             <table id="tableDonViTinh" >
                 <thead>
                     <tr>
-                        <th class="text-center">Mã nhóm</th>
-                        <th class="text-center">Tên nhóm</th>
+                        <th class="text-center">Tên Hàng hoá</th>
+                        <th class="text-center">Tên đơn vị tính</th>
+                        <th class="text-center">Số lượng quy đổi</th>
                         <th class="text-center">Nhân viên tạo</th>
                         <th class="text-center">Ngày tạo</th>
                         <th class="text-center">Nhân viên sửa</th>
@@ -32,23 +40,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                @foreach (NhomNhanVien dvt in getListDVT())
+                @foreach (HhDvt dvt in getListHH_Dvt())
                 {
                         <tr>
-                            <td>@dvt.MaNnv</td>
-                            <td>@dvt.TenNnv</td>
+                            <td>@getHangHoa(dvt.Idhh).TenHh</td>
+                            <td>@getDVT(dvt.Iddvt).TenDvt</td>
+                            <td>@dvt.SlquyDoi</td>
                             <td>@getNhanVien(@dvt.Nvtao).TenNv</td>
                             <td>@dvt.NgayTao</td>
                             <td>@getNhanVien(@dvt.Nvsua).TenNv</td>
                             <td>@dvt.NgaySua</td>
                             <td>
-                                    <a href="/NhomNhanVien/ViewUpdateNhomNV/@dvt.Id">
+                                    <a href="/HH_DVT/ViewUpdateHH_DVT/@dvt.Id">
                                     <i
                                   class="bi bi-pencil-square"
                                   style="margin-right: 10px; margin-left: 10px"
                                 ></i>
                                   </a>
-                                   <a href="/NhomNhanVien/xoa/@dvt.Id" onclick="return confirm('Bạn có xoá nhóm nhân viên tính này?')">
+                                   <a href="/HH_DVT/xoa/@dvt.Id" onclick="return confirm('Bạn có xoá hàng hoá - đơn vị tính này?')">
                                     <i
                                   class="bi bi-trash"
                                   style="margin-right: 10px; margin-left: 10px"
