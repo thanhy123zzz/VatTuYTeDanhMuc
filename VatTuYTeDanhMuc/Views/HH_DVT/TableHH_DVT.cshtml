@@ -19,7 +19,14 @@
         return context.Dvt.Find(id);
     }
 }
-
+@if (TempData["ThongBao"] != null)
+{
+                        <script type="text/javascript" charset="utf-8">
+                            window.onload = function () {
+                                alert("@Html.Raw(@TempData["ThongBao"])");
+                        };
+                        </script>
+}
 <div class="card">
         <div class="card-body">
             <div class="row">
@@ -29,12 +36,12 @@
             <table id="tableDonViTinh" >
                 <thead>
                     <tr>
-                        <th class="text-center">Tên Hàng hoá</th>
-                        <th class="text-center">Tên đơn vị tính</th>
-                        <th class="text-center">Số lượng quy đổi</th>
-                        <th class="text-center">Nhân viên tạo</th>
+                        <th class="text-center">Tên HH</th>
+                        <th class="text-center">Tên ĐVT</th>
+                        <th class="text-center">SL quy đổi</th>
+                        <th class="text-center">NV tạo</th>
                         <th class="text-center">Ngày tạo</th>
-                        <th class="text-center">Nhân viên sửa</th>
+                        <th class="text-center">NV sửa</th>
                         <th class="text-center">Ngày sửa</th>
                         <th class="text-center">Thao tác</th>
                     </tr>
