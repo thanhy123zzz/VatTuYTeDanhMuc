@@ -1,3 +1,4 @@
+
 ﻿@{
     webContext context = new webContext();
     NhanVien getNhanVien(int? id)
@@ -7,11 +8,11 @@
         else return new NhanVien();
     }
     List<NhomNhanVien> getListDVT()
+
     {
         return context.NhomNhanVien.Where(x => x.Active == true).ToList();
     }
 }
-
 <div class="card">
         <div class="card-body">
             <div class="row">
