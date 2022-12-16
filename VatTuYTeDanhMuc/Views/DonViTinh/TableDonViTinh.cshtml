@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     webContext context = new webContext();
     NhanVien getNhanVien(int? id){
         NhanVien nv = context.NhanVien.Find(id);
@@ -45,7 +46,7 @@
                         <td>@getNhanVien(@dvt.Nvsua).TenNv</td>
                         <td>@dvt.NgaySua</td>
                         <td>
-                                <a href="/DonViTinh/ViewUpdateDVT/@dvt.Id">
+                                <a href="/NuocSanXuat/ViewUpdateDVT/@dvt.Id">
                                 <i
                                   class="bi bi-pencil-square"
                                   style="margin-right: 10px; margin-left: 10px"
