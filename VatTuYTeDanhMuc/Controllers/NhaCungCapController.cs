@@ -55,7 +55,7 @@ namespace VatTuYTeDanhMuc.Controllers
             context.SaveChanges();
             return RedirectToAction("table");
         }
-
+        //xóa nhà cung cấp
         [Route("/NhaCungCap/Delete/{id}")]
         public IActionResult Delete(int id)
         {
