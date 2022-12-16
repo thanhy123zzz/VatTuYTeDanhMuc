@@ -16,6 +16,9 @@
 
   <ItemGroup>
     <Folder Include="Views\DichVuVanChuyen\" />
+    <Folder Include="Views\HangSanXuat\" />
+    <Folder Include="Views\NhaCungCap\" />
+    <Folder Include="Views\NhomHangHoa\" />
   </ItemGroup>
 
 </Project>

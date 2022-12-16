@@ -1,4 +1,3 @@
-
 ﻿@{
     webContext context = new webContext();
     NhanVien getNhanVien(int? id)
@@ -7,15 +6,14 @@
         if (nv != null) return nv;
         else return new NhanVien();
     }
-    List<NhomNhanVien> getListDVT()
-
+    List<Dvvc> getListDVVC()
     {
-        return context.NhomNhanVien.Where(x => x.Active == true).ToList();
+        return context.Dvvc.Where(x => x.Active == true).ToList();
     }
 }
 @if (TempData["ThongBao"] != null)
 {
-     <script type="text/javascript" charset="utf-8">
+                        <script type="text/javascript" charset="utf-8">
                             window.onload = function () {
                                 alert("@Html.Raw(@TempData["ThongBao"])");
                         };
@@ -25,38 +23,40 @@
         <div class="card-body">
             <div class="row">
                 <div style="display:flex; justify-content:end;margin-bottom:7px">
-                    <a href="/NhomNhanVien/ViewInsertNhomNV" style="width:20%" class="btn btn-secondary">Thêm mới</a></div>
+                    <a href="/DVVC/ViewInsertDVVC" style="width:20%" class="btn btn-secondary">Thêm mới</a></div>
             </div>
             <table id="tableDonViTinh" >
                 <thead>
                     <tr>
-                        <th class="text-center">Mã nhóm</th>
-                        <th class="text-center">Tên nhóm</th>
-                        <th class="text-center">Nhân viên tạo</th>
+                        <th class="text-center">Mã DVVC</th>
+                        <th class="text-center">Tên DVVC</th>
+                        <th class="text-center">Ghi chú</th>
+                        <th class="text-center">NV tạo</th>
                         <th class="text-center">Ngày tạo</th>
-                        <th class="text-center">Nhân viên sửa</th>
+                        <th class="text-center">NV sửa</th>
                         <th class="text-center">Ngày sửa</th>
                         <th class="text-center">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
-                @foreach (NhomNhanVien dvt in getListDVT())
+                @foreach (Dvvc dvt in getListDVVC())
                 {
                         <tr>
-                            <td>@dvt.MaNnv</td>
-                            <td>@dvt.TenNnv</td>
+                            <td>@dvt.MaDvvc</td>
+                            <td>@dvt.TenDvvc</td>
+                            <td>@dvt.GhiChu</td>
                             <td>@getNhanVien(@dvt.Nvtao).TenNv</td>
                             <td>@dvt.NgayTao</td>
                             <td>@getNhanVien(@dvt.Nvsua).TenNv</td>
                             <td>@dvt.NgaySua</td>
                             <td>
-                                    <a href="/NhomNhanVien/ViewUpdateNhomNV/@dvt.Id">
+                                    <a href="/DVVC/ViewUpdateDVVC/@dvt.Id">
                                     <i
                                   class="bi bi-pencil-square"
                                   style="margin-right: 10px; margin-left: 10px"
                                 ></i>
                                   </a>
-                                   <a href="/NhomNhanVien/xoa/@dvt.Id" onclick="return confirm('Bạn có xoá nhóm nhân viên tính này?')">
+                                   <a href="/DVVC/xoa/@dvt.Id" onclick="return confirm('Bạn có xoá dịch vụ vận chuyển này?')">
                                     <i
                                   class="bi bi-trash"
                                   style="margin-right: 10px; margin-left: 10px"

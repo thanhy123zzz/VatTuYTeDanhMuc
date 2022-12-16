@@ -10,7 +10,14 @@
         return context.Dvt.Where(x=>x.Active == true).ToList();
     }
 }
-
+@if (TempData["ThongBao"] != null)
+{
+                    <script type="text/javascript" charset="utf-8">
+                        window.onload = function () {
+                            alert("@Html.Raw(@TempData["ThongBao"])");
+                    };
+                    </script>
+}
 <div class="card">
         <div class="card-body">
             <div class="row">
@@ -20,11 +27,11 @@
             <table id="tableDonViTinh" >
                 <thead>
                     <tr>
-                        <th class="text-center">Mã đơn vị tính</th>
-                        <th class="text-center">Tên đơn vị tính</th>
-                        <th class="text-center">Nhân viên tạo</th>
+                        <th class="text-center">Mã ĐVT</th>
+                        <th class="text-center">Tên ĐVT</th>
+                        <th class="text-center">NV tạo</th>
                         <th class="text-center">Ngày tạo</th>
-                        <th class="text-center">Nhân viên sửa</th>
+                        <th class="text-center">NV sửa</th>
                         <th class="text-center">Ngày sửa</th>
                         <th class="text-center">Thao tác</th>
                     </tr>

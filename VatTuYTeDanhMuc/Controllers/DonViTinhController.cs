@@ -38,6 +38,7 @@ namespace VatTuYTeDanhMuc.Controllers
             dvt.NgayTao = DateTime.Now;
             context.Dvt.Add(dvt);
             context.SaveChanges();
+            TempData["ThongBao"] = "Thêm thành công!";
             return RedirectToAction("Table");
         }
 
@@ -55,6 +56,7 @@ namespace VatTuYTeDanhMuc.Controllers
 
             context.Dvt.Update(dv);
             context.SaveChanges();
+            TempData["ThongBao"] = "Sửa thành công!";
             return RedirectToAction("Table");
         }
 
