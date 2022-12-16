@@ -6,62 +6,69 @@ namespace VatTuYTeDanhMuc.Controllers
 {
     public class NhomNhanVienController : Controller
     {
-        public IActionResult table()
+        public IActionResult Table()
         {
+            ViewData["Title"] = "Danh mục nhóm nhân viên";
             return View("TableNhomNhanVien");
         }
 
-        // hiển thị view thêm nhóm nhân viên
-        public IActionResult ViewInsert()
+        //Trả về view thêm nhóm nhân viên
+        public IActionResult ViewInsertNhomNV()
         {
+            ViewData["Title"] = "Thêm nhóm nhân viên";
             return View();
         }
-        // thêm nhân viên
-        public IActionResult InsertNNV(NhomNhanVien nnv) 
+        //Trả về view sửa nhóm nhân viên
+        [Route("/NhomNhanVien/ViewUpdateNhomNV/{id}")]
+        public IActionResult ViewUpdateNhomNV(int id)
+        {
+            ViewData["Title"] = "Sửa nhóm nhân viên";
+            webContext context = new webContext();
+            NhomNhanVien dvt = context.NhomNhanVien.Find(id);
+            return View(dvt);
+        }
+
+        //insert nhóm nhân viên
+        [HttpPost]
+        public IActionResult insertNhomNV(NhomNhanVien dvt)
         {
             webContext context = new webContext();
-            nnv.Nvtao = 3; 
-            nnv.NgayTao= DateTime.Now;
-
-            context.NhomNhanVien.Add(nnv);
+            dvt.Nvtao = 3;
+            dvt.Active = true;
+            dvt.NgayTao = DateTime.Now;
+            context.NhomNhanVien.Add(dvt);
             context.SaveChanges();
-            return RedirectToAction("table"); 
+            return RedirectToAction("Table");
         }
-        // xóa nhóm nhân viên
-        [Route("/NhomNhanVien/Delete/{id}")]
-        public IActionResult Delete(int id)
+
+        //update nhóm nhân viên
+        [HttpPost]
+        public IActionResult updateNhomNV(NhomNhanVien dvt)
         {
             webContext context = new webContext();
+            NhomNhanVien dv = context.NhomNhanVien.Find(dvt.Id);
 
-            NhomNhanVien a = context.NhomNhanVien.Find(id);
-            a.Active = false; 
+            dv.Nvsua = 3;
+            dv.NgaySua = DateTime.Now;
+            dv.TenNnv = dvt.TenNnv;
+            dv.MaNnv = dvt.MaNnv;
 
-            context.NhomNhanVien.Update(a);
+            context.NhomNhanVien.Update(dv);
             context.SaveChanges();
-           
-            return RedirectToAction("table");
+            return RedirectToAction("Table");
         }
-        // hiển thị view update nhóm nhân viên
-        public IActionResult ViewUpdateNnv(int id)
-        {
-            webContext context  = new webContext();
-            NhomNhanVien nnv = context.NhomNhanVien.Find(id);
-            return View(nnv);
-        }
-        // update nhóm nhân viên 
-        public IActionResult Update(NhomNhanVien nnv)
+
+        //Xoá nhóm nhân viên
+        [Route("/NhomNhanVien/xoa/{id}")]
+        public IActionResult deleteNhomNhanVien(int id)
         {
             webContext context = new webContext();
-            NhomNhanVien a = context.NhomNhanVien.Find(nnv.Id);
-            a.Nvsua = 3; 
-            a.NgaySua = DateTime.Now;
-            a.MaNnv = nnv.MaNnv;
-            a.TenNnv = nnv.TenNnv;
-            a.Idcn = nnv.Idcn;
+            NhomNhanVien dvt = context.NhomNhanVien.Find(id);
+            dvt.Active = false;
 
-            context.NhomNhanVien.Update(a);
+            context.NhomNhanVien.Update(dvt);
             context.SaveChanges();
-            return RedirectToAction("table");
+            return RedirectToAction("Table");
         }
     }
 }
