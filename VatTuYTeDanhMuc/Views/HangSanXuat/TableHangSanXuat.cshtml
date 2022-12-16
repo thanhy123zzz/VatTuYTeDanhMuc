@@ -21,15 +21,15 @@
             <table id="tableDonViTinh" class="table" >
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Mã hãng sản xuất</th> 
-                        <th>Tên hãng sản xuất</th>
-                        <th>Nhân viên tạo</th>
-                        <th>Ngày tạo</th>
-                        <th>Nhân viên sửa</th>
-                        <th>Ngày sửa</th>
-                        <th>Mã chi nhánh</th>
-                        <th>Tùy chọn</th>
+                        <th class="text-center">ID</th>
+                        <th class="text-center">Mã HSX</th> 
+                        <th class="text-center">Tên HSX</th>
+                        <th class="text-center">NV tạo</th>
+                        <th class="text-center">Ngày tạo</th>
+                        <th class="text-center">NV sửa</th>
+                        <th class="text-center">Ngày sửa</th>
+                        
+                        <th class="text-center">Tùy chọn</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,7 +45,7 @@
                                     <td>@item.NgayTao</td>
                                     <td>@getNhanVien(@item.Nvsua).TenNv</td>
                                     <td>@item.NgaySua</td>
-                                    <td>@item.Idcn</td>
+                                    
                             <td>
                                          <a href="/HangSanXuat/Update/@item.Id">
                                         <i

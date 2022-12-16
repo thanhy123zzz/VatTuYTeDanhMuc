@@ -12,12 +12,12 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="MaHsx" class="control-label"></label>
-                <input asp-for="MaHsx" class="form-control" />
+                <input asp-for="MaHsx" required class="form-control" />
                 <span asp-validation-for="MaHsx" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TenHsx" class="control-label"></label>
-                <input asp-for="TenHsx" class="form-control" />
+                <input asp-for="TenHsx" required class="form-control" />
                 <span asp-validation-for="TenHsx" class="text-danger"></span>
             </div>
            
@@ -27,7 +27,7 @@
             
             <div class="form-group">
                 <label asp-for="Idcn" class="control-label"></label>
-                <input asp-for="Idcn" class="form-control" />
+                <input asp-for="Idcn" required class="form-control" />
                 <span asp-validation-for="Idcn" class="text-danger"></span>
             </div>
             <div class="form-group">
