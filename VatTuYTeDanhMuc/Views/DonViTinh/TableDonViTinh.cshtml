@@ -41,9 +41,9 @@
                         <td>@dvt.MaDvt</td>
                         <td>@dvt.TenDvt</td>
                         <td>@getNhanVien(@dvt.Nvtao).TenNv</td>
-                        <td>@dvt.NgayTao</td>
+                        <td>@dvt.NgayTao.Value.ToString("dd/MM/yyyy HH:mm:ss tt")</td>
                         <td>@getNhanVien(@dvt.Nvsua).TenNv</td>
-                        <td>@dvt.NgaySua</td>
+                        <td>@dvt.NgaySua.Value.ToString("dd/MM/yyyy HH:mm:ss tt")</td>
                         <td>
                                 <a href="/DonViTinh/ViewUpdateDVT/@dvt.Id">
                                 <i
@@ -57,7 +57,6 @@
                                   style="margin-right: 10px; margin-left: 10px"
                                 ></i>
                               </a>
-                              <a href="Phieunhap.html"> Xem </a>
                         </td>
                     </tr>
                     }
