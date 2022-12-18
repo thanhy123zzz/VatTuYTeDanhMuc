@@ -1,43 +1,32 @@
 ﻿@model VatTuYTeDanhMuc.Models.Entities.NhomHangHoa
+@{
 
-
-
-<h1>Cập nhập Nhóm hàng hóa</h1>
-
-<h4>Nhóm hàng hóa</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="UpdateNHH">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="MaNhh" class="control-label"></label>
-                <input asp-for="MaNhh" required class="form-control" />
-                <span asp-validation-for="MaNhh"  class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="TenNhh" class="control-label"></label>
-                <input asp-for="TenNhh" required class="form-control" />
-                <span asp-validation-for="TenNhh" class="text-danger"></span>
-            </div>                    
-            <div class="form-group">
-                <label asp-for="Idcn" class="control-label"></label>
-                <input asp-for="Idcn" required class="form-control" />
-                <span asp-validation-for="Idcn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="table">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<div class="card">
+            <div class="card-body"  >
+                    <form action="/NhomHangHoa/UpdateNHH" method="post">
+                        <div class="modal-header text-center">						
+                            <h4 class="modal-title "><b>@ViewData["Title"]</b></h4>
+                        </div>
+                        <div class="modal-body">		
+                          <div class="form-group">
+                            <label style="margin:7px 0;">Mã nhóm hàng hóa</label>
+                            <input asp-for="@Model.MaNhh" type="text" class="form-control" required>
+                            <input asp-for="@Model.Id" type="hidden" class="form-control" required>
+                          </div>
+                          <div class="form-group">
+                              <label style="margin:7px 0;">Tên nhóm hàng hóa</label>
+                              <input asp-for="@Model.TenNhh" type="text" class="form-control" required>
+                          </div>
+                        </div>
+                         <div class="modal-footer" style="justify-content:space-between">        
+                            <button class="btn btn-secondary" onclick="window.history.go(-1);">
+                                Quay lại
+                                </button>
+                            <input type="submit" class="btn btn-primary" value="Sửa">
+                        </div>
+                    </form>
+
+            </div>
+        </div>

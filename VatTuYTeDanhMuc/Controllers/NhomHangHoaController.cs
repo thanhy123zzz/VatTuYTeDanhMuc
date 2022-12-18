@@ -8,12 +8,14 @@ namespace VatTuYTeDanhMuc.Controllers
     {
         public IActionResult table()
         {
-            
+            ViewData["Title"] = "Danh mục nhóm hàng hóa";
+
             return View("TableNhomHangHoa");  
         }
         // hiển thị view Insert
         public IActionResult ViewInsertNHH()
         {
+            ViewData["Title"] = "Thêm nhóm hàng hóa";
             return View();
         }
         // Insert nhóm hàng hóa 
@@ -22,9 +24,12 @@ namespace VatTuYTeDanhMuc.Controllers
             webContext context = new webContext();
             nhh.Nvtao = 3;
             nhh.NgayTao = DateTime.Now;
+            nhh.Active = true;
+            nhh.Idcn = 1;
 
             context.NhomHangHoa.Add(nhh);
             context.SaveChanges();
+            TempData["ThongBao"] = "Thêm thành công!";
             return RedirectToAction("table"); 
         }
 
@@ -47,6 +52,7 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             NhomHangHoa a = context.NhomHangHoa.Find(id);
+            ViewData["Title"] = "Thêm nhóm hàng hóa";
 
             return View(a);
         }
@@ -63,6 +69,7 @@ namespace VatTuYTeDanhMuc.Controllers
             n.Idcn = nhh.Idcn;
             context.NhomHangHoa.Update(n);
             context.SaveChanges();
+            TempData["ThongBao"] = "Sửa thành công!";
             return RedirectToAction("table");
         }
     }

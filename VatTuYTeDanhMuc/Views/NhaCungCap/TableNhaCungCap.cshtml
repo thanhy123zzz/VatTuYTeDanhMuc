@@ -11,8 +11,27 @@
     {
         return context.NhaCungCap.Where(x => x.Active == true).ToList();
     }
+    string formatDay(DateTime? date)
+    {
+        if (date != null)
+        {
+            return date.Value.ToString("dd/MM/yyyy HH:mm");
+        }
+        else
+        {
+            return null;
+        }
+    }
 }
-<h1>Danh mục nhà cung cấp</h1>
+@if (TempData["ThongBao"] != null)
+{
+                        <script type="text/javascript" charset="utf-8">
+                            window.onload = function () {
+                                alert("@Html.Raw(@TempData["ThongBao"])");
+                        };
+                        </script>
+}
+
 <div class="card">
         <div class="card-body">
             <div class="row">
@@ -22,9 +41,10 @@
             <table id="tableDonViTinh" >
                 <thead>
                     <tr>
-                        <th class="text-center">ID</th>
-                        <th class="text-center">Tên NCC</th>
+                        
+                        
                         <th class="text-center">Mã NCC</th>
+                        <th class="text-center">Tên NCC</th>
                         <th class="text-center">Địa chỉ</th>
                         <th class="text-center"> SĐT</th>
                         <th class="text-center">Email</th>                        
@@ -42,16 +62,17 @@
 
 
                             <tr>
-                                    <td>@item.Id</td>
-                                    <td>@item.TenNcc</td>
+                                    
+                                    
                                     <td>@item.MaNcc</td>
+                                    <td>@item.TenNcc</td>
                                     <td>@item.DiaChi</td>
                                     <td>@item.Sdt</td>
                                     <td>@item.Email</td>
                                     <td>@getNhanVien(@item.Nvtao).TenNv</td>
-                                    <td>@item.NgayTao</td>
+                                    <td>@formatDay(@item.NgayTao)</td>
                                     <td>@getNhanVien(@item.Nvsua).TenNv</td>
-                                    <td>@item.NgaySua</td>                                  
+                                    <td>@formatDay(@item.NgaySua)</td>                                  
                                 <td>
                                                      <a href="/NhaCungCap/ViewUpdate/@item.Id">
                                             <i
@@ -65,7 +86,7 @@
                                   style="margin-right: 10px; margin-left: 10px"
                                 ></i>
                                           </a>
-                                          <a href="Phieunhap.html"> Xem </a>
+                                          
                                 </td>
                             </tr>
                 }

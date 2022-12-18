@@ -25,7 +25,7 @@ namespace VatTuYTeDanhMuc.Controllers
         //hiển thị view thêm nhà sản xuất
        public IActionResult ViewInsertNSX()
         {
-            ViewData["Title"] = "Thêm danh mục đơn vị tính";
+            ViewData["Title"] = "Thêm danh mục nước sản xuất";
 
             return View();
         }
@@ -37,8 +37,11 @@ namespace VatTuYTeDanhMuc.Controllers
             webContext context = new webContext();
             nsx.Nvtao = 3;
             nsx.NgayTao = DateTime.Now;
+            nsx.Active = true;
+            nsx.Idcn = 1;
             context.Add(nsx);
             context.SaveChanges();
+            TempData["ThongBao"] = "Thêm thành công!";
             return RedirectToAction("table");
 
         }
@@ -58,7 +61,9 @@ namespace VatTuYTeDanhMuc.Controllers
         // dẫn tới view update
         [Route("/NuocSanXuat/Update/{id}")]
         public IActionResult ViewUpdate(int id)
+
         {
+            ViewData["Title"] = "Sửa nước sản xuất";
             webContext context = new webContext();
             NuocSanXuat nsx = context.NuocSanXuat.Find(id);
             return View(nsx);
@@ -78,6 +83,7 @@ namespace VatTuYTeDanhMuc.Controllers
 
             context.NuocSanXuat.Update(n);
             context.SaveChanges();
+            TempData["ThongBao"] = "Sửa thành công!";
             return RedirectToAction("table");
         }
 

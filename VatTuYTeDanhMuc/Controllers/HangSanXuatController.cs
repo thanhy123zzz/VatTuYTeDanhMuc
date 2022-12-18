@@ -11,19 +11,24 @@ namespace VatTuYTeDanhMuc.Controllers
             ViewData["Title"] = "Danh mục hãng sản xuất";
             return View("TableHangSanXuat");
         }
+        //hiển thị view insert
         public IActionResult ViewInsert()
         {
+            ViewData["Title"] = "Thêm hãng sản xuất";
             return View();  
         }
-
+        //thêm hãng sản xuất
         public IActionResult Insert(HangSanXuat hsx)
         {
             webContext context = new webContext();
             
             hsx.Nvtao = 3;
             hsx.NgayTao = DateTime.Now;
+            hsx.Active = true;
+            hsx.Idcn = 1;
             context.HangSanXuat.Add(hsx);
             context.SaveChanges();
+            TempData["ThongBao"] = "Thêm thành công!";
 
             return RedirectToAction("table");
         }
@@ -46,6 +51,7 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             HangSanXuat hsx = context.HangSanXuat.Find(id);
+            ViewData["Title"] = "Sửa hãng sản xuất";
 
             return View(hsx);
         }
@@ -60,6 +66,7 @@ namespace VatTuYTeDanhMuc.Controllers
             h.NgaySua = DateTime.Now;
             context.HangSanXuat.Update(h);
             context.SaveChanges();
+            TempData["ThongBao"] = "Sửa thành công!";
             return RedirectToAction("table");
         }
     }

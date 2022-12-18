@@ -1,46 +1,32 @@
 ﻿@model VatTuYTeDanhMuc.Models.Entities.HangSanXuat
+@{
 
-
-<h1>Cập nhập hãng sản xuất</h1>
-
-<h4>Hãng sản xuất</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="UpdateHSX">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="MaHsx" class="control-label"></label>
-                <input asp-for="MaHsx" required class="form-control" />
-                <span asp-validation-for="MaHsx" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TenHsx" class="control-label"></label>
-                <input asp-for="TenHsx" required class="form-control" />
-                <span asp-validation-for="TenHsx" class="text-danger"></span>
-            </div>
-           
-           
-            
-           
-            
-            <div class="form-group">
-                <label asp-for="Idcn" class="control-label"></label>
-                <input asp-for="Idcn" required class="form-control" />
-                <span asp-validation-for="Idcn" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-//
-<div>
-    <a asp-action="table">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<div class="card">
+            <div class="card-body"  >
+                    <form action="/HangSanXuat/UpdateHSX" method="post">
+                        <div class="modal-header text-center">						
+                            <h4 class="modal-title "><b>@ViewData["Title"]</b></h4>
+                        </div>
+                        <div class="modal-body">		
+                          <div class="form-group">
+                            <label style="margin:7px 0;">Mã hãng sản xuất</label>
+                            <input asp-for="@Model.MaHsx" type="text" class="form-control" required>
+                            <input asp-for="@Model.Id" type="hidden" class="form-control" required>
+                          </div>
+                          <div class="form-group">
+                              <label style="margin:7px 0;">Tên hãng sản xuất</label>
+                              <input asp-for="@Model.TenHsx" type="text" class="form-control" required>
+                          </div>
+                        </div>
+                         <div class="modal-footer" style="justify-content:space-between">        
+                            <button class="btn btn-secondary" onclick="window.history.go(-1);">
+                                Quay lại
+                                </button>
+                            <input type="submit" class="btn btn-primary" value="Sửa">
+                        </div>
+                    </form>
+
+            </div>
+        </div>

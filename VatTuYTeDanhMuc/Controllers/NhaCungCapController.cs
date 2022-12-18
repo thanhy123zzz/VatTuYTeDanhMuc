@@ -9,11 +9,13 @@ namespace VatTuYTeDanhMuc.Controllers
        
         public IActionResult table()
         {
+            ViewData["Title"] = "Danh mục nhà cung cấp";
             return View("TableNhaCungCap");
         }
         //hiển thị view insert
         public IActionResult ViewInsertNCC()
         {
+            ViewData["Title"] = "Thêm nhà cung cấp";
             return View();
         }
         //thêm nhà cung cấp
@@ -23,9 +25,12 @@ namespace VatTuYTeDanhMuc.Controllers
 
             ncc.Nvtao = 3;
             ncc.NgayTao = DateTime.Now;
+            ncc.Idcn = 1;
+            ncc.Active = true;
 
             context.NhaCungCap.Add(ncc);
             context.SaveChanges();
+            TempData["ThongBao"] = "Thêm thành công!";
             return RedirectToAction("table");
         }
         //HIển thị view update
@@ -35,6 +40,7 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             NhaCungCap ncc = context.NhaCungCap.Find(id);
+            ViewData["Title"] = "Sửa nhà cung cấp";
             return View(ncc);
         }
         public IActionResult UpdateNCC(NhaCungCap ncc)
@@ -53,6 +59,7 @@ namespace VatTuYTeDanhMuc.Controllers
 
             context.NhaCungCap.Update(n);
             context.SaveChanges();
+            TempData["ThongBao"] = "Sửa thành công!";
             return RedirectToAction("table");
         }
         //xóa nhà cung cấp

@@ -11,6 +11,25 @@
     {
         return context.HangSanXuat.Where(x => x.Active == true).ToList();
     }
+    string formatDay(DateTime? date)
+    {
+        if (date != null)
+        {
+            return date.Value.ToString("dd/MM/yyyy HH:mm");
+        }
+        else
+        {
+            return null;
+        }
+    }
+}
+@if (TempData["ThongBao"] != null)
+{
+                        <script type="text/javascript" charset="utf-8">
+                            window.onload = function () {
+                                alert("@Html.Raw(@TempData["ThongBao"])");
+                        };
+                        </script>
 }
 <div class="card">
         <div class="card-body">
@@ -21,7 +40,7 @@
             <table id="tableDonViTinh">
                 <thead>
                     <tr>
-                        <th class="text-center">ID</th>
+                        
                         <th class="text-center">Mã HSX</th> 
                         <th class="text-center">Tên HSX</th>
                         <th class="text-center">NV tạo</th>
@@ -33,19 +52,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    //
                 @foreach (HangSanXuat item in getListHSX())
                 {
 
 
                         <tr>
-                                <td>@item.Id</td>
-                                    <td>@item.TenHsx</td>
                                     <td>@item.MaHsx</td>
+                                    <td>@item.TenHsx</td>
+                                    
                                     <td>@getNhanVien(@item.Nvtao).TenNv</td>
-                                    <td>@item.NgayTao</td>
+                                    <td>@formatDay(@item.NgayTao)</td>
                                     <td>@getNhanVien(@item.Nvsua).TenNv</td>
-                                    <td>@item.NgaySua</td>
+                                    <td>@formatDay(@item.NgaySua)</td>
                                     
                             <td>
                                          <a href="/HangSanXuat/Update/@item.Id">
@@ -60,7 +78,7 @@
                                   style="margin-right: 10px; margin-left: 10px"
                                 ></i>
                                       </a>
-                                      <a href="Phieunhap.html"> Xem </a>
+                                     
                             </td>
                         </tr>
                 }
