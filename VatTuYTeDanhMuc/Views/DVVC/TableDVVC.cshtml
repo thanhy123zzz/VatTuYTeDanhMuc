@@ -10,6 +10,17 @@
     {
         return context.Dvvc.Where(x => x.Active == true).ToList();
     }
+    string formatDay(DateTime? date)
+    {
+        if (date != null)
+        {
+            return date.Value.ToString("dd/MM/yyyy HH:mm");
+        }
+        else
+        {
+            return null;
+        }
+    }
 }
 @if (TempData["ThongBao"] != null)
 {
@@ -46,9 +57,9 @@
                             <td>@dvt.TenDvvc</td>
                             <td>@dvt.GhiChu</td>
                             <td>@getNhanVien(@dvt.Nvtao).TenNv</td>
-                            <td>@dvt.NgayTao</td>
+                                <td>@formatDay(@dvt.NgayTao)</td>
                             <td>@getNhanVien(@dvt.Nvsua).TenNv</td>
-                            <td>@dvt.NgaySua</td>
+                                <td>@formatDay(@dvt.NgaySua)</td>
                             <td>
                                     <a href="/DVVC/ViewUpdateDVVC/@dvt.Id">
                                     <i

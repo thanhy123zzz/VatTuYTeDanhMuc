@@ -11,6 +11,7 @@ namespace VatTuYTeDanhMuc.Models.Entities
     {
         public NhanVien()
         {
+            HinhAnhNhanVien = new HashSet<HinhAnhNhanVien>();
             KhachHang = new HashSet<KhachHang>();
             PhieuNhap = new HashSet<PhieuNhap>();
             PhieuThuNo = new HashSet<PhieuThuNo>();
@@ -28,7 +29,7 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public string Sdt { get; set; }
         public string Email { get; set; }
         public string Cccd { get; set; }
-        public string HinhAnh { get; set; }
+        public string Avatar { get; set; }
         public int? Idnnv { get; set; }
         public string TenTaiKhoan { get; set; }
         public int? Nvtao { get; set; }
@@ -40,6 +41,7 @@ namespace VatTuYTeDanhMuc.Models.Entities
 
         public virtual NhomNhanVien IdnnvNavigation { get; set; }
         public virtual TaiKhoan TenTaiKhoanNavigation { get; set; }
+        public virtual ICollection<HinhAnhNhanVien> HinhAnhNhanVien { get; set; }
         public virtual ICollection<KhachHang> KhachHang { get; set; }
         public virtual ICollection<PhieuNhap> PhieuNhap { get; set; }
         public virtual ICollection<PhieuThuNo> PhieuThuNo { get; set; }

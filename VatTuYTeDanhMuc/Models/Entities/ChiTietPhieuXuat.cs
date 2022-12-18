@@ -14,7 +14,7 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public int? Idhh { get; set; }
         public int? Iddvt { get; set; }
         public int? Slg { get; set; }
-        public decimal? DonGia { get; set; }
+        public double? DonGia { get; set; }
         public int? Idpn { get; set; }
         public DateTime? Nsx { get; set; }
         public DateTime? Hsd { get; set; }

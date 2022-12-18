@@ -19,7 +19,7 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public int? Idncc { get; set; }
         public int? Idhttt { get; set; }
         public DateTime? NgayTra { get; set; }
-        public decimal? TongTien { get; set; }
+        public double? TongTien { get; set; }
         public int? Nvtao { get; set; }
         public DateTime? NgayTao { get; set; }
         public int? Nvsua { get; set; }

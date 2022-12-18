@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\DichVuVanChuyen\**" />
+    <Content Remove="Views\DichVuVanChuyen\**" />
+    <EmbeddedResource Remove="Views\DichVuVanChuyen\**" />
+    <None Remove="Views\DichVuVanChuyen\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.31" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.31">
@@ -15,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\DichVuVanChuyen\" />
     <Folder Include="Views\HangSanXuat\" />
     <Folder Include="Views\NhaCungCap\" />
     <Folder Include="Views\NhomHangHoa\" />

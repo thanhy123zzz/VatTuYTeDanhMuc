@@ -12,7 +12,7 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public int Id { get; set; }
         public int? Idpx { get; set; }
         public int? Idptn { get; set; }
-        public decimal? SoTien { get; set; }
+        public double? SoTien { get; set; }
         public int? Nvtao { get; set; }
         public DateTime? NgayTao { get; set; }
         public int? Nvsua { get; set; }

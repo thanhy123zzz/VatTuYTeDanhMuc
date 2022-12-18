@@ -9,6 +9,13 @@
     List<Dvt> getListDVT(){
         return context.Dvt.Where(x=>x.Active == true).ToList();
     }
+    string formatDay(DateTime? date){
+        if(date!=null){
+            return date.Value.ToString("dd/MM/yyyy HH:mm");
+        }else{
+            return null;
+        }
+    }
 }
 @if (TempData["ThongBao"] != null)
 {
@@ -42,9 +49,9 @@
                         <td>@dvt.MaDvt</td>
                         <td>@dvt.TenDvt</td>
                         <td>@getNhanVien(@dvt.Nvtao).TenNv</td>
-                        <td>@dvt.NgayTao.Value.ToString("dd/MM/yyyy HH:mm:ss tt")</td>
+                            <td>@formatDay(@dvt.NgayTao)</td>
                         <td>@getNhanVien(@dvt.Nvsua).TenNv</td>
-                        <td>@dvt.NgaySua.Value.ToString("dd/MM/yyyy HH:mm:ss tt")</td>
+                            <td>@formatDay(@dvt.NgaySua)</td>
                         <td>
                                 <a href="/NuocSanXuat/ViewUpdateDVT/@dvt.Id">
                                 <i
