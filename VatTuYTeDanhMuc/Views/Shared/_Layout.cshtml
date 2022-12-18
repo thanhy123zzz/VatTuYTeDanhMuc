@@ -33,6 +33,7 @@
     <link href="~/assets/css/style.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="~/assets/css/Modalcss.css" />
+    <script src="~/jquery-3.6.1.min.js"></script>
 </head>
 <body>
     <!-- ======= Header ======= -->
@@ -389,7 +390,7 @@
       class="back-to-top d-flex align-items-center justify-content-center"
       ><i class="bi bi-arrow-up-short"></i
     ></a>
-    <script src="~/jquery-3.6.1.min.js"></script>
+    
     <script type="text/javascript" src="~/datatables.min.js"></script>
     <script src="~/assets/vendor/apexcharts/apexcharts.min.js"></script>
     <script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -405,10 +406,12 @@
     <script src="~/assets/js/HeThong.js"></script>
     <script>
     $(document).ready(function () {
-        var table = $('#tableDonViTinh').DataTable();
+        var table = $('#tableDonViTinh').DataTable({
+            responsive: true,
+        });
         var tableKH = $('#tableKhachHang').DataTable({
           "scrollX": true,
-            scrollY: 300,
+            scrollY: 320,
             scrollCollapse: true
         });
         tableKH.columns.adjust().draw();
