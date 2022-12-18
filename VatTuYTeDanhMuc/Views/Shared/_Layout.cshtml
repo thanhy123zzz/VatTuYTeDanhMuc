@@ -404,8 +404,14 @@
     <script src="~/assets/js/main.js"></script>
     <script src="~/assets/js/HeThong.js"></script>
     <script>
-        $(document).ready(function () {
-    $('#tableDonViTinh').DataTable();
+    $(document).ready(function () {
+        var table = $('#tableDonViTinh').DataTable();
+        var tableKH = $('#tableKhachHang').DataTable({
+          "scrollX": true,
+            scrollY: 300,
+            scrollCollapse: true
+        });
+        tableKH.columns.adjust().draw();
     });
     </script>
     @RenderSection("Scripts", required: false)
