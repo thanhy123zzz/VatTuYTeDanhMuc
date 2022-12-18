@@ -38,6 +38,7 @@ namespace VatTuYTeDanhMuc.Controllers
         // giao diện khách hàng
         [Route("/KhachHang/Update/{id}")]
         public IActionResult ViewUpdateKH(int id)
+
         {
             webContext context = new webContext();
             KhachHang kh = context.KhachHang.Find(id);
