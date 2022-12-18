@@ -1,82 +1,57 @@
 ﻿@model VatTuYTeDanhMuc.Models.Entities.KhachHang
-
 @{
-    ViewData["Title"] = "ViewInsertKH";
+
 }
 
-<h1>Thêm khách hàng</h1>
+<div class="card">
+            <div class="card-body"  >
+                    <form action="/KhachHang/InsertKH" method="post">
+                        <div class="modal-header text-center">						
+                            <h4 class="modal-title "><b>Thêm khách hàng</b></h4>
+                        </div>
+                        <div class="modal-body">		
+                          <div class="form-group">
+                            <label style="margin:7px 0;">Mã khách hàng</label>
+                            <input asp-for="@Model.MaKh" type="text" class="form-control" required>
+                          </div>
+                          <div class="form-group">
+                              <label style="margin:7px 0;">Tên khách hàng</label>
+                              <input asp-for="@Model.TenKh" type="text" class="form-control" required>
+                          </div>
+                          <div class="form-group">
+                              <label style="margin:7px 0;">Địa chỉ</label>
+                              <input asp-for="@Model.DiaChi" type="text" class="form-control" required>
+                          </div>
+                          <div class="form-group">
+                              <label style="margin:7px 0;">Số điện thoại</label>
+                              <input asp-for="@Model.Sdt" type="text" class="form-control" required>
+                          </div>
+                          <div class="form-group">
+                              <label style="margin:7px 0;">Email</label>
+                              <input asp-for="@Model.Email" type="text" class="form-control" required>
+                          </div>
+                          <div class="form-group">
+                              <label style="margin:7px 0;">Mã số thuế</label>
+                              <input asp-for="@Model.MaSoThue" type="text" class="form-control" required>
+                          </div>
+                           <div class="form-group">
+                              <label style="margin:7px 0;">Tên tài khoản</label>
+                              <input asp-for="@Model.TenTaiKhoan" type="text" class="form-control" required>
+                          </div>
+                          <div class="form-group">
+                              <label style="margin:7px 0;">Ghi chú</label>
+                              <input asp-for="@Model.GhiChu" type="text" class="form-control" required>
+                          </div>
+                         
 
-<h4>khách hàng</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="InsertKH">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="MaKh" class="control-label"></label>
-                <input asp-for="MaKh" required class="form-control" />
-                <span asp-validation-for="MaKh" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TenKh" class="control-label"></label>
-                <input asp-for="TenKh" required class="form-control" />
-                <span asp-validation-for="TenKh" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DiaChi" class="control-label"></label>
-                <input asp-for="DiaChi" required class="form-control" />
-                <span asp-validation-for="DiaChi" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Sdt" class="control-label"></label>
-                <input asp-for="Sdt" required class="form-control" />
-                <span asp-validation-for="Sdt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" required class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MaSoThue" class="control-label"></label>
-                <input asp-for="MaSoThue" required class="form-control" />
-                <span asp-validation-for="MaSoThue" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GhiChu" class="control-label"></label>
-                <input asp-for="GhiChu" required class="form-control" />
-                <span asp-validation-for="GhiChu" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Nvsale" class="control-label"></label>
-                <input asp-for="Nvsale" required class="form-control" />
-                <span asp-validation-for="Nvsale" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TenTaiKhoan" class="control-label"></label>
-                <select asp-for="TenTaiKhoan" required class ="form-control" asp-items="ViewBag.TenTaiKhoan"></select>
-            </div>
-             <div class="form-group">
-                <label asp-for="Idcn" class="control-label"></label>
-                <input asp-for="Idcn" required class="form-control" />
-                <span asp-validation-for="Idcn" class="text-danger"></span>
-            </div>
-           
-            <div class="form-group">
-                <label asp-for="Idnv" class="control-label"></label>
-                <select asp-for="Idnv" required class ="form-control" asp-items="ViewBag.Idnv"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+                        </div>
+                        <div class="modal-footer" style="justify-content:space-between">        
+                            <button class="btn btn-secondary" onclick="window.history.go(-1);">
+                                Quay lại
+                                </button>
+                            <input type="submit" class="btn btn-primary" value="Thêm">
+                        </div>
+                    </form>
 
-<div>
-    <a asp-action="table">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+            </div>
+        </div>

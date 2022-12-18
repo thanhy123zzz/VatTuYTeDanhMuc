@@ -10,12 +10,13 @@ namespace VatTuYTeDanhMuc.Controllers
        
         public IActionResult table()
         {
-           
+            ViewData["Title"] = "Danh mục khách hàng";
             return View("TableKhachHang");
         }
         //giao diện thêm khách hàng
         public IActionResult ViewInsertKH()
         {
+            ViewData["Title"] = "Thêm khách hàng";
             return View();
         }
         //Thêm khách hàng
@@ -24,9 +25,14 @@ namespace VatTuYTeDanhMuc.Controllers
             webContext context = new webContext();
             kh.Nvtao = 3;
             kh.NgayTao = DateTime.Now;
+            kh.Active = true;
+            kh.Idcn = 1;
+            kh.Idnv = 3;
+            kh.Nvsale = 3;
 
             context.KhachHang.Add(kh);
             context.SaveChanges();
+            TempData["ThongBao"] = "Thêm thành công!";
             return RedirectToAction("table");
         }
         // giao diện khách hàng
@@ -35,6 +41,7 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             KhachHang kh = context.KhachHang.Find(id);
+            ViewData["Title"] = "Sửa khách hàng";
             return View(kh);
         }
         // sửa khách hàng
@@ -58,6 +65,7 @@ namespace VatTuYTeDanhMuc.Controllers
 
             context.KhachHang.Update(k);
             context.SaveChanges();
+            TempData["ThongBao"] = "Sửa thành công!";
             return RedirectToAction("table");
         }
         [Route("/KhachHang/Delete/{id}")]
@@ -70,6 +78,14 @@ namespace VatTuYTeDanhMuc.Controllers
             context.KhachHang.Update(kh);
             context.SaveChanges();
             return RedirectToAction("table");
+        }
+        [Route("/KhachHang/Detail/{id}")]
+        public IActionResult Detail(int id)
+        {
+            webContext context = new webContext();
+            KhachHang kh = context.KhachHang.Find(id);
+            ViewData["Title"] = "Thông tin khách hàng";
+            return View(kh);
         }
     }
 }

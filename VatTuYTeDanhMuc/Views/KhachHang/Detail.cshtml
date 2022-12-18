@@ -1,0 +1,79 @@
+﻿@model VatTuYTeDanhMuc.Models.Entities.KhachHang
+@{
+    webContext context = new webContext();
+    NhanVien getNhanVien(int? id)
+    {
+        NhanVien nv = context.NhanVien.Find(id);
+        if (nv != null) return nv;
+        else return new NhanVien();
+    }
+    string formatDay(DateTime? date)
+    {
+        if (date != null)
+        {
+            return date.Value.ToString("dd/MM/yyyy HH:mm");
+        }
+        else
+        {
+            return null;
+        }
+    }
+}
+
+
+
+
+
+<div class="card">
+            <div class="card-body"  >
+                    <form action="/DonViTinh/insertDonViTinh" method="post">
+                        <div class="modal-header text-center">						
+                            <h4 class="modal-title "><b>Thông tin khách hàng</b></h4>
+                        </div>
+                        <div class="modal-body">		
+                          <div class="form-group">
+                            <label style="margin:7px 0;">ID</label>
+                            <input value="@Html.DisplayFor(model => model.Id)" type="text" class="form-control" readonly required>
+                          </div>
+                           <div class="form-group">
+                            <label style="margin:7px 0;">Mã khách hàng</label>
+                            <input value="@Html.DisplayFor(model => model.MaKh)" type="text" class="form-control" readonly required>
+                          </div>
+                           <div class="form-group">
+                            <label style="margin:7px 0;">Tên khách hàng</label>
+                            <input value="@Html.DisplayFor(model => model.TenKh)" type="text" class="form-control" readonly required>
+                          </div>
+                           <div class="form-group">
+                            <label style="margin:7px 0;">Địa chỉ</label>
+                            <input value="@Html.DisplayFor(model => model.DiaChi)" type="text" class="form-control" readonly required>
+                          </div>
+                           <div class="form-group">
+                            <label style="margin:7px 0;">Số điện thoại</label>
+                            <input value="@Html.DisplayFor(model => model.Sdt)" type="text" class="form-control" readonly required>
+                          </div>
+                           <div class="form-group">
+                            <label style="margin:7px 0;">Email</label>
+                            <input value="@Html.DisplayFor(model => model.Email)" type="text" class="form-control" readonly required>
+                          </div>
+                           <div class="form-group">
+                            <label style="margin:7px 0;">Mã số thuế</label>
+                            <input  value="@Html.DisplayFor(model => model.MaSoThue)" type="text" class="form-control" readonly  required>
+                          </div>
+                           <div class="form-group">
+                            <label style="margin:7px 0;">Tên tài khoản</label>
+                            <input  value="@Html.DisplayFor(model => model.TenTaiKhoan)" type="text" class="form-control" readonly  required>
+                          </div>
+                           <div class="form-group">
+                            <label style="margin:7px 0;">Ghi chú</label>
+                            <input value="@Html.DisplayFor(model => model.GhiChu)" type="text" class="form-control" readonly required>
+                          </div>
+                        
+                        </div>
+                        <div class="modal-footer" style="justify-content:space-between">        
+                            
+                            <input  onclick="window.history.go(-1);" class="btn btn-primary" value="Quay lại">
+                        </div>
+                    </form>
+
+            </div>
+        </div>
