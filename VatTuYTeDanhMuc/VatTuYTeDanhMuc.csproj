@@ -25,6 +25,7 @@
     <Folder Include="Views\HangSanXuat\" />
     <Folder Include="Views\NhaCungCap\" />
     <Folder Include="Views\NhomHangHoa\" />
+    <Folder Include="wwwroot\ImagesHangHoa\" />
   </ItemGroup>
 
 </Project>
