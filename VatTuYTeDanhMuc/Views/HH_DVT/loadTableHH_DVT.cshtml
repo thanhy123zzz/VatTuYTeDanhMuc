@@ -1,0 +1,40 @@
+﻿@{
+    webContext context = new webContext();
+    Dvt getDVT(int? id)
+    {
+        return context.Dvt.Find(id);
+    }
+     Dvt dvt = ViewBag.DVC;
+}
+                  <tbody id="tbodyHH_DVT">
+                        <tr style="background-color:lightgrey;">
+                            <td>@dvt.TenDvt</td>
+                            <td>1</td>
+                            <td>
+                                <a href="#">
+                                    <i class="bi bi-pencil-square"
+                                       style="margin-right: 10px; margin-left: 10px"></i>
+                                </a>
+                                <a href="#" >
+                                    <i class="bi bi-trash"
+                                       style="margin-right: 10px; margin-left: 10px"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        @foreach(HhDvt h in ViewBag.HH_DVT){
+                        <tr>
+                            <td>@getDVT(h.Iddvt).TenDvt</td>
+                            <td>@h.SlquyDoi</td>
+                            <td>
+                                <a href="#">
+                                    <i class="bi bi-pencil-square"
+                                       style="margin-right: 10px; margin-left: 10px"></i>
+                                </a>
+                                <a href="#" >
+                                    <i class="bi bi-trash"
+                                       style="margin-right: 10px; margin-left: 10px"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>

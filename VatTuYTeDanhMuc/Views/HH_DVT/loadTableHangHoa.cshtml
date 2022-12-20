@@ -1,0 +1,8 @@
+﻿<tbody id="tbodyHH">
+    @foreach(HangHoa h in ViewBag.HangHoas){
+    <tr onclick="loadTableHH_DVT('@h.Id')">
+       <td>@h.MaHh</td>
+       <td>@h.TenHh</td>
+    </tr>
+    }
+ </tbody>

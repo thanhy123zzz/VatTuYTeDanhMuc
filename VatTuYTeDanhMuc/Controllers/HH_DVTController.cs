@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using VatTuYTeDanhMuc.Models.Entities;
 
 namespace VatTuYTeDanhMuc.Controllers
@@ -72,6 +73,24 @@ namespace VatTuYTeDanhMuc.Controllers
             context.HhDvt.Update(dvt);
             context.SaveChanges();
             return RedirectToAction("Table");
+        }
+
+        [HttpPost("/loadTableHangHoa")]
+        public IActionResult loadTableHangHoa(int nhomHH)
+        {
+            webContext context = new webContext();
+            ViewBag.HangHoas = context.HangHoa.Where(x => x.Idnhh == nhomHH);
+            return PartialView();
+        }
+
+        [HttpPost("/loadTableHH_DVT")]
+        public IActionResult loadTableHH_DVT(int idHH)
+        {
+            webContext context = new webContext();
+            ViewBag.HH_DVT = context.HhDvt.Where(x => x.Idhh == idHH);
+            HangHoa hh = context.HangHoa.Find(idHH);
+            ViewBag.DVC = context.Dvt.FirstOrDefault(x => x.Id == hh.Iddvtchinh);
+            return PartialView();
         }
     }
 }

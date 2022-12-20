@@ -4,22 +4,43 @@
     {
         return context.NhomHangHoa.ToList();
     }
+    List<HangHoa> getListHH(){
+        return context.HangHoa.Where(x=>x.Active == true).Take(9).ToList();
+    }
+
+    NhomHangHoa getNhomHH(int? id){
+       return context.NhomHangHoa.Find(id);
+    }
+
+    HangSanXuat getHSX(int? id){
+        return context.HangSanXuat.Find(id);
+    }
+
+    NuocSanXuat getNSX(int? id)
+    {
+        return context.NuocSanXuat.Find(id);
+    }
+    Dvt getDvt(int? id)
+    {
+        return context.Dvt.Find(id);
+    }
 } 
      
 <section class="section">
-        <div
-          style="margin-bottom: 20px; display: flex; justify-content: space-between"
-        >
-          <a  class="btn btn-primary" href="#addModal">
-            <span>Thêm Sản Phẩm</span></a
-          >
-          <div >       
-            <div class="dropdown"  >
-              <select
+        <div style="margin-bottom: 20px; display: flex; justify-content: space-between">
+          <a href="/HangHoa/ViewInsertHangHoa" class="btn btn-secondary"><span>Thêm Sản Phẩm</span></a>
+          <div style="display:flex;justify-content:space-around;">       
+                <div class="dropdown" style="margin-right:10px">
+              <select id="ht" onchange="changeHH()" class="form-select" aria-label="Default select example">
+                <option selected value="true">Hiện tại</option>
+                <option value="false">Tất cả</option>
+              </select>
+            </div>
+              <div class="dropdown" >
+              <select id="nhomHH" onchange="changeHH()"
                 class="form-select"
-                aria-label="Default select example"
-              >
-                <option selected disabled>Nhóm hàng hoá</option>
+                aria-label="Default select example">
+                <option selected disabled value="0">Nhóm hàng hoá</option>
                 @foreach(NhomHangHoa n in getListNHH()){
                     <option value="@n.Id">@n.TenNhh</option>
                 }
@@ -28,71 +49,87 @@
           </div>
         </div>       
 
-            <div class="product" style="display: flex; flex-wrap: wrap">
-
+<div class="product" id="tableHH" style="display: flex; flex-wrap: wrap">
+    <input type="hidden" id="SL" value="9"/>
+      @foreach(HangHoa hh in getListHH()){
         <ul>
             <li class="card">
                 <div class="profile-card pt-4 d-flex flex-column"
                      style="padding: 0 10px 0 10px">
-                    <img style="width: 300px; height: 250px"
-                         src="assets/img/dau-kim-tiem-vo-trung.jpg" />
+                     @if(hh.Avatar==null){
+                            <img style="width: auto; height: 250px;object-fit: contain;"
+                         src="" />
+                     }
+                    else{
+                         <img style="width: auto; height: 250px;object-fit: contain;"
+                         src="~/ImagesHangHoa/@hh.Avatar" />
+                    }
+
                     <h5 style="margin-top: 10px; width: 300px; height: 45px;">
-                        <b>Đầu kim tiêm vô trùng</b>
+                            <b>@hh.TenHh (@getDvt(hh.Iddvtchinh).TenDvt)</b>
                     </h5>
 
-                    <h6>Giá: 12000000đ</h6>
-                    <div style="display: flex; justify-content: space-between">
-                        <h6>Còn: 40</h6>
-                        <label for="" style="display: block; color: red"> hết hàng</label>
-                    </div>
+                    <h6>Nhóm: @getNhomHH(hh.Idnhh).TenNhh</h6>
+                    <h6>Hãng sản xuất: @getHSX(hh.Idhsx).TenHsx</h6>
+                    <h6>Nước sản xuất: @getNSX(hh.Idnsx).TenNsx</h6>
                     <div class="social-links"
                          style="display: flex; justify-content: space-between">
                         <div>
-                            <a class="chinhsua" href="SuaHH">
-                                <i class="bi bi-pencil-square"></i>
+                            <a  class="chinhsua" href="/HangHoa/ViewUpdateHangHoa/@hh.Id">
+                                    <i title="Chỉnh sửa" class="bi bi-pencil-square"></i>
                             </a>
-                            <a href="#" class="Xoa"><i class="bi bi-trash"></i></a>
+                            <a href="/HangHoa/xoa/@hh.Id" onclick="return confirm('Bạn có xoá hàng hoá này?')"><i title="Xoá" class="bi bi-trash"></i></a>
                         </div>
                         <a href="CTLap.html" class="chitiet"><i class="=">Chi tiết</i></a>
                     </div>
                 </div>
             </li>
         </ul>
-        <ul>
-            <li class="card">
-                <div class="profile-card pt-4 d-flex flex-column"
-                     style="padding: 0 10px 0 10px">
-                    <img style="width: 300px; height: 250px"
-                         src="assets/img/dau-kim-tiem-vo-trung.jpg" />
-                    <h5 style="margin-top: 10px; width: 300px; height: 45px;">
-                        <b>Đầu kim tiêm vô trùng</b>
-                    </h5>
-
-                    <h6>Giá: 12000000đ</h6>
-                    <div style="display: flex; justify-content: space-between">
-                        <h6>Còn: 40</h6>
-                        <label for="" style="display: block; color: red"> hết hàng</label>
-                    </div>
-                    <div class="social-links"
-                         style="display: flex; justify-content: space-between">
-                        <div>
-                            <a class="chinhsua" href="SuaHH">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-                            <a href="#" class="Xoa"><i class="bi bi-trash"></i></a>
-                        </div>
-                        <a href="CTLap.html" class="chitiet"><i class="=">Chi tiết</i></a>
-                    </div>
-                </div>
-            </li>
-        </ul>
+        }
 
     </div>
         <div >
-          <a href="" style="          
+          <p title="Xem thêm" style="          
           display: block;           
           margin: 5px auto 15px;
           padding: 15px 20px;
-          text-align: center;" ><i>Xem thêm>>></i></a>
+          text-align: center;
+          cursor:pointer;"
+          onclick="loadMore()"
+          ><i>Xem thêm</i></p>
         </div>  
-      </section>
+</section>
+<script>
+    function changeHH(){
+        var active = $('#ht').val();
+        var nhomHH = $('#nhomHH').val();
+        var sl = $('#SL').val();
+        $.ajax({
+            type: "post",
+            url: "/loadTableHH",
+            data: "active=" + active +"&nhomHH=" + nhomHH+"&SL="+sl,
+            success: function (result) {
+                $('#tableHH').replaceWith(result);
+            },
+            error: function () {
+                alert("Fail to delete");
+            }
+        });
+    }
+        function loadMore(){
+        var active = $('#ht').val();
+        var nhomHH = $('#nhomHH').val();
+        var sl = $('#SL').val();
+        $.ajax({
+            type: "post",
+            url: "/loadMoreTableHH",
+            data: "active=" + active +"&nhomHH=" + nhomHH + "&SL="+sl,
+            success: function (result) {
+                $('#tableHH').replaceWith(result);
+            },
+            error: function () {
+                alert("Fail to delete");
+            }
+        });
+    }
+</script>

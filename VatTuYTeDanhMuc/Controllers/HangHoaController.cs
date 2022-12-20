@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
+using System.Linq;
 using System.Runtime.Intrinsics.X86;
 using VatTuYTeDanhMuc.Models.Entities;
 
@@ -89,6 +90,75 @@ namespace VatTuYTeDanhMuc.Controllers
             context.SaveChanges();
             TempData["ThongBao"] = "Sửa thành công!";
             return RedirectToAction("Table");
+        }
+
+        [Route("/HangHoa/xoa/{id}")]
+        public IActionResult deleteHangHoa(int id)
+        {
+            webContext context = new webContext();
+            HangHoa dvt = context.HangHoa.Find(id);
+            dvt.Active = false;
+
+            context.HangHoa.Update(dvt);
+            context.SaveChanges();
+            TempData["ThongBao"] = "Xoá thành công!";
+            return RedirectToAction("Table");
+        }
+        [HttpPost("/loadTableHH")]
+        public IActionResult loadTable(bool active, int nhomHH, int SL)
+        {
+            webContext context = new webContext();
+            if (active)
+            {
+                if (nhomHH != 0)
+                {
+                    ViewBag.HangHoas = context.HangHoa.Where(x => x.Active == active && x.Idnhh == nhomHH).Take(SL).ToList();
+                }
+                else
+                {
+                    ViewBag.HangHoas = context.HangHoa.Where(x => x.Active == active).Take(SL).ToList();
+                }
+            }
+            else
+            {
+                if (nhomHH != 0)
+                {
+                    ViewBag.HangHoas = context.HangHoa.Where(x => x.Idnhh == nhomHH).Take(SL).ToList();
+                }
+                else
+                {
+                    ViewBag.HangHoas = context.HangHoa.Take(SL).ToList();
+                }
+            }
+            return PartialView("_viewTableHH");
+        }
+        [HttpPost("/loadMoreTableHH")]
+        public IActionResult loadMoreTableHH(bool active, int nhomHH,int SL)
+        {
+            webContext context = new webContext();
+            if (active)
+            {
+                if (nhomHH != 0)
+                {
+                    ViewBag.HangHoas = context.HangHoa.Where(x => x.Active == active && x.Idnhh == nhomHH).Take(SL+9).ToList();
+                }
+                else
+                {
+                    ViewBag.HangHoas = context.HangHoa.Where(x => x.Active == active).Take(SL+9).ToList();
+                }
+            }
+            else
+            {
+                if (nhomHH != 0)
+                {
+                    ViewBag.HangHoas = context.HangHoa.Where(x => x.Idnhh == nhomHH).Take(SL+9).ToList();
+                }
+                else
+                {
+                    ViewBag.HangHoas = context.HangHoa.Take(SL+9).ToList();
+                }
+            }
+            return PartialView("_viewTableHH");
         }
     }
 }
