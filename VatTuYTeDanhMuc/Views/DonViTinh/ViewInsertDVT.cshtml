@@ -6,10 +6,10 @@
 <div class="card">
             <div class="card-body"  >
                     <form action="/DonViTinh/insertDonViTinh" method="post">
-                        <div class="modal-header text-center">						
-                            <h4 class="modal-title "><b>Thêm đơn vị tính</b></h4>
+                        <div class="forms-header text-center">						
+                            <h4 class="forms-title "><b>Thêm đơn vị tính</b></h4>
                         </div>
-                        <div class="modal-body">		
+                        <div class="forms-body">		
                           <div class="form-group">
                             <label style="margin:7px 0;">Mã đơn vị tính</label>
                             <input asp-for="@Model.MaDvt" type="text" class="form-control" required>
@@ -19,7 +19,7 @@
                               <input asp-for="@Model.TenDvt" type="text" class="form-control" required>
                           </div>
                         </div>
-                        <div class="modal-footer" style="justify-content:space-between">        
+                        <div class="forms-footer" style="justify-content:space-between">        
                             <button class="btn btn-secondary" onclick="window.history.go(-1);">
                                 Quay lại
                                 </button>

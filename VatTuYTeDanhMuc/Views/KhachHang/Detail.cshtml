@@ -28,10 +28,10 @@
 <div class="card">
             <div class="card-body"  >
                     <form action="/DonViTinh/insertDonViTinh" method="post">
-                        <div class="modal-header text-center">						
-                            <h4 class="modal-title "><b>Thông tin khách hàng</b></h4>
+                        <div class="forms-header text-center">						
+                            <h4 class="forms-title "><b>Thông tin khách hàng</b></h4>
                         </div>
-                        <div class="modal-body">		
+                        <div class="forms-body">		
                           <div class="form-group">
                             <label style="margin:7px 0;">ID</label>
                             <input value="@Html.DisplayFor(model => model.Id)" type="text" class="form-control" readonly required>
@@ -70,7 +70,7 @@
                           </div>
                         
                         </div>
-                        <div class="modal-footer" style="justify-content:space-between">        
+                        <div class="forms-footer" style="justify-content:space-between">        
                             
                             <input  onclick="window.history.go(-1);" class="btn btn-primary" value="Quay lại">
                         </div>

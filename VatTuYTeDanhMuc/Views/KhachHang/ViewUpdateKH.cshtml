@@ -6,10 +6,10 @@
 <div class="card">
             <div class="card-body"  >
                     <form action="/KhachHang/UpdateKH" method="post">
-                        <div class="modal-header text-center">						
-                            <h4 class="modal-title "><b>@ViewData["Title"]</b></h4>
+                        <div class="forms-header text-center">						
+                            <h4 class="forms-title "><b>@ViewData["Title"]</b></h4>
                         </div>
-                        <div class="modal-body">		
+                        <div class="forms-body">		
                           <div class="form-group">
                             <label style="margin:7px 0;">Mã khách hàng</label>
                             <input asp-for="@Model.MaKh" type="text" class="form-control" required>
@@ -41,7 +41,7 @@
                               <input asp-for="@Model.GhiChu" type="text" class="form-control" required>
                           </div>
                         </div>
-                         <div class="modal-footer" style="justify-content:space-between">        
+                         <div class="forms-footer" style="justify-content:space-between">        
                             <button class="btn btn-secondary" onclick="window.history.go(-1);">
                                 Quay lại
                                 </button>

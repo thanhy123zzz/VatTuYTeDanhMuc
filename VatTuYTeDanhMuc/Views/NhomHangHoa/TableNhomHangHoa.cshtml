@@ -33,63 +33,60 @@
                         </script>
 }
 
-<div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div style="display:flex; justify-content:end;margin-bottom:7px">
-                    <a href="/NhomHangHoa/ViewInsertNHH" style="width:20%" class="btn btn-secondary">Thêm mới</a></div>
-            </div>
-            <table id="tableDonViTinh" >
-                <thead>
-                    <tr>
-                        
-                        
-                        <th class="text-center">Mã NHH</th>
-                        <th class="text-center">Tên NHH</th>
-                        <th class="text-center">NV tạo</th>
-                        <th class="text-center">Ngày tạo</th>
-                        <th class="text-center">NV sửa</th>
-                        <th class="text-center">Ngày sửa</th>
-                       
-                        <th class="text-center">Tùy chọn</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @foreach (NhomHangHoa item in getListNHH())
-                {
+                <div class="card pt-3">
+                    <div class="card-body">
+                        <div style="margin-bottom: -40px; position:absolute; z-index:1;">
+                            <a href="/NhomHangHoa/ViewInsertNHH" class="btn btn-secondary">
+                                <span>Thêm Mới</span>
+                            </a>
+                        </div>
+                        <table id="example" class="table table-striped  table-hover text-center display nowrap" style="width:100%">
+                            <thead>
+                                <tr>
 
 
-                        <tr>
-                               
-                                
-                                <td>@item.MaNhh</td>
-                                <td>@item.TenNhh</td>
-                                <td>@getNhanVien(@item.Nvtao).TenNv</td>
-                                <td>@formatDay(@item.NgayTao)</td>
-                                <td>@getNhanVien(@item.Nvsua).TenNv</td>
-                                <td>@formatDay(@item.NgaySua)</td>
-                               
-                            <td>
-                                         <a href="/NhomHangHoa/UpdateNHH/@item.Id">
-                                        <i
-                                  class="bi bi-pencil-square"
-                                  style="margin-right: 10px; margin-left: 10px"
-                                ></i>
-                                      </a>
-                                               <a href="/NhomHangHoa/delete/@item.Id" onclick="return confirm('Bạn có xoá nhóm hàng hóa này?')">
-                                        <i
-                                  class="bi bi-trash"
-                                  style="margin-right: 10px; margin-left: 10px"
-                                ></i>
-                                      </a>
-                                      
-                            </td>
-                        </tr>
-                }
+                                    <th class="text-center">Mã NHH</th>
+                                    <th class="text-center">Tên NHH</th>
+                                    <th class="text-center">NV tạo</th>
+                                    <th class="text-center">Ngày tạo</th>
+                                    <th class="text-center">NV sửa</th>
+                                    <th class="text-center">Ngày sửa</th>
+
+                                    <th class="text-center">Tùy chọn</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (NhomHangHoa item in getListNHH())
+                                {
+
+
+                                    <tr>
+
+
+                                        <td>@item.MaNhh</td>
+                                        <td>@item.TenNhh</td>
+                                        <td>@getNhanVien(@item.Nvtao).TenNv</td>
+                                        <td>@formatDay(@item.NgayTao)</td>
+                                        <td>@getNhanVien(@item.Nvsua).TenNv</td>
+                                        <td>@formatDay(@item.NgaySua)</td>
+
+                                        <td>
+                                            <a href="/NhomHangHoa/UpdateNHH/@item.Id">
+                                                <i class="bi bi-pencil-square"
+                                                   style="margin-right: 10px; margin-left: 10px"></i>
+                                            </a>
+                                            <a href="/NhomHangHoa/delete/@item.Id" onclick="return confirm('Bạn có xoá nhóm hàng hóa này?')">
+                                                <i class="bi bi-trash"
+                                                   style="margin-right: 10px; margin-left: 10px"></i>
+                                            </a>
+
+                                        </td>
+                                    </tr>
+                                }
 
 
 
-                </tbody>
-            </table>
-        </div>
-       </div>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
