@@ -409,6 +409,23 @@
 
         });
     </script>
+    <script type="text/javascript">
+        $(function () {
+            $("#add_new").click(function () {
+                $("#myTable").append("<tr> <td> <input class=inputDisabled text-center type=text  disabled ></td ><td><input class=inputDisabled text-center type=text  disabled ></td> <td><input class=inputDisabled text-center type=text  disabled></td> <td>   <a href=# class=edit id=edit>  Sửa </a> <a href=#> Xóa </a>  </td> </tr>")
+            });
+            $("#myTable").on("click", ".edit", function () {
+                $(this).removeClass('edit');
+                $(this).addClass('removeEdit');
+                $(this).parents('tr').find('input[type=text]').prop('disabled', false);
+            });
+            $("#myTable").on("click", ".removeEdit", function () {
+                $(this).removeClass('removeEdit');
+                $(this).addClass('edit');
+                $(this).parents('tr').find('input[type=text]').prop('disabled', true);
+            });
+        })
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
