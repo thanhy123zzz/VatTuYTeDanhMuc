@@ -1,9 +1,10 @@
-﻿<div class="card mb-0">
-    <div class="">
-        <div class="row m-3">
-            <div class="col-lg-4 p-0">
+﻿
+<div class="card mb-0" style="height:525px;">
+    <div class="" style="overflow-x:auto">
+        <div class="m-3" style="display:flex;flex-direction: row; overflow-x:auto; align-items: baseline;">
+            <div class="col-lg-4 col-4 p-0 border-dark" style="min-width: 392px; overflow-y: auto; max-height: 480px;" id="table1">
 
-                <table class="table table-bordered table-hover  mb-0 text-center" style="max-height: 460px; overflow-y: scroll;">
+                <table class="table table-bordered table-hover  mb-0 text-center h-100">
                     <thead>
                         <tr>
                             <th colspan="2" class="p-0">
@@ -25,82 +26,49 @@
                             <td>s</td>
                             <td>s</td>
                         </tr>
-                        <tr>
-                            <td>s</td>
-                            <td>s</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="col-lg-8 p-0">
+            <div class="col-lg-8 col-8 p-0 border-dark" style="min-width: 784px; overflow-y: auto; max-height: 480px;">
 
-                <table class="table table-bordered table-hover mb-0 bg-light text-center" style="max-height: 460px; overflow-y: scroll;">
+                <table class="table table-bordered  mb-0  text-center bg-light" id="myTable">
                     <thead>
                         <tr style="background: white;">
                             <th colspan="4" class="p-0">
                                 <div class="group-btn">
-                                    <div class="d-flex justify-content-end">
-                                        <a href="#addModal" class="btn btn-primary" style="border-radius:0">
-                                            <span>Thêm Sản Phẩm</span>
+                                    <div class="d-flex justify-content-between">
+                                        <a href="#" class="edit btn btn-primary" style=" border-radius: 0">
+                                            <span>Lưu</span>
+                                        </a>
+                                        <a href="#" class="btn btn-primary" style="border-radius:0" id="add_new">
+                                            <span>Thêm Mới</span>
                                         </a>
                                     </div>
+                                   
                                 </div>
+
                             </th>
                         </tr>
                         <tr>
-                            <th class="text-center">đơn vị tính </th>
+                            <th class="text-center">Đơn vị tính </th>
                             <th class="text-center">số lượng chyển đổi</th>
-                            <th class="text-center"></th>
+                            <th class="text-center">Đơn vị chuyển đổi</th>
                             <th class="text-center">tùy chọn</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-center">
                         <tr>
-                            <td>s</td>
-                            <td>s</td>
-                            <td>s</td>
+                            <td><input class="inputDisabled text-center" type="text" value="thùng"  disabled/></td>
+                            <td><input class="inputDisabled text-center" type="text" value="2" disabled /></td>
+                            <td><input class="inputDisabled text-center" type="text" value="hộp" disabled /></td>
                             <td>
-                                <a href="#">
-                                    <i class="bi bi-pencil-square"
-                                       style="margin-right: 10px; margin-left: 10px"></i>
-                                </a>
-                                <a href="#" >
-                                    <i class="bi bi-trash"
-                                       style="margin-right: 10px; margin-left: 10px"></i>
-                                </a>
+                                <a href="#" class="edit" id="edit">Sửa</a>
+                                <a href="#">Xóa</a>
+                              
                             </td>
                         </tr>
-                        <tr>
-                            <td>s</td>
-                            <td>s</td>
-                            <td>s</td>
-                            <td>
-                                <a href="#">
-                                    <i class="bi bi-pencil-square"
-                                       style="margin-right: 10px; margin-left: 10px"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="bi bi-trash"
-                                       style="margin-right: 10px; margin-left: 10px"></i>
-                                </a>
-                            </td>
-                        </tr>
+                       
 
-                        <tr>
-                            <td>s</td>
-                            <td>s</td>
-                            <td>s</td>
-                            <td>
-                                <a href="#">
-                                    <i class="bi bi-pencil-square"
-                                       style="margin-right: 10px; margin-left: 10px"></i>
-                                </a>
-                                <a href="#">
-                                    <i class="bi bi-trash"
-                                       style="margin-right: 10px; margin-left: 10px"></i>
-                                </a>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
