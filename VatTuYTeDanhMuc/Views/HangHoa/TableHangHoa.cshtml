@@ -28,21 +28,22 @@
      
 <section class="section">
         <div style="margin-bottom: 20px; display: flex; justify-content: space-between">
-          <a href="/HangHoa/ViewInsertHangHoa" class="btn btn-secondary"><span>Thêm Sản Phẩm</span></a>
+          <a href="/HangHoa/ViewInsertHangHoa" class="btn btn-secondary" style="margin-left:2rem;"><span>Thêm Sản Phẩm</span></a>
           <div style="display:flex;justify-content:space-around;">       
-                <div class="dropdown" style="margin-right:10px">
-              <select id="ht" onchange="changeHH()" class="form-select" aria-label="Default select example">
-                <option selected value="true">Hiện tại</option>
-                <option value="false">Tất cả</option>
-              </select>
             <div style="display: flex">   
-              <div class="search-bar" style="margin-right:50px;">
+              <div class="search-bar" style="margin-right:10px">
                   <form class="search-form d-flex align-items-center" method="POST" action="#">
                       <input type="text" name="query" placeholder="Search" title="Enter search keyword">
                       <button type="submit" title="Search">
                           <i class="bi bi-search"></i>
                       </button>
                   </form>
+              </div>
+              <div class="dropdown" style="margin-right:10px">
+              <select id="ht" onchange="changeHH()" class="form-select" aria-label="Default select example">
+                <option selected value="true">Hiện tại</option>
+                <option value="false">Tất cả</option>
+              </select>
               </div>
               <div class="dropdown" >
               <select id="nhomHH" onchange="changeHH()"
@@ -54,6 +55,8 @@
                 }
               </select>
             </div>
+            
+          </div>
           </div>
         </div>       
 

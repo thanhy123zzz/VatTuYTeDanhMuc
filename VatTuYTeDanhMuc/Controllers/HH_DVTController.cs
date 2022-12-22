@@ -87,10 +87,66 @@ namespace VatTuYTeDanhMuc.Controllers
         public IActionResult loadTableHH_DVT(int idHH)
         {
             webContext context = new webContext();
-            ViewBag.HH_DVT = context.HhDvt.Where(x => x.Idhh == idHH);
+            ViewBag.HH_DVT = context.HhDvt.Where(x => x.Idhh == idHH && x.Active == true);
             HangHoa hh = context.HangHoa.Find(idHH);
             ViewBag.DVC = context.Dvt.FirstOrDefault(x => x.Id == hh.Iddvtchinh);
             return PartialView();
+        }
+
+        [HttpPost("/addHH_DVT")]
+        public string addHH_DVT(int idHH, int sl, int idDVT)
+        {
+            webContext context = new webContext();
+            HhDvt h = new HhDvt();
+            h.Active = true;
+            h.Nvtao = 3;
+            h.NgayTao = DateTime.Now;
+            h.Idhh = idHH;
+            h.SlquyDoi = sl;
+            h.Iddvt = idDVT;
+            context.HhDvt.Add(h);
+            context.SaveChanges();
+            return "Thêm thành công";
+        }
+
+        [HttpPost("/updateHH_DVT")]
+        public string updateHH_DVT(int idHH, int sl, int idDVT,int id)
+        {
+            webContext context = new webContext();
+            HhDvt h = context.HhDvt.Find(id);
+            h.Active = true;
+            h.Nvsua = 3;
+            h.NgaySua = DateTime.Now;
+            h.Idhh = idHH;
+            h.SlquyDoi = sl;
+            h.Iddvt = idDVT;
+            context.HhDvt.Update(h);
+            context.SaveChanges();
+            return "Sửa thành công";
+        }
+
+        [HttpPost("/addNewRowHH_DVT")]
+        public IActionResult addNewRowHH_DVT(int idDVT, int sl,int id)
+        {
+            if(idDVT==0)
+            ViewBag.idDVT = null;
+            else
+            {
+                ViewBag.idDVT = idDVT;
+            }
+            ViewBag.ID = id;
+            ViewBag.SL = sl;
+            return PartialView();
+        }
+        [HttpPost("/removeHH_DVT")]
+        public string removeHH_DVT( int id)
+        {
+            webContext context = new webContext();
+            HhDvt h = context.HhDvt.Find(id);
+            h.Active = false;
+            context.Update(h);
+            context.SaveChanges();
+            return "Xoá thành công!";
         }
     }
 }

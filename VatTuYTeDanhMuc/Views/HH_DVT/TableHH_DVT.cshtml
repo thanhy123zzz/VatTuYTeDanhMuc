@@ -34,15 +34,17 @@
                         };
                         </script>
 }
-<div class="card mb-0">
-    <div class="">
-        <div class="row m-3">
-            <div class="col-lg-4 p-0">
-
-                <table class="table table-bordered table-hover  mb-0 text-center" style="max-height: 460px; overflow-y: scroll;">
+<div class="card mb-0" style="height:525px;">
+    <div class="" style="overflow-x:auto">
+        <div class="m-3" style="display:flex;flex-direction: row; overflow-x:auto; align-items: baseline;">
+            <div class="col-lg-4 col-4 p-0 border-dark" style="min-width: 392px; overflow-y: auto; max-height: 480px;" id="table1">
+                <table class="table table-bordered table-hover  mb-0 text-center h-100">
                     <thead>
                         <tr>
-                            <th colspan="2" class="p-0">
+                            <th class="p-0">
+                                <input placeholder="Tìm kiếm" type="text" style="height: 38px;" class="w-100"/>
+                            </th>
+                            <th class="p-0">
                                 <select id="nhomHH" onchange="loadTableHangHoa()" class="w-100" style="height: 38px;">
                                     <option selected disabled>-- Nhóm hàng hoá --</option>
                                     @foreach(NhomHangHoa n in getNhomHH()){
@@ -58,22 +60,23 @@
                     </thead>
                     <tbody id="tbodyHH">
                         <tr>
-                            <td>Mã hàng hóa</td>
-                            <td>Tên hàng hóa</td>
+                            <td>...</td>
+                            <td>...</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="col-lg-8 p-0">
+            <input type="hidden" id="idHH"/>
+            <div class="col-lg-8 col-8 p-0 border-dark" style="min-width: 784px; overflow-y: auto; max-height: 480px;">
 
-                <table class="table table-bordered table-hover mb-0 bg-light text-center" style="max-height: 460px; overflow-y: scroll;">
+                <table class="table table-bordered  mb-0  text-center bg-light" id="myTable">
                     <thead>
                         <tr style="background: white;">
                             <th colspan="4" class="p-0">
                                 <div class="group-btn">
                                     <div class="d-flex justify-content-end">
-                                        <a href="#addModal" class="btn btn-primary" style="border-radius:0">
-                                            <span>Thêm Sản Phẩm</span>
+                                        <a href="#" class="btn btn-primary" style="border-radius:0" id="add_new">
+                                            <span>Thêm Mới</span>
                                         </a>
                                     </div>
                                 </div>
@@ -87,18 +90,9 @@
                     </thead>
                     <tbody id="tbodyHH_DVT">
                         <tr>
-                            <td>s</td>
-                            <td>s</td>
-                            <td>
-                                <a href="#">
-                                    <i class="bi bi-pencil-square"
-                                       style="margin-right: 10px; margin-left: 10px"></i>
-                                </a>
-                                <a href="#" >
-                                    <i class="bi bi-trash"
-                                       style="margin-right: 10px; margin-left: 10px"></i>
-                                </a>
-                            </td>
+                            <td>...</td>
+                            <td>...</td>
+                            <td>...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -124,12 +118,13 @@
     }
 
     function loadTableHH_DVT(id){
+        $('#idHH').val(id);
         $.ajax({
             type: "post",
             url: "/loadTableHH_DVT",
             data: "idHH=" + id,
             success: function (result) {
-                $('#tbodyHH_DVT').replaceWith(result);
+                $('#tbodyHH_DVT').replaceWith(result);  
             },
             error: function () {
                 alert("Fail");

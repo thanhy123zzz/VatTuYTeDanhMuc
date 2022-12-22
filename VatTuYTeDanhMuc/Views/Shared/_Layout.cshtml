@@ -412,17 +412,132 @@
     <script type="text/javascript">
         $(function () {
             $("#add_new").click(function () {
-                $("#myTable").append("<tr> <td> <input class=inputDisabled text-center type=text  disabled ></td ><td><input class=inputDisabled text-center type=text  disabled ></td> <td><input class=inputDisabled text-center type=text  disabled></td> <td>   <a href=# class=edit id=edit>  Sửa </a> <a href=#> Xóa </a>  </td> </tr>")
+
+                $.ajax({
+                    type: "post",
+                    url: "/addNewRowHH_DVT",
+                    success: function (result) {
+                        $("#tbodyHH_DVT").append(result)
+                    },
+                    error: function () {
+                        alert("Fail");
+                    }
+                });
             });
             $("#myTable").on("click", ".edit", function () {
-                $(this).removeClass('edit');
-                $(this).addClass('removeEdit');
-                $(this).parents('tr').find('input[type=text]').prop('disabled', false);
+                var a = $(this).parents('tr').find("td:eq(0) input[type='hidden']").val();
+                var sl = $(this).parents('tr').find("td:eq(1) input[type='text']").val();
+                var thiss = $(this);
+                var id = $(this).attr("value");
+                $.ajax({
+                    type: "post",
+                    url: "/addNewRowHH_DVT",
+                    data: "idDVT="+ a + "&sl="+sl + "&id="+id,
+                    success: function (result) {
+                        thiss.parents('tr').replaceWith(result);
+                    },
+                    error: function () {
+                        alert("Fail");
+                    }
+                });
             });
-            $("#myTable").on("click", ".removeEdit", function () {
-                $(this).removeClass('removeEdit');
-                $(this).addClass('edit');
-                $(this).parents('tr').find('input[type=text]').prop('disabled', true);
+            $("#myTable").on("click", ".save", function () {
+                var idDVT = $(this).parents('tr').find("td:eq(0) select").val();
+                var sl = $(this).parents('tr').find("td:eq(1) input[type='text']").val();
+                var idHH = $('#idHH').val();
+                var id = $(this).attr("value");
+                $.ajax({
+                    type: "post",
+                    url: "/updateHH_DVT",
+                    data: "idHH=" + idHH + "&sl="+sl+"&idDVT="+idDVT+"&id="+id,
+                    success: function (result) {
+                        $.ajax({
+                            type: "post",
+                            url: "/loadTableHH_DVT",
+                            data: "idHH=" + idHH,
+                            success: function (result) {
+                                $('#tbodyHH_DVT').replaceWith(result);
+                            },
+                            error: function () {
+                                alert("Fail");
+                            }
+                        });
+                        alert(result);
+                    },
+                    error: function () {
+                        alert("Fail");
+                    }
+                });
+
+            });
+             $("#myTable").on("click", ".add", function () {
+                var idDVT = $(this).parents('tr').find("td:eq(0) select").val();
+                var sl = $(this).parents('tr').find("td:eq(1) input[type='text']").val();
+                var idHH = $('#idHH').val();
+
+                $.ajax({
+                    type: "post",
+                    url: "/addHH_DVT",
+                    data: "idHH=" + idHH + "&sl="+sl+"&idDVT="+idDVT,
+                    success: function (result) {
+                        $.ajax({
+                            type: "post",
+                            url: "/loadTableHH_DVT",
+                            data: "idHH=" + idHH,
+                            success: function (result) {
+                                $('#tbodyHH_DVT').replaceWith(result);
+                            },
+                            error: function () {
+                                alert("Fail");
+                            }
+                        });
+                        alert(result);
+                    },
+                    error: function () {
+                        alert("Fail");
+                    }
+                });
+            });
+            $("#myTable").on("click", ".remove", function () {
+                if(confirm('Bạn có muốn xoá?')){
+                    var id = $(this).attr("value");
+                    var idHH = $('#idHH').val();
+                    $.ajax({
+                        type: "post",
+                        url: "/removeHH_DVT",
+                        data: "id="+id,
+                        success: function (result) {
+                            $.ajax({
+                                type: "post",
+                                url: "/loadTableHH_DVT",
+                                data: "idHH=" + idHH,
+                                success: function (result) {
+                                    $('#tbodyHH_DVT').replaceWith(result);
+                                },
+                                error: function () {
+                                    alert("Fail");
+                                }
+                            });
+                            alert(result);
+                        },
+                        error: function () {
+                            alert("Fail");
+                        }
+                    });
+                }
+            });
+            $("#myTable").on("click", ".btn-secondary", function () {
+                $.ajax({
+                    type: "post",
+                    url: "/loadTableHH_DVT",
+                    data: "idHH=" + $('#idHH').val(),
+                    success: function (result) {
+                        $('#tbodyHH_DVT').replaceWith(result);
+                    },
+                    error: function () {
+                        alert("Fail");
+                    }
+                });
             });
         })
     </script>

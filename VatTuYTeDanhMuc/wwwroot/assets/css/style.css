@@ -1,6 +1,11 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+.inputDisabled {
+    background: transparent;
+    border: none;
+}
+
 :root {
     scroll-behavior: smooth;
 }
@@ -112,9 +117,6 @@ table input:focus {
 }
 table td {
     vertical-align: middle;
-}
-#table1 {
-    background: #d0d1d2;
 }
 
 #myTable td{

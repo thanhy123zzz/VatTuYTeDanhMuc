@@ -1,8 +1,25 @@
-﻿<tbody id="tbodyHH">
+﻿@{
+    webContext context = new webContext();
+    bool count(int id){
+        if(context.HhDvt.Where(x=>x.Idhh==id&&x.Active==true).ToList().Count()==0){
+            return true;
+        }
+        return false;
+    }
+}
+
+<tbody id="tbodyHH">
     @foreach(HangHoa h in ViewBag.HangHoas){
-    <tr onclick="loadTableHH_DVT('@h.Id')">
-       <td>@h.MaHh</td>
-       <td>@h.TenHh</td>
-    </tr>
+        @if(count(h.Id)){
+            <tr style="background-color:yellow;" onclick="loadTableHH_DVT('@h.Id')">
+               <td>@h.MaHh</td>
+               <td>@h.TenHh</td>
+            </tr>
+        }else{
+              <tr onclick="loadTableHH_DVT('@h.Id')">
+                       <td>@h.MaHh</td>
+                       <td>@h.TenHh</td>
+              </tr>
+        }
     }
  </tbody>

@@ -1,0 +1,55 @@
+﻿@{
+	webContext context = new webContext();
+	List<Dvt> getDVT()
+	{
+		return context.Dvt.Where(x => x.Active == true).ToList();
+	}
+}
+@if(ViewBag.idDVT == null){
+<tr> 
+	<td> 
+		<select class="w-100 inputDisabled text-center">
+			@foreach (Dvt n in getDVT())
+			{
+				<option value="@n.Id">@n.TenDvt</option>
+			}
+		</select>
+	</td >
+	<td>
+		<input class='inputDisabled text-center' type=text >
+	</td>
+	<td>
+		<button class='add btn btn-primary' style ='margin-right:5px' id='edit'>
+			Lưu 
+			</button>
+			<a class='btn btn-secondary' href='#'> 
+				Huỷ </a>  
+	</td> 
+</tr>
+}else{
+		<tr> 
+		<td> 
+			<select class="w-100 inputDisabled text-center">
+				@foreach (Dvt n in getDVT())
+				{
+					@if (ViewBag.idDVT == @n.Id)
+					{
+						<option selected value="@n.Id">@n.TenDvt</option>
+					}else{
+						<option value="@n.Id">@n.TenDvt</option>
+					}
+				}
+			</select>
+		</td >
+		<td>
+			<input class='inputDisabled text-center' value="@ViewBag.SL" type=text >
+		</td>
+		<td>
+			<button value="@ViewBag.ID" class='save btn btn-primary' style ='margin-right:5px' id='edit'>
+				Lưu 
+				</button>
+					<a class='btn btn-secondary' href='#'> 
+					Huỷ </a>  
+		</td> 
+	</tr>
+}
