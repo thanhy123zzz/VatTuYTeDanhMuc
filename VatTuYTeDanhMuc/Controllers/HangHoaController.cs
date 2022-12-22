@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
@@ -104,6 +105,20 @@ namespace VatTuYTeDanhMuc.Controllers
             TempData["ThongBao"] = "Xoá thành công!";
             return RedirectToAction("Table");
         }
+
+        [Route("/HangHoa/khoiphuc/{id}")]
+        public IActionResult khoiphucHH(int id)
+        {
+            webContext context = new webContext();
+            HangHoa dvt = context.HangHoa.Find(id);
+            dvt.Active = true;
+
+            context.HangHoa.Update(dvt);
+            context.SaveChanges();
+            TempData["ThongBao"] = "Khôi phục thành công!";
+            return RedirectToAction("Table");
+        }
+
         [HttpPost("/loadTableHH")]
         public IActionResult loadTable(bool active, int nhomHH, int SL)
         {
@@ -158,6 +173,13 @@ namespace VatTuYTeDanhMuc.Controllers
                     ViewBag.HangHoas = context.HangHoa.Take(SL+9).ToList();
                 }
             }
+            return PartialView("_viewTableHH");
+        }
+        [HttpPost("/searchHH")]
+        public IActionResult searchHH(string key)
+        {
+            webContext context = new webContext();
+            ViewBag.HangHoas = context.HangHoa.FromSqlRaw("select*from HangHoa where concat_ws(' ',MaHH,TenHH) LIKE N'%" + key + "%';").ToList();
             return PartialView("_viewTableHH");
         }
     }

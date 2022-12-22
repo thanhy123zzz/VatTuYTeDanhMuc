@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using VatTuYTeDanhMuc.Models.Entities;
 
 namespace VatTuYTeDanhMuc.Controllers
@@ -18,6 +19,20 @@ namespace VatTuYTeDanhMuc.Controllers
             ViewData["Title"] = "Thêm đơn vị tính";
             return View();
         }
+        [HttpPost("/loadTableDVT")]
+        public IActionResult loadTableDVT(bool active)
+        {
+            webContext context = new webContext();
+            if (active) {
+                ViewBag.DVT = context.Dvt.Where(x => x.Active == true).ToList();
+            }
+            else
+            {
+                ViewBag.DVT = context.Dvt.ToList();
+            }
+            return PartialView();
+        }
+
         //Trả về view sửa đơn vị tính
         [Route("/DonViTinh/ViewUpdateDVT/{id}")]
         public IActionResult ViewUpdateDVT(int id)
@@ -70,6 +85,18 @@ namespace VatTuYTeDanhMuc.Controllers
 
             context.Dvt.Update(dvt);
             context.SaveChanges();
+            return RedirectToAction("Table");
+        }
+        [Route("/DonViTinh/khoiphuc/{id}")]
+        public IActionResult khoiphucDVT(int id)
+        {
+            webContext context = new webContext();
+            Dvt dvt = context.Dvt.Find(id);
+            dvt.Active = true;
+
+            context.Dvt.Update(dvt);
+            context.SaveChanges();
+            TempData["ThongBao"] = "Khôi phục thành công!";
             return RedirectToAction("Table");
         }
     }

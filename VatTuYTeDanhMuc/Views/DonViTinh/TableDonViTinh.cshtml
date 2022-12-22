@@ -33,7 +33,7 @@
                                 <span>Thêm Mới</span>
                             </a>
                             <div class="dropdown" style="margin-left: 20px" >
-                                <select class="form-select">
+                                <select id="active" class="form-select">
                                     <option value="true" selected>Hiện tại</option>  
                                     <option value="false">Tất cả</option>  
                                 </select>
@@ -77,3 +77,19 @@
                         </table>
                     </div>
                 </div>
+                <script>
+                    $('#active').on('change',function(){
+                        var a = $(this).val();
+                        $.ajax({
+                            type: "post",
+                            url: "/loadTableDVT",
+                            data: "active=" + a,
+                            success: function (result) {
+                                $('#example_wrapper').replaceWith(result);
+                            },
+                            error: function () {
+                                alert("Fail to delete");
+                            }
+                        });
+                    });
+                </script>

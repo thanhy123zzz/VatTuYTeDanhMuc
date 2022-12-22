@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using VatTuYTeDanhMuc.Models.Entities;
 
@@ -81,6 +83,20 @@ namespace VatTuYTeDanhMuc.Controllers
             webContext context = new webContext();
             ViewBag.HangHoas = context.HangHoa.Where(x => x.Idnhh == nhomHH);
             return PartialView();
+        }
+        [HttpPost("/searchTableHH")]
+        public IActionResult searchTableHH(int nhomHH,string key)
+        {
+            webContext context = new webContext();
+            if (nhomHH == 0)
+            {
+                ViewBag.HangHoas = context.HangHoa.FromSqlRaw("select*from HangHoa where concat_ws(' ',MaHH,TenHH) LIKE N'%"+key+"%';").ToList();
+            }
+            else
+            {
+                ViewBag.HangHoas = context.HangHoa.FromSqlRaw("select*from HangHoa where IdNhh = '"+nhomHH+"' and concat_ws(' ',MaHH,TenHH) LIKE N'%" + key + "%';").ToList();
+            }
+            return PartialView("loadTableHangHoa");
         }
 
         [HttpPost("/loadTableHH_DVT")]

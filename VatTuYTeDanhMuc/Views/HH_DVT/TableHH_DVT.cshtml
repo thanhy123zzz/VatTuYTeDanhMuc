@@ -42,7 +42,7 @@
                     <thead>
                         <tr>
                             <th class="p-0">
-                                <input placeholder="Tìm kiếm" type="text" style="height: 38px;" class="w-100"/>
+                                <input placeholder="Tìm kiếm" id="search" type="text" style="height: 38px;" class="w-100"/>
                             </th>
                             <th class="p-0">
                                 <select id="nhomHH" onchange="loadTableHangHoa()" class="w-100" style="height: 38px;">
@@ -131,4 +131,151 @@
             }
         });
     }
+
+    $(function () {
+            $("#add_new").click(function () {
+
+                $.ajax({
+                    type: "post",
+                    url: "/addNewRowHH_DVT",
+                    success: function (result) {
+                        $("#tbodyHH_DVT").append(result)
+                    },
+                    error: function () {
+                        alert("Fail");
+                    }
+                });
+            });
+            $("#myTable").on("click", ".edit", function () {
+                var a = $(this).parents('tr').find("td:eq(0) input[type='hidden']").val();
+                var sl = $(this).parents('tr').find("td:eq(1) input[type='text']").val();
+                var thiss = $(this);
+                var id = $(this).attr("value");
+                $.ajax({
+                    type: "post",
+                    url: "/addNewRowHH_DVT",
+                    data: "idDVT="+ a + "&sl="+sl + "&id="+id,
+                    success: function (result) {
+                        thiss.parents('tr').replaceWith(result);
+                    },
+                    error: function () {
+                        alert("Fail");
+                    }
+                });
+            });
+            $("#myTable").on("click", ".save", function () {
+                var idDVT = $(this).parents('tr').find("td:eq(0) select").val();
+                var sl = $(this).parents('tr').find("td:eq(1) input[type='text']").val();
+                var idHH = $('#idHH').val();
+                var id = $(this).attr("value");
+                $.ajax({
+                    type: "post",
+                    url: "/updateHH_DVT",
+                    data: "idHH=" + idHH + "&sl="+sl+"&idDVT="+idDVT+"&id="+id,
+                    success: function (result) {
+                        $.ajax({
+                            type: "post",
+                            url: "/loadTableHH_DVT",
+                            data: "idHH=" + idHH,
+                            success: function (result) {
+                                $('#tbodyHH_DVT').replaceWith(result);
+                            },
+                            error: function () {
+                                alert("Fail");
+                            }
+                        });
+                        alert(result);
+                    },
+                    error: function () {
+                        alert("Fail");
+                    }
+                });
+
+            });
+             $("#myTable").on("click", ".add", function () {
+                var idDVT = $(this).parents('tr').find("td:eq(0) select").val();
+                var sl = $(this).parents('tr').find("td:eq(1) input[type='text']").val();
+                var idHH = $('#idHH').val();
+
+                $.ajax({
+                    type: "post",
+                    url: "/addHH_DVT",
+                    data: "idHH=" + idHH + "&sl="+sl+"&idDVT="+idDVT,
+                    success: function (result) {
+                        $.ajax({
+                            type: "post",
+                            url: "/loadTableHH_DVT",
+                            data: "idHH=" + idHH,
+                            success: function (result) {
+                                $('#tbodyHH_DVT').replaceWith(result);
+                            },
+                            error: function () {
+                                alert("Fail");
+                            }
+                        });
+                        alert(result);
+                    },
+                    error: function () {
+                        alert("Fail");
+                    }
+                });
+            });
+            $("#myTable").on("click", ".remove", function () {
+                if(confirm('Bạn có muốn xoá?')){
+                    var id = $(this).attr("value");
+                    var idHH = $('#idHH').val();
+                    $.ajax({
+                        type: "post",
+                        url: "/removeHH_DVT",
+                        data: "id="+id,
+                        success: function (result) {
+                            $.ajax({
+                                type: "post",
+                                url: "/loadTableHH_DVT",
+                                data: "idHH=" + idHH,
+                                success: function (result) {
+                                    $('#tbodyHH_DVT').replaceWith(result);
+                                },
+                                error: function () {
+                                    alert("Fail");
+                                }
+                            });
+                            alert(result);
+                        },
+                        error: function () {
+                            alert("Fail");
+                        }
+                    });
+                }
+            });
+            $("#myTable").on("click", ".btn-secondary", function () {
+                $.ajax({
+                    type: "post",
+                    url: "/loadTableHH_DVT",
+                    data: "idHH=" + $('#idHH').val(),
+                    success: function (result) {
+                        $('#tbodyHH_DVT').replaceWith(result);
+                    },
+                    error: function () {
+                        alert("Fail");
+                    }
+                });
+            });
+        })
+
+        $('#search').keyup(function(e){
+            var nhomHH = $('#nhomHH').val();
+            var key = $(this).val();
+                $.ajax({
+                type: "post",
+                url: "/searchTableHH",
+                data: "nhomHH=" + nhomHH + "&key="+key,
+                success: function (result) {
+                    $('#tbodyHH').replaceWith(result);
+                },
+                error: function () {
+                    alert("Fail");
+                }
+            });
+        });
 </script>

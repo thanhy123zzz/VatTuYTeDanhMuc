@@ -32,12 +32,12 @@
           <div style="display:flex;justify-content:space-around;">       
             <div style="display: flex">   
               <div class="search-bar" style="margin-right:10px">
-                  <form class="search-form d-flex align-items-center" method="POST" action="#">
-                      <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+                  <div class="search-form d-flex align-items-center">
+                      <input id="search" type="text" name="query" placeholder="Search" title="Enter search keyword">
                       <button type="submit" title="Search">
                           <i class="bi bi-search"></i>
                       </button>
-                  </form>
+                  </div>
               </div>
               <div class="dropdown" style="margin-right:10px">
               <select id="ht" onchange="changeHH()" class="form-select" aria-label="Default select example">
@@ -143,4 +143,20 @@
             }
         });
     }
+    $('#search').keyup(function(e){
+            var key = $(this).val();
+                $.ajax({
+                type: "post",
+                url: "/searchHH",
+                data: "key="+key,
+                success: function (result) {
+                    $('#tableHH').replaceWith(result);
+                },
+                error: function () {
+                    alert("Fail");
+                }
+            });
+        });
+
+
 </script>
