@@ -12,6 +12,17 @@
     {
         return context.NhomNhanVien.Where(x => x.Active == true).ToList();
     }
+    string formatDay(DateTime? date)
+    {
+        if (date != null)
+        {
+            return date.Value.ToString("dd/MM/yyyy HH:mm");
+        }
+        else
+        {
+            return null;
+        }
+    }
 }
 @if (TempData["ThongBao"] != null)
 {
@@ -29,8 +40,9 @@
                                 <span>Thêm Mới</span>
                             </a>
                             <div class="dropdown" style="margin-left: 20px">
-                                <select class="form-select">
-                                    <option selected disabled>Sắp xếp theo</option>
+                                <select id="active" class="form-select">
+                                    <option value="true" selected>Hiện tại</option>  
+                                    <option value="false">Tất cả</option>  
                                 </select>
                             </div>
                         </div>
@@ -53,15 +65,15 @@
                                         <td>@dvt.MaNnv</td>
                                         <td>@dvt.TenNnv</td>
                                         <td>@getNhanVien(@dvt.Nvtao).TenNv</td>
-                                        <td>@dvt.NgayTao</td>
+                                        <td>@formatDay(@dvt.NgayTao)</td>
                                         <td>@getNhanVien(@dvt.Nvsua).TenNv</td>
-                                        <td>@dvt.NgaySua</td>
+                                        <td>@formatDay(@dvt.NgaySua)</td>
                                         <td>
                                             <a href="/NhomNhanVien/ViewUpdateNhomNV/@dvt.Id">
                                                 <i class="bi bi-pencil-square"
                                                    style="margin-right: 10px; margin-left: 10px"></i>
                                             </a>
-                                            <a href="/NhomNhanVien/xoa/@dvt.Id" onclick="return confirm('Bạn có xoá nhóm nhân viên tính này?')">
+                                            <a href="/NhomNhanVien/xoa/@dvt.Id" onclick="return confirm('Bạn có xoá nhóm nhân viên  này?')">
                                                 <i class="bi bi-trash"
                                                    style="margin-right: 10px; margin-left: 10px"></i>
                                             </a>
@@ -73,3 +85,19 @@
                         </table>
                     </div>
                 </div>
+                 <script>
+                    $('#active').on('change',function(){
+                        var a = $(this).val();
+                        $.ajax({
+                            type: "post",
+                            url: "/loadTableNNV",
+                            data: "active=" + a,
+                            success: function (result) {
+                                $('#example_wrapper').replaceWith(result);
+                            },
+                            error: function () {
+                                alert("Fail to delete");
+                            }
+                        });
+                    });
+                </script>

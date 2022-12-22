@@ -86,6 +86,32 @@ namespace VatTuYTeDanhMuc.Controllers
             TempData["ThongBao"] = "Sửa thành công!";
             return RedirectToAction("table");
         }
+        [HttpPost("/loadTableNSX")]
+        public IActionResult loadTableNSX(bool active)
+        {
+            webContext context = new webContext();
+            if (active)
+            {
+                ViewBag.NSX = context.NuocSanXuat.Where(x => x.Active == true).ToList();
+            }
+            else
+            {
+                ViewBag.NSX = context.NuocSanXuat.ToList();
+            }
+            return PartialView();
+        }
+        [Route("/NuocSanXuat/khoiphuc/{id}")]
+        public IActionResult khoiphucNSX(int id)
+        {
+            webContext context = new webContext();
+            NuocSanXuat hsx = context.NuocSanXuat.Find(id);
+            hsx.Active = true;
+
+            context.NuocSanXuat.Update(hsx);
+            context.SaveChanges();
+            TempData["ThongBao"] = "Khôi phục thành công!";
+            return RedirectToAction("Table");
+        }
 
     }
 }

@@ -37,8 +37,9 @@
                 <span>Thêm Mới</span>
             </a>
             <div class="dropdown" style="margin-left: 20px">
-                <select class="form-select">
-                    <option selected disabled>Sắp xếp theo</option>
+                <select id="active" class="form-select">
+                                    <option value="true" selected>Hiện tại</option>  
+                                    <option value="false">Tất cả</option>  
                 </select>
             </div>
         </div>
@@ -84,3 +85,19 @@
                     </table>
                 </div>
             </div>
+            <script>
+                    $('#active').on('change',function(){
+                        var a = $(this).val();
+                        $.ajax({
+                            type: "post",
+                            url: "/loadTableDVVC",
+                            data: "active=" + a,
+                            success: function (result) {
+                                $('#example_wrapper').replaceWith(result);
+                            },
+                            error: function () {
+                                alert("Fail to delete");
+                            }
+                        });
+                    });
+                </script>

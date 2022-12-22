@@ -182,5 +182,21 @@ namespace VatTuYTeDanhMuc.Controllers
             ViewBag.HangHoas = context.HangHoa.FromSqlRaw("select*from HangHoa where concat_ws(' ',MaHH,TenHH) LIKE N'%" + key + "%';").ToList();
             return PartialView("_viewTableHH");
         }
+        [HttpPost("/loadTableHH")]
+        public IActionResult loadTableHH(bool active)
+        {
+            webContext context = new webContext();
+            if (active)
+            {
+                ViewBag.HH = context.HangHoa.Where(x => x.Active == true).ToList();
+            }
+            else
+            {
+                ViewBag.HH = context.HangHoa.ToList();
+            }
+            return PartialView();
+        }
+        
+        
     }
 }

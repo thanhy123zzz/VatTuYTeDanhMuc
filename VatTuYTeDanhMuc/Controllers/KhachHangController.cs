@@ -88,5 +88,31 @@ namespace VatTuYTeDanhMuc.Controllers
             ViewData["Title"] = "Thông tin khách hàng";
             return View(kh);
         }
+        [HttpPost("/loadTableKH")]
+        public IActionResult loadTableKH(bool active)
+        {
+            webContext context = new webContext();
+            if (active)
+            {
+                ViewBag.KH = context.KhachHang.Where(x => x.Active == true).ToList();
+            }
+            else
+            {
+                ViewBag.KH = context.KhachHang.ToList();
+            }
+            return PartialView();
+        }
+        [Route("/KhachHang/khoiphuc/{id}")]
+        public IActionResult khoiphucKH(int id)
+        {
+            webContext context = new webContext();
+            KhachHang hsx = context.KhachHang.Find(id);
+            hsx.Active = true;
+
+            context.KhachHang.Update(hsx);
+            context.SaveChanges();
+            TempData["ThongBao"] = "Khôi phục thành công!";
+            return RedirectToAction("Table");
+        }
     }
 }

@@ -1,0 +1,108 @@
+﻿@{
+    webContext context = new webContext();
+    NhanVien getNhanVien(int? id)
+    {
+        NhanVien nv = context.NhanVien.Find(id);
+        if (nv != null) return nv;
+        else return new NhanVien();
+    }
+    List<Dvvc> getListDVVC()
+    {
+        return context.Dvvc.Where(x => x.Active == true).ToList();
+    }
+    string formatDay(DateTime? date)
+    {
+        if (date != null)
+        {
+            return date.Value.ToString("dd/MM/yyyy HH:mm");
+        }
+        else
+        {
+            return null;
+        }
+    }
+}
+<table id="example" class="table table-striped  table-hover text-center display nowrap" style="width:100%">
+
+                        <thead>
+                            <tr>
+                                <th class="text-center">Mã DVVC</th>
+                                <th class="text-center">Tên DVVC</th>
+                                <th class="text-center">Ghi chú</th>
+                                <th class="text-center">NV tạo</th>
+                                <th class="text-center">Ngày tạo</th>
+                                <th class="text-center">NV sửa</th>
+                                <th class="text-center">Ngày sửa</th>
+                                <th class="text-center">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+        @foreach (Dvvc dvt in ViewBag.DVVC)
+        {
+            if (dvt.Active == false)
+            {
+                        <tr style="background-color:lightgray;">
+                    <td>@dvt.MaDvvc</td>
+                    <td>@dvt.TenDvvc</td>
+                    <td>@dvt.GhiChu</td>
+                    <td>@getNhanVien(@dvt.Nvtao).TenNv</td>
+                    <td>@formatDay(@dvt.NgayTao)</td>
+                    <td>@getNhanVien(@dvt.Nvsua).TenNv</td>
+                    <td>@formatDay(@dvt.NgaySua)</td>
+                    <td>
+                        <a href="/DVVC/ViewUpdateDVVC/@dvt.Id">
+                            <i class="bi bi-pencil-square"
+                                               style="margin-right: 10px; margin-left: 10px"></i>
+                        </a>
+                        <a href="/DVVC/khoiphuc/@dvt.Id" onclick="return confirm('Bạn có muốn khôi phục dịch vụ vận chuyển này?')">
+                                    <i title="Khôi phục" class="bi bi-reply-all-fill"
+                                      style="margin-right: 10px; margin-left: 10px"></i>
+                        </a>
+                        <a href="Phieunhap.html"> Xem </a>
+                    </td>
+                </tr>
+            }else{
+                        <tr>
+                            <td>@dvt.MaDvvc</td>
+                            <td>@dvt.TenDvvc</td>
+                            <td>@dvt.GhiChu</td>
+                            <td>@getNhanVien(@dvt.Nvtao).TenNv</td>
+                            <td>@formatDay(@dvt.NgayTao)</td>
+                            <td>@getNhanVien(@dvt.Nvsua).TenNv</td>
+                            <td>@formatDay(@dvt.NgaySua)</td>
+                            <td>
+                                <a href="/DVVC/ViewUpdateDVVC/@dvt.Id">
+                                    <i class="bi bi-pencil-square"
+                                               style="margin-right: 10px; margin-left: 10px"></i>
+                                </a>
+                                <a href="/DVVC/xoa/@dvt.Id" onclick="return confirm('Bạn có xoá dịch vụ vận chuyển này?')">
+                                    <i class="bi bi-trash"
+                                               style="margin-right: 10px; margin-left: 10px"></i>
+                                </a>
+                                <a href="Phieunhap.html"> Xem </a>
+                            </td>
+                        </tr>
+            }
+        }
+                        </tbody>
+                    </table>
+ <script>
+       $(document).ready(function () {
+            $.fn.DataTable.ext.pager.numbers_length = 5;
+            $("#example").dataTable({
+
+                bLengthChange: false,
+                bInfo: false,
+                scrollX: true,
+                language: {
+                    paginate: {
+                        previous: "Trước",
+                        next: "Sau",
+                    },
+                    search: "Tìm kiếm",
+
+                },
+            });
+
+        });
+   </script>

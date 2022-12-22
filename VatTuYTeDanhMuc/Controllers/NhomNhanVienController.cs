@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using VatTuYTeDanhMuc.Models.Entities;
 
 namespace VatTuYTeDanhMuc.Controllers
@@ -70,6 +71,32 @@ namespace VatTuYTeDanhMuc.Controllers
 
             context.NhomNhanVien.Update(dvt);
             context.SaveChanges();
+            return RedirectToAction("Table");
+        }
+        [HttpPost("/loadTableNNV")]
+        public IActionResult loadTableNNV(bool active)
+        {
+            webContext context = new webContext();
+            if (active)
+            {
+                ViewBag.NNV = context.NhomNhanVien.Where(x => x.Active == true).ToList();
+            }
+            else
+            {
+                ViewBag.NNV = context.NhomNhanVien.ToList();
+            }
+            return PartialView();
+        }
+        [Route("/NhomNhanVien/khoiphuc/{id}")]
+        public IActionResult khoiphucNNV(int id)
+        {
+            webContext context = new webContext();
+            NhomNhanVien hsx = context.NhomNhanVien.Find(id);
+            hsx.Active = true;
+
+            context.NhomNhanVien.Update(hsx);
+            context.SaveChanges();
+            TempData["ThongBao"] = "Khôi phục thành công!";
             return RedirectToAction("Table");
         }
     }

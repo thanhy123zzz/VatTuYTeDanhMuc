@@ -40,10 +40,10 @@
                   </div>
               </div>
               <div class="dropdown" style="margin-right:10px">
-              <select id="ht" onchange="changeHH()" class="form-select" aria-label="Default select example">
-                <option selected value="true">Hiện tại</option>
-                <option value="false">Tất cả</option>
-              </select>
+              <select id="active" class="form-select">
+                                    <option value="true" selected>Hiện tại</option>  
+                                    <option value="false">Tất cả</option>  
+                                </select>
               </div>
               <div class="dropdown" >
               <select id="nhomHH" onchange="changeHH()"
@@ -157,6 +157,19 @@
                 }
             });
         });
-
+$('#active').on('change',function(){
+                        var a = $(this).val();
+                        $.ajax({
+                            type: "post",
+                            url: "/loadTableHH",
+                            data: "active=" + a,
+                            success: function (result) {
+                                $('#example_wrapper').replaceWith(result);
+                            },
+                            error: function () {
+                                alert("Fail to delete");
+                            }
+                        });
+                    });
 
 </script>

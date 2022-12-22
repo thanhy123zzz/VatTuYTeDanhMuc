@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using VatTuYTeDanhMuc.Models.Entities;
 
 namespace VatTuYTeDanhMuc.Controllers
@@ -71,6 +72,32 @@ namespace VatTuYTeDanhMuc.Controllers
             context.SaveChanges();
             TempData["ThongBao"] = "Sửa thành công!";
             return RedirectToAction("table");
+        }
+        [HttpPost("/loadTableNHH")]
+        public IActionResult loadTableNHH(bool active)
+        {
+            webContext context = new webContext();
+            if (active)
+            {
+                ViewBag.NHH = context.NhomHangHoa.Where(x => x.Active == true).ToList();
+            }
+            else
+            {
+                ViewBag.NHH = context.NhomHangHoa.ToList();
+            }
+            return PartialView();
+        }
+        [Route("/NhomHangHoa/khoiphuc/{id}")]
+        public IActionResult khoiphucNHH(int id)
+        {
+            webContext context = new webContext();
+            NhomHangHoa hsx = context.NhomHangHoa.Find(id);
+            hsx.Active = true;
+
+            context.NhomHangHoa.Update(hsx);
+            context.SaveChanges();
+            TempData["ThongBao"] = "Khôi phục thành công!";
+            return RedirectToAction("Table");
         }
     }
 }
