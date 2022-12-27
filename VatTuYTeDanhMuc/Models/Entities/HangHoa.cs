@@ -13,6 +13,7 @@ namespace VatTuYTeDanhMuc.Models.Entities
         {
             ChiTietPhieuNhap = new HashSet<ChiTietPhieuNhap>();
             ChiTietPhieuXuat = new HashSet<ChiTietPhieuXuat>();
+            GiaTheoKhachHang = new HashSet<GiaTheoKhachHang>();
             HhDvt = new HashSet<HhDvt>();
             HinhAnhHangHoa = new HashSet<HinhAnhHangHoa>();
         }
@@ -24,6 +25,10 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public int? Idnhh { get; set; }
         public int? Idhsx { get; set; }
         public int? Idnsx { get; set; }
+        public double? TiLeSi { get; set; }
+        public double? TiLeLe { get; set; }
+        public double? GiaBanSi { get; set; }
+        public double? GiaBanLe { get; set; }
         public int? Nvtao { get; set; }
         public DateTime? NgayTao { get; set; }
         public int? Nvsua { get; set; }
@@ -38,6 +43,7 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public virtual NuocSanXuat IdnsxNavigation { get; set; }
         public virtual ICollection<ChiTietPhieuNhap> ChiTietPhieuNhap { get; set; }
         public virtual ICollection<ChiTietPhieuXuat> ChiTietPhieuXuat { get; set; }
+        public virtual ICollection<GiaTheoKhachHang> GiaTheoKhachHang { get; set; }
         public virtual ICollection<HhDvt> HhDvt { get; set; }
         public virtual ICollection<HinhAnhHangHoa> HinhAnhHangHoa { get; set; }
     }

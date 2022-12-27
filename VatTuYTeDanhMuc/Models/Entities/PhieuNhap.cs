@@ -17,6 +17,9 @@ namespace VatTuYTeDanhMuc.Models.Entities
 
         public int Id { get; set; }
         public string SoPn { get; set; }
+        public string SoHd { get; set; }
+        public DateTime? NgayHd { get; set; }
+        public string GhiChu { get; set; }
         public int? Nvtao { get; set; }
         public DateTime? NgayTao { get; set; }
         public int? Nvsua { get; set; }

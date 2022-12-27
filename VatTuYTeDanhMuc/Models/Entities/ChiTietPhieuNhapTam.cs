@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace VatTuYTeDanhMuc.Models.Entities
 {
-    public partial class ChiTietPhieuNhap
+    public partial class ChiTietPhieuNhapTam
     {
         public int Id { get; set; }
         public int? Idpn { get; set; }
@@ -27,9 +27,5 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public int? Nvsua { get; set; }
         public DateTime? NgaySua { get; set; }
         public bool? Active { get; set; }
-
-        public virtual BaoHanh IdbhNavigation { get; set; }
-        public virtual HangHoa IdhhNavigation { get; set; }
-        public virtual PhieuNhap IdpnNavigation { get; set; }
     }
 }
