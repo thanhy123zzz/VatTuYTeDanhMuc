@@ -17,6 +17,10 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public int Id { get; set; }
         public string MaNhh { get; set; }
         public string TenNhh { get; set; }
+        public double? GiaTriMin { get; set; }
+        public double? GiaTriMax { get; set; }
+        public double? TiLeSi { get; set; }
+        public double? TiLeLe { get; set; }
         public int? Nvtao { get; set; }
         public DateTime? NgayTao { get; set; }
         public int? Nvsua { get; set; }

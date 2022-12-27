@@ -11,6 +11,7 @@ namespace VatTuYTeDanhMuc.Models.Entities
     {
         public KhachHang()
         {
+            GiaTheoKhachHang = new HashSet<GiaTheoKhachHang>();
             KhachHangNganHang = new HashSet<KhachHangNganHang>();
             PhieuXuat = new HashSet<PhieuXuat>();
         }
@@ -35,6 +36,7 @@ namespace VatTuYTeDanhMuc.Models.Entities
 
         public virtual NhanVien IdnvNavigation { get; set; }
         public virtual TaiKhoan TenTaiKhoanNavigation { get; set; }
+        public virtual ICollection<GiaTheoKhachHang> GiaTheoKhachHang { get; set; }
         public virtual ICollection<KhachHangNganHang> KhachHangNganHang { get; set; }
         public virtual ICollection<PhieuXuat> PhieuXuat { get; set; }
     }
