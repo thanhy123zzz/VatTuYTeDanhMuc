@@ -40,7 +40,7 @@
                   </div>
               </div>
               <div class="dropdown" style="margin-right:10px">
-              <select id="active" class="form-select">
+              <select id="active" onchange="changeHH()" class="form-select js-example-basic-single">
                                     <option value="true" selected>Hiện tại</option>  
                                     <option value="false">Tất cả</option>  
                                 </select>
@@ -112,7 +112,7 @@
 </section>
 <script>
     function changeHH(){
-        var active = $('#ht').val();
+        var active = $('#active').val();
         var nhomHH = $('#nhomHH').val();
         var sl = $('#SL').val();
         $.ajax({
@@ -128,7 +128,7 @@
         });
     }
         function loadMore(){
-        var active = $('#ht').val();
+        var active = $('#active').val();
         var nhomHH = $('#nhomHH').val();
         var sl = $('#SL').val();
         $.ajax({
@@ -157,19 +157,5 @@
                 }
             });
         });
-$('#active').on('change',function(){
-                        var a = $(this).val();
-                        $.ajax({
-                            type: "post",
-                            url: "/loadTableHH",
-                            data: "active=" + a,
-                            success: function (result) {
-                                $('#example_wrapper').replaceWith(result);
-                            },
-                            error: function () {
-                                alert("Fail to delete");
-                            }
-                        });
-                    });
 
 </script>
