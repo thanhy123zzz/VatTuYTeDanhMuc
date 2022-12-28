@@ -127,22 +127,22 @@ namespace VatTuYTeDanhMuc.Controllers
             {
                 if (nhomHH != 0)
                 {
-                    ViewBag.HangHoas = context.HangHoa.Where(x => x.Active == active && x.Idnhh == nhomHH).Take(SL).ToList();
+                    ViewBag.HangHoas = context.HangHoa.Where(x => x.Active == active && x.Idnhh == nhomHH).ToList();
                 }
                 else
                 {
-                    ViewBag.HangHoas = context.HangHoa.Where(x => x.Active == active).Take(SL).ToList();
+                    ViewBag.HangHoas = context.HangHoa.Where(x => x.Active == active).ToList();
                 }
             }
             else
             {
                 if (nhomHH != 0)
                 {
-                    ViewBag.HangHoas = context.HangHoa.Where(x => x.Idnhh == nhomHH).Take(SL).ToList();
+                    ViewBag.HangHoas = context.HangHoa.Where(x => x.Idnhh == nhomHH).ToList();
                 }
                 else
                 {
-                    ViewBag.HangHoas = context.HangHoa.Take(SL).ToList();
+                    ViewBag.HangHoas = context.HangHoa.ToList();
                 }
             }
             return PartialView("_viewTableHH");

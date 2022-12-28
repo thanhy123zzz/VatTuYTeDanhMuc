@@ -1,4 +1,17 @@
-﻿<div class="card">
+﻿@model PhieuNhapKhoModel
+@{
+    webContext context = new webContext();
+
+    List<NhaCungCap> getListNCC(){
+        return context.NhaCungCap.ToList();
+    }
+
+    List<HangHoa> getListHH(){
+        return context.HangHoa.ToList();
+    }
+}
+
+<div class="card">
     <div class="card-body">
 
         <!-- Bordered Tabs Justified -->
@@ -12,39 +25,42 @@
 
         </ul>
         <div class="tab-content pt-2" id="borderedTabJustifiedContent">
-            <div class="tab-pane fade show active" id="bordered-justified-home" role="tabpanel" aria-labelledby="home-tab">
+            <form action="/them-phieu-nhap" enctype="multipart/form-data" method="post" class="tab-pane fade show active" id="bordered-justified-home" role="tabpanel" aria-labelledby="home-tab">
                 <div class="form-group  p-2 mb-2" style="border-radius: 5px; border: 1px solid #ced4da;">
                     <div class="row mb-3">
                         <label class="col-sm-2 col-lg-2 col-form-label">Số phiếu</label>
                         <div class="col-sm-4 col-lg-4">
-                            <input type="text" class="form-control" id="inputText">
+                            <input type="text" class="form-control" name="@nameof(Model.phieuNhap.SoHd)" id="inputText">
                         </div>
                         <label class="col-sm-2 col-lg-2 col-form-label">Ngày nhập</label>
                         <div class="col-sm-4 col-lg-4">
-                            <input type="date" class="form-control" id="inputText">
+                            <input type="date" name="@nameof(Model.phieuNhap.NgayTao)" class="form-control dnow" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="inputText">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label class="col-sm-3 col-lg-2 col-form-label">Nhà cung cấp</label>
                         <div class="col-sm-9 col-lg-10">
-                            <select id="inputState" class="form-select">
-                                <option selected="">Choose...</option>
-                                <option>...</option>
+                            <select name="@nameof(Model.phieuNhap.Idncc)" id="inputState" class="form-select">
+                                @foreach(NhaCungCap n in getListNCC()){
+                                    <option value="@n.MaNcc">@n.TenNcc</option>
+                                }
                             </select>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label class="col-sm-2 col-lg-2 col-form-label">Số hóa đơn</label>
-                        <div class="col-sm-2 col-lg-2">
-                            <input type="text" class="form-control" id="inputText">
+                        <div class="col-sm-4 col-lg-4">
+                            <input type="text" name="@nameof(Model.phieuNhap.SoHd)" class="form-control" id="inputText">
                         </div>
                         <label class="col-sm-2 col-lg-2 col-form-label">Ngày hóa đơn</label>
-                        <div class="col-sm-2 col-lg-2">
-                            <input type="date" class="form-control" id="inputText">
+                        <div class="col-sm-2 col-lg-4">
+                            <input type="date" name="@nameof(Model.phieuNhap.NgayHd)" class="form-control" value="@DateTime.Now.ToString("yyyy-MM-dd")" id="inputText">
                         </div>
-                        <label class="col-sm-1 col-lg-1 col-form-label">Số seri</label>
-                        <div class="col-sm-3 col-lg-3">
-                            <input type="text" class="form-control" id="inputText">
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-lg-2 col-form-label">Ghi chú</label>
+                        <div class="col-sm-9 col-lg-10">
+                            <textarea name="@nameof(Model.phieuNhap.GhiChu)" class="form-control"></textarea>
                         </div>
                     </div>
                 </div>
@@ -53,8 +69,9 @@
                         <div class="col-md-3 mb-2 col-lg-3">
                             <div class="form-floating">
                                 <select id="inputState" class="form-select">
-                                    <option selected="">Choose...</option>
-                                    <option>...</option>
+                                    @foreach(HangHoa h in getListHH()){
+                                        <option value="@h.Id">@h.TenHh</option>
+                                    }
                                 </select>
                                 <label for="floatingName">Tên biệt dược, hàng hóa</label>
                             </div>
@@ -135,10 +152,11 @@
                             </div>
                         </div>
                         <div class="col-md-1 mb-2 col-lg-1" style="display: flex;">
-                            <button class="btn btn-primary" style="margin-left: 20px;">Thêm </button>
+                            <button class="btn btn-primary" type="submit" style="margin-left: 20px;">Thêm </button>
                         </div>
                     </div>
                 </div>
+            </form>
                 <div class="table-group" style="height: 400px; overflow: auto;">
                     <table class="table table-bordered table-hover table-striped text-center">
                         <thead>
