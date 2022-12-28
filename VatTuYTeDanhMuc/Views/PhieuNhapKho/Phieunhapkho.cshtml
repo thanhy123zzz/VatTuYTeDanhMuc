@@ -64,8 +64,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group p-2" style="border-radius: 5px; border: 1px solid #ced4da;">
-                    <div class="row mb-3" style="--bs-gutter-x: 0">
+                <div class="form-group p-2 mb-2" style="border-radius: 5px; border: 1px solid #ced4da;">
+                    <div class="row mb-3" style="--bs-gutter-x: 5px">
                         <div class="col-md-3 mb-2 col-lg-3">
                             <div class="form-floating">
                                 <select id="inputState" class="form-select">
@@ -110,7 +110,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mb-3" style="--bs-gutter-x: 0">
+                    <div class="row" style="--bs-gutter-x: 5px">
 
                         <div class="col-md-1 mb-2 col-lg-1">
                             <div class="form-floating">
@@ -157,6 +157,80 @@
                     </div>
                 </div>
             </form>
+                <div class="table-group" style="height: 400px; overflow: auto;">
+                    <table class="table table-bordered table-hover table-striped text-center">
+                        <thead>
+                            <tr>
+                                <th>Tên biệt dược, hàng hóa</th>
+                                <th>ĐVT</th>
+                                <th>Số lô</th>
+                                <th>Số lượng</th>
+                                <th>Đơn giá</th>
+                                <th>Thành tiền</th>
+                                <th>%CK</th>
+                                <th>Hạn dùng</th>
+                                <th>Ngày SX</th>
+                                <th>Thuế suất</th>
+                                <th>Giá bán</th>
+                                <th>Mã nhập</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>...</th>
+                                <th>...</th>
+                                <th>...</th>
+                                <th>...</th>
+                                <th>...</th>
+                                <th>...</th>
+                                <th>...</th>
+                                <th>...</th>
+                                <th>...</th>
+                                <th>...</th>
+                                <th>...</th>
+                                <th>...</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-group">
+                    <div class="row mb-3">
+                        <div class="col-sm-6 col-lg-6 d-flex align-items-center justify-content-lg-around">
+                            <input type="radio" name="HTthanhtoan" class="radioButtons" onclick="document.getElementById('HTthanhtoan').disabled = true;">
+                            <label class=" col-form-label">Mua tiền mặt</label>
+                            <input type="radio" name="HTthanhtoan" id="radio" class="radioButtons" onclick="document.getElementById('HTthanhtoan').disabled = false;">
+                            <label>Mua nợ hẹn ngày thanh toán</label>
+                            <input type="date" class="form-control" id="HTthanhtoan" style="display: inline; width: auto;" disabled>
+                        </div>
+
+                        <div class="col-sm-3 col-lg-3 p-0 mb-2 d-flex justify-content-lg-around">
+                            <label class="col-form-label">Tiền chiết khấu</label>
+                            <input type="text" class="form-control" id="inputText" style="width: 50%;">
+                        </div>
+
+                        <div class="col-sm-3 col-lg-3 p-0 mb-2 d-flex justify-content-lg-around">
+                            <label class="col-form-label">Tiền chiết khấu</label>
+                            <input type="date" class="form-control" id="inputText" style="width: 50%;">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-6 col-lg-6 mb-2 d-flex justify-content-lg-around">
+                            <label class="col-form-label">Người lập phiếu</label>
+                            <input type="text" class="form-control" id="inputText" style="width: 70%">
+                        </div>
+
+                        <div class="col-sm-3 col-lg-3 p-0 mb-2 d-flex justify-content-lg-around">
+                            <label class="col-form-label">Tiền thuế GTGT</label>
+                            <input type="text" class="form-control" id="inputText" style="width: 50%">
+                        </div>
+
+                        <div class="col-sm-3 col-lg-3 p-0 mb-2 d-flex justify-content-lg-around">
+                            <label class="col-form-label">Tiền phải trả</label>
+                            <input type="date" class="form-control" id="inputText" style="width: 50%">
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="tab-pane fade" id="bordered-justified-profile" role="tabpanel" aria-labelledby="profile-tab">
                 Nesciunt totam et. Consequuntur magnam aliquid eos nulla dolor iure eos quia. Accusantium distinctio omnis et atque fugiat. Itaque doloremque aliquid sint quasi quia distinctio similique. Voluptate nihil recusandae mollitia dolores. Ut laboriosam voluptatum dicta.
             </div>
