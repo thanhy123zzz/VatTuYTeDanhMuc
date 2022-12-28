@@ -1,0 +1,208 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>VTYT</title>
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+
+    <!-- Favicons -->
+    <link href="/assets/img/favicon.png" rel="icon" />
+    <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="/assets/fonts/fonts.css" />
+
+    <!-- Vendor CSS Files -->
+    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css"
+          rel="stylesheet" />
+    <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css"
+          rel="stylesheet" />
+    <link href="/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+    <link href="/assets/vendor/quill/quill.snow.css" rel="stylesheet" />
+    <link href="/assets/vendor/quill/quill.bubble.css" rel="stylesheet" />
+    <link href="/assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
+    <link href="/assets/vendor/simple-datatables/style.css" rel="stylesheet" />
+
+    <!-- Datatable CSS-->
+    <link href="/assets/Datatable/datatables.min.css" rel="stylesheet" />
+    <link href="~/assets/vendor/dist/css/select2.min.css" rel="stylesheet" />
+    <!-- Template Main CSS File -->
+    <link href="/assets/css/style.css" rel="stylesheet" />
+    <link href="/assets/css/Modalcss.css" rel="stylesheet" />
+
+
+</head>
+<body>
+    <div class="card">
+        <div class="card-body">
+            <div class="card-title d-flex justify-content-center">
+                Phiếu Nhập Kho
+            </div>
+            <!-- Bordered Tabs Justified -->
+
+            <div class="tab-content pt-2" id="borderedTabJustifiedContent">
+                <div class="tab-pane fade show active" id="bordered-justified-home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="form-group  p-2 mb-2" style="border-radius: 5px; border: 1px solid #ced4da;">
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-lg-2 col-form-label">Số phiếu</label>
+                            <div class="col-sm-4 col-lg-4">
+                                <input type="text" class="form-control" id="inputText">
+                            </div>
+                            <label class="col-sm-2 col-lg-2 col-form-label">Ngày nhập</label>
+                            <div class="col-sm-4 col-lg-4">
+                                <input type="text" class="form-control" id="inputText">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-lg-2 col-form-label">Nhà cung cấp</label>
+                            <div class="col-sm-9 col-lg-10">
+                                <input type="text" class="form-control" id="inputText">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-lg-2 col-form-label">Số hóa đơn</label>
+                            <div class="col-sm-2 col-lg-2">
+                                <input type="text" class="form-control" id="inputText">
+                            </div>
+                            <label class="col-sm-2 col-lg-2 col-form-label">Ngày hóa đơn</label>
+                            <div class="col-sm-2 col-lg-2">
+                                <input type="text" class="form-control" id="inputText">
+                            </div>
+                            <label class="col-sm-1 col-lg-1 col-form-label">Số seri</label>
+                            <div class="col-sm-3 col-lg-3">
+                                <input type="text" class="form-control" id="inputText">
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="table-group mb-3" style="max-height: 400px; overflow: auto;">
+                        <table class="table table-bordered table-hover table-striped text-center">
+                            <thead>
+                                <tr>
+                                    <th>Tên biệt dược, hàng hóa</th>
+                                    <th>ĐVT</th>
+                                    <th>Số lô</th>
+                                    <th>Số lượng</th>
+                                    <th>Đơn giá</th>
+                                    <th>Thành tiền</th>
+                                    <th>%CK</th>
+                                    <th>Hạn dùng</th>
+                                    <th>Ngày SX</th>
+                                    <th>Thuế suất</th>
+                                    <th>Giá bán</th>
+                                    <th>Mã nhập</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>...</th>
+                                    <th>...</th>
+                                    <th>...</th>
+                                    <th>...</th>
+                                    <th>...</th>
+                                    <th>...</th>
+                                    <th>...</th>
+                                    <th>...</th>
+                                    <th>...</th>
+                                    <th>...</th>
+                                    <th>...</th>
+                                    <th>...</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-group  p-2 mb-2" style="border-radius: 5px; border: 1px solid #ced4da;">
+                            <div class="row mb-3">
+                                <div class="col-sm-1 col-lg-1 d-flex justify-content-center" style="transform: scale(1.5);">
+                                    <input type="radio" name="HTthanhtoan" id="">
+                                </div>
+                                <label class="col-sm-2 col-lg-2 col-form-label">Mua tiền mặt</label>
+                                <div class="col-sm-1 col-lg-1 d-flex justify-content-center" style="transform: scale(1.5);">
+                                    <input type="radio" name="HTthanhtoan" id="">
+                                </div>
+                                <label class="col-sm-3 col-lg-3 col-form-label">Mua nợ hẹn ngày thanh toán</label>
+                                <div class="col-sm-5 col-lg-5">
+                                    <input type="text" class="form-control" id="">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-lg-2 col-form-label">Tiền chiết khấu</label>
+                                <div class="col-sm-4 col-lg-4">
+                                    <input type="text" class="form-control" id="">
+                                </div>
+                                <label class="col-sm-2 col-lg-2 col-form-label">Cộng tiền hàng</label>
+                                <div class="col-sm-4 col-lg-4">
+                                    <input type="text" class="form-control" id="inputText">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-lg-2 col-form-label">Người lập phiếu</label>
+                                <div class="col-sm-10 col-lg-10">
+                                    <input type="text" class="form-control" id="inputText">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+
+                                <label class="col-sm-2 col-lg-2 col-form-label">Tiền thuế GTGT</label>
+                                <div class="col-sm-4 col-lg-4">
+                                    <input type="text" class="form-control" id="inputText">
+                                </div>
+                                <label class="col-sm-2 col-lg-2 col-form-label">Tiền phải trả</label>
+                                <div class="col-sm-4 col-lg-4">
+                                    <input type="text" class="form-control" id="inputText">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div><!-- End Bordered Tabs Justified -->
+
+        </div>
+    </div>
+    <script src="/assets/js/ajax.js"></script>
+    <!-- Vendor JS Files -->
+    <script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/vendor/chart.js/chart.min.js"></script>
+    <script src="/assets/vendor/echarts/echarts.min.js"></script>
+    <script src="/assets/vendor/quill/quill.min.js"></script>
+    <script src="/assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="/assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="/assets/vendor/php-email-form/validate.js"></script>
+    <script src="/assets/jquery/jquery-3.6.1.min.js"></script>
+    <script src="/assets/Datatable/datatables.min.js"></script>
+    <script type="text/javascript" src="~/assets/vendor/dist/js/select2.min.js"></script>
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.fn.DataTable.ext.pager.numbers_length = 5;
+            $("#example").dataTable({
+
+                bLengthChange: false,
+                bInfo: false,
+                scrollX: true,
+                language: {
+                    paginate: {
+                        previous: "Trước",
+                        next: "Sau",
+                    },
+                    search: "Tìm kiếm",
+
+                },
+            });
+            $('.form-select').select2();
+            $('span.select2').css('width', 'auto');
+        });
+    </script>
+</body>
+</html>
