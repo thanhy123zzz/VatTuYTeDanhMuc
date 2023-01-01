@@ -10,6 +10,7 @@ namespace VatTuYTeDanhMuc.Models.Entities
     public partial class ChiTietPhieuNhapTam
     {
         public int Id { get; set; }
+        public string Host { get; set; }
         public int? Idpn { get; set; }
         public int? Idhh { get; set; }
         public int? Idbh { get; set; }

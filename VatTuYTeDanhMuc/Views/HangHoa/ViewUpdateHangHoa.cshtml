@@ -50,7 +50,7 @@
                           </div>
                            <div class="form-group">
                             <label style="margin:7px 0;">Hãng sản xuất</label>
-                            <select required class="form-control" asp-for="@Model.Idhsx">
+                            <select required class="form-select" asp-for="@Model.Idhsx">
                         @foreach (HangSanXuat hh in getListHSX())
                         {
                              <option value="@hh.Id">
@@ -61,7 +61,7 @@
                           </div>
                            <div class="form-group">
                             <label style="margin:7px 0;">Nước sản xuất</label>
-                            <select required class="form-control" asp-for="@Model.Idnsx">
+                            <select required class="form-select" asp-for="@Model.Idnsx">
                         @foreach (NuocSanXuat hh in getListNSX())
                         {
                                          <option value="@hh.Id">
@@ -72,7 +72,7 @@
                           </div>
                           <div class="form-group">
                             <label style="margin:7px 0;">Nhóm hàng hoá</label>
-                            <select required class="form-control" asp-for="@Model.Idnhh">
+                            <select required class="form-select" asp-for="@Model.Idnhh">
                         @foreach (NhomHangHoa hh in getListNHH())
                         {
                                                     <option value="@hh.Id">
@@ -83,7 +83,7 @@
                           </div>
                           <div class="form-group">
                             <label style="margin:7px 0;">Đơn vị tính chính</label>
-                            <select required class="form-control" asp-for="@Model.Iddvtchinh">
+                            <select required class="form-select" asp-for="@Model.Iddvtchinh">
                         @foreach (Dvt hh in getListDVT())
                         {
                                                         <option value="@hh.Id">
