@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -14,11 +15,8 @@
     <!-- Fonts -->
     <link rel="stylesheet" href="~/assets/fonts/fonts.css" />
 
-    <!-- Vendor CSS Files -->
-    <link
-      href="~/assets/vendor/bootstrap/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+    <link href="~/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    
     <link
       href="~/assets/vendor/bootstrap-icons/bootstrap-icons.css"
       rel="stylesheet"
@@ -27,14 +25,22 @@
     <link href="~/assets/vendor/quill/quill.snow.css" rel="stylesheet" />
     <link href="~/assets/vendor/quill/quill.bubble.css" rel="stylesheet" />
     <link href="~/assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
+
     <link href="~/assets/vendor/simple-datatables/style.css" rel="stylesheet" />
+
     <link rel="stylesheet" type="text/css" href="~/datatables.min.css"/>
+
     <link href="~/assets/vendor/dist/css/select2.min.css" rel="stylesheet"/>
     <!-- Template Main CSS File -->
+    <link href="~/bootstrap-datetimepicker.css" rel="stylesheet"/>
     <link href="~/assets/css/style.css" rel="stylesheet" />
-
-    <link rel="stylesheet" href="~/assets/css/Modalcss.css" />
+    
     <script src="~/jquery-3.6.1.min.js"></script>
+    <script src="~/umd/popper.min.js" ></script>
+    <script src="~/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/moment.js/moment.min.js"></script>
+    <script src="~/bootstrap-datetimepicker.min.js"></script>
+
 </head>
 <body>
     <!-- ======= Header ======= -->
@@ -375,7 +381,7 @@
             }
         }
     </script>
-    <script src="/assets/js/ajax.js"></script>
+    
     <script type="text/javascript" src="~/assets/vendor/dist/js/select2.min.js"></script>
     <script type="text/javascript" src="~/datatables.min.js"></script>
     <script src="~/assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -386,7 +392,7 @@
     <script src="~/assets/vendor/simple-datatables/simple-datatables.js"></script>
     <script src="~/assets/vendor/tinymce/tinymce.min.js"></script>
     <script src="~/assets/vendor/php-email-form/validate.js"></script>
-
+    @*<script src="~/datepicker-vi.js"></script>*@
     <!-- Template Main JS File -->
     <script src="~/assets/js/main.js"></script>
     <script src="~/assets/js/HeThong.js"></script>
@@ -398,6 +404,7 @@
                 bLengthChange: false,
                 bInfo: false,
                 scrollX: true,
+                fixedHeader: true,
                 language: {
                     paginate: {
                         previous: "Trước",
@@ -407,8 +414,75 @@
 
                 },
             });
-            $('.form-select').select2();
+            $('.form-select').select2({
+                matcher: function(params, data) {
+                    // If there are no search terms, return all of the data
+                    if ($.trim(params.term) === '') { return data; }
+
+                    // Do not display the item if there is no 'text' property
+                    if (typeof data.text === 'undefined') { return null; }
+
+                    // `params.term` is the user's search term
+                    // `data.id` should be checked against
+                    // `data.text` should be checked against
+                    var q = params.term.toLowerCase();
+                    if (data.text.toLowerCase().indexOf(q) > -1 || data.id.toLowerCase().indexOf(q) > -1) {
+                        return $.extend({}, data, true);
+                    }
+
+                    // Return `null` if the term should not be displayed
+                    return null;
+                }
+            });
+            $('span.select2').css('width','auto');
+            
+            /*$( "#HanDung,#NgayHD,#NgaySX" ).datepicker({
+                dateFormat: "dd-mm-yy",
+                changeMonth: true,
+                changeYear: true,
+                autoSize: true,
+                nextText: "Later",
+                constrainInput: true,})
+             ;*/
+             /*$('#HanDung,#NgayHD,#NgayNhap,#NgaySX').datepicker({
+                format: 'dd/mm/yyyy'
+             });*/
+             /*$( "#NgayNhap" ).datetimepicker({
+                 dateFormat: "dd-mm-yy",
+                 timeFormat: "HH:mm",
+                 showTimezone: false,
+             }).datepicker("setDate",new Date());*/
+             
+             /*$.datepicker.setDefaults( $.datepicker.regional[ "vi" ] );*/
+
+             $('#NgayNhap').datetimepicker({
+                  locale: 'vi',
+                  format:"DD-MM-yyyy HH:mm",
+                  icons: {
+                    date: "bi bi-calendar2-date",
+                    up: "bi bi-chevron-up",
+                    down: "bi bi-chevron-down",
+                    previous: 'bi bi-chevron-left',
+                    next: 'bi bi-chevron-right',
+                    time: "bi bi-clock"
+                }
+              });
+              $('#HanDung,#NgayHD,#NgaySX').datetimepicker({
+                  locale: 'vi',
+                  format:"DD-MM-yyyy",
+                  icons: {
+                    date: "bi bi-calendar2-date",
+                    up: "bi bi-chevron-up",
+                    down: "bi bi-chevron-down",
+                    previous: 'bi bi-chevron-left',
+                    next: 'bi bi-chevron-right',
+                    time: "bi bi-clock"
+                }
+              });
         });
+        function change(){
+            $('#HanDung').val();
+        }
     </script>
     <script type="text/javascript">
         

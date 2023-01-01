@@ -200,6 +200,8 @@ namespace VatTuYTeDanhMuc.Models.Entities
 
                 entity.Property(e => e.GhiChu).HasMaxLength(2000);
 
+                entity.Property(e => e.Host).HasMaxLength(50);
+
                 entity.Property(e => e.Hsd)
                     .HasColumnName("HSD")
                     .HasColumnType("datetime");

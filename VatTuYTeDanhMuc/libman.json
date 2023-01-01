@@ -1,0 +1,51 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "timepicker-ui@2.6.1",
+      "destination": "wwwroot/lib/timepicker-ui/"
+    },
+    {
+      "library": "moment.js@2.29.4",
+      "destination": "wwwroot/moment.js/",
+      "files": [
+        "moment.min.js"
+      ]
+    },
+    {
+      "library": "bootstrap-datepicker@1.9.0",
+      "destination": "wwwroot/bootstrap-datepicker/"
+    },
+    {
+      "library": "datepicker@1.0.10",
+      "destination": "wwwroot/bootstrap-datepicker/css/",
+      "files": [
+        "datepicker.min.css"
+      ]
+    },
+    {
+      "library": "bootstrap-datetimepicker@6.2.10",
+      "destination": "wwwroot/bootstrap-datetimepicker/",
+      "files": [
+        "css/tempus-dominus.min.css",
+        "js/jQuery-provider.min.js",
+        "js/tempus-dominus.min.js"
+      ]
+    },
+    {
+      "library": "timepicker@1.3.5",
+      "destination": "wwwroot/",
+      "files": [
+        "jquery.timepicker.min.js"
+      ]
+    },
+    {
+      "library": "popper.js@2.11.6",
+      "destination": "wwwroot/",
+      "files": [
+        "umd/popper.min.js"
+      ]
+    }
+  ]
+}

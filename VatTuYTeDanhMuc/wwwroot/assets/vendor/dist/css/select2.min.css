@@ -5,7 +5,7 @@
     position: relative;
     vertical-align: middle;
     display: block;
-    width: 100%;
+    
     padding: 0.25rem 1rem 0.25rem 0.5rem;
     -moz-padding-start: calc(0.75rem - 3px);
     font-size: 1rem;
@@ -19,6 +19,7 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+    background-color: #fff;
 }
 
     .select2-container .select2-selection--single {
