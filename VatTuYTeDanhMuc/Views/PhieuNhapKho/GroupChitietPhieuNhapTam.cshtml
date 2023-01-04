@@ -24,8 +24,8 @@
                          <div class="row mb-2">
                             <label class="col-sm-1 col-lg-1 col-form-label">Tên hàng</label>
                           <div class="col-md-5 mb-2 col-lg-5">
-                              <select id="selectHH" asp-for="@Model.Idhh" onchange="loadDVT()" class="form-select">
-                                <option selected disabled value="0">Tên hàng hóa</option>
+                              <select id="selectHH" asp-for="@Model.Idhh" onchange="loadDVT()" class="form-select2">
+                                <option selected disabled value=""></option>
                                     @foreach (HangHoa h in getListHH())
                                     {
                                            <option value="@h.Id">@h.TenHh</option>
@@ -34,8 +34,8 @@
                           </div>
                           <label class="col-sm-1 col-lg-1 col-form-label">Số lô</label>
                               <div class="col-md-2 mb-2 col-lg-2">
-                                <select id="SoLo" asp-for="@Model.SoLo" class="form-select">
-                                    <option selected disabled value="0"></option>
+                                <select id="SoLo" asp-for="@Model.SoLo">
+                                    <option selected disabled value=""></option>
                                         @foreach (string s in a)
                                         {
                                             <option value="@s">@s</option>
@@ -51,9 +51,8 @@
                        <div class="row mb-2">
                              <label class="col-sm-1 col-lg-1 col-form-label">VAT</label>
                              <div class="col-md-2 mb-2 col-lg-2">
-                                  <select asp-for="@Model.Thue" id="ThueXuat" class="form-select">
-                                    <option selected disabled>Thuế suất</option>
-                                    <option value="0">0</option>
+                                  <select asp-for="@Model.Thue" id="ThueXuat">
+                                    <option selected value="0">0</option>
                                     <option value="5">5</option>
                                     <option value="10">10</option>
                                     <option value="15">15</option>
@@ -80,11 +79,11 @@
                               <div class="col-md-2 mb-2 col-lg-2">
                                   <input value="@format(Model.Cktm)" type="text"  class="form-control" id="ChietKhau" placeholder="Chiếc khấu">
                               </div>
-                              <label class="col-sm-1 col-lg-1 col-form-label">HSD</label>
+                              <label class="col-sm-1 col-lg-1 col-form-label">Hạn SD</label>
                               <div class="col-md-2 mb-2 col-lg-2">
                                   <input type="text" value="@Model.Hsd.Value.ToString("dd-MM-yyyy")" class="form-control" id="HanDung" placeholder="Your Name">
                               </div>
-                              <label class="col-sm-1 col-lg-1 col-form-label">NSX</label>
+                              <label class="col-sm-1 col-lg-1 col-form-label">Ngày SX</label>
                               <div class="col-md-2 mb-2 col-lg-2">
                                  <input type="text" value="@Model.Nsx.Value.ToString("dd-MM-yyyy")" class="form-control" id="NgaySX" placeholder="Your Name">
                               </div>
@@ -94,28 +93,7 @@
                               </div>
                             </div>
                             <script>
-                                    $('.form-select').select2({
-                                        matcher: function(params, data) {
-                                            // If there are no search terms, return all of the data
-                                            if ($.trim(params.term) === '') { return data; }
-
-                                            // Do not display the item if there is no 'text' property
-                                            if (typeof data.text === 'undefined') { return null; }
-
-                                            // `params.term` is the user's search term
-                                            // `data.id` should be checked against
-                                            // `data.text` should be checked against
-                                            var q = params.term.toLowerCase();
-                                            if (data.text.toLowerCase().indexOf(q) > -1 || data.id.toLowerCase().indexOf(q) > -1) {
-                                                return $.extend({}, data, true);
-                                            }
-
-                                            // Return `null` if the term should not be displayed
-                                            return null;
-                                        }
-                                    });
-                                    $('span.select2').css('width','auto');
-                                            $('#ChietKhau').on('input',function(){
+                                   $('#ChietKhau').on('input',function(){
                                     if(getValue(this.value)>100){
                                         $(this).val('');
                                         alert('Chiết khấu không quá 100%');
@@ -147,6 +125,7 @@
                                 }
                                 $('#HanDung,#NgaySX').datetimepicker({
                                           locale: 'vi',
+                                          useStrict: true,
                                           format:"DD-MM-yyyy",
                                           icons: {
                                             date: "bi bi-calendar2-date",
@@ -157,6 +136,16 @@
                                             time: "bi bi-clock"
                                         }
                                       });
+                                  $('#selectHH').selectize({
+                                            sortField: 'text',
+                                            dataAttr: 'data-extra',
+                                            searchField: ['value','text','Ma']
+                                      });
+                                    $('#SoLo,#ThueXuat').selectize({
+                                      create: true,
+                                      dataAttr: 'data-extra',
+                                      searchField: ['value','text','Ma']
+                                     });
                             </script>
                     </div>
     
@@ -166,8 +155,8 @@ else{
                      <div class="row mb-2">
                         <label class="col-sm-1 col-lg-1 col-form-label">Tên hàng</label>
                       <div class="col-md-5 mb-2 col-lg-5">
-                          <select id="selectHH" onchange="loadDVT()" class="form-select">
-                            <option selected disabled value="0">Tên hàng hóa</option>
+                          <select id="selectHH" onchange="loadDVT()" class="form-select2">
+                            <option selected disabled value=""></option>
                     @foreach (HangHoa h in getListHH())
                     {
                                 <option value="@h.Id">@h.TenHh</option>
@@ -176,8 +165,8 @@ else{
                       </div>
                       <label class="col-sm-1 col-lg-1 col-form-label">Số lô</label>
                           <div class="col-md-2 mb-2 col-lg-2">
-                              <select id="SoLo" class="form-select">
-                                <option selected disabled value="0"></option>
+                              <select id="SoLo">
+                                <option selected disabled value=""></option>
                     @foreach (string s in a)
                     {
                                                 <option value="@s">@s</option>
@@ -193,9 +182,9 @@ else{
                         <div class="row mb-2">
                          <label class="col-sm-1 col-lg-1 col-form-label">VAT</label>
                          <div class="col-md-2 mb-2 col-lg-2">
-                              <select id="ThueXuat" class="form-select">
-                                <option selected disabled>Thuế suất</option>
-                                <option value="0">0</option>
+                              <select id="ThueXuat">
+                                <option selected disabled value=""></option>
+                                <option value="">0</option>
                                 <option value="5">5</option>
                                 <option value="10">10</option>
                                 <option value="15">15</option>
@@ -234,29 +223,8 @@ else{
                              <button class="btn btn-primary" onclick="addChiTietPhieu()" type="button">Thêm </button>
                           </div>
                         </div>
-                                                        <script>
-                                        $('.form-select').select2({
-                                            matcher: function(params, data) {
-                                                // If there are no search terms, return all of the data
-                                                if ($.trim(params.term) === '') { return data; }
-
-                                                // Do not display the item if there is no 'text' property
-                                                if (typeof data.text === 'undefined') { return null; }
-
-                                                // `params.term` is the user's search term
-                                                // `data.id` should be checked against
-                                                // `data.text` should be checked against
-                                                var q = params.term.toLowerCase();
-                                                if (data.text.toLowerCase().indexOf(q) > -1 || data.id.toLowerCase().indexOf(q) > -1) {
-                                                    return $.extend({}, data, true);
-                                                }
-
-                                                // Return `null` if the term should not be displayed
-                                                return null;
-                                            }
-                                        });
-                                        $('span.select2').css('width','auto');
-                                                $('#ChietKhau').on('input',function(){
+                             <script>
+                                     $('#ChietKhau').on('input',function(){
                                         if(getValue(this.value)>100){
                                             $(this).val('');
                                             alert('Chiết khấu không quá 100%');
@@ -288,6 +256,7 @@ else{
                                     }
                                     $('#HanDung,#NgaySX').datetimepicker({
                                       locale: 'vi',
+                                      useStrict: true,
                                       format:"DD-MM-yyyy",
                                       icons: {
                                         date: "bi bi-calendar2-date",
@@ -298,6 +267,16 @@ else{
                                         time: "bi bi-clock"
                                     }
                                   });
+                                  $('#selectHH').selectize({
+                                        sortField: 'text',
+                                        dataAttr: 'data-extra',
+                                        searchField: ['value','text','Ma']
+                                  });
+                                  $('#SoLo,#ThueXuat').selectize({
+                                  create: true,
+                                  dataAttr: 'data-extra',
+                                  searchField: ['value','text','Ma']
+                                 });
                                 </script>
                 </div>
 }

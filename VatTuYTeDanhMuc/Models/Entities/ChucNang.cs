@@ -23,7 +23,6 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public DateTime? NgaySua { get; set; }
         public bool? Active { get; set; }
         public int? Idvt { get; set; }
-        public int? Idcn { get; set; }
         public int? Idmenu { get; set; }
 
         public virtual Menu IdmenuNavigation { get; set; }

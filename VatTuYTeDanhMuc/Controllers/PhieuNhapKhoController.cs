@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace VatTuYTeDanhMuc.Controllers
 {
@@ -28,10 +30,62 @@ namespace VatTuYTeDanhMuc.Controllers
             return View("PhieuNhapKho");
         }
         [HttpPost("/them-phieu-nhap")]
-        public IActionResult ThemPhieuNhap(PhieuNhap phieuNhap,IFormCollection form)
+        public IActionResult ThemPhieuNhap(PhieuNhap phieuNhap,string NgayHd, string NgayTao, IFormCollection form)
         {
+            webContext context = new webContext();
+            SoLuongHhcon soLuongHhcon = new SoLuongHhcon();
+            
+            string h = GetLocalIPAddress();
+            List<ChiTietPhieuNhapTam> ListCTPNT = context.ChiTietPhieuNhapTam.Where(x => x.Host == h).OrderByDescending(x => x.Id).ToList();
+            var tran = context.Database.BeginTransaction();
+            try
+            {
+                    phieuNhap.NgayHd = DateTime.ParseExact(NgayHd, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    phieuNhap.NgayTao = DateTime.ParseExact(NgayTao, "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);
+                    phieuNhap.Active = true;
+                    phieuNhap.Idcn = 1;
+                    phieuNhap.Idnv = 3;
+                    context.PhieuNhap.Add(phieuNhap);
+                    context.SaveChanges();
+                foreach (ChiTietPhieuNhapTam t in ListCTPNT)
+                {
+                    ChiTietPhieuNhap ct = new ChiTietPhieuNhap();
+                    ct.Idhh = t.Idhh;
+                    ct.Idbh = t.Idbh;
+                    ct.Thue = t.Thue;
+                    ct.Idpn = phieuNhap.Id;
+                    ct.Slg = t.Slg;
+                    ct.Tgbh = t.Tgbh;
+                    ct.DonGia = t.DonGia;
+                    ct.Cktm = t.Cktm;
+                    ct.Nsx = t.Nsx;
+                    ct.Hsd = t.Hsd;
+                    ct.SoLo = t.SoLo;
+                    ct.GhiChu = t.GhiChu;
+                    ct.Active = true;
+                    ct.Nvtao = 3;
+                    ct.NgayTao = DateTime.ParseExact(DateTime.Now.ToString("dd-MM-yyyy"), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    context.ChiTietPhieuNhap.Add(ct);
+                    context.ChiTietPhieuNhapTam.Remove(t);
+                    context.SaveChanges();
 
-            return RedirectToAction("Index");
+                    SoLuongHhcon sl = new SoLuongHhcon();
+                    sl.Idctpn = ct.Id;
+                    sl.Slcon = ct.Slg;
+                    sl.Idcn = 1;
+                    context.SoLuongHhcon.Add(sl);
+                    context.SaveChanges();
+                }
+                tran.Commit();
+            }
+            catch (Exception e)
+            {
+                tran.Rollback();
+                TempData["ThongBao"] =  e.Message;
+                return Ok();
+            }
+            List<ChiTietPhieuNhap> ListCTPN = context.ChiTietPhieuNhap.ToList();
+            return RedirectToAction("Index",phieuNhap);
         }
 
         [HttpPost("/getDonViTinh")]
@@ -48,23 +102,24 @@ namespace VatTuYTeDanhMuc.Controllers
         }
 
         [HttpPost("/add-Chi-Tiet-Phieu")]
-        public JsonResult addChiTietPhieu(int idHH, string SoLo, float ThueXuat, int SL, float DonGia, 
-            float ThanhTien, float ChietKhau, DateTime HanDung, DateTime NgaySX)
+        public JsonResult addChiTietPhieu(int idHH, string SoLo, float ThueXuat, float SL, float DonGia, 
+            float ChietKhau, string HanDung, string NgaySX)
         {
+
             webContext context = new webContext();
             ChiTietPhieuNhapTam ct = new ChiTietPhieuNhapTam();
             ct.Active = true;
             ct.Idhh = idHH;
             ct.SoLo = SoLo;
-            ct.Thue = ThueXuat;
-            ct.Slg = SL;
-            ct.DonGia = DonGia;
-            ct.Cktm = ChietKhau;
-            ct.Hsd = HanDung;
-            ct.Nsx = NgaySX;
+            ct.Thue = Math.Round(ThueXuat,2);
+            ct.Slg = Math.Round(SL,2);
+            ct.DonGia = Math.Round(DonGia,2);
+            ct.Cktm = Math.Round(ChietKhau,2);
+            ct.Hsd = DateTime.ParseExact(HanDung,"dd-MM-yyyy", CultureInfo.InvariantCulture);
+            ct.Nsx = DateTime.ParseExact(NgaySX, "dd-MM-yyyy", CultureInfo.InvariantCulture);
             ct.Host = GetLocalIPAddress();
             ct.Nvtao = 3;
-            ct.NgayTao = DateTime.Now;
+            ct.NgayTao = DateTime.ParseExact(DateTime.Now.ToString("dd-MM-yyyy"), "dd-MM-yyyy", CultureInfo.InvariantCulture);
             context.ChiTietPhieuNhapTam.Add(ct);
             context.SaveChanges();
 
@@ -91,7 +146,7 @@ namespace VatTuYTeDanhMuc.Controllers
 
         [HttpPost("/edit-Chi-Tiet-Phieu")]
         public IActionResult editChiTietPhieu(int idHH, string SoLo, float ThueXuat, int SL, float DonGia,
-            float ThanhTien, float ChietKhau, DateTime HanDung, DateTime NgaySX, int id)
+            float ThanhTien, float ChietKhau, string HanDung, string NgaySX, int id)
         {
             webContext context = new webContext();
             ChiTietPhieuNhapTam ct = context.ChiTietPhieuNhapTam.Find(id);
@@ -102,11 +157,10 @@ namespace VatTuYTeDanhMuc.Controllers
             ct.Slg = SL;
             ct.DonGia = DonGia;
             ct.Cktm = ChietKhau;
-            ct.Hsd = HanDung;
-            ct.Nsx = NgaySX;
+            ct.Hsd = DateTime.ParseExact(HanDung, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            ct.Nsx = DateTime.ParseExact(NgaySX, "dd-MM-yyyy", CultureInfo.InvariantCulture);
             ct.Host = GetLocalIPAddress();
             ct.Nvtao = 3;
-            ct.NgayTao = DateTime.Now;
             context.ChiTietPhieuNhapTam.Update(ct);
             context.SaveChanges();
 

@@ -7,22 +7,16 @@ using System.Collections.Generic;
 
 namespace VatTuYTeDanhMuc.Models.Entities
 {
-    public partial class VaiTro
+    public partial class PhanQuyen
     {
-        public VaiTro()
-        {
-            ChucNang = new HashSet<ChucNang>();
-        }
-
         public int Id { get; set; }
-        public string MaVt { get; set; }
-        public string TenVt { get; set; }
+        public int? Idtk { get; set; }
+        public int? Idvt { get; set; }
+        public int? Idcn { get; set; }
         public int? Nvtao { get; set; }
         public DateTime? NgayTao { get; set; }
         public int? Nvsua { get; set; }
         public DateTime? NgaySua { get; set; }
         public bool? Active { get; set; }
-
-        public virtual ICollection<ChucNang> ChucNang { get; set; }
     }
 }

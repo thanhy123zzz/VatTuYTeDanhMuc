@@ -28,7 +28,46 @@
         }
         throw new Exception("No network adapters with an IPv4 address in the system!");
     }
+    string getSoPhieu(){
+        QuyDinhMa qd = context.QuyDinhMa.Find(1);
+        //ID chi nhánh
+        string cn = "1";
 
+        DateTime d = DateTime.Now;
+        string ngayThangNam = d.ToString("yyMMdd");
+        string SoPhieu = cn + "_" + qd.TiepDauNgu + ngayThangNam;
+        var list = context.SoThuTu.FromSqlRaw("select*from SoThuTu where '"+DateTime.Now.ToString("yyyy-MM-dd")+"' = Convert(date,ngay);").ToList();
+        int stt;
+        if(list.Count == 0){
+            SoThuTu sttt = new SoThuTu();
+            sttt.Ngay = DateTime.ParseExact(DateTime.Now.ToString("dd-MM-yyyy"), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            sttt.Stt = 0;
+            sttt.Loai = "NhapKho";
+            context.SoThuTu.Add(sttt);
+            context.SaveChanges();
+            stt = 1;
+        }else{
+            stt = list.Count + 1;
+        }
+        SoPhieu += stt;
+        while(true){
+            if (qd.DoDai == SoPhieu.Length) break;
+            SoPhieu = SoPhieu.Insert(SoPhieu.Length - stt.ToString().Length, "0");
+        }
+        return SoPhieu;
+    }
+    List<PhieuNhap> getListPhieuNhap(){
+        return context.PhieuNhap.Where(x => x.Active == true)
+        .Include(x => x.IdnccNavigation)
+        .Include(x => x.IdnvNavigation)
+        .OrderByDescending(x => x.Id)
+        .ToList();
+    }
+    string dayToString(DateTime? a){
+        if(a==null){
+            return "";
+        }return a.Value.ToString("dd-MM-yyyy");
+    }
 }
 
 <div class="card">
@@ -37,34 +76,35 @@
         <!-- Bordered Tabs Justified -->
         <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
             <li class="nav-item flex-fill" role="presentation">
-                <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-home" type="button" role="tab" aria-controls="home" aria-selected="true">Phiếu nhập kho</button>
+                <button class="nav-link w-100 active" id="home-tab" data-bs-toggle="tab" data-bs-target="#borderedTabJustifiedContent" type="button" role="tab" aria-controls="home" aria-selected="true">Phiếu nhập kho</button>
             </li>
             <li class="nav-item flex-fill" role="presentation">
-                <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Nội dung phiếu nhập</button>
+                <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Lịch xử nhập kho</button>
             </li>
 
         </ul>
-        <form  action="/them-phieu-nhap" enctype="multipart/form-data" method="post" class="tab-content pt-2" id="borderedTabJustifiedContent">
-            <div class="tab-pane fade show active" id="bordered-justified-home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="tab-content pt-2">
+        <form onsubmit="return confirm('Bạn có muốn tạo phiếu nhập kho?')" action="/them-phieu-nhap" enctype="multipart/form-data" method="post" class="tab-pane fade active show" id="borderedTabJustifiedContent">
+            <div id="bordered-justified-home" role="tabpanel" aria-labelledby="home-tab">
                 <div class="form-group  p-2 mb-2" style="border-radius: 5px; border: 1px solid black; background-color: lightgrey;">
                     <div class="row mb-2">
                         <label class="col-sm-1 col-lg-1 col-form-label">Số phiếu</label>
                         <div class="col-sm-2 col-lg-2">
-                            <input type="text" class="form-control" name="@nameof(Model.phieuNhap.SoHd)" id="inputText">
+                            <input value="@getSoPhieu()" required readonly type="text" class="form-control" name="@nameof(Model.phieuNhap.SoPn)" id="inputText">
                         </div>
                         <label class="col-sm-1 col-lg-1 col-form-label">Nhà CC</label>
                         <div class="col-sm-5 col-lg-5">
-                            <select name="@nameof(Model.phieuNhap.Idncc)" id="nhaCC" class="form-select">
-                                <option selected value="0"></option>
+                            <select required name="@nameof(Model.phieuNhap.Idncc)" id="nhaCC" class="form-select2">
+                                <option selected value=""></option>
                                 @foreach (NhaCungCap n in getListNCC())
                                 {
-                                        <option value="@n.MaNcc">@n.TenNcc</option>
+                                   <option value="@n.Id" label="@n.MaNcc">@n.TenNcc</option>
                                 }
                             </select>
                         </div>
                         <label class="col-sm-1 col-lg-1 col-form-label">Ng.Nhập</label>
                         <div class="col-sm-2 col-lg-2">
-                            <input type="text" name="@nameof(Model.phieuNhap.NgayTao)" value="@DateTime.Now.ToString("dd-MM-yyyy HH:mm")" placeholder="dd-MM-yyyy" class="form-control" id="NgayNhap">
+                            <input type="text" required name="@nameof(Model.phieuNhap.NgayTao)" value="@DateTime.Now.ToString("dd-MM-yyyy HH:mm")" placeholder="dd-MM-yyyy" class="form-control" id="NgayNhap">
                         </div>
                     </div>
                     <div class="row">
@@ -86,17 +126,17 @@
                  <div class="row">
                     <label class="col-sm-1 col-lg-1 col-form-label">Tên hàng</label>
                   <div class="col-md-5 mb-2 col-lg-5">
-                      <select id="selectHH" onchange="loadDVT()" class="form-select">
-                        <option selected disabled value="0">Tên hàng hóa</option>
+                      <select id="selectHH" onchange="loadDVT()" class="form-select2">
+                        <option selected disabled value=""></option>
                         @foreach(HangHoa h in getListHH()){
-                        <option value="@h.Id">@h.TenHh</option>
+                            <option value="@h.Id" data-extra="{'Ma':'@h.MaHh'}">@h.TenHh</option>
                         }
                       </select>
                   </div>
                   <label class="col-sm-1 col-lg-1 col-form-label">Số lô</label>
                       <div class="col-md-2 mb-2 col-lg-2">
-                          <select id="SoLo" class="form-select">
-                            <option selected disabled value="0"></option>
+                          <select id="SoLo">
+                            <option selected disabled value=""></option>
                                 @foreach (string s in a)
                                 {
                                         <option value="@s">@s</option>
@@ -112,9 +152,8 @@
                     <div class="row">
                      <label class="col-sm-1 col-lg-1 col-form-label">VAT</label>
                      <div class="col-md-2 mb-2 col-lg-2">
-                          <select id="ThueXuat" class="form-select">
-                            <option selected disabled>Thuế suất</option>
-                            <option value="0">0</option>
+                          <select id="ThueXuat">
+                            <option selected value="0">0</option>
                             <option value="5">5</option>
                             <option value="10">10</option>
                             <option value="15">15</option>
@@ -125,7 +164,7 @@
                       </div>
                       <label class="col-sm-1 col-lg-1 col-form-label">Số lượng</label>
                       <div class="col-md-2 mb-2 col-lg-2">
-                          <input type="text" class="form-control" oninput="inputSLHH()" id="SLHH" placeholder="Số lượng">
+                          <input type="text" class="form-control" data-toggle="popover" data-content="Không được để trống" oninput="inputSLHH()" id="SLHH" placeholder="Số lượng">
                       </div>
                       <label class="col-sm-1 col-lg-1 col-form-label">Đơn giá</label>
                       <div class="col-md-2 mb-2 col-lg-2">
@@ -141,11 +180,11 @@
                       <div class="col-md-2 mb-2 col-lg-2">
                           <input type="text"  class="form-control" id="ChietKhau" placeholder="Chiếc khấu">
                       </div>
-                      <label class="col-sm-1 col-lg-1 col-form-label">HSX</label>
+                      <label class="col-sm-1 col-lg-1 col-form-label">Hạn SD</label>
                       <div class="col-md-2 mb-2 col-lg-2">
                           <input type="text" placeholder="dd-mm-yyyy" value="@DateTime.Now.ToString("dd-MM-yyyy")" class="form-control" id="HanDung">
                       </div>
-                      <label class="col-sm-1 col-lg-1 col-form-label">NSX</label>
+                      <label class="col-sm-1 col-lg-1 col-form-label">Ngày SX</label>
                       <div class="col-md-2 mb-2 col-lg-2">
                           <input type="text" placeholder="dd-mm-yyyy" value="@DateTime.Now.ToString("dd-MM-yyyy")" class="form-control" id="NgaySX">
                       </div>
@@ -155,11 +194,11 @@
                     </div>
             </div>
             </div>
-                <div class="table-group" style="height: 400px; overflow: auto;">
+                <div class="table-responsive" style="max-height: 400px;overflow-x: auto;white-space:nowrap;">
                     <table class="table table-bordered table-hover table-striped text-center" id="tableChiTietPhieuNhap">
                         <thead style="position: sticky; top: 0;">
                             <tr>
-                                <th>Tên biệt dược, hàng hóa</th>
+                                <th>Tên hàng hóa</th>
                                 <th>ĐVT</th>
                                 <th>Số lô</th>
                                 <th>Số lượng</th>
@@ -211,57 +250,58 @@
                         </div>
                     </div>
                 </div>  
-            </form>
-        <div class="tab-pane fade" id="bordered-justified-profile" role="tabpanel" aria-labelledby="profile-tab">
-                Nesciunt totam et. Consequuntur magnam aliquid eos nulla dolor iure eos quia. Accusantium distinctio omnis et atque fugiat. Itaque doloremque aliquid sint quasi quia distinctio similique. Voluptate nihil recusandae mollitia dolores. Ut laboriosam voluptatum dicta.
-        </div>
+                <div class="row">
+                    <div class="d-flex justify-content-end">
+                      <button class="btn btn-primary col-lg-2 col-sm-2" type="submit">Tạo phiếu</button>
+                    </div>
                 </div>
-            </div>
-            <div class="tab-pane fade" id="bordered-justified-profile" role="tabpanel" aria-labelledby="profile-tab">
-                 <table id="example" class="table table-striped table-hover text-center display nowrap" style="width:100%">
+            </form>
+       </div>
+       <div class = "tab-content pt-2">
+       <div class="tab-pane fade" id="bordered-justified-profile" role="tabpanel" aria-labelledby="profile-tab">
+           <div class="table-responsive" style="overflow-x: auto;white-space:nowrap;">
+           <table id="example" class="table table-striped table-hover text-center display nowrap" style="width:100%">
                     <thead>
                         <tr>
-                            <th class="text-center">ID hàng hóa</th>
-                            <th  class="text-center">Số lượng</th>
-                            <th  class="text-center">Đơn giá</th>
-                            <th  class="text-center">Số lô</th>
-                            <th  class="text-center">Ngày SX</th>
-                            <th  class="text-center">Hạn dùng</th>
-                            <th  class="text-center">Chiết khấu</th>
-                            <th  class="text-center">VAT</th>
+                            <th class="text-center">Số phiếu</th>
+                            <th  class="text-center">Tên nhà cung cấp</th>
+                            <th  class="text-center">Ngày tạo</th>
+                            <th  class="text-center">Số hoá đơn</th>
+                            <th  class="text-center">Ngày hoá đơn</th>
+                            <th  class="text-center">Nhân viên tạo</th>
+                            <th  class="text-center">Ghi chú</th>
                             <th  class="text-center">Tùy chọn</th>
                         </tr>
                     </thead>
                     <tbody>
-
+                        @foreach(PhieuNhap p in getListPhieuNhap()){
                         <tr>
-                            <td>HHC01</td>
-                            <td>12</td>
-                            <td>12.000</td>
-                            <td>1</td>
-                            <td>22/02/2001</td>
-                            <td>22/02/2022</td>
-                            <td>10%</td>
-                            <td>10%</td>
+                            <td>@p.SoPn</td>
+                            <td>@p.IdnccNavigation.TenNcc</td>
+                            <td>@p.NgayTao.Value.ToString("dd-MM-yyyy HH:mm")</td>
+                            <td>@p.SoHd</td>
+                            <td>@dayToString(p.NgayHd)</td>
+                            <td>@p.IdnvNavigation.TenNv</td>
+                            <td>@p.GhiChu</td>
                             <td>
                                 <a href="PhieuNhapKhoPDF" class="btn btn-outline-success">In</a>
                                 <a href="#" class="btn btn-outline-primary mx-1">Xem</a>
-                                <a href="#" class="btn btn-outline-secondary">Sửa</a>
-                                <a href="#" class="btn btn-outline-danger mx-1">xóa</a>
                             </td>
                         </tr>
-
+                        }
 
                     </tbody>
                 </table>
             </div>
-
-        </div>
-
+            </div>
+         </div>
+     </div>
 </div>
 <script>
     function loadDVT() {
       var idHH = $('#selectHH').val();
+      console.log(idHH);
+      if(idHH!=0){
             $.ajax({
                         type: "post",
                         url: "/getDonViTinh",
@@ -274,6 +314,7 @@
                             alert("Fail");
                         }
                     });
+        }
     };
     function inputSLHH(){
         var thanhTien = $('#ThanhTien').val();
@@ -339,7 +380,22 @@
         var ChietKhau = getValue($('#ChietKhau').val());
         var HanDung = $('#HanDung').val();
         var ngaySX = $('#NgaySX').val();
-        console.log()
+        var x = new Date(HanDung.substring(3,5) + "-" + HanDung.substring(0,2) + "-" + HanDung.substring(6,10));
+        var y = new Date(ngaySX.substring(3,5) + "-" + ngaySX.substring(0,2) + "-" + ngaySX.substring(6,10));
+        if(idHH==""){
+            alert('Hãy chọn hàng hoá!');
+            return;
+        }if(SoLo==""){
+            alert('Hãy chọn số lô!');
+            return;
+        }if(SL==""){
+            alert('Hãy nhập số lượng hàng hoá!');
+            return;
+        }if(x<=y){
+            alert('Hạn sử dụng phải lớn hơn ngày sản xuất!');
+            return;
+        }
+        
         $.ajax({
                         type: "post",
                         url: "/add-Chi-Tiet-Phieu",
@@ -384,6 +440,21 @@
         var ChietKhau = getValue($('#ChietKhau').val());
         var HanDung = $('#HanDung').val();
         var ngaySX = $('#NgaySX').val();
+        var x = new Date(HanDung.substring(3,5) + "-" + HanDung.substring(0,2) + "-" + HanDung.substring(6,10));
+        var y = new Date(ngaySX.substring(3,5) + "-" + ngaySX.substring(0,2) + "-" + ngaySX.substring(6,10));
+        if(idHH==""){
+            alert('Hãy chọn hàng hoá!');
+            return;
+        }if(SoLo==""){
+            alert('Hãy chọn số lô!');
+            return;
+        }if(SL==""){
+            alert('Hãy nhập số lượng hàng hoá!');
+            return;
+        }if(x<=y){
+            alert('Hạn sử dụng phải lớn hơn ngày sản xuất!');
+            return;
+        }
         $.ajax({
                         type: "post",
                         url: "/edit-Chi-Tiet-Phieu",

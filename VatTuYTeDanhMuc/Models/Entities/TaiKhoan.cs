@@ -12,7 +12,6 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public TaiKhoan()
         {
             KhachHang = new HashSet<KhachHang>();
-            VaiTro = new HashSet<VaiTro>();
         }
 
         public int Id { get; set; }
@@ -27,6 +26,5 @@ namespace VatTuYTeDanhMuc.Models.Entities
 
         public virtual NhanVien NhanVien { get; set; }
         public virtual ICollection<KhachHang> KhachHang { get; set; }
-        public virtual ICollection<VaiTro> VaiTro { get; set; }
     }
 }

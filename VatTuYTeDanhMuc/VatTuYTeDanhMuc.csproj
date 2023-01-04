@@ -28,6 +28,7 @@
     <Folder Include="Views\NhaCungCap\" />
     <Folder Include="Views\NhomHangHoa\" />
     <Folder Include="wwwroot\ImagesHangHoa\" />
+    <Folder Include="wwwroot\select\" />
   </ItemGroup>
 
 </Project>

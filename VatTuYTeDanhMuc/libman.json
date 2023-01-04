@@ -46,6 +46,10 @@
       "files": [
         "umd/popper.min.js"
       ]
+    },
+    {
+      "library": "selectize.js@0.15.2",
+      "destination": "wwwroot/select/"
     }
   ]
 }
