@@ -9,11 +9,6 @@ namespace VatTuYTeDanhMuc.Models.Entities
 {
     public partial class ChiNhanh
     {
-        public ChiNhanh()
-        {
-            VaiTro = new HashSet<VaiTro>();
-        }
-
         public int Id { get; set; }
         public string MaCn { get; set; }
         public string TenCn { get; set; }
@@ -26,7 +21,5 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public int? Nvsua { get; set; }
         public DateTime? NgaySua { get; set; }
         public bool? Active { get; set; }
-
-        public virtual ICollection<VaiTro> VaiTro { get; set; }
     }
 }

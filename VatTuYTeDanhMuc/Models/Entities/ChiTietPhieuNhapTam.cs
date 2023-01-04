@@ -10,11 +10,11 @@ namespace VatTuYTeDanhMuc.Models.Entities
     public partial class ChiTietPhieuNhapTam
     {
         public int Id { get; set; }
-        public string Host { get; set; }
         public int? Idpn { get; set; }
         public int? Idhh { get; set; }
         public int? Idbh { get; set; }
-        public int? Slg { get; set; }
+        public string Host { get; set; }
+        public double? Slg { get; set; }
         public double? DonGia { get; set; }
         public double? Cktm { get; set; }
         public double? Thue { get; set; }
