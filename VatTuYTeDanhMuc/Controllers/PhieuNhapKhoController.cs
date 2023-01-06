@@ -218,18 +218,7 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             return PartialView("TableChiTietPhieuNhap");
         }
-            string GetLocalIPAddress()
-        {
-            var host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (var ip in host.AddressList)
-            {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    return ip.ToString();
-                }
-            }
-            throw new Exception("No network adapters with an IPv4 address in the system!");
-        }
+        
         [HttpPost("/editChitietPhieuNhapTam")]
         public IActionResult editChitietPhieuNhapTam(int id)
         {
@@ -242,6 +231,14 @@ namespace VatTuYTeDanhMuc.Controllers
                 return PartialView("GroupChitietPhieuNhapTam");
             }
         }
+
+        [HttpPost("/ViewThongTinPhieuNhap")]
+        public IActionResult ViewThongTinPhieuNhap(int idPN)
+        {
+            webContext context= new webContext();
+            var phieu = context.PhieuNhap.Include(x => x.ChiTietPhieuNhap).Include(x=>x.IdnccNavigation).Include(x=>x.IdnvNavigation).FirstOrDefault(x => x.Id == idPN);
+            return PartialView(phieu);
+        }
         public string ConvertViewToString(ControllerContext controllerContext, PartialViewResult pvr, ICompositeViewEngine _viewEngine)
         {
             using (StringWriter writer = new StringWriter())
@@ -253,6 +250,18 @@ namespace VatTuYTeDanhMuc.Controllers
 
                 return writer.GetStringBuilder().ToString();
             }
+        }
+        string GetLocalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            throw new Exception("No network adapters with an IPv4 address in the system!");
         }
     }
 }
