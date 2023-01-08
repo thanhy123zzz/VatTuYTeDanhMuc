@@ -16,15 +16,17 @@ namespace VatTuYTeDanhMuc.Models.Entities
         }
 
         public int Id { get; set; }
-        public int? Idcn { get; set; }
         public string SoPx { get; set; }
-        public int? Nvtao { get; set; }
+        public string SoHd { get; set; }
+        public DateTime? NgayHd { get; set; }
+        public string GhiChu { get; set; }
+        public int? Idnv { get; set; }
         public DateTime? NgayTao { get; set; }
         public int? Nvsua { get; set; }
         public DateTime? NgaySua { get; set; }
         public bool? Active { get; set; }
+        public int? Idcn { get; set; }
         public int? Idkh { get; set; }
-        public int? Idnv { get; set; }
         public int? Idtt { get; set; }
 
         public virtual KhachHang IdkhNavigation { get; set; }

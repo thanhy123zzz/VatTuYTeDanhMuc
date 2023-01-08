@@ -11,6 +11,7 @@ namespace VatTuYTeDanhMuc.Models.Entities
     {
         public ChiTietPhieuNhap()
         {
+            ChiTietPhieuXuat = new HashSet<ChiTietPhieuXuat>();
             SoLuongHhcon = new HashSet<SoLuongHhcon>();
         }
 
@@ -36,6 +37,7 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public virtual BaoHanh IdbhNavigation { get; set; }
         public virtual HangHoa IdhhNavigation { get; set; }
         public virtual PhieuNhap IdpnNavigation { get; set; }
+        public virtual ICollection<ChiTietPhieuXuat> ChiTietPhieuXuat { get; set; }
         public virtual ICollection<SoLuongHhcon> SoLuongHhcon { get; set; }
     }
 }

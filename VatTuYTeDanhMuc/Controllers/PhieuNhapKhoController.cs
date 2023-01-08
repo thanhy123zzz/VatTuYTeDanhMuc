@@ -25,8 +25,6 @@ namespace VatTuYTeDanhMuc.Controllers
         [Route("/PhieuNhapKho")]
         public IActionResult Index()
         {
-            webContext context = new webContext();
-            List<NhaCungCap> listNhaCupCap = context.NhaCungCap.ToList();
             return View("PhieuNhapKho");
         }
         [HttpPost("/them-phieu-nhap")]
@@ -73,19 +71,24 @@ namespace VatTuYTeDanhMuc.Controllers
                     sl.Idctpn = ct.Id;
                     sl.Slcon = ct.Slg;
                     sl.Idcn = 1;
+                    sl.NgayNhap = phieuNhap.NgayTao;
                     context.SoLuongHhcon.Add(sl);
                     context.SaveChanges();
                 }
+                var stt = context.SoThuTu.FromSqlRaw("select*from SoThuTu where '" + DateTime.Now.ToString("yyyy-MM-dd") + "' = Convert(date,ngay) and Loai = 'NhapKho'").FirstOrDefault();
+                stt.Stt += 1;
+                context.SoThuTu.Update(stt);
+                context.SaveChanges();
                 tran.Commit();
             }
             catch (Exception e)
             {
                 tran.Rollback();
                 TempData["ThongBao"] =  e.Message;
-                return Ok();
+                return RedirectToAction("Index");
             }
-            List<ChiTietPhieuNhap> ListCTPN = context.ChiTietPhieuNhap.ToList();
-            return RedirectToAction("Index",phieuNhap);
+            TempData["ThongBao"] = "Thêm thành công";
+            return RedirectToAction("Index");
         }
 
         [HttpPost("/getDonViTinh")]

@@ -7,9 +7,10 @@ using System.Collections.Generic;
 
 namespace VatTuYTeDanhMuc.Models.Entities
 {
-    public partial class ChiTietPhieuXuat
+    public partial class ChiTietPhieuXuatTam
     {
         public int Id { get; set; }
+        public string Host { get; set; }
         public int? Idpx { get; set; }
         public int? Idhh { get; set; }
         public int? Iddvt { get; set; }
@@ -18,13 +19,5 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public int? Idctpn { get; set; }
         public int? Nvtao { get; set; }
         public DateTime? NgayTao { get; set; }
-        public int? Nvsua { get; set; }
-        public DateTime? NgaySua { get; set; }
-        public bool? Active { get; set; }
-
-        public virtual ChiTietPhieuNhap IdctpnNavigation { get; set; }
-        public virtual Dvt IddvtNavigation { get; set; }
-        public virtual HangHoa IdhhNavigation { get; set; }
-        public virtual PhieuXuat IdpxNavigation { get; set; }
     }
 }
