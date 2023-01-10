@@ -1,0 +1,29 @@
+﻿@{
+  var vt = ViewBag.VaiTro;
+}
+@if (vt != null)
+{
+  <tr>
+    <td>
+      <input type="hidden" value="@vt.Id" id="idvt" />
+      <input class='inputDisabled text-center' value="@vt.TenVt" style="width: 170px" type="text">   
+    </td>
+    <td style="text-align:center">
+      <button class='savevt btn btn-primary' style='margin-right:5px' id='edit'>Lưu</button>
+      <a class='btn btn-secondary' href='#'>Huỷ</a>
+    </td>
+  </tr>
+}
+else
+{
+  <tr>
+    <td>
+      <input class='inputDisabled text-center' style="width: 170px" type=text>
+    </td>
+        <td style="text-align:center">
+      <button class='add btn btn-primary' style='margin-right:5px' id='edit'>Lưu</button>
+      <a class='btn btn-secondary' href='#'>Huỷ</a>
+    </td>
+  </tr>
+}
+

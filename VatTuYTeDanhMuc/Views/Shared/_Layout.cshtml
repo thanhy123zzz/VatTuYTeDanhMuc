@@ -1,4 +1,15 @@
-﻿
+﻿@{
+    var acc = User.FindFirst("VaiTro");
+    string tentk = null, name = null;
+    int idUser = 0;
+    if (acc != null)
+    {
+        tentk = acc.Subject.Name;
+        name = User.Claims.ElementAt(3).Value;
+        idUser = int.Parse(User.Claims.ElementAt(3).Type);
+        //ViewData["NhanVien"] = idUser;
+    }
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,12 +47,13 @@
     <link href="~/assets/css/style.css" rel="stylesheet" />
     
     <script src="~/jquery-3.6.1.min.js"></script>
+    
     <script src="~/umd/popper.min.js" ></script>
-    <script src="~/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="~/moment.js/moment.min.js"></script>
     <script src="~/bootstrap-datetimepicker.min.js"></script>
     <script src="/select/js/selectize.min.js"></script>
     <link rel="stylesheet" href="~/select/css/selectize.bootstrap4.min.css"/>
+    
 </head>
 <body>
     <!-- ======= Header ======= -->
@@ -113,9 +125,9 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
+                            <a class="dropdown-item d-flex align-items-center" href="/Login/LogOut">
                                 <i class="bi bi-box-arrow-right"></i>
-                                <span>Dăng xuất</span>
+                                <span>Đăng xuất</span>
                             </a>
                         </li>
                     </ul>
@@ -299,18 +311,18 @@
                     class="nav-content collapse"
                     data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="/HoSo/Hoso">
+                        <a href="/HeThong/HoSo/@idUser">
                             <i class="bi bi-circle"></i><span>Hồ sơ</span>
                         </a>
                     </li>
                     <li>
-                        <a href="PhanquyenNV">
-                            <i class="bi bi-circle"></i><span>Phân quyền nhân viên</span>
+                        <a href="/TrangChu/PhanQuyen">
+                            <i class="bi bi-circle"></i><span>Phân quyền</span>
                         </a>
                     </li>
                     <li>
-                        <a href="KHCanhan">
-                            <i class="bi bi-circle"></i><span>Khách hàng cá nhân</span>
+                        <a href="/TrangChu/VaiTro">
+                            <i class="bi bi-circle"></i><span>Vai trò</span>
                         </a>
                     </li>
                     <li>

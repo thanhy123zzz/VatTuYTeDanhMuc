@@ -1,0 +1,35 @@
+﻿@{
+  webContext context = new webContext();
+
+  ChiNhanh getCN(int? id)
+  {
+    ChiNhanh cn = context.ChiNhanh.Find(id);
+    if (cn != null) return cn;
+    else return new ChiNhanh();
+  }
+
+  VaiTro getVT(int? id)
+  {
+    VaiTro vt = context.VaiTro.Find(id);
+    if (vt != null) return vt;
+    else return new VaiTro();
+  }
+
+}
+
+
+<tbody id="phanquyen" style="text-align:left">
+  @foreach (PhanQuyen pq in ViewBag.ListPQ)
+  {
+  <tr>
+    <td>@getCN(@pq.Idcn).TenCn
+      <input type="hidden" value="@pq.Id" id="idpq" />
+    </td>
+    <td>@getVT(@pq.Idvt).TenVt</td>
+    <td class="p-0 text-center">
+      <button value="@pq.Id" class="edit btn btn-primary" id="edit">Sửa</button>
+      <button value="@pq.Id" class="remove btn btn-danger">Xóa</button>
+    </td>
+  </tr>
+  }
+</tbody>

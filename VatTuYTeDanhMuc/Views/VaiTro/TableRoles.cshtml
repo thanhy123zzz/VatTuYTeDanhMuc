@@ -1,0 +1,352 @@
+﻿@{
+  webContext context = new webContext();
+  List<VaiTro> listvt()
+  {
+    return context.VaiTro.Where(x => x.Active == true).OrderBy(x => x.TenVt).ToList();
+  }
+}
+
+<style>
+  .wh-input input {
+    width: 17px;
+    height: 17px;
+  }
+
+  .color-clicked {
+    background-color: #f5f8fe;
+    font-weight: bold;
+    color: #0d6efd;
+  }
+
+</style>
+
+@if (TempData["ThongBao"] != null)
+{
+  <script type="text/javascript" charset="utf-8">
+        window.onload = function () {
+            alert("@Html.Raw(@TempData["ThongBao"])");
+    };
+  </script>
+}
+<div class="card mb-0" style="height:525px;">
+  <div class="" style="overflow-x:auto">
+    <div class="m-3" style="display:flex;flex-direction: row; overflow-x:auto; align-items: baseline;">
+      <div class="col-lg-4 border-dark" style="overflow: auto; max-height: 480px; min-width: 335px;" id="table1">
+        <table class="table table-bordered table-hover  mb-0 text-center h-100" id="myTable1">
+          <thead>
+            <tr>
+              <th class="p-0" @*colspan="2"*@>
+                <div class="group-btn">
+                  <div class="d-flex justify-content-end">
+                    <input placeholder="Tìm kiếm" id="search" type="text" style="height: 38px;" class="w-100" />
+                  </div>
+                </div>
+              </th>
+              <th class="p-0">
+                <div class="group-btn">
+                  <div class="d-flex justify-content-end">
+                    <button class="btn btn-primary" style="border-radius:0" id="add_new">
+                      <span>Thêm Mới</span>
+                    </button>
+                  </div>
+                </div>
+              </th>
+            </tr>
+            <tr style="background: #e9ecef;">
+              @*<th style="width:15px">STT</th>*@
+              <th class="text-center">Danh sách vai trò</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="vaitro" style="text-align:left">
+            @foreach (VaiTro vt in listvt())
+            {
+              <tr onclick="loadTableCN(@vt.Id)">
+                @*<td id="stt"></td>*@
+                <td>
+                  @vt.TenVt
+                  <input type="hidden" value="@vt.Id" id="idvt" />
+                </td>
+                <td style="text-align:center">
+                  <button value="@vt.Id" class="edit btn btn-primary" style="margin-right: 5px" id="edit">Sửa</button>
+                  <button value="@vt.Id" class="remove btn btn-danger">Xóa</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      @*<input type="hidden" id="idvt" />*@
+      <div class="col-lg-8 col-8 p-0 border-dark" style=" overflow: auto; max-height: 480px; min-width: 600px;">
+          <table class="table table-bordered  mb-0  text-center bg-light" id="myTable">
+            <thead style="position: sticky; top: 0; background: #e9ecef;">
+              <tr style="background: white;">
+                <th colspan="7" class="p-0">
+                  <div class="group-btn">
+                    <div class="d-flex justify-content-end">
+                      <button class="btn btn-primary" style="border-radius:0" type="button" id="btn-save">
+                        <span>Lưu</span>
+                      </button>
+                    </div>
+                  </div>
+                </th>
+              </tr>
+              <tr>
+                <th class="text-center" rowspan="2" style="vertical-align : middle;text-align:center;">Danh sách menu</th>
+                <th class="text-center" colspan="6">Chức năng</th>
+                @*<th class="text-center">Tùy chọn</th>*@
+              </tr>
+              <tr>
+                <th class="text-center">Nhập</th>
+                <th class="text-center">Sửa</th>
+                <th class="text-center">Xóa</th>
+                <th class="text-center">In</th>
+                <th class="text-center">Xuất</th>
+                <th class="text-center">Cá nhân</th>
+              </tr>
+            </thead>
+            <tbody id="chucnang">
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+
+
+  $("#vaitro tr").click(function () {
+    var selected = $(this).hasClass("color-clicked");
+    $("#vaitro tr").removeClass("color-clicked");
+    if (!selected)
+      $(this).addClass("color-clicked");
+  });
+
+  //ok
+  function loadTableCN(id) {
+    $('#vaitro').val(id);
+    $.ajax({
+      type: "post",
+      url: "/loadTableCN",
+      data: "idvt=" + id,
+      success: function (result) {       
+        $('#chucnang').replaceWith(result);
+      },
+      error: function () {
+        alert("Failhuhu");
+      }
+    });
+  }
+
+
+  $(document).ready(function () {
+
+    $("#btn-save").click(function () {
+      updateRoles();
+    });
+  });
+
+
+
+  function updateRoles() {
+    var listOfFunctionModel = new Array();
+    var idvt = $('#vaitro').val();
+    $("#myTable").find("tr:gt(2)").each(function () {
+      var idmenu = $(this).find("td:eq(0) input[type='hidden']").val();
+      //var idvt = $(this).find("td:eq(1) input[type='hidden']").val();
+      var nhap = $(this).find("td:eq(1) input[type='checkbox'] ").is(":checked");
+      var sua = $(this).find("td:eq(2) input[type='checkbox'] ").is(":checked");
+      var xoa = $(this).find("td:eq(3) input[type='checkbox'] ").is(":checked");
+      var print = $(this).find("td:eq(4) input[type='checkbox'] ").is(":checked");
+      var xuat = $(this).find("td:eq(5) input[type='checkbox'] ").is(":checked");
+      var canhan = $(this).find("td:eq(6) input[type='checkbox'] ").is(":checked");
+    
+      var FunctionModel = {};
+      FunctionModel.Idmenu = Number(idmenu);
+      FunctionModel.Idvt = Number(idvt);
+      FunctionModel.Nhap = nhap;
+      FunctionModel.Sua = sua;
+      FunctionModel.Xoa = xoa;
+      FunctionModel.In = print;
+      FunctionModel.Xuat = xuat;
+      FunctionModel.CaNhan = canhan;
+
+      listOfFunctionModel.push(FunctionModel);   
+    });
+
+    $.ajax({
+      url:'/updateRoles',
+      type:'POST',
+      dataType:'JSON',
+      contentType:'application/json; charset=utf-8',
+      data: JSON.stringify(listOfFunctionModel),
+      success:function(result) {      
+        alert(result);
+      },
+      error:function () {
+        alert("Loix");
+      }
+    });
+  }
+
+
+
+  //ok
+  function loadTableVT() {
+    var vaitro = $('#vaitro').val();
+    $.ajax({
+      type: "post",
+      url: "/loadTableVT",
+      data: "vaitro=" + vaitro,
+      success: function (result) {
+        $('#vaitro').replaceWith(result);
+      },
+      error: function () {
+        alert("Fail11");
+      }
+    });
+  }
+
+
+  //ok
+  $(function () {
+    $("#add_new").click(function () {
+      $.ajax({
+        type: "post",
+        url: "/addNewRow",
+        success: function (result) {
+          $("#vaitro").prepend(result)
+        },
+        error: function () {
+          alert("Failllllll");
+        }
+      });
+    });
+
+    //ok
+    $("#myTable1").on("click", ".add", function () {
+      var tenVT = $(this).parents('tr').find("td:eq(0) input[type='text']").val();
+      $.ajax({
+        type: "post",
+        url: "/addVT",
+        data: "tenVT=" + tenVT,
+        success: function (result) {
+          $.ajax({
+            type: "post",
+            url: "/loadTableVT",
+            success: function (result) {
+              $('#vaitro').replaceWith(result);
+            },
+            error: function () {
+              alert("Fail11");
+            }
+          });
+          alert(result);
+        },
+        error: function () {
+          alert("Fail222");
+        }
+      });
+    });
+
+    //ok
+    $("#myTable1").on("click", ".edit", function () {
+      var idvt = $(this).parents('tr').find("td:eq(0) input[type='hidden']").val();
+      var thiss = $(this);
+      $.ajax({
+        type: "post",
+        url: "/addNewRow",
+        data: "idvt=" + idvt,
+        success: function (result) {
+          thiss.parents('tr').replaceWith(result);
+        },
+        error: function () {
+          alert("Failload");
+        }
+      });
+    });
+
+    //ok
+    $("#myTable1").on("click", ".savevt", function () {
+      var idvt = $(this).parents('tr').find("td:eq(0) input[type='hidden']").val();
+      var tenvt = $(this).parents('tr').find("td:eq(0) input[type='text']").val();
+      $.ajax({
+        type: "post",
+        url: "/updatevaitro",
+        data: "idvt=" + idvt + "&tenvt=" + tenvt,
+        success: function (result) {
+          $.ajax({
+            type: "post",
+            url: "/loadTableVT",
+            success: function (result) {
+              $('#vaitro').replaceWith(result);
+            },
+            error: function () {
+              alert("Fail11");
+            }
+          });
+          alert(result);
+        },
+        error: function () {
+          alert("Fail222");
+        }
+      });
+    });
+  
+    //ok
+    $("#myTable1").on("click", ".remove", function () {
+      if (confirm('Bạn có muốn xoá?')) {
+        var idvt = $(this).attr("value");
+        $.ajax({
+          type: "post",
+          url: "/removeVT",
+          data: "idvt=" + idvt,
+          success: function (result) {
+            $.ajax({
+              type: "post",
+              url: "/loadTableVT",
+              success: function (result) {
+                $('#vaitro').replaceWith(result);
+              },
+              error: function () {
+                alert("Fail11");
+              }
+            });
+            alert(result);
+          },
+          error: function () {
+            alert("Fail");
+          }
+        });
+      }
+    });
+    $("#myTable1").on("click", ".btn-secondary", function () {
+      $.ajax({
+        type: "post",
+        url: "/loadTableVT",
+        success: function (result) {
+          $('#vaitro').replaceWith(result);
+        },
+        error: function () {
+          alert("Fail11");
+        }
+      });
+    });
+  })
+  //ok
+  $('#search').keyup(function () {
+    //var vaitro = $('#vaitro').val();
+    var key = $(this).val();
+    $.ajax({
+      type: "post",
+      url: "/searchTableVT",
+      data: "key=" + key, //"vaitro=" + vaitro + "&key=" + key,
+      success: function (result) {
+        $('#vaitro').replaceWith(result);        
+      },
+      error: function () {
+        alert("Faill11122");
+      }
+    });
+  });
+</script>
