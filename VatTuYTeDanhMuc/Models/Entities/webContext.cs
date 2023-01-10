@@ -20,16 +20,19 @@ namespace VatTuYTeDanhMuc.Models.Entities
         }
 
         public virtual DbSet<BaoHanh> BaoHanh { get; set; }
+        public virtual DbSet<CachXuat> CachXuat { get; set; }
         public virtual DbSet<ChiNhanh> ChiNhanh { get; set; }
         public virtual DbSet<ChiTietPhieuNhap> ChiTietPhieuNhap { get; set; }
         public virtual DbSet<ChiTietPhieuNhapTam> ChiTietPhieuNhapTam { get; set; }
         public virtual DbSet<ChiTietPhieuXuat> ChiTietPhieuXuat { get; set; }
+        public virtual DbSet<ChiTietPhieuXuatTam> ChiTietPhieuXuatTam { get; set; }
         public virtual DbSet<ChiTietThuNo> ChiTietThuNo { get; set; }
         public virtual DbSet<ChiTietTraNo> ChiTietTraNo { get; set; }
         public virtual DbSet<ChucNang> ChucNang { get; set; }
         public virtual DbSet<Dvt> Dvt { get; set; }
         public virtual DbSet<Dvvc> Dvvc { get; set; }
         public virtual DbSet<GiaTheoKhachHang> GiaTheoKhachHang { get; set; }
+        public virtual DbSet<GiaTheoNhomHangHoa> GiaTheoNhomHangHoa { get; set; }
         public virtual DbSet<HangHoa> HangHoa { get; set; }
         public virtual DbSet<HangSanXuat> HangSanXuat { get; set; }
         public virtual DbSet<HhDvt> HhDvt { get; set; }
@@ -98,6 +101,15 @@ namespace VatTuYTeDanhMuc.Models.Entities
                 entity.Property(e => e.Nvtao).HasColumnName("NVTao");
 
                 entity.Property(e => e.Slqd).HasColumnName("SLQD");
+            });
+
+            modelBuilder.Entity<CachXuat>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.TheoHsd).HasColumnName("TheoHSD");
+
+                entity.Property(e => e.TheoTgnhap).HasColumnName("TheoTGNhap");
             });
 
             modelBuilder.Entity<ChiNhanh>(entity =>
@@ -241,15 +253,13 @@ namespace VatTuYTeDanhMuc.Models.Entities
 
                 entity.Property(e => e.Active).HasDefaultValueSql("((1))");
 
-                entity.Property(e => e.Hsd)
-                    .HasColumnName("HSD")
-                    .HasColumnType("datetime");
+                entity.Property(e => e.Cktm).HasColumnName("CKTM");
+
+                entity.Property(e => e.Idctpn).HasColumnName("IDCTPN");
 
                 entity.Property(e => e.Iddvt).HasColumnName("IDDVT");
 
                 entity.Property(e => e.Idhh).HasColumnName("IDHH");
-
-                entity.Property(e => e.Idpn).HasColumnName("IDPN");
 
                 entity.Property(e => e.Idpx).HasColumnName("IDPX");
 
@@ -257,15 +267,16 @@ namespace VatTuYTeDanhMuc.Models.Entities
 
                 entity.Property(e => e.NgayTao).HasColumnType("datetime");
 
-                entity.Property(e => e.Nsx)
-                    .HasColumnName("NSX")
-                    .HasColumnType("datetime");
-
                 entity.Property(e => e.Nvsua).HasColumnName("NVSua");
 
                 entity.Property(e => e.Nvtao).HasColumnName("NVTao");
 
                 entity.Property(e => e.Slg).HasColumnName("SLG");
+
+                entity.HasOne(d => d.IdctpnNavigation)
+                    .WithMany(p => p.ChiTietPhieuXuat)
+                    .HasForeignKey(d => d.Idctpn)
+                    .HasConstraintName("FK__ChiTietPh__IDCTP__764C846B");
 
                 entity.HasOne(d => d.IddvtNavigation)
                     .WithMany(p => p.ChiTietPhieuXuat)
@@ -282,6 +293,29 @@ namespace VatTuYTeDanhMuc.Models.Entities
                     .HasForeignKey(d => d.Idpx)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_ChiTietPhieuXuat_PhieuXuat");
+            });
+
+            modelBuilder.Entity<ChiTietPhieuXuatTam>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Cktm).HasColumnName("CKTM");
+
+                entity.Property(e => e.Host).HasMaxLength(50);
+
+                entity.Property(e => e.Idctpn).HasColumnName("IDCTPN");
+
+                entity.Property(e => e.Iddvt).HasColumnName("IDDVT");
+
+                entity.Property(e => e.Idhh).HasColumnName("IDHH");
+
+                entity.Property(e => e.Idpx).HasColumnName("IDPX");
+
+                entity.Property(e => e.NgayTao).HasColumnType("datetime");
+
+                entity.Property(e => e.Nvtao).HasColumnName("NVTao");
+
+                entity.Property(e => e.Slg).HasColumnName("SLG");
             });
 
             modelBuilder.Entity<ChiTietThuNo>(entity =>
@@ -344,10 +378,6 @@ namespace VatTuYTeDanhMuc.Models.Entities
 
             modelBuilder.Entity<ChucNang>(entity =>
             {
-                entity.HasIndex(e => e.MaCnang)
-                    .HasName("unique_MaCNang")
-                    .IsUnique();
-
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Active).HasDefaultValueSql("((1))");
@@ -480,6 +510,28 @@ namespace VatTuYTeDanhMuc.Models.Entities
                     .WithMany(p => p.GiaTheoKhachHang)
                     .HasForeignKey(d => d.Idkh)
                     .HasConstraintName("FK_GiaTheoKhachHang_KhachHang");
+            });
+
+            modelBuilder.Entity<GiaTheoNhomHangHoa>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Active).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.Idnhh).HasColumnName("IDNHH");
+
+                entity.Property(e => e.NgaySua).HasColumnType("datetime");
+
+                entity.Property(e => e.NgayTao).HasColumnType("datetime");
+
+                entity.Property(e => e.Nvsua).HasColumnName("NVSua");
+
+                entity.Property(e => e.Nvtao).HasColumnName("NVTao");
+
+                entity.HasOne(d => d.IdnhhNavigation)
+                    .WithMany(p => p.GiaTheoNhomHangHoa)
+                    .HasForeignKey(d => d.Idnhh)
+                    .HasConstraintName("FK__GiaTheoNh__IDNHH__605D434C");
             });
 
             modelBuilder.Entity<HangHoa>(entity =>
@@ -710,6 +762,8 @@ namespace VatTuYTeDanhMuc.Models.Entities
                 entity.Property(e => e.Idcn).HasColumnName("IDCN");
 
                 entity.Property(e => e.Idnv).HasColumnName("IDNV");
+
+                entity.Property(e => e.LoaiKh).HasColumnName("LoaiKH");
 
                 entity.Property(e => e.MaKh)
                     .HasColumnName("MaKH")
@@ -1112,8 +1166,6 @@ namespace VatTuYTeDanhMuc.Models.Entities
 
                 entity.Property(e => e.Nvsua).HasColumnName("NVSua");
 
-                entity.Property(e => e.Nvtao).HasColumnName("NVTao");
-
                 entity.Property(e => e.SoHd)
                     .HasColumnName("SoHD")
                     .HasMaxLength(10);
@@ -1221,6 +1273,10 @@ namespace VatTuYTeDanhMuc.Models.Entities
 
                 entity.Property(e => e.Active).HasDefaultValueSql("((1))");
 
+                entity.Property(e => e.GhiChu)
+                    .HasMaxLength(10)
+                    .IsFixedLength();
+
                 entity.Property(e => e.Idcn).HasColumnName("IDCN");
 
                 entity.Property(e => e.Idkh).HasColumnName("IDKH");
@@ -1229,13 +1285,19 @@ namespace VatTuYTeDanhMuc.Models.Entities
 
                 entity.Property(e => e.Idtt).HasColumnName("IDTT");
 
+                entity.Property(e => e.NgayHd)
+                    .HasColumnName("NgayHD")
+                    .HasColumnType("datetime");
+
                 entity.Property(e => e.NgaySua).HasColumnType("datetime");
 
                 entity.Property(e => e.NgayTao).HasColumnType("datetime");
 
                 entity.Property(e => e.Nvsua).HasColumnName("NVSua");
 
-                entity.Property(e => e.Nvtao).HasColumnName("NVTao");
+                entity.Property(e => e.SoHd)
+                    .HasColumnName("SoHD")
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.SoPx)
                     .HasColumnName("SoPX")
@@ -1275,6 +1337,8 @@ namespace VatTuYTeDanhMuc.Models.Entities
                 entity.Property(e => e.Idcn).HasColumnName("IDCN");
 
                 entity.Property(e => e.Idctpn).HasColumnName("IDCTPN");
+
+                entity.Property(e => e.NgayNhap).HasColumnType("datetime");
 
                 entity.Property(e => e.Slcon).HasColumnName("SLCon");
 
@@ -1389,10 +1453,6 @@ namespace VatTuYTeDanhMuc.Models.Entities
 
             modelBuilder.Entity<VaiTro>(entity =>
             {
-                entity.HasIndex(e => e.MaVt)
-                    .HasName("unique_MaVT")
-                    .IsUnique();
-
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Active).HasDefaultValueSql("((1))");

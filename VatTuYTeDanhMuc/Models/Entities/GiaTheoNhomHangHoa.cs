@@ -7,19 +7,12 @@ using System.Collections.Generic;
 
 namespace VatTuYTeDanhMuc.Models.Entities
 {
-    public partial class NhomHangHoa
+    public partial class GiaTheoNhomHangHoa
     {
-        public NhomHangHoa()
-        {
-            GiaTheoNhomHangHoa = new HashSet<GiaTheoNhomHangHoa>();
-            HangHoa = new HashSet<HangHoa>();
-        }
-
         public int Id { get; set; }
-        public string MaNhh { get; set; }
-        public string TenNhh { get; set; }
-        public double? GiaTriMin { get; set; }
-        public double? GiaTriMax { get; set; }
+        public int? Idnhh { get; set; }
+        public double? Min { get; set; }
+        public double? Max { get; set; }
         public double? TiLeSi { get; set; }
         public double? TiLeLe { get; set; }
         public int? Nvtao { get; set; }
@@ -27,9 +20,7 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public int? Nvsua { get; set; }
         public DateTime? NgaySua { get; set; }
         public bool? Active { get; set; }
-        public int? Idcn { get; set; }
 
-        public virtual ICollection<GiaTheoNhomHangHoa> GiaTheoNhomHangHoa { get; set; }
-        public virtual ICollection<HangHoa> HangHoa { get; set; }
+        public virtual NhomHangHoa IdnhhNavigation { get; set; }
     }
 }

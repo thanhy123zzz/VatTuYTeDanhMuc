@@ -1,0 +1,34 @@
+﻿@model CachXuat
+<div class="card">
+            <div class="card-body"  >
+                    <form action="/CachXuat/UpdateCachXuat" method="post">
+                        <div class="forms-header text-center">						
+                            <h4 class="forms-title "><b>Cách xuất kho</b></h4>
+                        </div>
+                        <div class="forms-body">		
+                          <div class="form-group">
+                            <label style="margin:7px 0;">Cách xuất</label>
+                            <select name="CachXuat" class="form-select2">
+                        @if (Model.TheoTgnhap == true)
+                        {
+                            <option selected value="1">Nhập trước xuất trước</option>
+                            <option value="2">Xuất theo hạn sử dụng (thấp nhất xuất trước)</option>
+                        }else{
+                            <option value="1">Nhập trước xuất trước</option>
+                            <option selected value="2">Xuất theo hạn sử dụng (thấp nhất xuất trước)</option>
+                        }
+                        
+                            </select>
+                          </div>
+                        </div>
+                        <div class="forms-footer" style="justify-content:space-between">        
+                            <button type="button" class="btn btn-secondary" onclick="window.history.go(-1);">
+                                Quay lại
+                                </button>
+                            <input type="submit" class="btn btn-primary" value="Lưu">
+                        </div>
+                    </form>
+
+            </div>
+        </div>
+

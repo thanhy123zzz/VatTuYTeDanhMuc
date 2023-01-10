@@ -7,23 +7,19 @@ using System.Collections.Generic;
 
 namespace VatTuYTeDanhMuc.Models.Entities
 {
-    public partial class HhDvt
+    public partial class ChiTietPhieuXuatTam
     {
         public int Id { get; set; }
+        public string Host { get; set; }
+        public int? Idpx { get; set; }
         public int? Idhh { get; set; }
         public int? Iddvt { get; set; }
-        public double? TiLeSi { get; set; }
-        public double? TiLeLe { get; set; }
-        public double? GiaBanSi { get; set; }
-        public double? GiaBanLe { get; set; }
+        public double? Slg { get; set; }
+        public double? DonGia { get; set; }
+        public int? Idctpn { get; set; }
+        public double? Cktm { get; set; }
+        public double? Thue { get; set; }
         public int? Nvtao { get; set; }
         public DateTime? NgayTao { get; set; }
-        public int? Nvsua { get; set; }
-        public DateTime? NgaySua { get; set; }
-        public bool? Active { get; set; }
-        public double? SlquyDoi { get; set; }
-
-        public virtual Dvt IddvtNavigation { get; set; }
-        public virtual HangHoa IdhhNavigation { get; set; }
     }
 }

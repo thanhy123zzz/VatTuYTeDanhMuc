@@ -7,14 +7,10 @@ using System.Collections.Generic;
 
 namespace VatTuYTeDanhMuc.Models.Entities
 {
-    public partial class SoLuongHhcon
+    public partial class CachXuat
     {
         public int Id { get; set; }
-        public int? Idctpn { get; set; }
-        public DateTime? NgayNhap { get; set; }
-        public double? Slcon { get; set; }
-        public int? Idcn { get; set; }
-
-        public virtual ChiTietPhieuNhap IdctpnNavigation { get; set; }
+        public bool? TheoHsd { get; set; }
+        public bool? TheoTgnhap { get; set; }
     }
 }

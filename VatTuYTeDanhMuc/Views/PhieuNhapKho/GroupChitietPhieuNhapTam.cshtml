@@ -21,7 +21,7 @@
 @if (Model != null)
 {
      <div class="form-group p-2 mb-2" id="groupTTChiTiet" style="border-radius: 5px; border: 1px solid black;">
-                         <div class="row mb-2">
+                         <div class="row mb-1">
                             <label class="col-sm-1 col-lg-1 col-form-label">Tên hàng</label>
                           <div class="col-md-5 mb-2 col-lg-5">
                               <select id="selectHH" asp-for="@Model.Idhh" onchange="loadDVT()" class="form-select2">
@@ -48,7 +48,7 @@
                       </div>
 
                     </div>
-                       <div class="row mb-2">
+                       <div class="row mb-1">
                              <label class="col-sm-1 col-lg-1 col-form-label">VAT</label>
                              <div class="col-md-2 mb-2 col-lg-2">
                                   <select asp-for="@Model.Thue" id="ThueXuat">
@@ -74,7 +74,7 @@
                                  <input value="@format(Model.Slg*Model.DonGia)" type="text" class="form-control" oninput="inputThanhTien()" id="ThanhTien" placeholder="Thành tiền">
                               </div>
                             </div>
-                       <div class="row mb-2">
+                       <div class="row mb-1">
                               <label class="col-sm-1 col-lg-1 col-form-label">%CKTM</label>
                               <div class="col-md-2 mb-2 col-lg-2">
                                   <input value="@format(Model.Cktm)" type="text"  class="form-control" id="ChietKhau" placeholder="Chiếc khấu">
@@ -152,7 +152,7 @@
         }
 else{
            <div class="form-group p-2 mb-2" id="groupTTChiTiet" style="border-radius: 5px; border: 1px solid black;">
-                     <div class="row mb-2">
+                     <div class="row mb-1">
                         <label class="col-sm-1 col-lg-1 col-form-label">Tên hàng</label>
                       <div class="col-md-5 mb-2 col-lg-5">
                           <select id="selectHH" onchange="loadDVT()" class="form-select2">
@@ -179,7 +179,7 @@ else{
                   </div>
 
                 </div>
-                        <div class="row mb-2">
+                        <div class="row mb-1">
                          <label class="col-sm-1 col-lg-1 col-form-label">VAT</label>
                          <div class="col-md-2 mb-2 col-lg-2">
                               <select id="ThueXuat">
@@ -206,7 +206,7 @@ else{
                               <input type="text" class="form-control" oninput="inputThanhTien()" id="ThanhTien" placeholder="Thành tiền">
                           </div>
                         </div>
-                        <div class="row mb-2">
+                        <div class="row mb-1">
                           <label class="col-sm-1 col-lg-1 col-form-label">%CKTM</label>
                           <div class="col-md-2 mb-2 col-lg-2">
                               <input type="text"  class="form-control" id="ChietKhau" placeholder="Chiếc khấu">

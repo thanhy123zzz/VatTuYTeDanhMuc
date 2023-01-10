@@ -23,6 +23,7 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public string Sdt { get; set; }
         public string Email { get; set; }
         public string MaSoThue { get; set; }
+        public bool? LoaiKh { get; set; }
         public string GhiChu { get; set; }
         public int? Nvsale { get; set; }
         public string TenTaiKhoan { get; set; }
