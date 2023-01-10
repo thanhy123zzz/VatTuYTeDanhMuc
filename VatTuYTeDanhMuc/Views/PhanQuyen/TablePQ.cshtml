@@ -1,0 +1,358 @@
+﻿@{
+  webContext context = new webContext();
+
+  //List<TaiKhoan> ListTK()
+  //{
+  //  return context.TaiKhoan.Where(y => y.Loai == true && y.Active == true).ToList();
+  //}
+
+  TaiKhoan getTK(string tk)
+  {
+    TaiKhoan tkk = context.TaiKhoan.FirstOrDefault(a => a.TenTaiKhoan == tk);
+    if (tkk != null) return tkk;
+    else return null;
+  }
+
+  //NhanVien getNV(string tk)
+  //{
+  //  NhanVien nv = context.NhanVien.FirstOrDefault(x => x.TenTaiKhoan == tk);
+  //  if (nv != null) return nv;
+  //  else return null;
+  //}
+
+  List<NhanVien> ListNV()
+  {
+    return context.NhanVien.Where(z => z.Active == true).ToList();
+  }
+
+}
+
+
+<style>
+  .color-clicked {
+    background-color: #f5f8fe;
+    font-weight: bold;
+  }
+  .notadd {
+    background-color: #0d6efd8f;
+    border: #0d6efd8f;
+  }
+
+    .notadd:hover {
+      background-color: #0d6efd8f;
+      border: #0d6efd8f;
+    }
+
+</style>
+
+
+@if (TempData["ThongBao"] != null)
+{
+  <script type="text/javascript" charset="utf-8">
+        window.onload = function () {
+            alert("@Html.Raw(@TempData["ThongBao"])");
+    };
+  </script>
+}
+<div class="card mb-0" style="height:525px;">
+  <div class="" style="overflow-x:auto">
+    <div class="m-3" style="display:flex;flex-direction: row; overflow-x:auto; align-items: baseline;">
+      <div class="col-lg-1 border-dark" style="overflow: auto; max-height: 480px; min-width: 300px;" id="table1">
+        <table class="table table-bordered table-hover  mb-0 text-center h-100" id="myTable1">
+          <thead>
+            <tr>
+              <th class="p-0" @*colspan="2"*@>
+                <div class="group-btn">
+                  <div class="d-flex justify-content-end">
+                    <input placeholder="Tìm kiếm" id="search" type="text" style="height: 38px;" class="w-100" />
+                  </div>
+                </div>
+              </th>
+            </tr>
+            <tr style="background: #e9ecef;">
+              <th class="text-center">Nhân viên</th>
+            </tr>
+          </thead>
+          <tbody id="taikhoan" style="text-align:left">
+            @foreach (NhanVien nv in ListNV())
+            {
+              @if (@getTK(@nv.TenTaiKhoan) != null)
+              {
+                <tr onclick="loadTablePQ(@getTK(@nv.TenTaiKhoan).Id)">
+                  <td style="color: #0d6efd">
+                    @nv.TenNv
+                    <input type="hidden" value="@nv.TenTaiKhoan" id="tentk" />
+                  </td>
+                </tr>
+              }
+              else
+              {
+                <tr onclick="chuacaptk()">
+                  <td>
+                    @nv.TenNv
+                    <input type="hidden" value="@nv.TenTaiKhoan" id="tentk" />
+                  </td>
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="col-lg-8 col-8 p-0 border-dark" style=" overflow: auto; max-height: 480px; min-width: 600px;">
+        <table class="table table-bordered  mb-0  text-center bg-light" id="myTable">
+          <thead style="position: sticky; top: 0; background: #e9ecef;">
+            <tr style="background: white;">
+              <th colspan="7" class="p-0">
+                <div class="group-btn">
+                  <div class="d-flex justify-content-end">
+                    <button class="btn btn-primary notadd" style="border-radius:5px" id="btn_add">
+                      <span>Thêm Mới</span>
+                    </button>
+                  </div>
+                </div>
+              </th>
+            </tr>
+            <tr>
+              <th class="text-center" style="vertical-align : middle;text-align:center;">Chi nhánh</th>
+              <th class="text-center">Vai Trò</th>
+              <th class="text-center">Tùy chọn</th>
+            </tr>
+          </thead>
+          <tbody id="phanquyen">
+            <tr>
+              <td>..</td>
+              <td>..</td>
+              <td>..</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+
+  function changeCancel() {
+    $("#btn_add").unbind('click');
+    var element = document.getElementById('btn_add');
+    element.setAttribute('class', 'btn btn-primary notadd');
+  }
+
+  function changeAdd() {
+    var element = document.getElementById('btn_add');
+    element.setAttribute('class', 'btn btn-primary');
+
+    $("#btn_add").click(function () {
+      $.ajax({
+        type: "post",
+        url: "/addNewRowPQ",
+        success: function (result) {
+          $("#phanquyen").prepend(result)
+          changeCancel();
+        },
+        error: function () {
+          alert("Failllllll");
+        }
+      });
+    });
+  }
+
+
+  //okk
+  function loadTablePQ(id) {
+    $('#taikhoan').val(id);
+    $.ajax({
+      type: "post",
+      url: "/loadTablePQ",
+      data: "idtk=" + id,
+      success: function (result) {
+        $('#phanquyen').replaceWith(result);
+        changeCancel();
+        changeAdd();
+      },
+      error: function () {
+        alert("Failhuhu");
+      }
+    });
+  }
+
+  //okk
+  function chuacaptk() {
+    $('#taikhoan').val(0);
+    $.ajax({
+      type: "post",
+      url: "/loadTablePQ",
+      data: "idtk=" + 0,
+      success: function (result) {
+        $('#phanquyen').replaceWith(result);
+        alert("Nhân viên chưa được cấp tài khoản!");
+        changeCancel();
+      },
+      error: function () {
+        alert("Failhuhu");
+      }
+    });
+  }
+
+
+  //okk
+  $('#search').keyup(function () {
+    var key = $(this).val();
+    $.ajax({
+      type: "post",
+      url: "/searchTableNV",
+      data: "key=" + key,
+      success: function (result) {
+        $('#taikhoan').replaceWith(result);
+      },
+      error: function () {
+        alert("Faill11122");
+      }
+    });
+  });
+
+  //okk
+  $(function () {
+    $(".add_new").click(function () {
+      $.ajax({
+        type: "post",
+        url: "/addNewRowPQ",
+        success: function (result) {
+          $("#phanquyen").prepend(result)
+          changeCancel();
+        },
+        error: function () {
+          alert("Failllllll");
+        }
+      });
+    });
+
+    //okk
+    $("#myTable").on("click", ".btn-secondary", function () {
+      var id = $('#taikhoan').val();
+      $.ajax({
+        type: "post",
+        url: "/loadTablePQ",
+        data: "idtk=" + id,
+        success: function (result) {
+          $('#phanquyen').replaceWith(result);
+          changeAdd();
+        },
+        error: function () {
+          alert("Failhuhu");
+        }
+      });
+    });
+
+    //okk
+    $("#myTable").on("click", ".add", function () {
+      var idtk = $('#taikhoan').val();
+      var idcn = $('#idcn').val();
+      var idvt = $('#idvt').val();
+        $.ajax({
+          type: "post",
+          url: "/AddPQ",
+          data: "idcn=" + idcn + "&idtk=" + idtk + "&idvt=" + idvt,
+          success: function (result) {
+            if (result == "Thêm thành công") {
+              loadTablePQ(idtk);
+            }        
+            alert(result);
+          },
+          error: function () {
+            alert("Fail222");
+          }
+        });
+    });
+
+
+    //okk
+    $("#myTable").on("click", ".remove", function () {
+      if (confirm('Bạn có muốn xoá?')) {
+        var idtk = $('#taikhoan').val();
+        var id = $(this).attr("value");
+        $.ajax({
+          type: "post",
+          url: "/removePQ",
+          data: "id=" + id,
+          success: function (result) {
+            loadTablePQ(idtk);
+            alert(result);
+          },
+          error: function () {
+            alert("Fail");
+          }
+        });
+      }
+    });
+
+    //okk
+    $("#myTable").on("click", ".edit", function () {
+      var idpq = $(this).parents('tr').find("td:eq(0) input[type='hidden']").val();
+      $('#idpq').val(idpq);
+      var thiss = $(this);
+      $.ajax({
+        type: "post",
+        url: "/addNewRowPQ",
+        data: "idpq=" + idpq,
+        success: function (result) {
+          thiss.parents('tr').replaceWith(result);
+          loadPQCN();
+        },
+        error: function () {
+          alert("Failload");
+        }
+      });
+    });
+
+    //okk
+    $("#myTable").on("click", ".savepq", function () {
+      var idtk = $('#taikhoan').val();
+      var idpq = $(this).parents('tr').find("td:eq(0) input[type='hidden']").val();
+      var idcn = $(this).parents('tr').find("td:eq(0) select").val();
+      var idvt = $(this).parents('tr').find("td:eq(1) select").val();
+      $.ajax({
+        type: "post",
+        url: "/updatepq",
+        data: "idpq=" + idpq + "&idcn=" + idcn + "&idvt=" + idvt,
+        success: function (result) {
+          loadTablePQ(idtk);
+          alert(result);
+        },
+        error: function () {
+          alert("Fail222");
+        }
+      });
+    });
+
+
+  });
+
+  //okk
+  function loadPQCN() {
+    var idtk = $('#taikhoan').val();
+    var idcn = $('#idcn').val();
+    var idpq = $('#idpq').val();
+    $.ajax({
+      type: "post",
+      url: "/loadPQCN",
+      data: "idtk=" + idtk + "&idcn=" + idcn + "&idpq=" + idpq,
+      success: function (result) {
+        $('.vaitro').replaceWith(result);
+      },
+      error: function () {
+        alert("Failhu");
+      }
+    });
+  }
+
+  //okk
+  $("#myTable1 tr").click(function () {
+    var selected = $(this).hasClass("color-clicked");
+    $("#myTable1 tr").removeClass("color-clicked");
+    if (!selected)
+      $(this).addClass("color-clicked");
+  });
+
+
+</script>

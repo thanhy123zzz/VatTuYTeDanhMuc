@@ -1,0 +1,35 @@
+﻿@{
+  var pq = ViewBag.PhanQuyen;
+  webContext context = new webContext();
+  VaiTro getVT(int? id)
+  {
+    VaiTro vtt = context.VaiTro.FirstOrDefault(a => a.Id == id);
+    if (vtt != null) return vtt;
+    else return new VaiTro();
+  }
+}
+
+@if (pq != null)
+{
+  <td class="p-0 vaitro">
+    <select id="idvt" onchange="" class="w-100 form-select" style="height: 38px;">
+      <option selected value="@pq.Idvt">@getVT(@pq.Idvt).TenVt</option>
+      @foreach (VaiTro vt in ViewBag.ListPQCN)
+      {
+        <option value="@vt.Id">@vt.TenVt</option>
+      }
+    </select>
+  </td>
+}
+else 
+{ 
+  <td class="p-0 vaitro">
+    <select id="idvt" onchange="" class="w-100 form-select" style="height: 38px;">
+      <option selected disabled>---Chọn vai trò---</option>
+      @foreach (VaiTro vt in ViewBag.ListPQCN)
+      {
+        <option value="@vt.Id">@vt.TenVt</option>
+      }
+    </select>
+  </td>
+}

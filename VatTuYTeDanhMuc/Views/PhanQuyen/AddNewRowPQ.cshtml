@@ -1,0 +1,77 @@
+﻿@model VatTuYTeDanhMuc.Models.Entities.PhanQuyen
+@{
+  webContext context = new webContext();
+
+  List<VaiTro> ListVT()
+  {
+    return context.VaiTro.Where(z => z.Active == true).ToList();
+  }
+
+  List<ChiNhanh> ListCN()
+  {
+    return context.ChiNhanh.Where(x => x.Active == true).ToList();
+  }
+
+  var pq = ViewBag.PhanQuyen;
+}
+@if (pq != null)
+{
+<tr>
+  <td class="p-0 chinhanh">
+    <input type="hidden" value="@pq.Id" id="idpq" />
+    <select id="idcn" onchange="loadPQCN()" class="w-100 form-select" style="height: 38px;">
+      @foreach (ChiNhanh cn in ListCN())
+      {
+        if (@pq.Idcn == cn.Id)
+        {
+          <option selected value="@cn.Id">@cn.TenCn</option>
+        }
+        else
+        {
+          <option value="@cn.Id">@cn.TenCn</option>
+        }
+      }
+    </select>
+  </td>
+  <td class="p-0 vaitro">
+   
+  </td>
+  <td class="p-0 text-center">
+    <button class="btn btn-primary savepq" style="border-radius: 7px" id='edit'>
+      <span>Lưu</span>
+    </button>
+    <a class='btn btn-secondary' href='#'>Huỷ</a>
+  </td>
+</tr>
+}
+else
+{
+  <tr>
+    <td class="p-0 chinhanh">
+      <input type="hidden" value="0" id="idpq" />
+      <select id="idcn" onchange="loadPQCN()" class="w-100 form-select" style="height: 38px;">
+        <option selected disabled>--- Chọn chi nhánh ---</option>
+        @foreach (ChiNhanh cn in ListCN())
+        {
+          <option value="@cn.Id">@cn.TenCn</option>
+        }
+      </select>
+    </td>
+    <td class="p-0 vaitro">
+      <select id="idvt" onchange="" class="w-100 form-select" style="height: 38px;">
+        <option selected disabled>--- Chọn vai trò ---</option>
+        @foreach (VaiTro vt in ListVT())
+        {
+          <option value="@vt.Id">@vt.TenVt</option>
+        }
+      </select>
+    </td>
+    <td class="p-0 text-center">
+      <button class="btn btn-primary add" style="border-radius:7px">
+        <span>Thêm</span>
+      </button>
+      <a class='btn btn-secondary' href='#'>Huỷ</a>
+    </td>
+  </tr>
+}
+

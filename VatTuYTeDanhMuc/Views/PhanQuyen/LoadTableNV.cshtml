@@ -1,0 +1,46 @@
+﻿@{
+  webContext context = new webContext();
+
+  TaiKhoan getTK(string tk)
+  {
+    TaiKhoan tkk = context.TaiKhoan.FirstOrDefault(a => a.TenTaiKhoan == tk);
+    if (tkk != null) return tkk;
+    else return null;
+  }
+
+}
+
+
+<tbody id="taikhoan" style="text-align:left">
+  @foreach (NhanVien nv in ViewBag.loadTableNV)
+  {
+    @if (@getTK(@nv.TenTaiKhoan) != null)
+    {
+      <tr onclick="loadTablePQ(@getTK(@nv.TenTaiKhoan).Id)">
+        <td style="color: #0d6efd">
+          @nv.TenNv
+          <input type="hidden" value="@nv.TenTaiKhoan" id="tentk" />
+        </td>
+      </tr>
+    }
+    else
+    {
+      <tr onclick="chuacaptk()">
+        <td>
+          @nv.TenNv
+          <input type="hidden" value="@nv.TenTaiKhoan" id="tentk" />
+        </td>
+      </tr>
+    }
+
+  }
+</tbody>
+
+<script>
+  $("#myTable1 tr").click(function () {
+    var selected = $(this).hasClass("color-clicked");
+    $("#myTable1 tr").removeClass("color-clicked");
+    if (!selected)
+      $(this).addClass("color-clicked");
+  });
+</script>

@@ -1,0 +1,27 @@
+﻿
+
+<tbody id="vaitro" style="text-align:left">
+  @foreach (VaiTro vt in ViewBag.loadTableVT)
+  {
+    <tr onclick="loadTableCN(@vt.Id)">
+      <td>
+        @vt.TenVt
+        <input type="hidden" value="@vt.Id" id="idvt" />
+      </td>
+      <td style="text-align:center;">
+        <button value="@vt.Id" class="edit btn btn-primary" style="margin-right: 5px" id="edit">Sửa</button>
+        <button value="@vt.Id" class="remove btn btn-danger">Xóa</button>
+      </td>
+    </tr>
+
+  }
+</tbody>
+
+<script>
+  $("#vaitro tr").click(function () {
+    var selected = $(this).hasClass("color-clicked");
+    $("#vaitro tr").removeClass("color-clicked");
+    if (!selected)
+      $(this).addClass("color-clicked");
+  });
+</script>
