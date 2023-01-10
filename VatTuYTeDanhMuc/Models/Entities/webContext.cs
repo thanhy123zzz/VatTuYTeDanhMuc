@@ -253,6 +253,8 @@ namespace VatTuYTeDanhMuc.Models.Entities
 
                 entity.Property(e => e.Active).HasDefaultValueSql("((1))");
 
+                entity.Property(e => e.Cktm).HasColumnName("CKTM");
+
                 entity.Property(e => e.Idctpn).HasColumnName("IDCTPN");
 
                 entity.Property(e => e.Iddvt).HasColumnName("IDDVT");
@@ -296,6 +298,8 @@ namespace VatTuYTeDanhMuc.Models.Entities
             modelBuilder.Entity<ChiTietPhieuXuatTam>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Cktm).HasColumnName("CKTM");
 
                 entity.Property(e => e.Host).HasMaxLength(50);
 
@@ -374,10 +378,6 @@ namespace VatTuYTeDanhMuc.Models.Entities
 
             modelBuilder.Entity<ChucNang>(entity =>
             {
-                entity.HasIndex(e => e.MaCnang)
-                    .HasName("unique_MaCNang")
-                    .IsUnique();
-
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Active).HasDefaultValueSql("((1))");
@@ -1453,10 +1453,6 @@ namespace VatTuYTeDanhMuc.Models.Entities
 
             modelBuilder.Entity<VaiTro>(entity =>
             {
-                entity.HasIndex(e => e.MaVt)
-                    .HasName("unique_MaVT")
-                    .IsUnique();
-
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Active).HasDefaultValueSql("((1))");

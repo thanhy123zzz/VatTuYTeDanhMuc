@@ -21,7 +21,7 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public int? Nvsua { get; set; }
         public DateTime? NgaySua { get; set; }
         public bool? Active { get; set; }
-        public int? SlquyDoi { get; set; }
+        public double? SlquyDoi { get; set; }
 
         public virtual Dvt IddvtNavigation { get; set; }
         public virtual HangHoa IdhhNavigation { get; set; }

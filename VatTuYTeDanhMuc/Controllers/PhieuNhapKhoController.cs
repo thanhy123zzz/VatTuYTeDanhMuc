@@ -28,7 +28,7 @@ namespace VatTuYTeDanhMuc.Controllers
             return View("PhieuNhapKho");
         }
         [HttpPost("/them-phieu-nhap")]
-        public IActionResult ThemPhieuNhap(PhieuNhap phieuNhap,string NgayHd, string NgayTao, IFormCollection form)
+        public IActionResult ThemPhieuNhap(PhieuNhap phieuNhap,string NgayHd, string NgayTao)
         {
             webContext context = new webContext();
             SoLuongHhcon soLuongHhcon = new SoLuongHhcon();
@@ -43,6 +43,7 @@ namespace VatTuYTeDanhMuc.Controllers
                     phieuNhap.Active = true;
                     phieuNhap.Idcn = 1;
                     phieuNhap.Idnv = 3;
+                    phieuNhap.SoPn = getSoPhieu();
                     context.PhieuNhap.Add(phieuNhap);
                     context.SaveChanges();
                 foreach (ChiTietPhieuNhapTam t in ListCTPNT)
@@ -69,7 +70,7 @@ namespace VatTuYTeDanhMuc.Controllers
 
                     SoLuongHhcon sl = new SoLuongHhcon();
                     sl.Idctpn = ct.Id;
-                    sl.Slcon = ct.Slg;
+                    sl.Slcon = Math.Round((double)ct.Slg, 2);
                     sl.Idcn = 1;
                     sl.NgayNhap = phieuNhap.NgayTao;
                     context.SoLuongHhcon.Add(sl);
@@ -265,6 +266,40 @@ namespace VatTuYTeDanhMuc.Controllers
                 }
             }
             throw new Exception("No network adapters with an IPv4 address in the system!");
+        }
+        string getSoPhieu()
+        {
+            webContext context = new webContext();
+            QuyDinhMa qd = context.QuyDinhMa.Find(1);
+            //ID chi nhánh
+            string cn = "1";
+
+            DateTime d = DateTime.Now;
+            string ngayThangNam = d.ToString("yyMMdd");
+            string SoPhieu = cn + "_" + qd.TiepDauNgu + ngayThangNam;
+            var list = context.SoThuTu.FromSqlRaw("select*from SoThuTu where '" + DateTime.Now.ToString("yyyy-MM-dd") + "' = Convert(date,ngay) and Loai = 'NhapKho'").FirstOrDefault();
+            int stt;
+            if (list == null)
+            {
+                SoThuTu sttt = new SoThuTu();
+                sttt.Ngay = DateTime.ParseExact(DateTime.Now.ToString("dd-MM-yyyy"), "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                sttt.Stt = 0;
+                sttt.Loai = "NhapKho";
+                context.SoThuTu.Add(sttt);
+                context.SaveChanges();
+                stt = 1;
+            }
+            else
+            {
+                stt = (Int32)list.Stt + 1;
+            }
+            SoPhieu += stt;
+            while (true)
+            {
+                if (qd.DoDai == SoPhieu.Length) break;
+                SoPhieu = SoPhieu.Insert(SoPhieu.Length - stt.ToString().Length, "0");
+            }
+            return SoPhieu;
         }
     }
 }
