@@ -12,7 +12,8 @@
     }
     var a = context.ChiTietPhieuNhap.Select(x => x.SoLo).Distinct().ToList();
 
-    string getDVT(){
+    string getDVT()
+    {
         HangHoa hh = context.HangHoa.Find(Model.Idhh);
         Dvt dvt = context.Dvt.Find(hh.Iddvtchinh);
         return dvt.TenDvt;
@@ -20,263 +21,272 @@
 }
 @if (Model != null)
 {
-     <div class="form-group p-2 mb-2" id="groupTTChiTiet" style="border-radius: 5px; border: 1px solid black;">
-                         <div class="row mb-1">
-                            <label class="col-sm-1 col-lg-1 col-form-label">Tên hàng</label>
-                          <div class="col-md-5 mb-2 col-lg-5">
-                              <select id="selectHH" asp-for="@Model.Idhh" onchange="loadDVT()" class="form-select2">
-                                <option selected disabled value=""></option>
-                                    @foreach (HangHoa h in getListHH())
-                                    {
-                                           <option value="@h.Id">@h.TenHh</option>
-                                    }
-                              </select>
-                          </div>
-                          <label class="col-sm-1 col-lg-1 col-form-label">Số lô</label>
-                              <div class="col-md-2 mb-2 col-lg-2">
-                                <select id="SoLo" asp-for="@Model.SoLo">
-                                    <option selected disabled value=""></option>
-                                        @foreach (string s in a)
-                                        {
-                                            <option value="@s">@s</option>
-                                        }
-                                  </select>
-                             </div>
-                          <label class="col-sm-1 col-lg-1 col-form-label">ĐV tính</label>
-                      <div class="col-sm-2 col-lg-2">
-                          <input type="text" class="form-control" id="DVT" value="@getDVT()" readonly placeholder="Đơn vị tính">
-                      </div>
-
-                    </div>
-                       <div class="row mb-1">
-                             <label class="col-sm-1 col-lg-1 col-form-label">VAT</label>
-                             <div class="col-md-2 mb-2 col-lg-2">
-                                  <select asp-for="@Model.Thue" id="ThueXuat">
-                                    <option selected value="0">0</option>
-                                    <option value="5">5</option>
-                                    <option value="10">10</option>
-                                    <option value="15">15</option>
-                                    <option value="20">20</option>
-                                    <option value="25">25</option>
-                                    <option value="30">30</option>
-                                  </select>
-                              </div>
-                              <label class="col-sm-1 col-lg-1 col-form-label">Số lượng</label>
-                              <div class="col-md-2 mb-2 col-lg-2">
-                                  <input value="@format(Model.Slg)" type="text" class="form-control" oninput="inputSLHH()" id="SLHH" placeholder="Số lượng">
-                              </div>
-                              <label class="col-sm-1 col-lg-1 col-form-label">Đơn giá</label>
-                              <div class="col-md-2 mb-2 col-lg-2">
-                                  <input value="@format(Model.DonGia)" type="text" class="form-control" oninput="inputDoGia()" id="DonGia" placeholder="Đơn giá">
-                              </div>
-                              <label class="col-sm-1 col-lg-1 col-form-label">Th.Tiền</label>
-                              <div class="col-md-2 mb-2 col-lg-2">
-                                 <input value="@format(Model.Slg*Model.DonGia)" type="text" class="form-control" oninput="inputThanhTien()" id="ThanhTien" placeholder="Thành tiền">
-                              </div>
-                            </div>
-                       <div class="row mb-1">
-                              <label class="col-sm-1 col-lg-1 col-form-label">%CKTM</label>
-                              <div class="col-md-2 mb-2 col-lg-2">
-                                  <input value="@format(Model.Cktm)" type="text"  class="form-control" id="ChietKhau" placeholder="Chiếc khấu">
-                              </div>
-                              <label class="col-sm-1 col-lg-1 col-form-label">Hạn SD</label>
-                              <div class="col-md-2 mb-2 col-lg-2">
-                                  <input type="text" value="@Model.Hsd.Value.ToString("dd-MM-yyyy")" class="form-control" id="HanDung" placeholder="Your Name">
-                              </div>
-                              <label class="col-sm-1 col-lg-1 col-form-label">Ngày SX</label>
-                              <div class="col-md-2 mb-2 col-lg-2">
-                                 <input type="text" value="@Model.Nsx.Value.ToString("dd-MM-yyyy")" class="form-control" id="NgaySX" placeholder="Your Name">
-                              </div>
-                              <div class="col-md-3 mb-2 col-lg-3 d-flex justify-content-end">
-                                     <button class="btn btn-primary" onclick="editChiTietPhieu('@Model.Id')" type="button">Lưu</button>
-                                     <button class="btn btn-secondary" style="margin-left:5px;" onclick="editChitietPhieuNhapTam(0)" type="button">Huỷ</button>
-                              </div>
-                            </div>
-                            <script>
-                                   $('#ChietKhau').on('input',function(){
-                                    if(getValue(this.value)>100){
-                                        $(this).val('');
-                                        alert('Chiết khấu không quá 100%');
-                                    }
-                                });
-                                function getValue(str){
-                                   return Number(str.replace(/[^0-9.-]+/g,""));
-                                }
-                                function checkNumber(str) {
-                                    return /[0-9,.\-$]+/.test(str);
-                                }
-                                $('#SLHH,#ThanhTien,#DonGia,#GiaBan,#ChietKhau').on('blur', format);
-                                function format(){
-                                if(checkNumber(this.value)){
-                                    const value = this.value.replace(/,/g, '');
-                                    this.value = parseFloat(value).toLocaleString('en-US', {
-                                    style: 'decimal',
-                                        maximumFractionDigits: 2,
-                                        minimumFractionDigits: 2
-                                        })
-                                }
-                                }
-                                function toDecimal(str){
-                                   return parseFloat(str).toLocaleString('en-US', {
-                                                    style: 'decimal',
-                                                    maximumFractionDigits: 2,
-                                                    minimumFractionDigits: 2
-                                    });
-                                }
-                                $('#HanDung,#NgaySX').datetimepicker({
-                                          locale: 'vi',
-                                          useStrict: true,
-                                          format:"DD-MM-yyyy",
-                                          icons: {
-                                            date: "bi bi-calendar2-date",
-                                            up: "bi bi-chevron-up",
-                                            down: "bi bi-chevron-down",
-                                            previous: 'bi bi-chevron-left',
-                                            next: 'bi bi-chevron-right',
-                                            time: "bi bi-clock"
-                                        }
-                                      });
-                                  $('#selectHH').selectize({
-                                            sortField: 'text',
-                                            dataAttr: 'data-extra',
-                                            searchField: ['value','text','Ma']
-                                      });
-                                    $('#SoLo,#ThueXuat').selectize({
-                                      create: true,
-                                      dataAttr: 'data-extra',
-                                      searchField: ['value','text','Ma']
-                                     });
-                            </script>
-                    </div>
-    
-        }
-else{
-           <div class="form-group p-2 mb-2" id="groupTTChiTiet" style="border-radius: 5px; border: 1px solid black;">
-                     <div class="row mb-1">
-                        <label class="col-sm-1 col-lg-1 col-form-label">Tên hàng</label>
-                      <div class="col-md-5 mb-2 col-lg-5">
-                          <select id="selectHH" onchange="loadDVT()" class="form-select2">
-                            <option selected disabled value=""></option>
+    <div class="form-group p-2 mb-2" id="groupTTChiTiet" style="border-radius: 5px; border: 1px solid black;">
+        <div class="row mb-1">
+            <label class="col-sm-1 col-lg-1 col-form-label">Tên hàng</label>
+            <div class="col-md-5 mb-2 col-lg-5">
+                <select id="selectHH" asp-for="@Model.Idhh" onchange="loadDVT()" class="form-select2">
+                    <option selected disabled value=""></option>
                     @foreach (HangHoa h in getListHH())
                     {
-                                <option value="@h.Id">@h.TenHh</option>
+                        <option value="@h.Id">@h.TenHh</option>
                     }
-                          </select>
-                      </div>
-                      <label class="col-sm-1 col-lg-1 col-form-label">Số lô</label>
-                          <div class="col-md-2 mb-2 col-lg-2">
-                              <select id="SoLo">
-                                <option selected disabled value=""></option>
+                </select>
+            </div>
+            <label class="col-sm-1 col-lg-1 col-form-label">Số lô</label>
+            <div class="col-md-2 mb-2 col-lg-2">
+                <select id="SoLo" asp-for="@Model.SoLo">
+                    <option selected disabled value=""></option>
                     @foreach (string s in a)
                     {
-                                                <option value="@s">@s</option>
+                        <option value="@s">@s</option>
                     }
-                              </select>
-                         </div>
-                      <label class="col-sm-1 col-lg-1 col-form-label">ĐV tính</label>
-                  <div class="col-sm-2 col-lg-2">
-                      <input type="text" class="form-control" id="DVT" readonly placeholder="Đơn vị tính">
-                  </div>
+                </select>
+            </div>
+            <label class="col-sm-1 col-lg-1 col-form-label">ĐV tính</label>
+            <div class="col-sm-2 col-lg-2">
+                <input type="text" class="form-control" id="DVT" value="@getDVT()" readonly placeholder="Đơn vị tính">
+            </div>
 
-                </div>
-                        <div class="row mb-1">
-                         <label class="col-sm-1 col-lg-1 col-form-label">VAT</label>
-                         <div class="col-md-2 mb-2 col-lg-2">
-                              <select id="ThueXuat">
-                                <option selected disabled value=""></option>
-                                <option value="">0</option>
-                                <option value="5">5</option>
-                                <option value="10">10</option>
-                                <option value="15">15</option>
-                                <option value="20">20</option>
-                                <option value="25">25</option>
-                                <option value="30">30</option>
-                              </select>
-                          </div>
-                          <label class="col-sm-1 col-lg-1 col-form-label">Số lượng</label>
-                          <div class="col-md-2 mb-2 col-lg-2">
-                              <input type="text" class="form-control" oninput="inputSLHH()" id="SLHH" placeholder="Số lượng">
-                          </div>
-                          <label class="col-sm-1 col-lg-1 col-form-label">Đơn giá</label>
-                          <div class="col-md-2 mb-2 col-lg-2">
-                              <input type="text" class="form-control" oninput="inputDoGia()" id="DonGia" placeholder="Đơn giá">
-                          </div>
-                          <label class="col-sm-1 col-lg-1 col-form-label">Th.Tiền</label>
-                          <div class="col-md-2 mb-2 col-lg-2">
-                              <input type="text" class="form-control" oninput="inputThanhTien()" id="ThanhTien" placeholder="Thành tiền">
-                          </div>
-                        </div>
-                        <div class="row mb-1">
-                          <label class="col-sm-1 col-lg-1 col-form-label">%CKTM</label>
-                          <div class="col-md-2 mb-2 col-lg-2">
-                              <input type="text"  class="form-control" id="ChietKhau" placeholder="Chiếc khấu">
-                          </div>
-                          <label class="col-sm-1 col-lg-1 col-form-label">HSX</label>
-                          <div class="col-md-2 mb-2 col-lg-2">
-                              <input type="text" value="@DateTime.Now.ToString("dd-MM-yyyy")" class="form-control" id="HanDung" placeholder="Your Name">
-                          </div>
-                          <label class="col-sm-1 col-lg-1 col-form-label">NSX</label>
-                          <div class="col-md-2 mb-2 col-lg-2">
-                              <input type="text" value="@DateTime.Now.ToString("dd-MM-yyyy")" class="form-control" id="NgaySX" placeholder="Your Name">
-                          </div>
-                          <div class="col-md-3 mb-2 col-lg-3 d-flex justify-content-end">
-                             <button class="btn btn-primary" onclick="addChiTietPhieu()" type="button">Thêm </button>
-                          </div>
-                        </div>
-                             <script>
-                                     $('#ChietKhau').on('input',function(){
-                                        if(getValue(this.value)>100){
-                                            $(this).val('');
-                                            alert('Chiết khấu không quá 100%');
-                                        }
-                                    });
-                                    function getValue(str){
-                                       return Number(str.replace(/[^0-9.-]+/g,""));
-                                    }
-                                    function checkNumber(str) {
-                                        return /[0-9,.\-$]+/.test(str);
-                                    }
-                                    $('#SLHH,#ThanhTien,#DonGia,#GiaBan,#ChietKhau').on('blur', format);
-                                    function format(){
-                                    if(checkNumber(this.value)){
-                                            const value = this.value.replace(/,/g, '');
-                                        this.value = parseFloat(value).toLocaleString('en-US', {
-                                        style: 'decimal',
-                                            maximumFractionDigits: 2,
-                                            minimumFractionDigits: 2
-                                            })
-                                    }
-                                    }
-                                    function toDecimal(str){
-                                       return parseFloat(str).toLocaleString('en-US', {
-                                                        style: 'decimal',
-                                                        maximumFractionDigits: 2,
-                                                        minimumFractionDigits: 2
-                                        });
-                                    }
-                                    $('#HanDung,#NgaySX').datetimepicker({
-                                      locale: 'vi',
-                                      useStrict: true,
-                                      format:"DD-MM-yyyy",
-                                      icons: {
-                                        date: "bi bi-calendar2-date",
-                                        up: "bi bi-chevron-up",
-                                        down: "bi bi-chevron-down",
-                                        previous: 'bi bi-chevron-left',
-                                        next: 'bi bi-chevron-right',
-                                        time: "bi bi-clock"
-                                    }
-                                  });
-                                  $('#selectHH').selectize({
-                                        sortField: 'text',
-                                        dataAttr: 'data-extra',
-                                        searchField: ['value','text','Ma']
-                                  });
-                                  $('#SoLo,#ThueXuat').selectize({
-                                  create: true,
-                                  dataAttr: 'data-extra',
-                                  searchField: ['value','text','Ma']
-                                 });
-                                </script>
-                </div>
+        </div>
+        <div class="row mb-1">
+            <label class="col-sm-1 col-lg-1 col-form-label">VAT</label>
+            <div class="col-md-2 mb-2 col-lg-2">
+                <select asp-for="@Model.Thue" id="ThueXuat">
+                    <option selected value="0">0</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <option value="30">30</option>
+                </select>
+            </div>
+            <label class="col-sm-1 col-lg-1 col-form-label">Số lượng</label>
+            <div class="col-md-2 mb-2 col-lg-2">
+                <input value="@format(Model.Slg)" type="text" class="form-control" oninput="inputSLHH()" id="SLHH"
+                placeholder="Số lượng">
+            </div>
+            <label class="col-sm-1 col-lg-1 col-form-label">Đơn giá</label>
+            <div class="col-md-2 mb-2 col-lg-2">
+                <input value="@format(Model.DonGia)" type="text" class="form-control" oninput="inputDoGia()" id="DonGia"
+                placeholder="Đơn giá">
+            </div>
+            <label class="col-sm-1 col-lg-1 col-form-label">Th.Tiền</label>
+            <div class="col-md-2 mb-2 col-lg-2">
+                <input value="@format(Model.Slg*Model.DonGia)" type="text" class="form-control" oninput="inputThanhTien()"
+                id="ThanhTien" placeholder="Thành tiền">
+            </div>
+        </div>
+        <div class="row mb-1">
+            <label class="col-sm-1 col-lg-1 col-form-label">%CKTM</label>
+            <div class="col-md-2 mb-2 col-lg-2">
+                <input value="@format(Model.Cktm)" type="text" class="form-control" id="ChietKhau" placeholder="Chiếc khấu">
+            </div>
+            <label class="col-sm-1 col-lg-1 col-form-label">Hạn SD</label>
+            <div class="col-md-2 mb-2 col-lg-2">
+                <input type="text" value="@Model.Hsd.Value.ToString("dd-MM-yyyy")" class="form-control" id="HanDung"
+                placeholder="Your Name">
+            </div>
+            <label class="col-sm-1 col-lg-1 col-form-label">Ngày SX</label>
+            <div class="col-md-2 mb-2 col-lg-2">
+                <input type="text" value="@Model.Nsx.Value.ToString("dd-MM-yyyy")" class="form-control" id="NgaySX"
+                placeholder="Your Name">
+            </div>
+            <div class="col-md-3 mb-2 col-lg-3 d-flex justify-content-end">
+                <button class="btn btn-primary" onclick="editChiTietPhieu('@Model.Id')" type="button">Lưu</button>
+                <button class="btn btn-secondary" style="margin-left:5px;" onclick="editChitietPhieuNhapTam(0)"
+                type="button">Huỷ</button>
+            </div>
+        </div>
+        <script>
+            $('#ChietKhau').on('input', function () {
+                if (getValue(this.value) > 100) {
+                    $(this).val('');
+                    alert('Chiết khấu không quá 100%');
+                }
+            });
+            function getValue(str) {
+                return Number(str.replace(/[^0-9.-]+/g, ""));
+            }
+            function checkNumber(str) {
+                return /[0-9,.\-$]+/.test(str);
+            }
+            $('#SLHH,#ThanhTien,#DonGia,#GiaBan,#ChietKhau').on('blur', format);
+            function format() {
+                if (checkNumber(this.value)) {
+                    const value = this.value.replace(/,/g, '');
+                    this.value = parseFloat(value).toLocaleString('en-US', {
+                        style: 'decimal',
+                        maximumFractionDigits: 2,
+                        minimumFractionDigits: 2
+                    })
+                }
+            }
+            function toDecimal(str) {
+                return parseFloat(str).toLocaleString('en-US', {
+                    style: 'decimal',
+                    maximumFractionDigits: 2,
+                    minimumFractionDigits: 2
+                });
+            }
+            $('#HanDung,#NgaySX').datetimepicker({
+                locale: 'vi',
+                useStrict: true,
+                format: "DD-MM-yyyy",
+                icons: {
+                    date: "bi bi-calendar2-date",
+                    up: "bi bi-chevron-up",
+                    down: "bi bi-chevron-down",
+                    previous: 'bi bi-chevron-left',
+                    next: 'bi bi-chevron-right',
+                    time: "bi bi-clock"
+                }
+            });
+            $('#selectHH').selectize({
+                sortField: 'text',
+                dataAttr: 'data-extra',
+                searchField: ['value', 'text', 'Ma']
+            });
+            $('#SoLo,#ThueXuat').selectize({
+                create: true,
+                dataAttr: 'data-extra',
+                searchField: ['value', 'text', 'Ma']
+            });
+        </script>
+    </div>
+
+}
+else
+{
+    <div class="form-group p-2 mb-2" id="groupTTChiTiet" style="border-radius: 5px; border: 1px solid black;">
+        <div class="row mb-1">
+            <label class="col-sm-1 col-lg-1 col-form-label">Tên hàng</label>
+            <div class="col-md-5 mb-2 col-lg-5">
+                <select id="selectHH" onchange="loadDVT()" class="form-select2">
+                    <option selected disabled value=""></option>
+                    @foreach (HangHoa h in getListHH())
+                    {
+                        <option value="@h.Id">@h.TenHh</option>
+                    }
+                </select>
+            </div>
+            <label class="col-sm-1 col-lg-1 col-form-label">Số lô</label>
+            <div class="col-md-2 mb-2 col-lg-2">
+                <select id="SoLo">
+                    <option selected disabled value=""></option>
+                    @foreach (string s in a)
+                    {
+                        <option value="@s">@s</option>
+                    }
+                </select>
+            </div>
+            <label class="col-sm-1 col-lg-1 col-form-label">ĐV tính</label>
+            <div class="col-sm-2 col-lg-2">
+                <input type="text" class="form-control" id="DVT" readonly placeholder="Đơn vị tính">
+            </div>
+
+        </div>
+        <div class="row mb-1">
+            <label class="col-sm-1 col-lg-1 col-form-label">VAT</label>
+            <div class="col-md-2 mb-2 col-lg-2">
+                <select id="ThueXuat">
+                    <option selected disabled value=""></option>
+                    <option value="">0</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <option value="30">30</option>
+                </select>
+            </div>
+            <label class="col-sm-1 col-lg-1 col-form-label">Số lượng</label>
+            <div class="col-md-2 mb-2 col-lg-2">
+                <input type="text" class="form-control" oninput="inputSLHH()" id="SLHH" placeholder="Số lượng">
+            </div>
+            <label class="col-sm-1 col-lg-1 col-form-label">Đơn giá</label>
+            <div class="col-md-2 mb-2 col-lg-2">
+                <input type="text" class="form-control" oninput="inputDoGia()" id="DonGia" placeholder="Đơn giá">
+            </div>
+            <label class="col-sm-1 col-lg-1 col-form-label">Th.Tiền</label>
+            <div class="col-md-2 mb-2 col-lg-2">
+                <input type="text" class="form-control" oninput="inputThanhTien()" id="ThanhTien" placeholder="Thành tiền">
+            </div>
+        </div>
+        <div class="row mb-1">
+            <label class="col-sm-1 col-lg-1 col-form-label">%CKTM</label>
+            <div class="col-md-2 mb-2 col-lg-2">
+                <input type="text" class="form-control" id="ChietKhau" placeholder="Chiếc khấu">
+            </div>
+            <label class="col-sm-1 col-lg-1 col-form-label">HSX</label>
+            <div class="col-md-2 mb-2 col-lg-2">
+                <input type="text" value="@DateTime.Now.ToString("dd-MM-yyyy")" class="form-control" id="HanDung"
+                placeholder="Your Name">
+            </div>
+            <label class="col-sm-1 col-lg-1 col-form-label">NSX</label>
+            <div class="col-md-2 mb-2 col-lg-2">
+                <input type="text" value="@DateTime.Now.ToString("dd-MM-yyyy")" class="form-control" id="NgaySX"
+                placeholder="Your Name">
+            </div>
+            <div class="col-md-3 mb-2 col-lg-3 d-flex justify-content-end">
+                <button class="btn btn-primary" onclick="addChiTietPhieu()" type="button">Thêm </button>
+            </div>
+        </div>
+        <script>
+            $('#ChietKhau').on('input', function () {
+                if (getValue(this.value) > 100) {
+                    $(this).val('');
+                    alert('Chiết khấu không quá 100%');
+                }
+            });
+            function getValue(str) {
+                return Number(str.replace(/[^0-9.-]+/g, ""));
+            }
+            function checkNumber(str) {
+                return /[0-9,.\-$]+/.test(str);
+            }
+            $('#SLHH,#ThanhTien,#DonGia,#GiaBan,#ChietKhau').on('blur', format);
+            function format() {
+                if (checkNumber(this.value)) {
+                    const value = this.value.replace(/,/g, '');
+                    this.value = parseFloat(value).toLocaleString('en-US', {
+                        style: 'decimal',
+                        maximumFractionDigits: 2,
+                        minimumFractionDigits: 2
+                    })
+                }
+            }
+            function toDecimal(str) {
+                return parseFloat(str).toLocaleString('en-US', {
+                    style: 'decimal',
+                    maximumFractionDigits: 2,
+                    minimumFractionDigits: 2
+                });
+            }
+            $('#HanDung,#NgaySX').datetimepicker({
+                locale: 'vi',
+                useStrict: true,
+                format: "DD-MM-yyyy",
+                icons: {
+                    date: "bi bi-calendar2-date",
+                    up: "bi bi-chevron-up",
+                    down: "bi bi-chevron-down",
+                    previous: 'bi bi-chevron-left',
+                    next: 'bi bi-chevron-right',
+                    time: "bi bi-clock"
+                }
+            });
+            $('#selectHH').selectize({
+                sortField: 'text',
+                dataAttr: 'data-extra',
+                searchField: ['value', 'text', 'Ma']
+            });
+            $('#SoLo,#ThueXuat').selectize({
+                create: true,
+                dataAttr: 'data-extra',
+                searchField: ['value', 'text', 'Ma']
+            });
+        </script>
+    </div>
 }

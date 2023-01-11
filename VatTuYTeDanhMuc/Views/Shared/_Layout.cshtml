@@ -12,11 +12,12 @@
 }
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
-     <meta content="" name="description" />
+    <meta content="" name="description" />
     <meta content="" name="keywords" />
 
     <!-- Favicons -->
@@ -26,12 +27,9 @@
     <!-- Fonts -->
     <link rel="stylesheet" href="~/assets/fonts/fonts.css" />
 
-    <link href="~/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-    
-    <link
-      href="~/assets/vendor/bootstrap-icons/bootstrap-icons.css"
-      rel="stylesheet"
-    />
+    <link href="~/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="~/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
     <link href="~/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
     <link href="~/assets/vendor/quill/quill.snow.css" rel="stylesheet" />
     <link href="~/assets/vendor/quill/quill.bubble.css" rel="stylesheet" />
@@ -39,22 +37,23 @@
 
     <link href="~/assets/vendor/simple-datatables/style.css" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="~/datatables.min.css"/>
-    
+    <link rel="stylesheet" type="text/css" href="~/datatables.min.css" />
+
     <!-- Template Main CSS File -->
-    <link href="~/bootstrap-datetimepicker.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="~/assets/css/Modalcss.css" type="text/css"/>
+    <link href="~/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/assets/css/Modalcss.css" type="text/css" />
     <link href="~/assets/css/style.css" rel="stylesheet" />
-    
+
     <script src="~/jquery-3.6.1.min.js"></script>
-    
-    <script src="~/umd/popper.min.js" ></script>
+
+    <script src="~/umd/popper.min.js"></script>
     <script src="~/moment.js/moment.min.js"></script>
     <script src="~/bootstrap-datetimepicker.min.js"></script>
     <script src="/select/js/selectize.min.js"></script>
-    <link rel="stylesheet" href="~/select/css/selectize.bootstrap4.min.css"/>
-    
+    <link rel="stylesheet" href="~/select/css/selectize.bootstrap4.min.css" />
+
 </head>
+
 <body>
     <!-- ======= Header ======= -->
     <header id="header" class="header fixed-top d-flex align-items-center">
@@ -68,13 +67,8 @@
         <!-- End Logo -->
 
         <div class="search-bar">
-            <form class="search-form d-flex align-items-center"
-                  method="POST"
-                  action="#">
-                <input type="text"
-                       name="query"
-                       placeholder="Search"
-                       title="Enter search keyword" />
+            <form class="search-form d-flex align-items-center" method="POST" action="#">
+                <input type="text" name="query" placeholder="Search" title="Enter search keyword" />
                 <button type="submit" title="Search">
                     <i class="bi bi-search"></i>
                 </button>
@@ -92,19 +86,14 @@
                 <!-- End Search Icon-->
 
                 <li class="nav-item dropdown pe-3">
-                    <a class="nav-link nav-profile d-flex align-items-center pe-0"
-                       href="#"
-                       data-bs-toggle="dropdown">
-                        <img src="~/assets/img/profile-img.jpg"
-                             alt="Hồ sơ"
-                             class="rounded-circle" />
+                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                        <img src="~/assets/img/profile-img.jpg" alt="Hồ sơ" class="rounded-circle" />
                         <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
                     </a><!-- End Profile Iamge Icon -->
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                         <li>
-                            <a class="dropdown-item d-flex align-items-center"
-                               href="Hoso.html">
+                            <a class="dropdown-item d-flex align-items-center" href="/HeThong/HoSo/@idUser">
                                 <i class="bi bi-person"></i>
                                 <span>Hồ sơ</span>
                             </a>
@@ -114,8 +103,7 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center"
-                               href="/HoSo/Hoso">
+                            <a class="dropdown-item d-flex align-items-center" href="/HoSo/Hoso">
                                 <i class="bi bi-gear"></i>
                                 <span>Cài đặt tài khoản</span>
                             </a>
@@ -151,15 +139,11 @@
             <!-- End Dashboard Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed"
-                   data-bs-target="#danhmuc-nav"
-                   data-bs-toggle="collapse"
-                   href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>Danh mục</span><i class="bi bi-chevron-down ms-auto"></i>
+                <a class="nav-link collapsed" data-bs-target="#danhmuc-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>Danh mục</span><i
+                        class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="danhmuc-nav"
-                    class="nav-content collapse"
-                    data-bs-parent="#sidebar-nav">
+                <ul id="danhmuc-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="/TrangChu/HangHoa">
                             <i class="bi bi-circle"></i><span>Hàng hoá</span>
@@ -237,15 +221,10 @@
             <!-- End Danh mục Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed"
-                   data-bs-target="#quanly-nav"
-                   data-bs-toggle="collapse"
-                   href="#">
+                <a class="nav-link collapsed" data-bs-target="#quanly-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-journal-text"></i><span>Quản lý</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="quanly-nav"
-                    class="nav-content collapse"
-                    data-bs-parent="#sidebar-nav">
+                <ul id="quanly-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="/PhieuNhapKho">
                             <i class="bi bi-circle"></i><span>Phiếu nhập kho</span>
@@ -277,15 +256,11 @@
             <!-- End Quản lý Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed"
-                   data-bs-target="#baocao-nav"
-                   data-bs-toggle="collapse"
-                   href="#">
-                    <i class="bi bi-layout-text-window-reverse"></i><span>Báo cáo</span><i class="bi bi-chevron-down ms-auto"></i>
+                <a class="nav-link collapsed" data-bs-target="#baocao-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-layout-text-window-reverse"></i><span>Báo cáo</span><i
+                        class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="baocao-nav"
-                    class="nav-content collapse"
-                    data-bs-parent="#sidebar-nav">
+                <ul id="baocao-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="BCNhapkho">
                             <i class="bi bi-circle"></i><span>Báo cáo nhập kho</span>
@@ -316,15 +291,10 @@
             <!-- End Báo cáo Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed"
-                   data-bs-target="#hethong-nav"
-                   data-bs-toggle="collapse"
-                   href="#">
+                <a class="nav-link collapsed" data-bs-target="#hethong-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-bar-chart"></i><span>Hệ thống</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="hethong-nav"
-                    class="nav-content collapse"
-                    data-bs-parent="#sidebar-nav">
+                <ul id="hethong-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="/HeThong/HoSo/@idUser">
                             <i class="bi bi-circle"></i><span>Hồ sơ</span>
@@ -350,15 +320,10 @@
             <!-- End Hệ thống Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed"
-                   data-bs-target="#blog-nav"
-                   data-bs-toggle="collapse"
-                   href="#">
+                <a class="nav-link collapsed" data-bs-target="#blog-nav" data-bs-toggle="collapse" href="#">
                     <i class="bi bi-gem"></i><span>Blog</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="blog-nav"
-                    class="nav-content collapse"
-                    data-bs-parent="#sidebar-nav">
+                <ul id="blog-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="Thongbao.html">
                             <i class="bi bi-circle"></i><span>Thông báo</span>
@@ -379,7 +344,7 @@
     <main id="main" class="main">
         <div class="pagetitle">
             <h1>@ViewData["Title"]</h1>
-            
+
         </div>
         <!-- End Page Title -->
 
@@ -398,8 +363,7 @@
     </footer>
     <!-- End Footer -->
 
-    <a href="#"
-       class="back-to-top d-flex align-items-center justify-content-center">
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center">
         <i class="bi bi-arrow-up-short"></i>
     </a>
 
@@ -446,47 +410,60 @@
 
                 },
             });
-           /* $('.form-select').select2({
-                matcher: function(params, data) {
-                    // If there are no search terms, return all of the data
-                    if ($.trim(params.term) === '') { return data; }
+            /* $('.form-select').select2({
+                 matcher: function(params, data) {
+                     // If there are no search terms, return all of the data
+                     if ($.trim(params.term) === '') { return data; }
 
-                    // Do not display the item if there is no 'text' property
-                    if (typeof data.text === 'undefined') { return null; }
+                     // Do not display the item if there is no 'text' property
+                     if (typeof data.text === 'undefined') { return null; }
 
-                    // `params.term` is the user's search term
-                    // `data.id` should be checked against
-                    // `data.text` should be checked against
-                    var q = params.term.toLowerCase();
-                    if (data.text.toLowerCase().indexOf(q) > -1 || data.id.toLowerCase().indexOf(q) > -1) {
-                        return $.extend({}, data, true);
-                    }
+                     // `params.term` is the user's search term
+                     // `data.id` should be checked against
+                     // `data.text` should be checked against
+                     var q = params.term.toLowerCase();
+                     if (data.text.toLowerCase().indexOf(q) > -1 || data.id.toLowerCase().indexOf(q) > -1) {
+                         return $.extend({}, data, true);
+                     }
 
-                    // Return `null` if the term should not be displayed
-                    return null;
+                     // Return `null` if the term should not be displayed
+                     return null;
+                 }
+             });
+             $('span.select2').css('width','auto');
+             $('.form-select').on('select2:select', function (e) {
+                 var data = e.params.data;
+                 console.log(data);
+             });*/
+            $('.form-select2').selectize({
+                dataAttr: 'data-extra',
+                searchField: ['value', 'text', 'label']
+            });
+
+            $('#SoLo,#ThueXuat').selectize({
+                create: true,
+                dataAttr: 'data-extra',
+                searchField: ['value', 'text', 'label']
+            });
+
+            $('#NgayNhap').datetimepicker({
+                locale: 'vi',
+                useStrict: true,
+                format: "DD-MM-yyyy HH:mm",
+                icons: {
+                    date: "bi bi-calendar2-date",
+                    up: "bi bi-chevron-up",
+                    down: "bi bi-chevron-down",
+                    previous: 'bi bi-chevron-left',
+                    next: 'bi bi-chevron-right',
+                    time: "bi bi-clock"
                 }
             });
-            $('span.select2').css('width','auto');
-            $('.form-select').on('select2:select', function (e) {
-                var data = e.params.data;
-                console.log(data);
-            });*/
-             $('.form-select2').selectize({
-              dataAttr: 'data-extra',
-              searchField: ['value','text','label']
-             });
-
-             $('#SoLo,#ThueXuat').selectize({
-              create: true,
-              dataAttr: 'data-extra',
-              searchField: ['value','text','label']
-             });
-
-             $('#NgayNhap').datetimepicker({
-                  locale: 'vi',
-                  useStrict: true,
-                  format:"DD-MM-yyyy HH:mm",
-                  icons: {
+            $('#HanDung,#NgayHD,#NgaySX').datetimepicker({
+                locale: 'vi',
+                useStrict: true,
+                format: "DD-MM-yyyy",
+                icons: {
                     date: "bi bi-calendar2-date",
                     up: "bi bi-chevron-up",
                     down: "bi bi-chevron-down",
@@ -494,32 +471,20 @@
                     next: 'bi bi-chevron-right',
                     time: "bi bi-clock"
                 }
-              });
-              $('#HanDung,#NgayHD,#NgaySX').datetimepicker({
-                  locale: 'vi',
-                  useStrict: true,
-                  format:"DD-MM-yyyy",
-                  icons: {
-                    date: "bi bi-calendar2-date",
-                    up: "bi bi-chevron-up",
-                    down: "bi bi-chevron-down",
-                    previous: 'bi bi-chevron-left',
-                    next: 'bi bi-chevron-right',
-                    time: "bi bi-clock"
-                }
-              });
+            });
         });
-        $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function(e){
-           $($.fn.dataTable.tables(true)).DataTable()
-              .columns.adjust();
+        $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+            $($.fn.dataTable.tables(true)).DataTable()
+                .columns.adjust();
         });
-        function change(){
+        function change() {
             $('#HanDung').val();
         }
     </script>
     <script type="text/javascript">
-        
+
     </script>
     @RenderSection("Scripts", required: false)
 </body>
+
 </html>
