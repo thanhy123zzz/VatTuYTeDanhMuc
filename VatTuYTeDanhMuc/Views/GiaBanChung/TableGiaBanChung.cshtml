@@ -36,30 +36,35 @@
 }
 <div class="card pt-3">
                     <div class="card-body">
-                        <div style="margin-left: 220px; position:absolute; z-index:1; display: flex;">
-                           <input placeholder="Tìm kiếm" id="search" type="text" style="height: 38px;" class="w-100 d-none"/>
-                        </div>
-                        <div style="margin-bottom: -40px; position:absolute; z-index:1;" class="d-none" id="div1">
-                            <button  value="@ViewBag.IDNHH" class="back btn btn-success" style="display:block" id="btnreturn">
-                                <span>Trở về</span>
-                            </button>
-                            </div>
-                       <div style="margin-bottom: -40px; position:absolute; z-index:1; display: flex;">
-                           
-                            <div class="dropdown" style="margin-left: 20px">
-                                 <select id="nhomHH" onchange="loadTableHangHoa()" class="w-100" style="height: 38px;">
-                                    <option selected disabled>-- Nhóm hàng hoá --</option>
-                    @foreach (NhomHangHoa n in getNhomHH())
-                    {
-                                        <option value="@n.Id">@n.TenNhh</option>
-                    }
+                        <div class="row mb-2 justify-content-between" id="headerTable">
+
+                         <div class="col-lg-3 col-sm-3">
+                            <div class="dropdown">
+                                 <select id="nhomHH" onchange="loadTableHangHoa()" class="form-select2" style="height: 38px;">
+                                    <option selected value="">Nhóm hàng hoá</option>
+                        @foreach (NhomHangHoa n in getNhomHH())
+                        {
+                                              <option value="@n.Id">@n.TenNhh</option>
+                        }
                                 </select>
                             </div>
                         </div>
+                            <div class="col-lg-3 col-sm-3">
+                                 <input placeholder="Tìm kiếm" id="search" type="text" class="form-control d-none"/>
+                             </div>
+                        
+                        </div>
+                        
+                        <div style="margin-bottom: -40px; position:absolute; z-index:1;" class="d-none" id="div1">
+                            <button  value="@ViewBag.IDNHH" class="back btn btn-secondary" style="display:block" id="btnreturn">
+                                <span>Trở về</span>
+                            </button>
+                            </div>
+                       
                         
                         <div style="overflow: auto">
                             <input id="idHH" type="hidden" />
-                        <table id="myTable" class="table table-striped  table-hover text-center display nowrap" style="margin-top:50px;White-space: nowrap;">
+                        <table id="myTable" class="table table-striped  table-hover text-center display nowrap" style="White-space: nowrap;">
                             <thead>
                                 <tr style="background: white;" id="adddvt" class="d-none">
                             <th colspan="8" class="p-0">
@@ -342,9 +347,9 @@
                         $('#adddvt').removeClass("d-none");
                         $('#div1').removeClass("d-none");
                         $('#nsx').addClass("d-none");
-                        $('#nhomHH').addClass("d-none");
+                        $('#headerTable').addClass("d-none");
                         $('#hsx').addClass("d-none");
-                        $('#search').addClass("d-none");
+                        /*$('#search').addClass("d-none");*/
                         $('#tbodyHH').replaceWith(result);
                     },
                     error: function () {
@@ -354,24 +359,24 @@
             });
             $("#div1").on("click", ".back", function () {
                 var nhomHH = $('#nhomHH').val();
-        $.ajax({
-            type: "post",
-            url: "/loadTableGiaBanChung",
-            data: "nhomHH=" + nhomHH,
-            success: function (result) {
-                $('#sl').addClass("d-none");
-                        $('#adddvt').addClass("d-none");
-                        $('#div1').addClass("d-none");
-                        $('#nsx').removeClass("d-none");
-                        $('#nhomHH').removeClass("d-none");
-                        $('#hsx').removeClass("d-none");
-                        $('#search').removeClass("d-none");
-                $('#tbodyHH').replaceWith(result);
-            },
-            error: function () {
-                alert("Fail");
-            }
-        });
+                $.ajax({
+                    type: "post",
+                    url: "/loadTableGiaBanChung",
+                    data: "nhomHH=" + nhomHH,
+                    success: function (result) {
+                        $('#sl').addClass("d-none");
+                                $('#adddvt').addClass("d-none");
+                                $('#div1').addClass("d-none");
+                                $('#nsx').removeClass("d-none");
+                                $('#headerTable').removeClass("d-none");
+                                $('#hsx').removeClass("d-none");
+                                $('#search').removeClass("d-none");
+                        $('#tbodyHH').replaceWith(result);
+                    },
+                    error: function () {
+                        alert("Fail");
+                    }
+                });
 
                 
             });
