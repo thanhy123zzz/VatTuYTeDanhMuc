@@ -1,13 +1,16 @@
 ﻿@{
     webContext context = new webContext();
     string h = GetLocalIPAddress();
-    List<ChiTietPhieuNhapTam> getListCTPNT(){
-        return context.ChiTietPhieuNhapTam.Where(x=>x.Host == h).OrderByDescending(x=>x.Id).ToList();
+    List<ChiTietPhieuNhapTam> getListCTPNT()
+    {
+        return context.ChiTietPhieuNhapTam.Where(x => x.Host == h).OrderByDescending(x => x.Id).ToList();
     }
-    Dvt getDvt(int? id){
+    Dvt getDvt(int? id)
+    {
         return context.Dvt.Find(id);
     }
-    HangHoa getHangHoa(int? id){
+    HangHoa getHangHoa(int? id)
+    {
 
         return context.HangHoa.Find(id);
     }
@@ -43,46 +46,47 @@
         return context.HangHoa.Find(id).GiaBanSi;
     }
 }
-<table class="table table-bordered table-hover table-striped text-center"  id="tableChiTietPhieuNhap">
-                        <thead>
-                            <tr>
-                                <th>Tên hàng hóa</th>
-                                <th>ĐVT</th>
-                                <th>Hạn dùng</th>
-                                <th>Ngày SX</th>
-                                <th>Số lô</th>
-                                <th>Số lượng</th>
-                                <th>Đơn giá</th>
-                                <th>Thành tiền</th>
-                                <th>%CK</th>
-                                <th>Thuế suất</th>
-                                <th>Giá bán</th>
-                                <th>Thao tác</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach(ChiTietPhieuNhapTam c in getListCTPNT()){
-                            <tr>
-                                <td class="text-start">@getHangHoa(c.Idhh).TenHh</td>
-                                <td class="text-start">@getDvt(getHangHoa(c.Idhh).Iddvtchinh).TenDvt</td>
-                                <td class="text-center">@formatDay(c.Hsd)</td>
-                                <td class="text-center">@formatDay(c.Nsx)</td>
-                                <td class="text-end">@c.SoLo</td>
-                                <td class="text-end">@format((Double)c.Slg)</td>
-                                <td class="text-end">@format(c.DonGia)</td>
-                                <td class="text-end">@format(c.Slg * c.DonGia)</td>
-                                <td class="text-end">@format(c.Cktm)</td>
-                                <td class="text-end">@format(c.Thue)</td>
-                                <td class="text-end">@format(getGiaBan(c.Idhh))</td>
-                                <td>
-                                  <button class="btn btn-primary" type="button" onclick="editChitietPhieuNhapTam('@c.Id')">
-                                      Sửa
-                                       </button>
-                                       <button class="btn btn-danger" type="button"  onclick="deletePhieuNhapTam('@c.Id')">
-                                       Xoá
-                                  </button>
-                                </td>
-                            </tr>
-                            }
-                        </tbody>
-                    </table>
+<table class="table table-bordered table-hover table-striped text-center" id="tableChiTietPhieuNhap">
+    <thead>
+        <tr>
+            <th>Tên hàng hóa</th>
+            <th>ĐVT</th>
+            <th>Hạn dùng</th>
+            <th>Ngày SX</th>
+            <th>Số lô</th>
+            <th>Số lượng</th>
+            <th>Đơn giá</th>
+            <th>Thành tiền</th>
+            <th>%CK</th>
+            <th>Thuế suất</th>
+            <th>Giá bán</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ChiTietPhieuNhapTam c in getListCTPNT())
+        {
+            <tr>
+                <td class="text-start">@getHangHoa(c.Idhh).TenHh</td>
+                <td class="text-start">@getDvt(getHangHoa(c.Idhh).Iddvtchinh).TenDvt</td>
+                <td class="text-center">@formatDay(c.Hsd)</td>
+                <td class="text-center">@formatDay(c.Nsx)</td>
+                <td class="text-end">@c.SoLo</td>
+                <td class="text-end">@format((Double)c.Slg)</td>
+                <td class="text-end">@format(c.DonGia)</td>
+                <td class="text-end">@format(c.Slg * c.DonGia)</td>
+                <td class="text-end">@format(c.Cktm)</td>
+                <td class="text-end">@format(c.Thue)</td>
+                <td class="text-end">@format(getGiaBan(c.Idhh))</td>
+                <td>
+                    <button class="btn btn-primary" type="button" onclick="editChitietPhieuNhapTam('@c.Id')">
+                        Sửa
+                    </button>
+                    <button class="btn btn-danger" type="button" onclick="deletePhieuNhapTam('@c.Id')">
+                        Xoá
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
