@@ -1,0 +1,17 @@
+﻿<tbody id="tbody">
+    @foreach (NhomHangHoa item in ViewBag.NHH)
+    {
+
+
+                                                <tr onclick="loadTableGTNHH(@item.Id)">
+
+
+                                                <td style="display:none">@item.MaNhh</td>
+                                                <td style="text-align:left">@item.TenNhh</td>
+
+                                            </tr>
+    }
+
+
+
+                            </tbody>

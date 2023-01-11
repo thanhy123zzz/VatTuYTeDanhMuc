@@ -1,0 +1,83 @@
+﻿@{
+    webContext context = new webContext();
+    Dvt getdvt(int? id)
+    {
+        Dvt nv = context.Dvt.Find(id);
+        if (nv != null) return nv;
+        else return new Dvt();
+    }
+    GiaTheoKhachHang gethhdvt(int? id, int? idkh)
+    {
+        GiaTheoKhachHang ID;
+        //ID.Idkh = id; 
+        GiaTheoKhachHang nv = context.GiaTheoKhachHang.Find(id & idkh);
+        if (nv != null) return nv;
+        else return new GiaTheoKhachHang();
+    }
+    NuocSanXuat getnsx(int? id)
+    {
+        NuocSanXuat nsx = context.NuocSanXuat.Find(id);
+        if (nsx != null) return nsx;
+        else return new NuocSanXuat();
+    }
+    HangSanXuat gethsx(int? id)
+    {
+        HangSanXuat nv = context.HangSanXuat.Find(id);
+        if (nv != null) return nv;
+        else return new HangSanXuat();
+    }
+    bool count(int idkh,int idhh, int iddvt)
+    {
+        if (context.GiaTheoKhachHang.Where(x => x.Active == true && x.Idkh == idkh && x.Idhh == idhh && x.Iddvt == iddvt).ToList().Count() == 0)
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    string format(double? a)
+    {
+        return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
+
+    }
+}
+<tbody id="tbodyHHKH">
+    @foreach (var h in ViewBag.HangHoa)
+    {
+        if (count(@ViewBag.IDKH, @h.Id, @h.Iddvtchinh))
+        {
+                            <tr onclick="loadTableGTKH('@h.Id','@h.Iddvtchinh')" style="background-color: lightgray">
+                                           <td style="display: none">@h.MaHh</td>
+                                                   <td style="text-align:left">@h.TenHh</td>
+                                           <td>@getdvt(@h.Iddvtchinh).TenDvt</td>
+                                           <td>@h.TiLeSi</td>
+                                           <td>@h.TiLeLe</td>
+                                                   <td style="text-align:right">@format(@h.GiaBanSi)</td>
+                                                   <td style="text-align:right">@format(@h.GiaBanLe)</td>
+                                                   <td style="text-align:right">@getnsx(@h.Idnsx).TenNsx</td>
+                                                   <td style="text-align:right">@gethsx(@h.Idhsx).TenHsx</td>
+
+                                               </tr>
+        }
+        else
+        {
+                                    <tr onclick="loadTableGTKH('@h.Id','@h.Iddvtchinh')" >
+                                           <td style="display:none">@h.MaHh</td>
+                                                   <td style="text-align:left">@h.TenHh</td>
+                                           <td>@getdvt(@h.Iddvtchinh).TenDvt</td>
+                                           <td>@h.TiLeSi</td>
+                                           <td>@h.TiLeLe</td>
+                                                   <td style="text-align:right">@format(@h.GiaBanSi)</td>
+                                                   <td style="text-align:right">@format(@h.GiaBanLe)</td>
+                                                   <td style="text-align:right">@getnsx(@h.Idnsx).TenNsx</td>
+                                                   <td style="text-align:right">@gethsx(@h.Idhsx).TenHsx</td>
+
+                                               </tr>
+        }
+
+
+    }
+
+
+
+                            </tbody>

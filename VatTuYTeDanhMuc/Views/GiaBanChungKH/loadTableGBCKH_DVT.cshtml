@@ -1,0 +1,60 @@
+﻿@{
+    webContext context = new webContext();
+    NhanVien getNhanVien(int? id)
+    {
+        NhanVien nv = context.NhanVien.Find(id);
+        if (nv != null) return nv;
+        else return new NhanVien();
+    }
+    List<HhDvt> getListHH_Dvt()
+    {
+        return context.HhDvt.Where(x => x.Active == true).ToList();
+    }
+
+    HangHoa getHangHoa(int? id)
+    {
+        return context.HangHoa.Find(id);
+    }
+
+    Dvt getDVT(int? id)
+    {
+        return context.Dvt.Find(id);
+    }
+    List<NhomHangHoa> getNhomHH()
+    {
+        return context.NhomHangHoa.ToList();
+    }
+    List<KhachHang> listkh()
+    {
+        return context.KhachHang.ToList();
+    }
+    List<HangHoa> getListHH()
+    {
+        return context.HangHoa.Where(x => x.Active == true).ToList();
+    }
+    string format(double? a)
+    {
+        return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
+
+    }
+}
+<tbody id="tbodyHHKH">
+    @foreach (HhDvt h in ViewBag.hhdvt)
+    {
+
+
+                             <tr onclick="loadTableGTKH1('@h.Idhh','@h.Iddvt')">
+
+                                <td style="display: none">@h.Idhh</td>                           
+                                <td style="text-align:left">
+                @getHangHoa(h.Idhh).TenHh
+                                        </td>
+                                <td>@getDVT(h.Iddvt).TenDvt</td>
+                                    <td style="text-align:right">@h.TiLeSi</td>
+                                    <td style="text-align:right">@h.TiLeLe</td>
+                                    <td style="text-align:right">@format(@h.GiaBanSi)</td>
+                                    <td style="text-align:right">@format(@h.GiaBanLe)</td>
+
+                            </tr>
+    }
+                    </tbody>

@@ -1,0 +1,123 @@
+﻿@{
+	webContext context = new webContext();
+	List<Dvt> getDVT()
+	{
+		return context.Dvt.Where(x => x.Active == true).ToList();
+	}
+	Dvt getdvt(int? id)
+	{
+		Dvt nv = context.Dvt.Find(id);
+		if (nv != null) return nv;
+		else return new Dvt();
+	}
+	NuocSanXuat getnsx(int? id)
+	{
+		NuocSanXuat nsx = context.NuocSanXuat.Find(id);
+		if (nsx != null) return nsx;
+		else return new NuocSanXuat();
+	}
+	HangSanXuat gethsx(int? id)
+	{
+		HangSanXuat nv = context.HangSanXuat.Find(id);
+		if (nv != null) return nv;
+		else return new HangSanXuat();
+	}
+	HangHoa gethh(int? id)
+	{
+		HangHoa nv = context.HangHoa.Find(id);
+		if (nv != null) return nv;
+		else return new HangHoa();
+	}
+	 string format(double? a)
+    {
+        return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
+
+    }
+}
+@if (ViewBag.idDVT == null)
+{
+	<tr> 
+		
+		<td style="display:none"> 
+			@gethh(@ViewBag.HHdvt.Idhh).MaHh
+		</td >
+			<td style="width:460px;text-align:left"> 
+			@gethh(@ViewBag.HHdvt.Idhh).TenHh
+		</td >
+	    <td style="width:100px;"> 
+			@getdvt(@ViewBag.HHdvt.Iddvt).TenDvt
+		</td >
+				<td style="width:100px;text-align:right;"> 
+						<input class='inputDisabled' style="text-align:right" value="@ViewBag.HHdvt.SlquyDoi" type=text >
+		</td >
+					<td style="width:68.5px;text-align:left"> 
+				<input class='inputDisabled ' style="text-align:right" value="@ViewBag.HHdvt.TiLeSi" type=text >
+		</td >
+					<td style="width:70.04px;text-align:left"> 
+				<input class='inputDisabled ' style="text-align:right" value="@ViewBag.HHdvt.TiLeLe" type=text >
+
+		</td >
+					<td style="width:117.31px;text-align:left"> 
+					<input class='inputDisabled infomal' style="text-align:right" value="@format(@ViewBag.HHdvt.GiaBanSi)" type=text >
+		</td >
+				<td style="width:117.35px;text-align:left"> 
+					<input class='inputDisabled infomal' style="text-align:right" value="@format(@ViewBag.HHdvt.GiaBanLe)" type=text >
+		</td >
+		<td style="display: none"> 
+				<input class='inputDisabled text-center' style="text-align:right" value="@ViewBag.HHdvt.Idhh" type=text >
+		</td >
+				
+			
+			<td style="width:135px;">
+			<button class='updatedvt btn btn-primary' value="@ViewBag.ID" style ='margin-right:5px' id='edit'>
+				Lưu 
+				</button>
+						<button  value="@ViewBag.HHdvt.Idhh" class='huy2 btn btn-secondary' > 
+					Huỷ </button>  
+		</td> 
+			
+
+	</tr>
+}
+else
+{
+			<tr> 
+			<td> 
+				<select class="w-100 inputDisabled text-center">
+				@foreach (HangHoa n in ViewBag.HH)
+				{
+					
+									<option selected value="@n.Id">@n.GiaBanLe</option>
+					
+				}
+				</select>
+			</td >
+			
+			<td>
+				<button value="@ViewBag.ID" class='save btn btn-primary' style ='margin-right:5px' id='edit'>
+					Lưu 
+					</button>
+						<a class='btn btn-secondary' href='#'> 
+						Huỷ </a>  
+			</td> 
+		</tr>
+}
+<script>
+	$('.infomal').on('blur', format);
+	function format(){
+	if(checkNumber(this.value)){
+		const value = this.value.replace(/,/g, '');
+		this.value = parseFloat(value).toLocaleString('en-US', {
+		style: 'decimal',
+			maximumFractionDigits: 2,
+			minimumFractionDigits: 2
+			})
+	}
+}
+			   function checkNumber(str) {
+		return /[0-9,.\-$]+/.test(str);
+	}
+	function getValue(str){
+	   return Number(str.replace(/[^0-9.-]+/g,""));
+	}
+</script>

@@ -1,0 +1,62 @@
+﻿@{
+    webContext context = new webContext();
+    List<Dvt> getDVT()
+    {
+        return context.Dvt.Where(x => x.Active == true).ToList();
+    }
+    HangHoa getHangHoa(int? id)
+    {
+        return context.HangHoa.Find(id);
+    }
+    string format(double? a)
+    {
+        return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
+
+    }
+}
+
+                               <tr>
+                                   <td style="display:none">@getHangHoa(ViewBag.IDHH).MaHh
+                                   <input value="@ViewBag.IDHH" type="hidden"/>
+                                   </td>
+                                   <td style="text-align:left">@getHangHoa(ViewBag.IDHH).TenHh</td>
+                                   <td><select class="w-100 inputDisabled text-center">
+            @foreach (Dvt n in getDVT())
+            {
+                    <option value="@n.Id">@n.TenDvt</option>
+            }
+        </select></td>
+                                   <td ><input style="text-align:right" class='inputDisabled infomal' required type=text ></td>
+                                   <td  style="width:68.5px"><input style="text-align:right" class='inputDisabled '  type=text ></td>
+                                   <td style="width:68.5px"><input style="text-align:right" class='inputDisabled '  type=text ></td>
+                                   <td><input style="text-align:right" class='inputDisabled infomal'  type=text ></td>
+                                   <td><input style="text-align:right" class='inputDisabled infomal'  type=text ></td>
+                                   <td><button value="" class='adddvt btn btn-primary' style ='margin-right:5px' id='edit'>
+                Thêm 
+                </button>
+                    <button value="@ViewBag.IDHH" class='huy2 btn btn-secondary'> 
+                    Huỷ </button>  </td>
+                               </tr>
+                              
+<script>
+    $('.infomal').on('blur', format);
+    function format(){
+    if(checkNumber(this.value)){
+        const value = this.value.replace(/,/g, '');
+        this.value = parseFloat(value).toLocaleString('en-US', {
+        style: 'decimal',
+            maximumFractionDigits: 2,
+            minimumFractionDigits: 2
+            })
+    }
+}
+               function checkNumber(str) {
+        return /[0-9,.\-$]+/.test(str);
+    }
+    function getValue(str){
+       return Number(str.replace(/[^0-9.-]+/g,""));
+    }
+</script>
+
+
+                    

@@ -1,0 +1,117 @@
+﻿@{
+	webContext context = new webContext();
+	List<Dvt> getDVT()
+	{
+		return context.Dvt.Where(x => x.Active == true).ToList();
+	}
+	Dvt getdvt(int? id)
+	{
+		Dvt nv = context.Dvt.Find(id);
+		if (nv != null) return nv;
+		else return new Dvt();
+	}
+	NuocSanXuat getnsx(int? id)
+	{
+		NuocSanXuat nsx = context.NuocSanXuat.Find(id);
+		if (nsx != null) return nsx;
+		else return new NuocSanXuat();
+	}
+	HangSanXuat gethsx(int? id)
+	{
+		HangSanXuat nv = context.HangSanXuat.Find(id);
+		if (nv != null) return nv;
+		else return new HangSanXuat();
+	}
+	string format(double? a)
+    {
+        return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
+
+    }
+}
+@if (ViewBag.idDVT == null)
+{
+	<tr > 
+		
+		<td style="display:none"> 
+				<input class='inputDisabled text-center' value="@ViewBag.HH.MaHh" type=text >
+		</td >
+		<td style="text-align:left"> 
+				<input class='inputDisabled' value="@ViewBag.HH.TenHh" type=text >
+		</td >
+			<td> 
+						<input class='inputDisabled text-center' value="@getdvt(@ViewBag.HH.Iddvtchinh).TenDvt" type=text >
+			</td >
+	<td > 
+							<input class='inputDisabled text-center infomal' value="@ViewBag.HH.TiLeSi" type=text >
+			</td >
+				<td> 
+								<input class='inputDisabled text-center infomal' value="@ViewBag.HH.TiLeLe" type=text >
+
+				</td >
+					<td> 
+								<input class='inputDisabled text-center infomal' value="@format(@ViewBag.HH.GiaBanSi)" type=text >
+				</td >
+		<td> 
+				<input class='inputDisabled text-center infomal' value="@format(@ViewBag.HH.GiaBanLe)" type=text >
+		</td >
+				
+			
+		<td>
+			<button class='add btn btn-primary' value="@ViewBag.ID" style ='margin-right:5px' id='edit'>
+				Lưu 
+				</button>
+				<a class='btn btn-secondary' href='#'> 
+					Huỷ </a>  
+		</td> 
+			<td>
+							<input class='inputDisabled text-center' value="@getnsx(@ViewBag.HH.Idnsx).TenNsx" type=text >
+				</td> 
+				<td> 
+							<input class='inputDisabled text-center ' value="@gethsx(@ViewBag.HH.Idhsx).TenHsx" type=text >
+					</td >
+
+	</tr>
+}
+else
+{
+			<tr> 
+			<td> 
+				<select class="w-100 inputDisabled text-center">
+				@foreach (HangHoa n in ViewBag.HH)
+				{
+					
+									<option selected value="@n.Id">@n.GiaBanLe</option>
+					
+				}
+				</select>
+			</td >
+			
+			<td>
+				<button value="@ViewBag.ID" class='save btn btn-primary' style ='margin-right:5px' id='edit'>
+					Lưu 
+					</button>
+						<a class='btn btn-secondary' href='#'> 
+						Huỷ </a>  
+			</td> 
+		</tr>
+		
+}
+<script>
+	$('.infomal').on('blur', format);
+	function format(){
+	if(checkNumber(this.value)){
+		const value = this.value.replace(/,/g, '');
+		this.value = parseFloat(value).toLocaleString('en-US', {
+		style: 'decimal',
+			maximumFractionDigits: 2,
+			minimumFractionDigits: 2
+			})
+	}
+}
+			   function checkNumber(str) {
+		return /[0-9,.\-$]+/.test(str);
+	}
+	function getValue(str){
+	   return Number(str.replace(/[^0-9.-]+/g,""));
+	}
+</script>

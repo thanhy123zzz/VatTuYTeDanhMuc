@@ -1,0 +1,63 @@
+﻿@{
+    webContext context = new webContext();
+    Dvt getdvt(int? id)
+    {
+        Dvt nv = context.Dvt.Find(id);
+        if (nv != null) return nv;
+        else return new Dvt();
+    }
+    string format(double? a)
+    {
+        return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
+
+    }
+}
+<tr>
+    <td>@getdvt(@ViewBag.GTKH.Iddvt).TenDvt</td>
+    <td>
+        <input class='inputDisabled' style="text-align: right" value=@ViewBag.GTKH.TiLeSi type=text >
+        </td>
+    <td>
+        <input class='inputDisabled' style="text-align: right" value=@ViewBag.GTKH.TiLeLe type=text >
+        </td>
+    <td>
+        <input class='inputDisabled infomal' style="text-align: right" value=@format(@ViewBag.GTKH.GiaBanSi) type=text >
+        </td>
+    <td>
+        <input class='inputDisabled infomal' style="text-align: right" value=@format(@ViewBag.GTKH.GiaBanLe) type=text >
+        </td>
+    <td style="display:none">
+        <input class='inputDisabled text-center' value=@ViewBag.GTKH.Idhh type=text >
+        </td>
+    <td style="display:none"> 
+        <input class='inputDisabled text-center' value=@ViewBag.GTKH.Iddvt type=text >
+        </td>
+    <td>
+        <button value="@ViewBag.ID" class='save1 btn btn-primary' style ='margin-right:5px' id='edit'>
+                Lưu 
+                </button>
+                    <button class='huy2 btn btn-secondary' href='#'> 
+                    Huỷ </button>  
+    </td>
+
+</tr>
+
+<script>
+    $('.infomal').on('blur', format);
+    function format(){
+    if(checkNumber(this.value)){
+        const value = this.value.replace(/,/g, '');
+        this.value = parseFloat(value).toLocaleString('en-US', {
+        style: 'decimal',
+            maximumFractionDigits: 2,
+            minimumFractionDigits: 2
+            })
+    }
+}
+               function checkNumber(str) {
+        return /[0-9,.\-$]+/.test(str);
+    }
+    function getValue(str){
+       return Number(str.replace(/[^0-9.-]+/g,""));
+    }
+</script>
