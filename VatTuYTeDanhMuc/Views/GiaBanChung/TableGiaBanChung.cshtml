@@ -1,0 +1,572 @@
+﻿@{
+    webContext context = new webContext();
+    NhanVien getNhanVien(int? id)
+    {
+        NhanVien nv = context.NhanVien.Find(id);
+        if (nv != null) return nv;
+        else return new NhanVien();
+    }
+    List<HhDvt> getListHH_Dvt()
+    {
+        return context.HhDvt.Where(x => x.Active == true).ToList();
+    }
+
+    HangHoa getHangHoa(int? id){
+        return context.HangHoa.Find(id);
+    }
+
+    Dvt getDVT(int? id){
+        return context.Dvt.Find(id);
+    }
+    List<NhomHangHoa> getNhomHH(){
+        return context.NhomHangHoa.ToList();
+    }
+    List<HangHoa> getListHH()
+    {
+        return context.HangHoa.Where(x => x.Active == true).ToList();
+    }
+}
+@if (TempData["ThongBao"] != null)
+{
+                        <script type="text/javascript" charset="utf-8">
+                            window.onload = function () {
+                                alert("@Html.Raw(@TempData["ThongBao"])");
+                        };
+                        </script>
+}
+<div class="card pt-3">
+                    <div class="card-body">
+                        <div style="margin-left: 220px; position:absolute; z-index:1; display: flex;">
+                           <input placeholder="Tìm kiếm" id="search" type="text" style="height: 38px;" class="w-100 d-none"/>
+                        </div>
+                        <div style="margin-bottom: -40px; position:absolute; z-index:1;" class="d-none" id="div1">
+                            <button  value="@ViewBag.IDNHH" class="back btn btn-success" style="display:block" id="btnreturn">
+                                <span>Trở về</span>
+                            </button>
+                            </div>
+                       <div style="margin-bottom: -40px; position:absolute; z-index:1; display: flex;">
+                           
+                            <div class="dropdown" style="margin-left: 20px">
+                                 <select id="nhomHH" onchange="loadTableHangHoa()" class="w-100" style="height: 38px;">
+                                    <option selected disabled>-- Nhóm hàng hoá --</option>
+                    @foreach (NhomHangHoa n in getNhomHH())
+                    {
+                                        <option value="@n.Id">@n.TenNhh</option>
+                    }
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div style="overflow: auto">
+                            <input id="idHH" type="hidden" />
+                        <table id="myTable" class="table table-striped  table-hover text-center display nowrap" style="margin-top:50px;White-space: nowrap;">
+                            <thead>
+                                <tr style="background: white;" id="adddvt" class="d-none">
+                            <th colspan="8" class="p-0">
+                                <div class="group-btn">
+                                    <div class="d-flex justify-content-end">
+                                        <button href="#" value="@ViewBag.ID" class="addnew btn btn-primary" style="border-radius:0" id="add_new">
+                                            <span>Thêm Mới</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                                <tr>
+
+                                    
+                                    <th class="text-center" style="min-width: 300px">Tên hàng hóa</th>
+                                    <th class="text-center">Đơn vị tính</th>
+                                    <th class="text-center d-none" id="sl">Số lượng quy đổi</th>
+                                    <th class="text-center">Tỉ lệ sỉ</th>
+                                    <th class="text-center">Tỉ lệ lẻ</th>
+                                    <th class="text-center">Giá bán sỉ</th>
+                                    <th class="text-center">Giá bán lẻ</th>
+
+                                    <th class="text-center">Tùy chọn</th>
+                                    <th class="text-center" id="nsx">Nước sản xuất</th>
+                                    <th class="text-center" id="hsx">Hãng sản xuất</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyHH">
+                               <tr>
+                                   
+                                   <td></td>
+                                   <td></td>
+                                   <td></td>
+                                   <td></td>
+                                   <td></td>
+                                   <td></td>
+                                   <td></td>
+                                   <td></td>
+                                   <td></td>
+                               </tr>
+               
+
+
+
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+<script>
+
+    function loadTableHangHoa(){
+        var nhomHH = $('#nhomHH').val();
+        $.ajax({
+            type: "post",
+            url: "/loadTableGiaBanChung",
+            data: "nhomHH=" + nhomHH,
+            success: function (result) {
+                $('#search').removeClass("d-none");
+                $('#tbodyHH').replaceWith(result);
+            },
+            error: function () {
+                alert("Fail");
+            }
+        });
+    }
+
+    function loadTableHH_DVT(id){
+        $('#idHH').val(id);
+        $.ajax({
+            type: "post",
+            url: "/loadTableHH_DVT",
+            data: "idHH=" + id,
+            success: function (result) {
+                $('#tbodyHH_DVT').replaceWith(result);  
+            },
+            error: function () {
+                alert("Fail");
+            }
+        });
+    }
+
+    $(function () {
+             $("#myTable").on("click", ".addnew", function () {
+                
+                var idhh = $('#idHH').val();
+                $.ajax({
+                    type: "post",
+                    url: "/addNewRowHH_DVT_GBC",
+                    data: "idhh=" + idhh,
+                    success: function (result) {
+                        $("#tbodyHH").append(result)
+                    },
+                    error: function () {
+                        alert(idhh);
+                        alert("Fail");
+                    }
+                });
+            });
+            $("#myTable").on("click", ".edit", function () {
+                
+                var a = $(this).parents('tr').find("td:eq(0) input[type='hidden']").val();
+                var sl = $(this).parents('tr').find("td:eq(1) input[type='text']").val();
+                var thiss = $(this);
+                var id = $(this).attr("value");
+                $.ajax({
+                    
+                    type: "post",
+                    url: "/addNewRowHH",
+                    data: "idDVT="+ a + "&sl="+sl + "&id="+id,
+                    success: function (result) {
+                        
+                        thiss.parents('tr').replaceWith(result);
+                    },
+                    error: function () {
+                        alert("Fail");
+                    }
+                });
+            });
+             $("#myTable").on("click", ".edit1", function () {
+
+                var a = $(this).parents('tr').find("td:eq(0) input[type='hidden']").val();
+                var sl = $(this).parents('tr').find("td:eq(1) input[type='text']").val();
+                var thiss = $(this);
+                var id = $(this).attr("value");
+                $.ajax({
+
+                    type: "post",
+                    url: "/addNewRowHHDVT",
+                    data: "idDVT="+ a + "&sl="+sl + "&id="+id,
+                    success: function (result) {
+
+                        thiss.parents('tr').replaceWith(result);
+                    },
+                    error: function () {
+
+                        alert(id);
+                    }
+                });
+            });
+            $("#myTable").on("click", ".edit2", function () {
+
+                var a = $(this).parents('tr').find("td:eq(0) input[type='hidden']").val();
+                var sl = $(this).parents('tr').find("td:eq(1) input[type='text']").val();
+                var thiss = $(this);
+                var id = $(this).attr("value");
+                $.ajax({
+
+                    type: "post",
+                    url: "/addNewRowHHDVT",
+                    data: "idDVT="+ a + "&sl="+sl + "&id="+id,
+                    success: function (result) {
+
+                        thiss.parents('tr').replaceWith(result);
+                    },
+                    error: function () {
+
+                        alert(id);
+                    }
+                });
+            });
+            $("#myTable").on("click", ".delete", function () {
+
+                if(confirm('Bạn có muốn xoá đơn vị tính này?')){
+                var id = $(this).attr("value");
+                var idhh = $(this).parents('tr').find("td:eq(8) input[type='text']").val();
+                $.ajax({
+
+                    type: "post",
+                    url: "/deleteHHDVT",
+                    data:  "id="+id,
+                    success: function (result) {
+
+                        $.ajax({
+
+                    type: "post",
+                    url: "/loadTableGiaBanChungDVT",
+                    data: "&idhh="+idhh,
+                    success: function (result) {
+
+                        $('#tbodyHH').replaceWith(result);
+                    },
+                    error: function () {
+                        alert("Fail");
+                    }
+                });
+                     alert(result);   
+                    },
+                    error: function () {
+
+                        alert("fail");
+                    }
+                });
+                }
+            });
+            $("#myTable").on("click", ".detail", function () {
+                var id = $(this).attr("value");
+                alert(id);
+                $.ajax({
+
+                    type: "post",
+                    url: "/loadTableGiaBanChungDVT",
+                    data: "&idhh="+id,
+                    success: function (result) {
+                        
+                        $('#tbodyHH').replaceWith(result);
+                    },
+                    error: function () {
+                        alert("Fail");
+                    }
+                });
+            });
+            $("#myTable").on("click", ".updatedvt", function () {
+                var idDVT = $(this).parents('tr').find("td:eq(0) select").val();
+                var sl = $(this).parents('tr').find("td:eq(3) input[type='text']").val();
+                var idHH = $(this).parents('tr').find("td:eq(8) input[type='text']").val();
+                var id = $(this).attr("value");
+                var tilele = $(this).parents('tr').find("td:eq(5) input[type='text']").val(); 
+                var tilesi = $(this).parents('tr').find("td:eq(4) input[type='text']").val(); 
+                var giabanle = $(this).parents('tr').find("td:eq(7) input[type='text']").val();
+                var giabansi = $(this).parents('tr').find("td:eq(6) input[type='text']").val(); 
+                var nhomHH = $('#nhomHH').val();
+                $.ajax({
+                    type: "post",
+                    url: "/updateTLHH_DVT",
+                    data: "tilesi=" + tilesi + "&giabansi="+giabansi+"&giabanle="+giabanle+"&id="+id +"&tilele=" +tilele + "&sl=" + sl,
+                    success: function (result) {
+                        
+                       
+                     
+                       $.ajax({
+
+                    type: "post",
+                    url: "/loadTableGiaBanChungDVT",
+                    data: "&idhh="+idHH,
+                    success: function (result) {
+
+                        $('#tbodyHH').replaceWith(result);
+                    },
+                    error: function () {
+                        alert("Fail");
+                    }
+                });
+                        alert(result);
+                    },
+                    error: function () {
+                        alert("Fail");
+                    }
+                });
+            });
+            $("#myTable").on("click", ".huy2", function () {
+                var id = $(this).attr("value");
+                
+                $.ajax({
+
+                    type: "post",
+                    url: "/loadTableGBC_DVT",
+                    data: "&idhh="+id,
+                    success: function (result) {
+
+                        $('#tbodyHH').replaceWith(result);
+                    },
+                    error: function () {
+                        alert("Fail");
+                    }
+                });
+                alert(result);
+            });
+           $("#myTable").on("click", ".more", function () {
+                var id = $(this).attr("value");
+                $('#idHH').val(id);
+                $.ajax({
+
+                    type: "post",
+                    url: "/loadTableGBC_DVT",
+                    data: "&idhh="+id,
+                    success: function (result) {
+                        $('#sl').removeClass("d-none");
+                        $('#adddvt').removeClass("d-none");
+                        $('#div1').removeClass("d-none");
+                        $('#nsx').addClass("d-none");
+                        $('#nhomHH').addClass("d-none");
+                        $('#hsx').addClass("d-none");
+                        $('#search').addClass("d-none");
+                        $('#tbodyHH').replaceWith(result);
+                    },
+                    error: function () {
+                        alert("Fail");
+                    }
+                });
+            });
+            $("#div1").on("click", ".back", function () {
+                var nhomHH = $('#nhomHH').val();
+        $.ajax({
+            type: "post",
+            url: "/loadTableGiaBanChung",
+            data: "nhomHH=" + nhomHH,
+            success: function (result) {
+                $('#sl').addClass("d-none");
+                        $('#adddvt').addClass("d-none");
+                        $('#div1').addClass("d-none");
+                        $('#nsx').removeClass("d-none");
+                        $('#nhomHH').removeClass("d-none");
+                        $('#hsx').removeClass("d-none");
+                        $('#search').removeClass("d-none");
+                $('#tbodyHH').replaceWith(result);
+            },
+            error: function () {
+                alert("Fail");
+            }
+        });
+
+                
+            });
+            $("#myTable").on("click", ".save", function () {
+                var idDVT = $(this).parents('tr').find("td:eq(0) select").val();
+                var sl = $(this).parents('tr').find("td:eq(1) input[type='text']").val();
+                var idHH = $('#idHH').val();
+                var id = $(this).attr("value");
+                var tilele = 1.5 ; 
+                var tilesi = 2; 
+                var giabanle = 100000;
+                var giabansi = 123;
+                $.ajax({
+                    type: "post",
+                    url: "/updateTLHH",
+                    data: "&TiLeSi=" + tilesi + "&giabansi="+giabansi+"&giabanle="+giabanle+"&id="+id +"&tilele=" +tilele,
+                    success: function (result) {
+                        $.ajax({
+                            type:"post",
+                            url: "/table1",
+                            success:function(result){
+                                alert("Sua thanh cong");
+                            },
+                             error: function () {
+                        alert("Fail111");
+                    }
+                        });                    
+                    },
+                    error: function () {
+                        alert("Fail111");
+                    }
+                });
+
+            });
+             $("#myTable").on("click", ".add", function () {
+                var idDVT = $(this).parents('tr').find("td:eq(0) select").val();
+                var sl = $(this).parents('tr').find("td:eq(1) input[type='text']").val();
+                var idHH = $('#idHH').val();
+                var id = $(this).attr("value");
+                var tilele = $(this).parents('tr').find("td:eq(4) input[type='text']").val(); 
+                var tilesi = $(this).parents('tr').find("td:eq(3) input[type='text']").val(); 
+                var giabanle = $(this).parents('tr').find("td:eq(6) input[type='text']").val();
+                var giabansi = $(this).parents('tr').find("td:eq(5) input[type='text']").val(); 
+                var nhomHH = $('#nhomHH').val();
+                $.ajax({
+                    type: "post",
+                    url: "/updateTLHH",
+                    data: "&TiLeSi=" + tilesi + "&giabansi="+giabansi+"&giabanle="+giabanle+"&id="+id +"&tilele=" +tilele,
+                    success: function (result) {
+                       alert("Sửa thành công");
+                       $.ajax({
+                                type: "post",
+                                url: "/loadTableGiaBanChung",
+                                data: "nhomHH=" + nhomHH,
+                                success: function (result) {
+                                    $('#tbodyHH').replaceWith(result);
+                                },
+                                error: function () {
+                                    alert("Fail");
+                                }
+                        });               
+                    },
+                    error: function () {
+                        alert("Fail");
+                    }
+                });
+            });
+            $("#myTable").on("click", ".add1", function () {
+                var idDVT = $(this).parents('tr').find("td:eq(0) select").val();
+                var sl = $(this).parents('tr').find("td:eq(1) input[type='text']").val();
+                var idHH = $('#idHH').val();
+                var id = $(this).attr("value");
+                var tilele = $(this).parents('tr').find("td:eq(4) input[type='text']").val(); 
+                var tilesi = $(this).parents('tr').find("td:eq(3) input[type='text']").val(); 
+                var giabanle = $(this).parents('tr').find("td:eq(6) input[type='text']").val();
+                var giabansi = $(this).parents('tr').find("td:eq(5) input[type='text']").val(); 
+                var nhomHH = $('#nhomHH').val();
+                $.ajax({
+                    type: "post",
+                    url: "/updateTLHH_DVT",
+                    data: "&TiLeSi=" + tilesi + "&giabansi="+giabansi+"&giabanle="+giabanle+"&id="+id +"&tilele=" +tilele,
+                    success: function (result) {
+                       alert("Sửa thành công");
+                       alert(id);
+                       $.ajax({
+                           
+                    type: "post",
+                    url: "/loadTableGiaBanChungDVT",
+                    data: "&idhh="+id,
+                    success: function (result) {
+
+                        $('#tbodyHH').replaceWith(result);
+                    },
+                    error: function () {
+                        alert("Fail");
+                    }
+                });
+                    },
+                    error: function () {
+                        alert(giabanle);
+                    }
+                });
+            });
+            $("#myTable").on("click", ".remove", function () {
+                if(confirm('Bạn có muốn xoá?')){
+                    var id = $(this).attr("value");
+                    var idHH = $('#idHH').val();
+                    $.ajax({
+                        type: "post",
+                        url: "/removeHH_DVT",
+                        data: "id="+id,
+                        success: function (result) {
+                            $.ajax({
+                                type: "post",
+                                url: "/loadTableHH_DVT",
+                                data: "idHH=" + idHH,
+                                success: function (result) {
+                                    $('#tbodyHH_DVT').replaceWith(result);
+                                },
+                                error: function () {
+                                    alert("Fail");
+                                }
+                            });
+                            alert(result);
+                        },
+                        error: function () {
+                            alert("Fail");
+                        }
+                    });
+                }
+            });
+            $("#myTable").on("click", ".adddvt", function () {
+                var iddvt = $(this).parents('tr').find("td:eq(2) select").val();
+                var sl = $(this).parents('tr').find("td:eq(3) input[type='text']").val();
+                var idHH = $(this).parents('tr').find("td:eq(0) input[type='hidden']").val();  
+                var tilele = $(this).parents('tr').find("td:eq(5) input[type='text']").val(); 
+                var tilesi = $(this).parents('tr').find("td:eq(4) input[type='text']").val(); 
+                var giabanle = $(this).parents('tr').find("td:eq(7) input[type='text']").val();
+                var giabansi = $(this).parents('tr').find("td:eq(6) input[type='text']").val();                 
+                $.ajax({                   
+                    type: "post",
+                    url: "/addTLHH_DVT",
+                    data: "idhh=" + idHH + "&iddvt=" + iddvt + "&giabansi=" + giabansi + "&giabanle=" + giabanle + "&tilesi=" + tilesi +"&tilele=" + tilele +"&sl="+ sl,
+                    success: function (result) {                      
+                       $.ajax({
+
+                                type: "post",
+                                url: "/loadTableGBC_DVT",
+                                data: "idhh=" + idHH,
+                                success: function (result) {
+                                    $('#tbodyHH').replaceWith(result);
+                                },
+                                error: function () {
+                                    alert("Fail1");
+                                }
+                        }); 
+                        alert(result);
+                    },
+                    error: function () {
+                       
+                        
+                        alert("Fail");
+                    }
+                });
+            });
+            $("#myTable").on("click", ".btn-secondary", function () {
+                var nhomHH = $('#nhomHH').val();
+                 $.ajax({
+                                type: "post",
+                                url: "/loadTableGiaBanChung",
+                                data: "nhomHH=" + nhomHH,
+                                success: function (result) {
+                                    $('#tbodyHH').replaceWith(result);
+                                },
+                                error: function () {
+                                    alert("Fail");
+                                }
+                        });               
+            });
+
+        })
+
+        $('#search').keyup(function(e){
+            var nhomHH = $('#nhomHH').val();
+            var key = $(this).val();
+                $.ajax({
+                type: "post",
+                url: "/searchTableGBC",
+                data: "nhomHH=" + nhomHH + "&key="+key,
+                success: function (result) {
+                    $('#tbodyHH').replaceWith(result);
+                },
+                error: function () {
+                    alert("Fail");
+                }
+            });
+        });
+</script>

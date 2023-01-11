@@ -1,0 +1,78 @@
+﻿@{
+    webContext context = new webContext();
+    NhanVien getNhanVien(int? id)
+    {
+        NhanVien nv = context.NhanVien.Find(id);
+        if (nv != null) return nv;
+        else return new NhanVien();
+    }
+    List<HhDvt> getListHH_Dvt()
+    {
+        return context.HhDvt.Where(x => x.Active == true).ToList();
+    }
+
+    HangHoa getHangHoa(int? id)
+    {
+        return context.HangHoa.Find(id);
+    }
+
+    Dvt getDVT(int? id)
+    {
+        return context.Dvt.Find(id);
+    }
+    List<NhomHangHoa> getNhomHH()
+    {
+        return context.NhomHangHoa.ToList();
+    }
+    List<HangHoa> getListHH()
+    {
+        return context.HangHoa.Where(x => x.Active == true).ToList();
+    }
+    HangHoa gethh(int? id)
+    {
+        HangHoa nv = context.HangHoa.Find(id);
+        if (nv != null) return nv;
+        else return new HangHoa();
+    }
+    Dvt getdvt(int? id)
+    {
+        Dvt nv = context.Dvt.Find(id);
+        if (nv != null) return nv;
+        else return new Dvt();
+    }
+    string format(double? a)
+    {
+        return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
+
+    }
+}
+<tbody id="tbodyHH">
+    @foreach (HhDvt h in ViewBag.HHDVT)
+    {
+
+                                    <tr  >
+                                       <td style="display:none">@gethh(@h.Idhh).MaHh</td>
+                                       <td style="text-align:left">@gethh(@h.Idhh).TenHh</td>
+                                       <td>@getdvt(@h.Iddvt).TenDvt</td>
+                                           <td style="text-align:right">@format(@h.SlquyDoi)</td>
+                                           <td style="text-align:right">@h.TiLeSi</td>
+                                           <td style="text-align:right">@h.TiLeLe</td>
+                                       <td style="text-align:right" >@format(@h.GiaBanSi)</td>
+                                           <td style="text-align:right">@format(@h.GiaBanLe)</td>
+                                               <td style="display:none"><input value="@h.Idhh" class='inputDisabled text-center'  type=text ></td>
+
+                                       <td>
+                                            <button value="@h.Id" class="edit2 btn btn-primary" style="margin-right: 5px" id="edit">Sửa</button>
+                                            <button value="@h.Id" class="delete btn btn-danger" style="margin-right: 5px">Xóa</button>
+
+
+                                       </td>
+
+
+
+                                    </tr>
+
+
+    }
+
+ </tbody>

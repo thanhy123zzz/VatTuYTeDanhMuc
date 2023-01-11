@@ -1,0 +1,45 @@
+﻿@{
+string format(double? a)
+    {
+        return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
+
+    }
+    }
+<tr>
+
+
+                                       
+                                        
+                                        
+                                        <td><input class='inputDisabled infomal' style="text-align:right" value="@format(@ViewBag.nhh.Min)" type=text ></td>
+                                        <td><input class='inputDisabled infomal' style="text-align:right" value="@format(@ViewBag.nhh.Max)" type=text ></td>
+                                        <td><input class='inputDisabled infomal' style="text-align:right" value="@ViewBag.nhh.TiLeSi" type=text ></td>
+                                        <td><input class='inputDisabled infomal' style="text-align:right" value="@ViewBag.nhh.TiLeLe"  type=text ></td>
+                                         <td style="display:none"><input class='inputDisabled text-center infomal' value="@ViewBag.nhh.Idnhh"  type=text ></td>
+
+                                        <td>
+                                                <button class='update btn btn-primary' value="@ViewBag.nhh.Id" style ='margin-right:5px' id='edit'>Lưu</button>
+                                                <button class='huy1 btn btn-secondary' value="@ViewBag.nhh.Idnhh" style ='margin-right:5px' id='edit'>Hủy</button>
+
+                                        </td>
+                                    </tr>
+    <script>
+         $('.infomal').on('blur', format);
+    function format(){
+    if(checkNumber(this.value)){
+        const value = this.value.replace(/,/g, '');
+        this.value = parseFloat(value).toLocaleString('en-US', {
+        style: 'decimal',
+            maximumFractionDigits: 2,
+            minimumFractionDigits: 2
+            })
+    }
+}
+               function checkNumber(str) {
+        return /[0-9,.\-$]+/.test(str);
+    }
+    function getValue(str){
+       return Number(str.replace(/[^0-9.-]+/g,""));
+    }
+    
+    </script>

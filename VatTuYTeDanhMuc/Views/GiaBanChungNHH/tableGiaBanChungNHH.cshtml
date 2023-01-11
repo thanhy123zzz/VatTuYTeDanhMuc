@@ -1,0 +1,354 @@
+﻿@model VatTuYTeDanhMuc.Models.Entities.NhomHangHoa
+@{
+    webContext context = new webContext();
+    NhanVien getNhanVien(int? id)
+    {
+        NhanVien nv = context.NhanVien.Find(id);
+        if (nv != null) return nv;
+        else return new NhanVien();
+    }
+    List<NhomHangHoa> getListNHH()
+    {
+        return context.NhomHangHoa.Where(x => x.Active == true).ToList();
+    }
+    string formatDay(DateTime? date)
+    {
+        if (date != null)
+        {
+            return date.Value.ToString("dd/MM/yyyy HH:mm");
+        }
+        else
+        {
+            return null;
+        }
+    }
+    string format(double? a)
+    {
+        return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
+
+    }
+
+}
+@if (TempData["ThongBao"] != null)
+{
+                        <script type="text/javascript" charset="utf-8">
+                            window.onload = function () {
+                                alert("@Html.Raw(@TempData["ThongBao"])");
+                        };
+                        </script>
+}
+
+               
+   <div class="card mb-0" style="height:525px;">
+    <div class="" style="overflow-x:auto">
+        <div class="m-3" style="display:flex;flex-direction: row; overflow-x:auto; align-items: baseline;">
+            <div class="col-lg-4 col-4 p-0 border-dark" style="min-width: 350px; overflow-y: auto; max-height: 480px;" id="table1">
+
+                             
+
+                <table class="table table-bordered table-hover  mb-0 text-center h-100">
+                    <thead>
+                        <tr style="background: white;">
+                            <th colspan="5" class="p-0">
+                                <div class="group-btn">
+                                    <div class="d-flex justify-content-end">
+                                       <input placeholder="Tìm kiếm" id="search" type="text" style="height: 38px;width: 309px" />
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+
+                    <tr>
+
+                                    <th style="min-width: 300px" class="text-center">Tên nhóm hàng hóa</th>
+                                   
+                    </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        @foreach (NhomHangHoa item in getListNHH())
+                        {
+
+
+                                            <tr onclick="loadTableGTNHH(@item.Id)">
+
+
+                                            <td style="display:none">@item.MaNhh</td>
+                                            <td style="text-align:left">@item.TenNhh</td>
+                                                                                      
+                                        </tr>
+                        }
+
+
+
+                            </tbody>
+                </table>
+            </div>
+            <input type="hidden" id="idnhh"/>
+          
+            <div class="col-lg-8 col-8 p-0 border-dark" style="max-width: 780px; overflow-y: auto; max-height: 480px;">
+
+               
+                <table class="table table-bordered  mb-0  text-center bg-light" id="myTable">
+                    <thead>
+                        <tr style="background: white;">
+                            <th colspan="5" class="p-0">
+                                <div class="group-btn">
+                                    <div class="d-flex justify-content-end">
+                                        <button href="#" value="" class="addnew btn btn-primary" style="border-radius:0" id="add_new">
+                                            <span>Thêm Mới</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="text-center">Giá trị min</th>
+                            <th class="text-center">Giá trị max</th>
+                                   
+                                    <th style="width:101.68px" class="text-center">Tỉ lệ sỉ</th>
+                                    <th style="width:103.33px" class="text-center">Tỉ lệ lẻ</th>
+
+                                    <th style="width:140px" class="text-center">Tùy chọn</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyGTNHH">
+                        <tr>
+                            <td>...</td>
+                            <td>...</td>
+                           
+                            <td>...</td>
+                            <td>...</td>
+                            <td>...</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+          <script>
+              
+             function loadTableGTNHH(idnhh){
+                    $('#idnhh').val(idnhh);                   
+                    $.ajax({
+                        type: "post",
+                        url: "/loadTableGTNHH",
+                        data: "idnhh=" + idnhh ,
+                        success: function (result) {
+
+                            $('#tbodyGTNHH').replaceWith(result);  
+                        },
+                        error: function () {
+                            alert(idnhh);
+                            alert("Fail");
+                        }
+                    });
+             }
+                    $(function () {
+                        $("#myTable").on("click", ".edit", function () {
+
+                
+                var thiss = $(this);
+                var id = $(this).attr("value");
+                $.ajax({
+
+                    type: "post",
+                    url: "/addNewRowGBCNHH",
+                    data:  "&id="+id,
+                    success: function (result) {
+
+                        thiss.parents('tr').replaceWith(result);
+                    },
+                    error: function () {
+
+                        alert(id);
+                    }
+                });
+            });
+                    })
+                    $("#myTable").on("click", ".huy1", function () {
+                var idnhh = $(this).attr("value");
+                 $.ajax({
+                        type: "post",
+                        url: "/loadTableGTNHH",
+                        data: "idnhh=" + idnhh ,
+                        success: function (result) {
+                           
+                            $('#tbodyGTNHH').replaceWith(result);  
+                        },
+                        error: function () {
+                            alert(idnhh);
+                            alert("Fail");
+                        }
+                    });
+            });
+             $("#myTable").on("click", ".delete", function () {
+
+                if(confirm('Bạn có muốn xoá?')){
+                var id = $(this).attr("value");
+                var idhh = $(this).parents('tr').find("td:eq(8) input[type='text']").val();
+                $.ajax({
+
+                    type: "post",
+                    url: "/deleteHGBCNHH",
+                    data:  "id="+id,
+                    success: function (result) {
+                        $.ajax({
+                        type: "post",
+                        url: "/loadTableGTNHH",
+                        data: "idnhh=" + $('#idnhh').val(),
+                        success: function (result) {
+
+                            $('#tbodyGTNHH').replaceWith(result);  
+                        },
+                        error: function () {
+                           
+                            alert("Fail");
+                        }
+                    });
+                     alert(result);   
+                    },
+                    error: function () {
+
+                        alert("fail");
+                    }
+                });
+                }
+            });
+            $("#myTable").on("click", ".huy2", function () {
+               
+                 $.ajax({
+                        type: "post",
+                        url: "/loadTableGTNHH",
+                        data: "idnhh=" + $('#idnhh').val(),
+                        success: function (result) {
+
+                            $('#tbodyGTNHH').replaceWith(result);  
+                        },
+                        error: function () {
+                            alert(idnhh);
+                            alert("Fail");
+                        }
+                    });
+            });
+            $("#myTable").on("click", ".addnew", function () {
+                
+                $.ajax({
+                    type: "post",
+                    url: "/addNewRowGBCNHH_NewRow",
+                    data: "idnhh=" + idnhh ,
+                    success: function (result) {
+                        $("#tbodyGTNHH").append(result)
+                    },
+                    error: function () {
+                        alert(idhh);
+                        alert("Fail");
+                    }
+                });
+            });
+            $("#myTable").on("click", ".add", function () {
+               
+               
+                var tilele = $(this).parents('tr').find("td:eq(3) input[type='text']").val(); 
+                var tilesi = $(this).parents('tr').find("td:eq(2) input[type='text']").val(); 
+                var min = $(this).parents('tr').find("td:eq(0) input[type='text']").val();
+                var max = $(this).parents('tr').find("td:eq(1) input[type='text']").val();                 
+                $.ajax({                   
+                    type: "post",
+                    url: "/addGBCNHH",
+                    data: "min=" + min + "&max=" + max + "&tilesi=" + tilesi +"&tilele=" + tilele +"&idnhh=" + $('#idnhh').val() ,
+                    success: function (result) {                      
+                       $.ajax({
+                        type: "post",
+                        url: "/loadTableGTNHH",
+                        data: "idnhh=" + $('#idnhh').val(),
+                        success: function (result) {
+
+                            $('#tbodyGTNHH').replaceWith(result);  
+                        },
+                        error: function () {
+                           
+                            alert("Fail");
+                        }
+                    });
+                        alert(result);
+                    },
+                    error: function () {
+
+
+                        alert("Fail");
+                    }
+                });
+            });
+                    $("#myTable").on("click", ".update", function () {
+               
+                var id = $(this).attr("value");
+                var tilele = $(this).parents('tr').find("td:eq(3) input[type='text']").val(); 
+                var tilesi = $(this).parents('tr').find("td:eq(2) input[type='text']").val(); 
+                var giatrimin = $(this).parents('tr').find("td:eq(0) input[type='text']").val(); 
+                var giatrimax = $(this).parents('tr').find("td:eq(1) input[type='text']").val();
+                var idnhh = $(this).parents('tr').find("td:eq(4) input[type='text']").val();
+               
+              
+                $.ajax({
+                    type: "post",
+                    url: "/UpdateGBCNHH",
+                    data: "&tilesi=" + tilesi + "&giatrimax="+giatrimax+"&giatrimin="+giatrimin+"&id="+id +"&tilele=" +tilele,
+                    success: function (result) {
+                       
+                      $.ajax({
+                        type: "post",
+                        url: "/loadTableGTNHH",
+                        data: "idnhh=" + idnhh ,
+                        success: function (result) {
+
+                            $('#tbodyGTNHH').replaceWith(result);  
+                        },
+                        error: function () {
+                            
+                            alert("Fail");
+                        }
+                    });
+                    alert(result);
+                    },
+                    error: function () {
+                        alert("Fail");
+                    }
+                });
+            });
+         $('.infomal').on('blur', format);
+    function format(){
+    if(checkNumber(this.value)){
+        const value = this.value.replace(/,/g, '');
+        this.value = parseFloat(value).toLocaleString('en-US', {
+        style: 'decimal',
+            maximumFractionDigits: 2,
+            minimumFractionDigits: 2
+            })
+    }
+}
+               function checkNumber(str) {
+        return /[0-9,.\-$]+/.test(str);
+    }
+    function getValue(str){
+       return Number(str.replace(/[^0-9.-]+/g,""));
+    }
+     $('#search').keyup(function(e){
+            
+            var key = $(this).val();
+                $.ajax({
+                type: "post",
+                url: "/searchTableGBCNHH",
+                data: "key="+key ,
+                success: function (result) {
+                    
+                    $('#tbody').replaceWith(result);
+                },
+                error: function () {
+                    alert("Fail");
+                }
+            });
+        });
+                </script>

@@ -1,0 +1,72 @@
+﻿@{
+    webContext context = new webContext();
+    Dvt getdvt(int? id)
+    {
+        Dvt nv = context.Dvt.Find(id);
+        if (nv != null) return nv;
+        else return new Dvt();
+    }
+    string format(double? a)
+    {
+        return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
+
+    }
+}
+<tbody id="tbodyGTKH">
+    
+     @if (@ViewBag.idkh == null || @ViewBag.idhh == null || @ViewBag.iddvt == null)
+    {
+
+
+                                <tr>
+                                 <td>@getdvt(@ViewBag.iddvt).TenDvt</td>
+                                     <td><input class='inputDisabled text-center '  type=text ></td>
+                                     <td><input class='inputDisabled text-center '  type=text ></td>
+                                     <td><input class='inputDisabled text-center infomal'  type=text ></td>   
+                                     <td><input class='inputDisabled text-center infomal'  type=text ></td>
+                                 <td style="display:none"><input class='inputDisabled text-center' value=@ViewBag.iddvt type=text ></td>
+                                 <td style="display:none"><input class='inputDisabled text-center' value=@ViewBag.idhh type=text ></td>
+                                     <td style="width:130px"><button   class="add1 btn btn-primary" style="margin-right: 5px" id="edit">Thêm</button>
+
+
+                                    </tr>
+
+    }
+    else
+    {
+
+                                    <tr>
+                                    <td>@getdvt(@ViewBag.iddvt).TenDvt</td>
+                                        <td style="text-align:right">@ViewBag.GTKH.TiLeSi</td>
+                                        <td style="text-align:right">@ViewBag.GTKH.TiLeLe</td>
+                                        <td style="text-align:right">@format(@ViewBag.GTKH.GiaBanSi)</td>
+                                        <td style="text-align:right">@format(@ViewBag.GTKH.GiaBanLe)</td>
+                                      <td style="display:none"><input class='inputDisabled text-center' value=@ViewBag.iddvt type=text ></td>
+                                     <td style="display:none"><input class='inputDisabled text-center' value=@ViewBag.idhh type=text ></td>
+                                    <td style="width:130px"><button value="@ViewBag.GTKH.Id" class="edit1 btn btn-primary" style="margin-right: 5px" id="edit">Sửa</button>
+                                          <button  value="@ViewBag.GTKH.Id" class="delete btn btn-danger" style="margin-right: 5px" id="edit">Xóa</button>
+                                        </td>
+
+
+                                </tr>
+    }
+    </tbody>
+    <script>
+    $('.infomal').on('blur', format);
+    function format(){
+    if(checkNumber(this.value)){
+        const value = this.value.replace(/,/g, '');
+        this.value = parseFloat(value).toLocaleString('en-US', {
+        style: 'decimal',
+            maximumFractionDigits: 2,
+            minimumFractionDigits: 2
+            })
+    }
+}
+               function checkNumber(str) {
+        return /[0-9,.\-$]+/.test(str);
+    }
+    function getValue(str){
+       return Number(str.replace(/[^0-9.-]+/g,""));
+    }
+</script>

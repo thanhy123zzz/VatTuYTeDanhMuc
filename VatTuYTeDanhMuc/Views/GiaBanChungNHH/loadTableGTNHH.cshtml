@@ -1,0 +1,39 @@
+﻿@{
+    string format(double? a)
+    {
+        return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
+
+    }
+}
+<tbody id="tbodyGTNHH">
+    @if (ViewBag.idnhh == null)
+    {
+             <tr>
+                                <td></td>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>...</td>
+                                <td>...</td>
+
+                            </tr>
+    }else
+
+    @foreach (GiaTheoNhomHangHoa h in ViewBag.NHH)
+   {
+       
+   
+                        <tr>
+                            <td style="text-align:right">@format(@h.Min)</td>
+                            <td style="text-align:right">@format(@h.Max)</td>
+                            <td style="text-align:right">@h.TiLeSi</td>
+                            <td style="text-align:right">@h.TiLeLe</td>
+                          
+                            <td>
+                               <button value="@h.Id" class="edit btn btn-primary" style="margin-right: 5px" id="edit">Sửa</button>
+                               <button value="@h.Id" class="delete btn btn-danger" style="margin-right: 5px" id="edit">Xóa</button>
+                            </td>
+
+                        </tr>
+   }
+                    </tbody>

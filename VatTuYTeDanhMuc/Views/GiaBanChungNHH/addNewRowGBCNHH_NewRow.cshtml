@@ -1,0 +1,44 @@
+﻿ <tr>
+                                <td><input style="text-align:right" class='inputDisabled infomal'  required id="min" type=text ></td>
+                                <td><input style="text-align:right" class='inputDisabled infomal' onchange="checkNumber()" required id="max" type=text ></td>
+                                <td><input style="text-align:right" class='inputDisabled'  type=text ></td>
+                                <td><input style="text-align:right" class='inputDisabled'  type=text ></td>
+                                <td><button value="" class='add btn btn-primary' style ='margin-right:5px' id='edit'>
+                Thêm 
+                </button>
+                    <button  class='huy2 btn btn-secondary'> 
+                    Huỷ </button></td>
+                                
+
+                            </tr>
+       <script>
+      function checkNumber(){
+        var min = $('#min').val();
+        var max = $('#max').val();
+       
+        if(max != null){
+        if (getValue($('#max').val()) < getValue($('#min').val())) {
+            
+              
+              alert("Giá trị max phải lớn hơn giá trị min");
+        }
+      }
+      }
+      $('.infomal').on('blur', format);
+    function format(){
+    if(checkNumber(this.value)){
+        const value = this.value.replace(/,/g, '');
+        this.value = parseFloat(value).toLocaleString('en-US', {
+        style: 'decimal',
+            maximumFractionDigits: 2,
+            minimumFractionDigits: 2
+            })
+    }
+}
+       function checkNumber(str) {
+        return /[0-9,.\-$]+/.test(str);
+    }
+    function getValue(str){
+       return Number(str.replace(/[^0-9.-]+/g,""));
+    }
+        </script>
