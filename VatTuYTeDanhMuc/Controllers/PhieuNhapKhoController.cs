@@ -113,6 +113,7 @@ namespace VatTuYTeDanhMuc.Controllers
             int idUser = int.Parse(User.Claims.ElementAt(3).Type);
             webContext context = new webContext();
             ChiTietPhieuNhapTam ct = new ChiTietPhieuNhapTam();
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
             ct.Active = true;
             ct.Idhh = idHH;
             ct.SoLo = SoLo;
@@ -156,6 +157,7 @@ namespace VatTuYTeDanhMuc.Controllers
             webContext context = new webContext();
             int idUser = int.Parse(User.Claims.ElementAt(3).Type);
             ChiTietPhieuNhapTam ct = context.ChiTietPhieuNhapTam.Find(id);
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
             ct.Active = true;
             ct.Idhh = idHH;
             ct.SoLo = SoLo;

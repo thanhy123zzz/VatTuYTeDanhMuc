@@ -8,6 +8,8 @@ namespace VatTuYTeDanhMuc.Controllers
 {
     public class DonViTinhController : Controller
     {
+        
+
         public IActionResult Table()
         {
             ViewData["Title"] = "Danh mục đơn vị tính";
@@ -49,9 +51,16 @@ namespace VatTuYTeDanhMuc.Controllers
         public IActionResult insertDonViTinh(Dvt dvt)
         {
             webContext context = new webContext();
-            dvt.Nvtao =3;
+            
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+            int idCN = int.Parse(User.Claims.ElementAt(4).Value);
+            dvt.Idcn = idCN; 
+           
+            dvt.Nvtao =idUser;
+            dvt.Nvsua = idUser;
             dvt.Active = true;
             dvt.NgayTao = DateTime.Now;
+            dvt.NgaySua = DateTime.Now;
             context.Dvt.Add(dvt);
             context.SaveChanges();
             TempData["ThongBao"] = "Thêm thành công!";
@@ -64,8 +73,9 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             Dvt dv = context.Dvt.Find(dvt.Id);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
 
-            dv.Nvsua = 3;
+            dv.Nvsua = idUser;
             dv.NgaySua = DateTime.Now;
             dv.TenDvt = dvt.TenDvt;
             dv.MaDvt = dvt.MaDvt;
@@ -82,6 +92,9 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             Dvt dvt = context.Dvt.Find(id);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+            dvt.NgaySua = DateTime.Now;
+            dvt.Nvsua = idUser;
             dvt.Active=false;
 
             context.Dvt.Update(dvt);
@@ -93,6 +106,9 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             Dvt dvt = context.Dvt.Find(id);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+            dvt.NgaySua = DateTime.Now;
+            dvt.Nvsua = idUser;
             dvt.Active = true;
 
             context.Dvt.Update(dvt);

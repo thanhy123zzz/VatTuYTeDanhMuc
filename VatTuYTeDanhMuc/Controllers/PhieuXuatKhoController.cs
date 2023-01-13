@@ -49,7 +49,7 @@ namespace VatTuYTeDanhMuc.Controllers
 
             string Host = GetLocalIPAddress();
             List<ChiTietPhieuXuatTam> ListCTPNT = context.ChiTietPhieuXuatTam.Where(x => x.Host == Host).OrderByDescending(x => x.Id).ToList();
-
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
             var tran = context.Database.BeginTransaction();
             try
             {
@@ -719,6 +719,7 @@ namespace VatTuYTeDanhMuc.Controllers
             int idUser = int.Parse(User.Claims.ElementAt(3).Type);
             webContext context = new webContext();
             ChiTietPhieuXuatTam ct = new ChiTietPhieuXuatTam();
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
             ct.Idhh = idHH;
             ct.Iddvt = idDVT;
             ct.Thue = Math.Round(ThueXuat, 2);

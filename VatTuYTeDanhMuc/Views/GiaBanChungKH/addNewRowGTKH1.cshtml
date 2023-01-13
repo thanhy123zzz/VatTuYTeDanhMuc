@@ -11,14 +11,14 @@
         return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
 
     }
-}
+} 
 <tr>
     <td>@getdvt(@ViewBag.GTKH.Iddvt).TenDvt</td>
     <td>
-        <input class='inputDisabled' style="text-align: right" value=@ViewBag.GTKH.TiLeSi type=text >
+        <input class='inputDisabled' style="text-align: right" value=@format(@ViewBag.GTKH.TiLeSi) type=text >
         </td>
     <td>
-        <input class='inputDisabled' style="text-align: right" value=@ViewBag.GTKH.TiLeLe type=text >
+        <input class='inputDisabled' style="text-align: right" value=@format(@ViewBag.GTKH.TiLeLe) type=text >
         </td>
     <td>
         <input class='inputDisabled infomal' style="text-align: right" value=@format(@ViewBag.GTKH.GiaBanSi) type=text >
