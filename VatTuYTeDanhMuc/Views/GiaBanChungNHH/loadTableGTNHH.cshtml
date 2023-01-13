@@ -22,12 +22,12 @@
     @foreach (GiaTheoNhomHangHoa h in ViewBag.NHH)
    {
        
-   
+    
                         <tr>
                             <td style="text-align:right">@format(@h.Min)</td>
                             <td style="text-align:right">@format(@h.Max)</td>
-                            <td style="text-align:right">@h.TiLeSi</td>
-                            <td style="text-align:right">@h.TiLeLe</td>
+                            <td style="text-align:right">@format(@h.TiLeSi)</td>
+                            <td style="text-align:right">@format(@h.TiLeLe)</td>
                           
                             <td>
                                <button value="@h.Id" class="edit btn btn-primary" style="margin-right: 5px" id="edit">Sửa</button>

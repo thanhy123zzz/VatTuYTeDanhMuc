@@ -22,13 +22,16 @@ namespace VatTuYTeDanhMuc.Controllers
         //Thêm khách hàng
         public IActionResult InsertKH(KhachHang kh)
         {
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+            int idCN = int.Parse(User.Claims.ElementAt(4).Value);
             webContext context = new webContext();
-            kh.Nvtao = 3;
+            kh.Nvtao = idUser;
             kh.NgayTao = DateTime.Now;
             kh.Active = true;
-            kh.Idcn = 1;
-            kh.Idnv = 3;
-            kh.Nvsale = 3;
+            kh.Idcn = idCN;
+           
+            kh.Idnv = idUser;
+            kh.Idcn = idCN;
 
             context.KhachHang.Add(kh);
             context.SaveChanges();
@@ -50,6 +53,8 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             KhachHang k = context.KhachHang.Find(kh.Id);
+            int idCN = int.Parse(User.Claims.ElementAt(4).Value);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             k.MaKh = kh.MaKh;
             k.TenKh = kh.TenKh;
             k.DiaChi = kh.DiaChi;
@@ -61,7 +66,7 @@ namespace VatTuYTeDanhMuc.Controllers
             k.TenTaiKhoan = kh.TenTaiKhoan;
             k.Idcn = kh.Idcn;
             k.Idnv = kh.Idnv;
-            k.Nvsua = 3;
+            k.Nvsua = idUser;
             k.NgaySua = DateTime.Now;
 
             context.KhachHang.Update(k);
@@ -74,6 +79,9 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             KhachHang kh = context.KhachHang.Find(id);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+            kh.NgaySua = DateTime.Now;
+            kh.Nvsua = idUser; 
             kh.Active = false;
 
             context.KhachHang.Update(kh);
@@ -107,6 +115,9 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             KhachHang hsx = context.KhachHang.Find(id);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+            hsx.NgaySua = DateTime.Now;
+            hsx.Nvsua = idUser;
             hsx.Active = true;
 
             context.KhachHang.Update(hsx);

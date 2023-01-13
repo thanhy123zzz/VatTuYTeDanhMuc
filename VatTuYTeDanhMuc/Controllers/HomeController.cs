@@ -16,7 +16,7 @@ namespace VatTuYTe.Controllers
         [HttpGet("/TrangChu/{MaMenu}")]
         public IActionResult Index(string MaMenu)
         {
-            return RedirectToAction("Table",MaMenu);
+            return RedirectToAction("Table", MaMenu);
         }
     }
 }

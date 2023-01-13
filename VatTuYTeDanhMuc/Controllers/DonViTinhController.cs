@@ -47,31 +47,39 @@ namespace VatTuYTeDanhMuc.Controllers
       return View(dvt);
     }
 
-    //insert đơn vị tính
-    [HttpPost]
-    public IActionResult insertDonViTinh(Dvt dvt)
-    {
-      webContext context = new webContext();
-      dvt.Nvtao = 3;
-      dvt.Active = true;
-      dvt.NgayTao = DateTime.Now;
-      context.Dvt.Add(dvt);
-      context.SaveChanges();
-      TempData["ThongBao"] = "Thêm thành công!";
-      return RedirectToAction("Table");
-    }
+        //insert đơn vị tính
+        [HttpPost]
+        public IActionResult insertDonViTinh(Dvt dvt)
+        {
+            webContext context = new webContext();
+            
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+            int idCN = int.Parse(User.Claims.ElementAt(4).Value);
+            dvt.Idcn = idCN; 
+           
+            dvt.Nvtao =idUser;
+            dvt.Nvsua = idUser;
+            dvt.Active = true;
+            dvt.NgayTao = DateTime.Now;
+            dvt.NgaySua = DateTime.Now;
+            context.Dvt.Add(dvt);
+            context.SaveChanges();
+            TempData["ThongBao"] = "Thêm thành công!";
+            return RedirectToAction("Table");
+        }
 
-    //update đơn vị tính
-    [HttpPost]
-    public IActionResult updateDVt(Dvt dvt)
-    {
-      webContext context = new webContext();
-      Dvt dv = context.Dvt.Find(dvt.Id);
+        //update đơn vị tính
+        [HttpPost]
+        public IActionResult updateDVt(Dvt dvt)
+        {
+            webContext context = new webContext();
+            Dvt dv = context.Dvt.Find(dvt.Id);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
 
-      dv.Nvsua = 3;
-      dv.NgaySua = DateTime.Now;
-      dv.TenDvt = dvt.TenDvt;
-      dv.MaDvt = dvt.MaDvt;
+            dv.Nvsua = idUser;
+            dv.NgaySua = DateTime.Now;
+            dv.TenDvt = dvt.TenDvt;
+            dv.MaDvt = dvt.MaDvt;
 
       context.Dvt.Update(dv);
       context.SaveChanges();
@@ -79,24 +87,30 @@ namespace VatTuYTeDanhMuc.Controllers
       return RedirectToAction("Table");
     }
 
-    //Xoá đơn vị tính
-    [Route("/DonViTinh/xoa/{id}")]
-    public IActionResult deleteDonViTinh(int id)
-    {
-      webContext context = new webContext();
-      Dvt dvt = context.Dvt.Find(id);
-      dvt.Active = false;
+        //Xoá đơn vị tính
+        [Route("/DonViTinh/xoa/{id}")]
+        public IActionResult deleteDonViTinh(int id)
+        {
+            webContext context = new webContext();
+            Dvt dvt = context.Dvt.Find(id);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+            dvt.NgaySua = DateTime.Now;
+            dvt.Nvsua = idUser;
+            dvt.Active=false;
 
-      context.Dvt.Update(dvt);
-      context.SaveChanges();
-      return RedirectToAction("Table");
-    }
-    [Route("/DonViTinh/khoiphuc/{id}")]
-    public IActionResult khoiphucDVT(int id)
-    {
-      webContext context = new webContext();
-      Dvt dvt = context.Dvt.Find(id);
-      dvt.Active = true;
+            context.Dvt.Update(dvt);
+            context.SaveChanges();
+            return RedirectToAction("Table");
+        }
+        [Route("/DonViTinh/khoiphuc/{id}")]
+        public IActionResult khoiphucDVT(int id)
+        {
+            webContext context = new webContext();
+            Dvt dvt = context.Dvt.Find(id);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+            dvt.NgaySua = DateTime.Now;
+            dvt.Nvsua = idUser;
+            dvt.Active = true;
 
       context.Dvt.Update(dvt);
       context.SaveChanges();

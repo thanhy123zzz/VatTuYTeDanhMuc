@@ -9,24 +9,13 @@ using VatTuYTe.Models;
 
 namespace VatTuYTe.Controllers
 {
-  public class VaiTroController : Controller
-  {
-    public IActionResult Table()
+    public class VaiTroController : Controller
     {
-      ViewData["Title"] = "Danh mục vai trò";
-      return View("TableRoles");
-    }
-
-    //Load table chức năng
-    [HttpPost("/loadTableCN")]
-    public IActionResult loadTableCN(int idvt)
-    {
-      webContext context = new webContext();
-      List<ChucNang> listcn = context.ChucNang.Where(x => x.Idvt == idvt && x.Active == true).ToList();
-      ViewBag.ListCN = listcn;
-      ViewBag.IDVT = idvt;
-      return PartialView();
-    }
+        public IActionResult Table()
+        {
+            ViewData["Title"] = "Danh mục vai trò";
+            return View("TableRoles");
+        }
 
     //update list chucnang
     [HttpPost("/updateRoles")]
@@ -40,64 +29,74 @@ namespace VatTuYTe.Controllers
         ChucNang cn = context.ChucNang.FirstOrDefault(n => n.Idmenu == item.Idmenu && n.Idvt == item.Idvt && n.Active == true);
         if (cn == null)
         {
-          ChucNang cnn = new ChucNang();
-          cnn.Idmenu = item.Idmenu;
-          cnn.Idvt = item.Idvt;
-          cnn.Nhap = item.Nhap;
-          cnn.Sua = item.Sua;
-          cnn.Xoa = item.Xoa;
-          cnn.Xuat = item.Xuat;
-          cnn.In = item.In;
-          cnn.CaNhan = item.CaNhan;
-          cnn.Nvtao = idUser;
-          cnn.NgayTao = DateTime.Now;
-          cnn.Nvsua = idUser;
-          cnn.NgaySua = DateTime.Now;
-          cnn.Active = true;
-          context.ChucNang.Add(cnn);
+            webContext context = new webContext();
+            List<ChucNang> listcn = context.ChucNang.Where(x => x.Idvt == idvt && x.Active == true).ToList();
+            ViewBag.ListCN = listcn;
+            ViewBag.IDVT = idvt;
+            return PartialView();
         }
-        else
+
+        //update list chucnang
+        [HttpPost("/updateRoles")]
+        public JsonResult updateRoles([FromBody] IEnumerable<FunctionModel> list)
         {
-          cn.Nhap = item.Nhap;
-          cn.Sua = item.Sua;
-          cn.Xoa = item.Xoa;
-          cn.Xuat = item.Xuat;
-          cn.In = item.In;
-          cn.CaNhan = item.CaNhan;
-          cn.Nvsua = idUser;
-          cn.NgaySua = DateTime.Now;
-          context.ChucNang.Update(cn);
-        }       
-      }
-      context.SaveChanges();
-      return Json(data: "Cập nhật thành công!");
+            webContext context = new webContext();
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
 
-    }
+            foreach (var item in list)
+            {
+                ChucNang cn = context.ChucNang.FirstOrDefault(n => n.Idmenu == item.Idmenu && n.Idvt == item.Idvt && n.Active == true);
+                if (cn == null)
+                {
+                    ChucNang cnn = new ChucNang();
+                    cnn.Idmenu = item.Idmenu;
+                    cnn.Idvt = item.Idvt;
+                    cnn.Nhap = item.Nhap;
+                    cnn.Sua = item.Sua;
+                    cnn.Xoa = item.Xoa;
+                    cnn.Xuat = item.Xuat;
+                    cnn.In = item.In;
+                    cnn.CaNhan = item.CaNhan;
+                    cnn.Nvtao = idUser;
+                    cnn.NgayTao = DateTime.Now;
+                    cnn.Nvsua = idUser;
+                    cnn.NgaySua = DateTime.Now;
+                    cnn.Active = true;
+                    context.ChucNang.Add(cnn);
+                }
+                else
+                {
+                    cn.Nhap = item.Nhap;
+                    cn.Sua = item.Sua;
+                    cn.Xoa = item.Xoa;
+                    cn.Xuat = item.Xuat;
+                    cn.In = item.In;
+                    cn.CaNhan = item.CaNhan;
+                    cn.Nvsua = idUser;
+                    cn.NgaySua = DateTime.Now;
+                    context.ChucNang.Update(cn);
+                }
+            }
+            context.SaveChanges();
+            return Json(data: "Cập nhật thành công!");
 
-    //Tạo dòng enable-edit 
-    [HttpPost("/addNewRow")]
-    public IActionResult addNewRow(int idvt)
-    {
-      webContext context = new webContext();
-      if (idvt == 0)
-      {
-        return PartialView();
-      }
-      else
-      {
-        ViewBag.VaiTro = context.VaiTro.FirstOrDefault(x => x.Active == true && x.Id == idvt);
-        return PartialView();
-      }    
-    }
+        }
 
-    //load table vai trò
-    [HttpPost("/loadTableVT")]
-    public IActionResult loadTableVT()
-    {
-      webContext context = new webContext();
-      ViewBag.loadTableVT = context.VaiTro.Where(x => x.Active == true).OrderBy(x => x.TenVt).ToList();
-      return PartialView();
-    }
+        //Tạo dòng enable-edit 
+        [HttpPost("/addNewRow")]
+        public IActionResult addNewRow(int idvt)
+        {
+            webContext context = new webContext();
+            if (idvt == 0)
+            {
+                return PartialView();
+            }
+            else
+            {
+                ViewBag.VaiTro = context.VaiTro.FirstOrDefault(x => x.Active == true && x.Id == idvt);
+                return PartialView();
+            }
+        }
 
     //thêm vai trò
     [HttpPost("/addVT")]
@@ -134,22 +133,22 @@ namespace VatTuYTe.Controllers
     }
 
 
-    ///search vai trò
-    [HttpPost("/searchTableVT")]
-    public IActionResult searchTableVT(string key)
-    {
-      webContext context = new webContext();
-      if (key == "" || key == null)
-      {
-        ViewBag.loadTableVT = context.VaiTro.Where(x => x.Active == true).ToList();
-        return PartialView("LoadTableVT");
-      }
-      else
-      {
-        ViewBag.loadTableVT = context.VaiTro.FromSqlRaw("SELECT * FROM VaiTro WHERE concat_ws(' ',TenVT,TenVT) LIKE N'%" + key + "%';").ToList();
-        return PartialView("loadTableVT");
-      }
-    }
+        ///search vai trò
+        [HttpPost("/searchTableVT")]
+        public IActionResult searchTableVT(string key)
+        {
+            webContext context = new webContext();
+            if (key == "" || key == null)
+            {
+                ViewBag.loadTableVT = context.VaiTro.Where(x => x.Active == true).ToList();
+                return PartialView("LoadTableVT");
+            }
+            else
+            {
+                ViewBag.loadTableVT = context.VaiTro.FromSqlRaw("SELECT * FROM VaiTro WHERE concat_ws(' ',TenVT,TenVT) LIKE N'%" + key + "%';").ToList();
+                return PartialView("loadTableVT");
+            }
+        }
 
 
     //cập nhật vai trò
@@ -184,5 +183,5 @@ namespace VatTuYTe.Controllers
     }
 
 
-  }
+    }
 }
