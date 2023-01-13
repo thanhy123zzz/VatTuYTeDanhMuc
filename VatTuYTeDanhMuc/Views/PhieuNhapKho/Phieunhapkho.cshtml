@@ -31,7 +31,7 @@
     string getSoPhieu(){
         QuyDinhMa qd = context.QuyDinhMa.Find(1);
         //ID chi nhánh
-        string cn = "1";
+        string cn = User.Claims.ElementAt(4).Value;
 
         DateTime d = DateTime.Now;
         string ngayThangNam = d.ToString("yyMMdd");
@@ -81,7 +81,7 @@
                 <button class="nav-link w-100 active" id="home-tab" onclick="offTabNhap()" data-bs-toggle="tab" data-bs-target="#borderedTabJustifiedContent" type="button" role="tab" aria-controls="home" aria-selected="true">Phiếu nhập kho</button>
             </li>
             <li class="nav-item flex-fill" role="presentation">
-                <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Lịch xử nhập kho</button>
+                <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Lịch sử nhập kho</button>
             </li>
         </ul>
         <div class="tab-content pt-2">

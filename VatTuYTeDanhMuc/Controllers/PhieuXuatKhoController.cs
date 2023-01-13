@@ -32,7 +32,7 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             var cachXuat = context.CachXuat.Find(1);
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             List<SoLuongHhcon> soLuongHhcon;
             if (cachXuat.TheoTgnhap == true)
             {
@@ -49,14 +49,13 @@ namespace VatTuYTeDanhMuc.Controllers
 
             string Host = GetLocalIPAddress();
             List<ChiTietPhieuXuatTam> ListCTPNT = context.ChiTietPhieuXuatTam.Where(x => x.Host == Host).OrderByDescending(x => x.Id).ToList();
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
             var tran = context.Database.BeginTransaction();
             try
             {
                 phieuXuat.NgayHd = DateTime.ParseExact(NgayHd, "dd-MM-yyyy", CultureInfo.InvariantCulture);
                 phieuXuat.NgayTao = DateTime.ParseExact(NgayTao, "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);
                 phieuXuat.Active = true;
-                phieuXuat.Idcn = 1;
+                phieuXuat.Idcn = int.Parse(User.Claims.ElementAt(4).Value);
                 phieuXuat.Idnv = idUser;
                 phieuXuat.SoPx = getSoPhieu();
                 context.PhieuXuat.Add(phieuXuat);
@@ -716,10 +715,9 @@ namespace VatTuYTeDanhMuc.Controllers
         public IActionResult addChiTietPhieuXuatTam(int idHH, float ThueXuat, float SL, float DonGia,
             float ChietKhau, int idDVT)
         {
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             webContext context = new webContext();
             ChiTietPhieuXuatTam ct = new ChiTietPhieuXuatTam();
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
             ct.Idhh = idHH;
             ct.Iddvt = idDVT;
             ct.Thue = Math.Round(ThueXuat, 2);
