@@ -52,7 +52,7 @@ namespace VatTuYTe.Controllers
       webContext context = new webContext();
       PhanQuyen pq = context.PhanQuyen.Find(id);
       pq.Active = false;
-      int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+      int idUser = int.Parse(User.Claims.ElementAt(2).Type);
       pq.Nvsua = idUser;
       pq.NgaySua = DateTime.Now;
       context.Update(pq);
@@ -119,7 +119,7 @@ namespace VatTuYTe.Controllers
       }
       else
       {
-        int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+        int idUser = int.Parse(User.Claims.ElementAt(2).Type);
         pq.Idtk = idtk;
         pq.Idvt = idvt;
         pq.Idcn = idcn;
@@ -189,7 +189,7 @@ namespace VatTuYTe.Controllers
     {
       webContext context = new webContext();
       PhanQuyen pq = context.PhanQuyen.Find(idpq);
-      int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+      int idUser = int.Parse(User.Claims.ElementAt(2).Type);
       pq.Idvt = idvt;
       pq.Idcn = idcn;
       pq.Nvsua = idUser;

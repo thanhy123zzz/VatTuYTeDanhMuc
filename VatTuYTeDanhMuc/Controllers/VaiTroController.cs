@@ -33,7 +33,7 @@ namespace VatTuYTe.Controllers
     public JsonResult updateRoles([FromBody] IEnumerable <FunctionModel> list)
     {
       webContext context = new webContext();     
-      int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+      int idUser = int.Parse(User.Claims.ElementAt(2).Type);
       
       foreach (var item in list)
       {
@@ -105,7 +105,7 @@ namespace VatTuYTe.Controllers
     {
       webContext context = new webContext();
       VaiTro vt = new VaiTro();
-      int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+      int idUser = int.Parse(User.Claims.ElementAt(2).Type);
       vt.TenVt = tenVT;
       vt.Nvtao = idUser;
       vt.Nvsua = idUser;
@@ -123,7 +123,7 @@ namespace VatTuYTe.Controllers
     {
       webContext context = new webContext();
       VaiTro vt = context.VaiTro.Find(id);
-      int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+      int idUser = int.Parse(User.Claims.ElementAt(2).Type);
       vt.Nvsua = idUser;
       vt.NgaySua = DateTime.Now;
       vt.Active = true;
@@ -158,7 +158,7 @@ namespace VatTuYTe.Controllers
     {
       webContext context = new webContext();
       VaiTro vt = context.VaiTro.Find(idvt);
-      int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+      int idUser = int.Parse(User.Claims.ElementAt(2).Type);
       vt.TenVt = tenvt;   
       vt.Nvsua = idUser;
       vt.NgaySua = DateTime.Now;
@@ -175,7 +175,7 @@ namespace VatTuYTe.Controllers
       webContext context = new webContext();
       VaiTro vt = context.VaiTro.Find(idvt);
       vt.Active = false;
-      int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+      int idUser = int.Parse(User.Claims.ElementAt(2).Type);
       vt.Nvsua = idUser;
       vt.NgaySua = DateTime.Now;
       context.Update(vt);
