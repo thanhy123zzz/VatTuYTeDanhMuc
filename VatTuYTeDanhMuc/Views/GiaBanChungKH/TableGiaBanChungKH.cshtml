@@ -32,6 +32,32 @@
     {
         return context.HangHoa.Where(x => x.Active == true).ToList();
     }
+
+    var acc = User.FindFirst("VaiTro");
+
+    int idmenu = (int)TempData.Peek("Menu");
+
+    int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+   ;
+
+    string vaitro = null;
+    bool nhap = false, sua = false, xoa = false, print = false, xuat = false, canhan = false;
+    if (acc != null)
+    {
+        vaitro = acc.Value;
+        if (vaitro != null && vaitro != "")
+        {
+            ChucNang cn = context.ChucNang.FirstOrDefault(c => c.Idvt.Equals(int.Parse(vaitro)) && c.Idmenu.Equals(idmenu));
+            nhap = (bool)cn.Nhap;
+            sua = (bool)cn.Sua;
+            xoa = (bool)cn.Xoa;
+            print = (bool)cn.In;
+            xuat = (bool)cn.Xuat;
+            canhan = (bool)cn.CaNhan;
+        }
+    }
+
+
 }
 @if (TempData["ThongBao"] != null)
 {

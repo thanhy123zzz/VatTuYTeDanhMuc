@@ -31,6 +31,30 @@
         return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
 
     }
+    var acc = User.FindFirst("VaiTro");
+
+    int idmenu = (int)TempData.Peek("Menu");
+
+    int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+    //int idCN = int.Parse(User.Claims.ElementAt(4).Value);
+
+    string vaitro = null;
+    bool nhap = false, sua = false, xoa = false, print = false, xuat = false, canhan = false;
+    if (acc != null)
+    {
+        vaitro = acc.Value;
+        if (vaitro != null && vaitro != "")
+        {
+            ChucNang cn = context.ChucNang.FirstOrDefault(c => c.Idvt.Equals(int.Parse(vaitro)) && c.Idmenu.Equals(idmenu));
+            nhap = (bool)cn.Nhap;
+            sua = (bool)cn.Sua;
+            xoa = (bool)cn.Xoa;
+            print = (bool)cn.In;
+            xuat = (bool)cn.Xuat;
+            canhan = (bool)cn.CaNhan;
+        }
+    }
+
 }
 
 
@@ -49,8 +73,15 @@
                                <td style="text-align:right">@format(@h.GiaBanLe)</td>
                        
                        <td>
-                            <button value="@h.Id" class="edit btn btn-primary" style="margin-right: 5px" id="edit">Sửa</button>
-                            <a href="/GiaBanChung/ViewDVTHH/@h.Id" class=" btn btn-success" style="margin-right: 5px" id="">more</a>
+                    @if (sua == true)
+                    {
+                  <button value="@h.Id" class="edit btn btn-primary" style="margin-right: 5px" id="edit">Sửa</button>
+                    }
+                    else
+                    {
+                         <button value="@h.Id" class="btn-primary btn disabled border-0" style="margin-right: 5px" id="edit">Sửa</button>
+                    }      
+                             <button value="@h.Id" class="more btn btn-success" style="margin-right: 5px" id="">more</button>
                             
 
                        </td>
@@ -70,8 +101,11 @@
                                        <td style="text-align:right">@format(@h.GiaBanSi)</td>
                                        <td style="text-align:right">@format(@h.GiaBanLe)</td>
                                        <td>
+                                           @if(sua==true){
                                     <button value="@h.Id" class="edit btn btn-primary" style="margin-right: 5px" id="edit">Sửa</button>
-                                                      
+                                           }else{
+                                      <button value="@h.Id" class="btn-primary btn disabled border-0" style="margin-right: 5px" id="edit">Sửa</button>
+                                           }          
                                 
                                 <button value="@h.Id" class="more btn btn-success" style="margin-right: 5px" id="">more</button>
                                                         </td>
