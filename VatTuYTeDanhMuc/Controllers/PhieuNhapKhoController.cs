@@ -32,7 +32,7 @@ namespace VatTuYTeDanhMuc.Controllers
 
             webContext context = new webContext();
             SoLuongHhcon soLuongHhcon = new SoLuongHhcon();
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             string h = GetLocalIPAddress();
             List<ChiTietPhieuNhapTam> ListCTPNT = context.ChiTietPhieuNhapTam.Where(x => x.Host == h).OrderByDescending(x => x.Id).ToList();
             var tran = context.Database.BeginTransaction();
@@ -41,7 +41,7 @@ namespace VatTuYTeDanhMuc.Controllers
                 phieuNhap.NgayHd = DateTime.ParseExact(NgayHd, "dd-MM-yyyy", CultureInfo.InvariantCulture);
                 phieuNhap.NgayTao = DateTime.ParseExact(NgayTao, "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);
                 phieuNhap.Active = true;
-                phieuNhap.Idcn = 1;
+                phieuNhap.Idcn = int.Parse(User.Claims.ElementAt(4).Value);
                 phieuNhap.Idnv = idUser;
                 phieuNhap.SoPn = getSoPhieu();
                 context.PhieuNhap.Add(phieuNhap);
@@ -71,7 +71,7 @@ namespace VatTuYTeDanhMuc.Controllers
                     SoLuongHhcon sl = new SoLuongHhcon();
                     sl.Idctpn = ct.Id;
                     sl.Slcon = Math.Round((double)ct.Slg, 2);
-                    sl.Idcn = 1;
+                    sl.Idcn = int.Parse(User.Claims.ElementAt(4).Value);
                     sl.NgayNhap = phieuNhap.NgayTao;
                     context.SoLuongHhcon.Add(sl);
                     context.SaveChanges();
@@ -110,10 +110,9 @@ namespace VatTuYTeDanhMuc.Controllers
         public JsonResult addChiTietPhieu(int idHH, string SoLo, float ThueXuat, float SL, float DonGia,
             float ChietKhau, string HanDung, string NgaySX)
         {
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             webContext context = new webContext();
             ChiTietPhieuNhapTam ct = new ChiTietPhieuNhapTam();
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
             ct.Active = true;
             ct.Idhh = idHH;
             ct.SoLo = SoLo;
@@ -155,9 +154,8 @@ namespace VatTuYTeDanhMuc.Controllers
             float ThanhTien, float ChietKhau, string HanDung, string NgaySX, int id)
         {
             webContext context = new webContext();
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             ChiTietPhieuNhapTam ct = context.ChiTietPhieuNhapTam.Find(id);
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
             ct.Active = true;
             ct.Idhh = idHH;
             ct.SoLo = SoLo;
