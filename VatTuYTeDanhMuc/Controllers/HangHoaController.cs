@@ -21,6 +21,8 @@ namespace VatTuYTeDanhMuc.Controllers
         public IActionResult Table()
         {
             ViewData["Title"] = "Danh mục hàng hoá";
+            webContext context = new webContext();
+            TempData["Menu"] = context.Menu.FirstOrDefault(menu => EF.Functions.Like(menu.TenMenu, "%Danh mục nhóm hàng hoá%") && menu.Active == true).Id;
             return View("TableHangHoa");
         }
         public IActionResult ViewInsertHangHoa()
@@ -38,7 +40,9 @@ namespace VatTuYTeDanhMuc.Controllers
             hh.Idcn = idCN; 
             hh.Avatar = UploadedFile(hh, Avt);
             hh.Nvtao = idUser;
+            hh.Nvsua = idUser;
             hh.Active = true;
+            hh.NgayTao = DateTime.Now;
             hh.NgayTao = DateTime.Now;
             context.HangHoa.Add(hh);
             context.SaveChanges();

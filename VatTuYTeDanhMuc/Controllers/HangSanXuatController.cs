@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using VatTuYTeDanhMuc.Models.Entities;
@@ -10,6 +11,8 @@ namespace VatTuYTeDanhMuc.Controllers
         public IActionResult table()
         {
             ViewData["Title"] = "Danh mục hãng sản xuất";
+            webContext context = new webContext();
+            TempData["Menu"] = context.Menu.FirstOrDefault(menu => EF.Functions.Like(menu.TenMenu, "%Danh mục hãng sản xuất%") && menu.Active == true).Id;
             return View("TableHangSanXuat");
         }
         //hiển thị view insert
@@ -26,7 +29,9 @@ namespace VatTuYTeDanhMuc.Controllers
             int idCN = int.Parse(User.Claims.ElementAt(4).Value);
             hsx.Idcn = idCN;
             hsx.Nvtao = idUser;
+            hsx.Nvsua = idUser;
             hsx.NgayTao = DateTime.Now;
+            hsx.NgaySua = DateTime.Now;
             hsx.Active = true;
             hsx.Idcn = 1;
             context.HangSanXuat.Add(hsx);
