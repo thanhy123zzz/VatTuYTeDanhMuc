@@ -55,10 +55,12 @@ namespace VatTuYTeDanhMuc.Controllers
             int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             int idCN = int.Parse(User.Claims.ElementAt(4).Value);
             dvt.Idcn = idCN; 
-            dvt.Idcn = 3;
+           
             dvt.Nvtao =idUser;
+            dvt.Nvsua = idUser;
             dvt.Active = true;
             dvt.NgayTao = DateTime.Now;
+            dvt.NgaySua = DateTime.Now;
             context.Dvt.Add(dvt);
             context.SaveChanges();
             TempData["ThongBao"] = "Thêm thành công!";
