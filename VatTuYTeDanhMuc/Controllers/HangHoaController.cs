@@ -20,9 +20,12 @@ namespace VatTuYTeDanhMuc.Controllers
         }
         public IActionResult Table()
         {
-            ViewData["Title"] = "Danh mục hàng hoá";
-            return View("TableHangHoa");
-        }
+          ViewData["Title"] = "Danh mục hàng hoá";
+          webContext context = new webContext();
+          TempData["Menu"] = context.Menu.FirstOrDefault(menu => EF.Functions.Like(menu.TenMenu, "%Danh mục nhóm hàng hoá%") && menu.Active == true).Id;
+          return View("TableHangHoa");
+        }  
+    
         public IActionResult ViewInsertHangHoa()
         {
             ViewData["Title"] = "Thêm hàng hoá";

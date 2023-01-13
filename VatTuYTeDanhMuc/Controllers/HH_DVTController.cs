@@ -11,8 +11,11 @@ namespace VatTuYTeDanhMuc.Controllers
     {
         public IActionResult Table()
         {
-            ViewData["Title"] = "Danh mục Hàng hoá - Đơn vị tính";
-            return View("TableHH_DVT");
+          ViewData["Title"] = "Danh mục Hàng hoá - Đơn vị tính";
+
+          webContext context = new webContext();
+          TempData["Menu"] = context.Menu.FirstOrDefault(menu => EF.Functions.Like(menu.TenMenu, "%Danh mục hàng hóa đơn vị tính%") && menu.Active == true).Id;
+          return View("TableHH_DVT");
         }
 
         //Trả về view thêm đơn vị tính
