@@ -23,7 +23,8 @@ namespace VatTuYTeDanhMuc.Controllers
         public IActionResult InsertNHH(NhomHangHoa nhh) 
         {
             webContext context = new webContext();
-            nhh.Nvtao = 3;
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            nhh.Nvtao = idUser;
             nhh.NgayTao = DateTime.Now;
             nhh.Active = true;
             nhh.Idcn = 1;
@@ -40,6 +41,9 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             NhomHangHoa nhh = context.NhomHangHoa.Find(id);
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            nhh.NgaySua = DateTime.Now;
+            nhh.Nvsua = idUser;
             nhh.Active = false;
 
             context.NhomHangHoa.Update(nhh);
@@ -63,7 +67,8 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             NhomHangHoa n = context.NhomHangHoa.Find(nhh.Id);
-            n.Nvsua = 3;
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            n.Nvsua = idUser;
             n.NgayTao = DateTime.Now;
             n.TenNhh = nhh.TenNhh;
             n.MaNhh = nhh.MaNhh;
@@ -92,6 +97,9 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             NhomHangHoa hsx = context.NhomHangHoa.Find(id);
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            hsx.NgaySua = DateTime.Now;
+            hsx.Nvsua = idUser;
             hsx.Active = true;
 
             context.NhomHangHoa.Update(hsx);

@@ -90,8 +90,8 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             GiaTheoKhachHang h = context.GiaTheoKhachHang.Find(id);
-
-            h.Nvsua = 3;
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            h.Nvsua = idUser;
             h.NgaySua = DateTime.Now;
             h.TiLeLe = Math.Round(tilele,2);
             h.TiLeSi = Math.Round(tilesi,2);
@@ -109,8 +109,8 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             GiaTheoKhachHang h = new GiaTheoKhachHang();
-
-            h.Nvtao = 3;
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            h.Nvtao = idUser;
             h.NgayTao = DateTime.Now;
             h.TiLeLe = Math.Round(tilele,2);
             h.TiLeSi = Math.Round(tilesi,2);
@@ -169,6 +169,9 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             GiaTheoKhachHang h = context.GiaTheoKhachHang.Find(id);
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            h.NgaySua = DateTime.Now;
+            h.Nvsua = idUser;
             h.Active = false;
             context.Update(h);
             context.SaveChanges();

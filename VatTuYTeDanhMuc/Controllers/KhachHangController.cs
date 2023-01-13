@@ -22,13 +22,14 @@ namespace VatTuYTeDanhMuc.Controllers
         //Thêm khách hàng
         public IActionResult InsertKH(KhachHang kh)
         {
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
             webContext context = new webContext();
-            kh.Nvtao = 3;
+            kh.Nvtao = idUser;
             kh.NgayTao = DateTime.Now;
             kh.Active = true;
             kh.Idcn = 1;
             kh.Idnv = 3;
-            kh.Nvsale = 3;
+            kh.Nvsale = idUser;
 
             context.KhachHang.Add(kh);
             context.SaveChanges();

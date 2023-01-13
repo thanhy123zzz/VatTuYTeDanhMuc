@@ -47,9 +47,9 @@
               </div>
               <div class="dropdown" >
               <select id="nhomHH" onchange="changeHH()"
-                class="form-select" style="width:40%;"
+                class="form-select2" style="width:50%;"
                 aria-label="Default select example">
-                <option selected disabled value="0">Nhóm hàng hoá</option>
+                <option selected disabled value="">Nhóm hàng hoá</option>
                 @foreach(NhomHangHoa n in getListNHH()){
                     <option value="@n.Id">@n.TenNhh</option>
                 }

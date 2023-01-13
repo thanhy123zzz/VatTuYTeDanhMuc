@@ -34,8 +34,8 @@
                 
                                 <tr>
                                 <td>@getdvt(@ViewBag.iddvt).TenDvt</td>
-                                    <td style="text-align:right">@ViewBag.GTKH.TiLeSi</td>
-                                    <td style="text-align:right">@ViewBag.GTKH.TiLeLe</td>
+                                    <td style="text-align:right">@format(@ViewBag.GTKH.TiLeSi)</td>
+                                    <td style="text-align:right">@format(@ViewBag.GTKH.TiLeLe)</td>
                                     <td style="text-align:right">@format(@ViewBag.GTKH.GiaBanSi)</td>
                                     <td style="text-align:right">@format(@ViewBag.GTKH.GiaBanLe)</td>
                                 <td><button value="@ViewBag.GTKH.Id" class="edit btn btn-primary" style="margin-right: 5px" id="edit">Sửa</button>

@@ -36,23 +36,23 @@
 				<input class='inputDisabled text-center' value="@ViewBag.HH.MaHh" type=text >
 		</td >
 		<td style="text-align:left"> 
-				<input class='inputDisabled' value="@ViewBag.HH.TenHh" type=text >
+				<input class='inputDisabled' value="@ViewBag.HH.TenHh" type=text style="text-align:left">
 		</td >
 			<td> 
 						<input class='inputDisabled text-center' value="@getdvt(@ViewBag.HH.Iddvtchinh).TenDvt" type=text >
 			</td >
 	<td > 
-							<input class='inputDisabled text-center infomal' value="@ViewBag.HH.TiLeSi" type=text >
+							<input class='inputDisabled infomal' value="@format(@ViewBag.HH.TiLeSi)" type=text style="text-align:right" >
 			</td >
 				<td> 
-								<input class='inputDisabled text-center infomal' value="@ViewBag.HH.TiLeLe" type=text >
+									<input class='inputDisabled infomal' value="@format(@ViewBag.HH.TiLeLe)" type=text style="text-align:right" >
 
 				</td >
 					<td> 
-								<input class='inputDisabled text-center infomal' value="@format(@ViewBag.HH.GiaBanSi)" type=text >
+									<input class='inputDisabled infomal' value="@format(@ViewBag.HH.GiaBanSi)" type=text style="text-align:right" >
 				</td >
 		<td> 
-				<input class='inputDisabled text-center infomal' value="@format(@ViewBag.HH.GiaBanLe)" type=text >
+					<input class='inputDisabled infomal' value="@format(@ViewBag.HH.GiaBanLe)" type=text style="text-align:right" >
 		</td >
 				
 			
@@ -64,10 +64,10 @@
 					Huỷ </a>  
 		</td> 
 			<td>
-							<input class='inputDisabled text-center' value="@getnsx(@ViewBag.HH.Idnsx).TenNsx" type=text >
+								<input class='inputDisabled' value="@getnsx(@ViewBag.HH.Idnsx).TenNsx" type=text style="text-align:left" >
 				</td> 
 				<td> 
-							<input class='inputDisabled text-center ' value="@gethsx(@ViewBag.HH.Idhsx).TenHsx" type=text >
+								<input class='inputDisabled' value="@gethsx(@ViewBag.HH.Idhsx).TenHsx" type=text style="text-align:left" >
 					</td >
 
 	</tr>

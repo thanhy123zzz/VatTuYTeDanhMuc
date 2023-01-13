@@ -76,8 +76,8 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             HangHoa h = context.HangHoa.Find(id);
-            
-            h.Nvsua = 3;
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            h.Nvsua = idUser;
             h.NgaySua = DateTime.Now;
             h.TiLeLe = Math.Round(tilele,2);
             h.TiLeSi = Math.Round(tilesi,2);
@@ -94,8 +94,8 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             HhDvt h = context.HhDvt.Find(id);
-
-            h.Nvsua = 3;
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            h.Nvsua = idUser;
             h.NgaySua = DateTime.Now;
             h.TiLeLe = Math.Round(tilele,2);
             h.TiLeSi = Math.Round(tilesi,2);
@@ -114,16 +114,20 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             HhDvt h = new HhDvt();
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
             var hhdvt = context.HhDvt.FirstOrDefault(x => x.Idhh == idhh && x.Iddvt == iddvt && x.Active == true);
             var hhdvt1 = context.HangHoa.FirstOrDefault(x => x.Id == idhh && x.Iddvtchinh == iddvt && x.Active == true);
-
+            if (sl == 0)
+            {
+                return "Số lượng quy đổi không hợp lệ";
+            }
             if (hhdvt != null || hhdvt1 != null)
             {
                return "Đơn vị tính này đã được sử dụng";
                
             }
             else
-            h.Nvtao = 3;
+            h.Nvtao = idUser;
             h.Idhh = idhh;
             h.Iddvt = iddvt;
             h.SlquyDoi = sl;
@@ -172,6 +176,9 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             HhDvt h = context.HhDvt.Find(id);
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            h.NgaySua = DateTime.Now;
+            h.Nvsua = idUser;
             h.Active = false;
             context.Update(h);
             context.SaveChanges();

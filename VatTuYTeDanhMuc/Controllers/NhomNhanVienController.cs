@@ -34,7 +34,8 @@ namespace VatTuYTeDanhMuc.Controllers
         public IActionResult insertNhomNV(NhomNhanVien dvt)
         {
             webContext context = new webContext();
-            dvt.Nvtao = 3;
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            dvt.Nvtao = idUser;
             dvt.Active = true;
             dvt.NgayTao = DateTime.Now;
             context.NhomNhanVien.Add(dvt);
@@ -49,8 +50,9 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             NhomNhanVien dv = context.NhomNhanVien.Find(dvt.Id);
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
 
-            dv.Nvsua = 3;
+            dv.Nvsua = idUser;
             dv.NgaySua = DateTime.Now;
             dv.TenNnv = dvt.TenNnv;
             dv.MaNnv = dvt.MaNnv;
@@ -67,6 +69,9 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             NhomNhanVien dvt = context.NhomNhanVien.Find(id);
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            dvt.NgaySua = DateTime.Now;
+            dvt.Nvsua = idUser;
             dvt.Active = false;
 
             context.NhomNhanVien.Update(dvt);
@@ -92,6 +97,9 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             NhomNhanVien hsx = context.NhomNhanVien.Find(id);
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            hsx.NgaySua = DateTime.Now;
+            hsx.Nvsua = idUser;
             hsx.Active = true;
 
             context.NhomNhanVien.Update(hsx);

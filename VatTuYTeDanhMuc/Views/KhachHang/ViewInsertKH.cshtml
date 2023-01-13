@@ -1,6 +1,14 @@
 ﻿@model VatTuYTeDanhMuc.Models.Entities.KhachHang
 @{
-
+    webContext context = new webContext();
+    List<TaiKhoan> getListTK()
+    {
+        return context.TaiKhoan.ToList();
+    }
+    List<NhanVien> getListNV()
+    {
+        return context.NhanVien.ToList();
+    }
 }
 
 <div class="card">
@@ -37,11 +45,46 @@
                            <div class="form-group">
 
                               <label style="margin:7px 0;">Tên tài khoản</label>
-                              <input asp-for="@Model.TenTaiKhoan" type="text" class="form-control" required>
+                              
+                              <div class="dropdown">
+                      <select asp-for="@Model.TenTaiKhoan" class="form-select2" style="height: 38px;width : 1100px" required>
+                                    <option selected value="">-- Tên tài khoản --</option>
+                            @foreach (TaiKhoan n in getListTK())
+                            {
+                                                        <option value="@n.TenTaiKhoan">@n.TenTaiKhoan</option>
+                            }
+                                </select>  
+                                </div>
+                          </div>
+                          <div class="form-group">
+
+                              <label style="margin:7px 0;">Nhân viên phụ trách</label>
+
+                              <div class="dropdown">
+                      <select asp-for="@Model.Idnv" class="form-select2" style="height: 38px;width : 1100px" required>
+                                    <option selected value="">-- Tên tài khoản --</option>
+                            @foreach (NhanVien n in getListNV())
+                            {
+                                                            <option value="@n.Id">@n.TenNv</option>
+                            }
+                                </select>  
+                                </div>
+                          </div>
+                          <div class="form-group">
+
+                              <label style="margin:7px 0;">Loại khách hàng</label>
+
+                              <div class="dropdown">
+                      <select asp-for="@Model.LoaiKh" class="form-select2" style="height: 38px;width : 400px" required>
+                                    <option selected disabled>-- Loại khách hàng--</option>
+                                    <option value="false">Sỉ</option>
+                                    <option value="true">Lẻ</option>
+                                </select>  
+                                </div>
                           </div>
                           <div class="form-group">
                               <label style="margin:7px 0;">Ghi chú</label>
-                              <input asp-for="@Model.GhiChu" type="text" class="form-control" required>
+                              <input asp-for="@Model.GhiChu" type="text" class="form-control">
                           </div>
                          
 

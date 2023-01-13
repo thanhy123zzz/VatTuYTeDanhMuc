@@ -41,29 +41,29 @@
         if (getGTKH(@ViewBag.IDKH, @h.Id, @h.Iddvtchinh) != null)
         {
             <tr onclick="loadTableGTKH('@h.Id','@h.Iddvtchinh')" style="background-color: lightgray">
-                                   <td style="display: none">@h.MaHh</td>
+                                           <td style="display: none">@h.MaHh</td>
                                            <td style="text-align:left">@h.TenHh</td>
-                                   <td>@getdvt(@h.Iddvtchinh).TenDvt</td>
-                                   <td>@h.TiLeSi</td>
-                                   <td>@h.TiLeLe</td>
+                                           <td>@getdvt(@h.Iddvtchinh).TenDvt</td>
+                                           <td style="text-align:right">@format(@h.TiLeSi)</td>
+                                           <td style="text-align:right">@format(@h.TiLeLe)</td>
                                            <td style="text-align:right">@format(@h.GiaBanSi)</td>
                                            <td style="text-align:right">@format(@h.GiaBanLe)</td>
-                                           <td style="text-align:right">@getnsx(@h.Idnsx).TenNsx</td>
-                                           <td style="text-align:right">@gethsx(@h.Idhsx).TenHsx</td>
+                                           <td style="text-align:left">@getnsx(@h.Idnsx).TenNsx</td>
+                                           <td style="text-align:left">@gethsx(@h.Idhsx).TenHsx</td>
 
                                        </tr>
         }
         else{
                     <tr onclick="loadTableGTKH('@h.Id','@h.Iddvtchinh')">
-                                   <td style="display:none">@h.MaHh</td>
+                                           <td style="display:none">@h.MaHh</td>
                                            <td style="text-align:left">@h.TenHh</td>
-                                   <td>@getdvt(@h.Iddvtchinh).TenDvt</td>
-                                   <td>@h.TiLeSi</td>
-                                   <td>@h.TiLeLe</td>
+                                           <td>@getdvt(@h.Iddvtchinh).TenDvt</td>
+                                           <td style="text-align:right">@format(@h.TiLeSi)</td>
+                                           <td style="text-align:right">@format(@h.TiLeLe)</td>
                                            <td style="text-align:right">@format(@h.GiaBanSi)</td>
                                            <td style="text-align:right">@format(@h.GiaBanLe)</td>
-                                           <td style="text-align:right">@getnsx(@h.Idnsx).TenNsx</td>
-                                           <td style="text-align:right">@gethsx(@h.Idhsx).TenHsx</td>
+                                           <td style="text-align:left">@getnsx(@h.Idnsx).TenNsx</td>
+                                           <td style="text-align:left">@gethsx(@h.Idhsx).TenHsx</td>
 
                                        </tr>
         }

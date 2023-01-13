@@ -45,6 +45,9 @@ namespace VatTuYTeDanhMuc.Controllers
 
             }
             GiaTheoNhomHangHoa h = context.GiaTheoNhomHangHoa.Find(id);
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            h.Nvsua = idUser;
+            h.NgaySua = DateTime.Now;
             h.Id = id;
             h.Min = giatrimin;
             h.Max = giatrimax;
@@ -94,14 +97,15 @@ namespace VatTuYTeDanhMuc.Controllers
                         }
 
             }
-           
-                h.Idnhh = idnhh;
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            h.Nvtao = idUser;
+            h.NgayTao = DateTime.Now;
+            h.Idnhh = idnhh;
                 h.Max = max;
                 h.Min = min;
                 h.TiLeSi = Math.Round(tilesi,2);
                 h.TiLeLe = Math.Round(tilele, 2);
-                h.Nvtao = 1;
-                h.NgayTao = DateTime.Now;
+               
                 h.Active = true;
                 context.GiaTheoNhomHangHoa.Add(h);
                 context.SaveChanges();
@@ -113,6 +117,9 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             GiaTheoNhomHangHoa h = context.GiaTheoNhomHangHoa.Find(id);
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            h.NgaySua = DateTime.Now;
+            h.Nvsua = idUser;
             h.Active = false;
             context.Update(h);
             context.SaveChanges();

@@ -50,18 +50,24 @@
                             </div>
         <div class="m-3" style="display:flex;flex-direction: row; overflow-x:auto; align-items: baseline;">
             <div class="col-lg-4 col-4 p-0 border-dark" style="min-width: 650px; overflow-y: auto; max-height: 480px;" id="table1">
-
-
-                      <select id="nhomHH" onchange="loadTableHangHoa()" class="w-100" style="height: 38px;">
-                                    <option selected disabled>-- Nhóm hàng hoá --</option>
+                <div class="row mb-2 justify-content-between" id="headerTable">
+                <div class="col-lg-3 col-sm-3">
+                    <div class="dropdown">
+                      <select id="nhomHH" onchange="loadTableHangHoa()" class="form-select2" style="height: 38px;width : 400px">
+                                    <option selected value="">-- Nhóm hàng hoá --</option>
                     @foreach (NhomHangHoa n in getNhomHH())
                     {
                                                     <option value="@n.Id">@n.TenNhh</option>
                     }
                                 </select>  
-                                
-                                <input placeholder="Tìm kiếm" id="search" type="text" style="height: 38px;width: 309px" class="d-none"/>
+                                </div>
+                              </div>
+                              <div class="col-lg-3 col-sm-3">
+                                 <input placeholder="Tìm kiếm" id="search" type="text" class="form-control d-none" />
+                             </div>
 
+                                
+                        </div>
                 <table class="table table-bordered table-hover  mb-0 text-center h-100">
                     <thead>
 
@@ -96,15 +102,17 @@
             <input type="hidden" id="iddvt"/>
             <input type="hidden" id="iddvtc"/>
             <div class="col-lg-8 col-8 p-0 border-dark" style="max-width: 543px; overflow-y: auto; max-height: 480px;">
+                <div class="nhomkh row mb-2 justify-content-between" id="headerTable" style="width: 543px">
 
-                <select  id="nhomKH" onchange="loadTableHangHoa()" class="w-100" style="height: 38px;">
-                                    <option selected disabled>-- Chọn khách hàng --</option>
+                <select  id="nhomKH" onchange="loadTableHangHoa()" class="form-select2" style="height: 38px;">
+                                    <option selected value="">-- Chọn khách hàng --</option>
                     @foreach (KhachHang n in listkh())
                     {
                                                             <option value="@n.Id">@n.TenKh</option>
                     }
                                 </select>
-                <table class="table table-bordered  mb-0  text-center bg-light" id="myTable">
+                                </div>
+                <table class="table table-bordered  mb-0  text-center bg-light" id="myTable" >
                     <thead>
 
                         <tr>
@@ -144,7 +152,7 @@
                                                     url: "/loadTableGiaBanChungKH",
                                                     data: "&nhomHH=" + nhomHH + "&idkh=" + nhomKH ,
                                                     success: function (result) {
-                                                        $('#nhomHH').removeClass("w-100").addClass("w-50");
+                                                       
                                                         $('#search').removeClass("d-none");
                                                         $('#tbodyHHKH').replaceWith(result);
                                                         $.ajax({
@@ -293,8 +301,8 @@
                             $('#nsx').removeClass("d-none");
                         $('#hsx').removeClass("d-none");
 
-                        $('#nhomHH').removeClass("d-none");
-                        $('#nhomKH').removeClass("d-none");
+                        $('.nhomkh').removeClass("d-none");
+                        $('#headerTable').removeClass("d-none");
                         $('#search').removeClass("d-none");
                         $('#btnreturn').addClass("d-none");
                          $('#tbodyHHKH').replaceWith(result);
@@ -371,6 +379,8 @@
                         $('#tbodyHHKH').replaceWith(result);
                         $('#nhomHH').addClass("d-none");
                         $('#nhomKH').addClass("d-none");
+                        $('#headerTable').addClass("d-none");
+                        $('.nhomkh').addClass("d-none");
                         $('#search').addClass("d-none");
                         $('#btnreturn').removeClass("d-none");
                         $.ajax({
