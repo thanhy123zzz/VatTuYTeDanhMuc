@@ -1,17 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Net.Sockets;
-using System.Net;
-using VatTuYTeDanhMuc.Models.Entities;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System.IO;
-using Microsoft.Extensions.Options;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using VatTuYTeDanhMuc.Models.Entities;
 
 namespace VatTuYTeDanhMuc.Controllers
 {
@@ -33,6 +32,7 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             var cachXuat = context.CachXuat.Find(1);
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
             List<SoLuongHhcon> soLuongHhcon;
             if (cachXuat.TheoTgnhap == true)
             {
@@ -57,15 +57,15 @@ namespace VatTuYTeDanhMuc.Controllers
                 phieuXuat.NgayTao = DateTime.ParseExact(NgayTao, "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);
                 phieuXuat.Active = true;
                 phieuXuat.Idcn = 1;
-                phieuXuat.Idnv = 3;
+                phieuXuat.Idnv = idUser;
                 phieuXuat.SoPx = getSoPhieu();
                 context.PhieuXuat.Add(phieuXuat);
                 context.SaveChanges();
-                
+
                 foreach (ChiTietPhieuXuatTam t in ListCTPNT)
                 {
                     double slq = 0;
-                    foreach (SoLuongHhcon slhhc in soLuongHhcon.Where(x=>x.IdctpnNavigation.Idhh==t.Idhh))
+                    foreach (SoLuongHhcon slhhc in soLuongHhcon.Where(x => x.IdctpnNavigation.Idhh == t.Idhh))
                     {
                         ChiTietPhieuXuat ct = new ChiTietPhieuXuat();
                         ct.Idhh = t.Idhh;
@@ -122,7 +122,7 @@ namespace VatTuYTeDanhMuc.Controllers
                             context.ChiTietPhieuXuat.Add(ct);
                             context.SaveChanges();
                         }
-                    }    
+                    }
                     context.ChiTietPhieuXuatTam.Remove(t);
                     context.SaveChanges();
                 }
@@ -149,13 +149,13 @@ namespace VatTuYTeDanhMuc.Controllers
             double? GiaBan;
             KhachHang kh = context.KhachHang.Find(idKH);
 
-            HangHoa hh = context.HangHoa.Include(x=>x.IddvtchinhNavigation).FirstOrDefault(x=>x.Id == idHH);
+            HangHoa hh = context.HangHoa.Include(x => x.IddvtchinhNavigation).FirstOrDefault(x => x.Id == idHH);
 
             var dvt = context.HhDvt.Include(x => x.IddvtNavigation).Where(x => x.Idhh == idHH).ToList();
 
             //Lấy các đơn vị tính của Hàng hoá
             string options = "<option selected value = '" + hh.Iddvtchinh + "'>" + hh.IddvtchinhNavigation.TenDvt + "</option>";
-            foreach(HhDvt d in dvt)
+            foreach (HhDvt d in dvt)
             {
                 options += "<option value = '" + d.Iddvt + "'>" + d.IddvtNavigation.TenDvt + "</option>";
             }
@@ -192,12 +192,12 @@ namespace VatTuYTeDanhMuc.Controllers
                     giaBan = 0,
                     slCon = getSLCon(idHH, (Int32)hh.Iddvtchinh),
                     hinhAnh = hh.Avatar
-                }); 
+                });
             }
 
 
             //nếu giá theo khách hàng không tồn tại thì xét tiếp
-            if (GiaTheoKH == null || (GiaTheoKH.TiLeLe==0 && GiaTheoKH.TiLeSi ==0 && GiaTheoKH.GiaBanSi == 0 && GiaTheoKH.GiaBanLe == 0))
+            if (GiaTheoKH == null || (GiaTheoKH.TiLeLe == 0 && GiaTheoKH.TiLeSi == 0 && GiaTheoKH.GiaBanSi == 0 && GiaTheoKH.GiaBanLe == 0))
             {
                 //Xét tiếp tới giá theo nhóm hàng hoá
                 var listGTNHH = context.GiaTheoNhomHangHoa.Where(x => x.Idnhh == hh.Idnhh).ToList();
@@ -208,15 +208,15 @@ namespace VatTuYTeDanhMuc.Controllers
                     //xét nhiều khoản min max khác nhau
                     foreach (var h in listGTNHH)
                     {
-                        if(GiaHangTon.IdctpnNavigation.DonGia >= h.Min && GiaHangTon.IdctpnNavigation.DonGia <= h.Max)
+                        if (GiaHangTon.IdctpnNavigation.DonGia >= h.Min && GiaHangTon.IdctpnNavigation.DonGia <= h.Max)
                         {
                             if (kh.LoaiKh == true)
                             {
-                               GiaBan = getTiLe(h.TiLeLe) * GiaHangTon.IdctpnNavigation.DonGia; // giá bán nhân tỉ lệ
+                                GiaBan = getTiLe(h.TiLeLe) * GiaHangTon.IdctpnNavigation.DonGia; // giá bán nhân tỉ lệ
                             }
                             else // nếu loại khách hàng là sĩ
                             {
-                               GiaBan = getTiLe(h.TiLeSi) * GiaHangTon.IdctpnNavigation.DonGia;
+                                GiaBan = getTiLe(h.TiLeSi) * GiaHangTon.IdctpnNavigation.DonGia;
                             }
                             return Json(new
                             {
@@ -229,42 +229,42 @@ namespace VatTuYTeDanhMuc.Controllers
                     }
                     // nếu sau khi xét trong list Giá theo nhóm nhà hoá và vẫn kh return thì xét xuống giá theo hàng hoá
                     if (kh.LoaiKh == true)
+                    {
+                        if (hh.GiaBanLe != 0) //Nếu giá bán lẻ tồn tại
                         {
-                            if (hh.GiaBanLe != 0) //Nếu giá bán lẻ tồn tại
-                            {
-                                GiaBan = hh.GiaBanLe; // lấy giá bán
-                            }
-                            else // xét tỉ lẹ lẻ
-                            {
-                                GiaBan = getTiLe(hh.TiLeLe) * GiaHangTon.IdctpnNavigation.DonGia; // giá bán nhân tỉ lệ
-                            }
-                            return Json(new
-                            {
-                                options = options,
-                                giaBan = GiaBan,
-                                slCon = getSLCon(idHH, (Int32)hh.Iddvtchinh),
-                                hinhAnh = hh.Avatar
-                            });
+                            GiaBan = hh.GiaBanLe; // lấy giá bán
                         }
-                    else // nếu loại khách hàng là sĩ
+                        else // xét tỉ lẹ lẻ
                         {
-                            if (hh.GiaBanSi != 0) //Nếu giá bán sĩ tồn tại
-                            {
-                                GiaBan = hh.GiaBanSi;
-                            }
-                            else // xét tỉ lẹ lẻ
-                            {
-                                GiaBan = getTiLe(hh.TiLeSi) * GiaHangTon.IdctpnNavigation.DonGia;
-                            }
-                            return Json(new
-                            {
-                                options = options,
-                                giaBan = GiaBan,
-                                slCon = getSLCon(idHH, (Int32)hh.Iddvtchinh),
-                                hinhAnh = hh.Avatar
-                            });
+                            GiaBan = getTiLe(hh.TiLeLe) * GiaHangTon.IdctpnNavigation.DonGia; // giá bán nhân tỉ lệ
                         }
+                        return Json(new
+                        {
+                            options = options,
+                            giaBan = GiaBan,
+                            slCon = getSLCon(idHH, (Int32)hh.Iddvtchinh),
+                            hinhAnh = hh.Avatar
+                        });
                     }
+                    else // nếu loại khách hàng là sĩ
+                    {
+                        if (hh.GiaBanSi != 0) //Nếu giá bán sĩ tồn tại
+                        {
+                            GiaBan = hh.GiaBanSi;
+                        }
+                        else // xét tỉ lẹ lẻ
+                        {
+                            GiaBan = getTiLe(hh.TiLeSi) * GiaHangTon.IdctpnNavigation.DonGia;
+                        }
+                        return Json(new
+                        {
+                            options = options,
+                            giaBan = GiaBan,
+                            slCon = getSLCon(idHH, (Int32)hh.Iddvtchinh),
+                            hinhAnh = hh.Avatar
+                        });
+                    }
+                }
                 else  // xét tiếp giá theo hàng hoá
                 {
                     //Nếu loại khách hàng là lẻ
@@ -300,7 +300,7 @@ namespace VatTuYTeDanhMuc.Controllers
                         {
                             options = options,
                             giaBan = GiaBan,
-                            slCon = getSLCon(idHH,(Int32)hh.Iddvtchinh),
+                            slCon = getSLCon(idHH, (Int32)hh.Iddvtchinh),
                             hinhAnh = hh.Avatar
                         });
                     }
@@ -309,7 +309,8 @@ namespace VatTuYTeDanhMuc.Controllers
             else //Nếu giá theo khách hàng tồn tại
             {
                 //Nếu loại khách hàng là lẻ
-                if (kh.LoaiKh == true) {
+                if (kh.LoaiKh == true)
+                {
                     if (GiaTheoKH.GiaBanLe != 0) //Nếu giá bán lẻ tồn tại
                     {
                         GiaBan = GiaTheoKH.GiaBanLe; // lấy giá bán
@@ -348,7 +349,7 @@ namespace VatTuYTeDanhMuc.Controllers
         }
 
         [HttpPost("/loadTienDVT")]
-        public IActionResult loadTienDVT(int idHH, int idKH,int idDVT)
+        public IActionResult loadTienDVT(int idHH, int idKH, int idDVT)
         {
             webContext context = new webContext();
             double? GiaBan;
@@ -559,7 +560,8 @@ namespace VatTuYTeDanhMuc.Controllers
                 }
                 if (GiaHangTon == null)
                 {
-                    return Json(new {
+                    return Json(new
+                    {
                         giaBan = 0,
                         slCon = getSLCon(idHH, idDVT)
                     });
@@ -597,14 +599,14 @@ namespace VatTuYTeDanhMuc.Controllers
                         // nếu sau khi xét trong list Giá theo nhóm nhà hoá và vẫn kh return thì xét xuống giá theo hàng hoá
                         if (kh.LoaiKh == true)
                         {
-                                if (dvthh.GiaBanLe != 0) //Nếu giá bán lẻ tồn tại
-                                {
-                                    GiaBan = dvthh.GiaBanLe; // lấy giá bán
-                                }
-                                else // xét tỉ lẹ lẻ
-                                {
-                                    GiaBan = getTiLe(dvthh.TiLeLe) * GiaHangTon.IdctpnNavigation.DonGia; // giá bán nhân tỉ lệ
-                                }
+                            if (dvthh.GiaBanLe != 0) //Nếu giá bán lẻ tồn tại
+                            {
+                                GiaBan = dvthh.GiaBanLe; // lấy giá bán
+                            }
+                            else // xét tỉ lẹ lẻ
+                            {
+                                GiaBan = getTiLe(dvthh.TiLeLe) * GiaHangTon.IdctpnNavigation.DonGia; // giá bán nhân tỉ lệ
+                            }
                             return Json(new
                             {
                                 giaBan = GiaBan,
@@ -707,13 +709,14 @@ namespace VatTuYTeDanhMuc.Controllers
         [HttpPost("/checkSLC")]
         public double? checkSLC(int idHH, int idDVT)
         {
-            return getSLCon(idHH,idDVT);
+            return getSLCon(idHH, idDVT);
         }
 
         [HttpPost("/add-Chi-Tiet-Phieu-Xuat-Tam")]
         public IActionResult addChiTietPhieuXuatTam(int idHH, float ThueXuat, float SL, float DonGia,
             float ChietKhau, int idDVT)
         {
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
             webContext context = new webContext();
             ChiTietPhieuXuatTam ct = new ChiTietPhieuXuatTam();
             ct.Idhh = idHH;
@@ -723,7 +726,7 @@ namespace VatTuYTeDanhMuc.Controllers
             ct.DonGia = Math.Round(DonGia, 2);
             ct.Cktm = Math.Round(ChietKhau, 2);
             ct.Host = GetLocalIPAddress();
-            ct.Nvtao = 3;
+            ct.Nvtao = idUser;
             ct.NgayTao = DateTime.ParseExact(DateTime.Now.ToString("dd-MM-yyyy"), "dd-MM-yyyy", CultureInfo.InvariantCulture);
             context.ChiTietPhieuXuatTam.Add(ct);
             context.SaveChanges();
@@ -837,6 +840,22 @@ namespace VatTuYTeDanhMuc.Controllers
                 .Include(x => x.IdnvNavigation)
                 .FirstOrDefault(x => x.Id == idPX);
             return PartialView(phieu);
+        }
+
+        [HttpPost("/loadTableLichSuXuat")]
+        public IActionResult loadTableLichSuXuat(string fromDay, string toDay)
+        {
+            DateTime FromDay = DateTime.ParseExact(fromDay, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            DateTime ToDay = DateTime.ParseExact(toDay, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+
+            webContext context = new webContext();
+            ViewBag.ListPhieuXuat = context.PhieuXuat
+                                                    .FromSqlRaw("select*from PhieuXuat where CONVERT(date,NgayTao) >= '" + FromDay.ToString("yyyy-MM-dd") + "' and CONVERT(date,NgayTao) <= '" + ToDay.ToString("yyyy-MM-dd") + "' and Active = 1")
+                                                    .Include(x => x.IdkhNavigation)
+                                                    .Include(x => x.IdnvNavigation)
+                                                    .OrderByDescending(x => x.Id)
+                                                    .ToList();
+            return PartialView("TableLichSuXuat");
         }
 
         double? getTiLe(double? tl)

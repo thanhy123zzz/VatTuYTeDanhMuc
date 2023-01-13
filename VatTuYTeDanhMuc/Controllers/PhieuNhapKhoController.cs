@@ -1,17 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Net;
-using VatTuYTeDanhMuc.Models.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using System.IO;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using VatTuYTeDanhMuc.Models.Entities;
 
 namespace VatTuYTeDanhMuc.Controllers
 {
@@ -28,24 +27,25 @@ namespace VatTuYTeDanhMuc.Controllers
             return View("PhieuNhapKho");
         }
         [HttpPost("/them-phieu-nhap")]
-        public IActionResult ThemPhieuNhap(PhieuNhap phieuNhap,string NgayHd, string NgayTao)
+        public IActionResult ThemPhieuNhap(PhieuNhap phieuNhap, string NgayHd, string NgayTao)
         {
+
             webContext context = new webContext();
             SoLuongHhcon soLuongHhcon = new SoLuongHhcon();
-            
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
             string h = GetLocalIPAddress();
             List<ChiTietPhieuNhapTam> ListCTPNT = context.ChiTietPhieuNhapTam.Where(x => x.Host == h).OrderByDescending(x => x.Id).ToList();
             var tran = context.Database.BeginTransaction();
             try
             {
-                    phieuNhap.NgayHd = DateTime.ParseExact(NgayHd, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-                    phieuNhap.NgayTao = DateTime.ParseExact(NgayTao, "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);
-                    phieuNhap.Active = true;
-                    phieuNhap.Idcn = 1;
-                    phieuNhap.Idnv = 3;
-                    phieuNhap.SoPn = getSoPhieu();
-                    context.PhieuNhap.Add(phieuNhap);
-                    context.SaveChanges();
+                phieuNhap.NgayHd = DateTime.ParseExact(NgayHd, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+                phieuNhap.NgayTao = DateTime.ParseExact(NgayTao, "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);
+                phieuNhap.Active = true;
+                phieuNhap.Idcn = 1;
+                phieuNhap.Idnv = idUser;
+                phieuNhap.SoPn = getSoPhieu();
+                context.PhieuNhap.Add(phieuNhap);
+                context.SaveChanges();
                 foreach (ChiTietPhieuNhapTam t in ListCTPNT)
                 {
                     ChiTietPhieuNhap ct = new ChiTietPhieuNhap();
@@ -62,7 +62,7 @@ namespace VatTuYTeDanhMuc.Controllers
                     ct.SoLo = t.SoLo;
                     ct.GhiChu = t.GhiChu;
                     ct.Active = true;
-                    ct.Nvtao = 3;
+                    ct.Nvtao = idUser;
                     ct.NgayTao = DateTime.ParseExact(DateTime.Now.ToString("dd-MM-yyyy"), "dd-MM-yyyy", CultureInfo.InvariantCulture);
                     context.ChiTietPhieuNhap.Add(ct);
                     context.ChiTietPhieuNhapTam.Remove(t);
@@ -85,7 +85,7 @@ namespace VatTuYTeDanhMuc.Controllers
             catch (Exception e)
             {
                 tran.Rollback();
-                TempData["ThongBao"] =  e.Message;
+                TempData["ThongBao"] = e.Message;
                 return RedirectToAction("Index");
             }
             TempData["ThongBao"] = "Thêm thành công";
@@ -99,30 +99,31 @@ namespace VatTuYTeDanhMuc.Controllers
             HangHoa hh = context.HangHoa.Find(idHH);
             Dvt dvt = context.Dvt.Find(hh.Iddvtchinh);
             return Json(
-                new { 
-                    tenDVT = dvt.TenDvt, 
-                    GiaBan = hh.GiaBanSi 
-                    });
+                new
+                {
+                    tenDVT = dvt.TenDvt,
+                    GiaBan = hh.GiaBanSi
+                });
         }
 
         [HttpPost("/add-Chi-Tiet-Phieu")]
-        public JsonResult addChiTietPhieu(int idHH, string SoLo, float ThueXuat, float SL, float DonGia, 
+        public JsonResult addChiTietPhieu(int idHH, string SoLo, float ThueXuat, float SL, float DonGia,
             float ChietKhau, string HanDung, string NgaySX)
         {
-
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
             webContext context = new webContext();
             ChiTietPhieuNhapTam ct = new ChiTietPhieuNhapTam();
             ct.Active = true;
             ct.Idhh = idHH;
             ct.SoLo = SoLo;
-            ct.Thue = Math.Round(ThueXuat,2);
-            ct.Slg = Math.Round(SL,2);
-            ct.DonGia = Math.Round(DonGia,2);
-            ct.Cktm = Math.Round(ChietKhau,2);
-            ct.Hsd = DateTime.ParseExact(HanDung,"dd-MM-yyyy", CultureInfo.InvariantCulture);
+            ct.Thue = Math.Round(ThueXuat, 2);
+            ct.Slg = Math.Round(SL, 2);
+            ct.DonGia = Math.Round(DonGia, 2);
+            ct.Cktm = Math.Round(ChietKhau, 2);
+            ct.Hsd = DateTime.ParseExact(HanDung, "dd-MM-yyyy", CultureInfo.InvariantCulture);
             ct.Nsx = DateTime.ParseExact(NgaySX, "dd-MM-yyyy", CultureInfo.InvariantCulture);
             ct.Host = GetLocalIPAddress();
-            ct.Nvtao = 3;
+            ct.Nvtao = idUser;
             ct.NgayTao = DateTime.ParseExact(DateTime.Now.ToString("dd-MM-yyyy"), "dd-MM-yyyy", CultureInfo.InvariantCulture);
             context.ChiTietPhieuNhapTam.Add(ct);
             context.SaveChanges();
@@ -136,7 +137,7 @@ namespace VatTuYTeDanhMuc.Controllers
 
             PartialViewResult partialViewResult = PartialView("TableChiTietPhieuNhap");
 
-            string viewContent = ConvertViewToString(ControllerContext, partialViewResult , _viewEngine);
+            string viewContent = ConvertViewToString(ControllerContext, partialViewResult, _viewEngine);
 
             return Json(new
             {
@@ -153,6 +154,7 @@ namespace VatTuYTeDanhMuc.Controllers
             float ThanhTien, float ChietKhau, string HanDung, string NgaySX, int id)
         {
             webContext context = new webContext();
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
             ChiTietPhieuNhapTam ct = context.ChiTietPhieuNhapTam.Find(id);
             ct.Active = true;
             ct.Idhh = idHH;
@@ -164,7 +166,7 @@ namespace VatTuYTeDanhMuc.Controllers
             ct.Hsd = DateTime.ParseExact(HanDung, "dd-MM-yyyy", CultureInfo.InvariantCulture);
             ct.Nsx = DateTime.ParseExact(NgaySX, "dd-MM-yyyy", CultureInfo.InvariantCulture);
             ct.Host = GetLocalIPAddress();
-            ct.Nvtao = 3;
+            ct.Nvtao = idUser;
             context.ChiTietPhieuNhapTam.Update(ct);
             context.SaveChanges();
 
@@ -218,11 +220,11 @@ namespace VatTuYTeDanhMuc.Controllers
         }
 
         [HttpPost("/load-table-chitiet")]
-        public IActionResult loadTableChitiet ()
+        public IActionResult loadTableChitiet()
         {
             return PartialView("TableChiTietPhieuNhap");
         }
-        
+
         [HttpPost("/editChitietPhieuNhapTam")]
         public IActionResult editChitietPhieuNhapTam(int id)
         {
@@ -231,7 +233,8 @@ namespace VatTuYTeDanhMuc.Controllers
             {
                 return PartialView("GroupChitietPhieuNhapTam", context.ChiTietPhieuNhapTam.Find(id));
             }
-            else{
+            else
+            {
                 return PartialView("GroupChitietPhieuNhapTam");
             }
         }
@@ -239,9 +242,25 @@ namespace VatTuYTeDanhMuc.Controllers
         [HttpPost("/ViewThongTinPhieuNhap")]
         public IActionResult ViewThongTinPhieuNhap(int idPN)
         {
-            webContext context= new webContext();
-            var phieu = context.PhieuNhap.Include(x => x.ChiTietPhieuNhap).Include(x=>x.IdnccNavigation).Include(x=>x.IdnvNavigation).FirstOrDefault(x => x.Id == idPN);
+            webContext context = new webContext();
+            var phieu = context.PhieuNhap.Include(x => x.ChiTietPhieuNhap).Include(x => x.IdnccNavigation).Include(x => x.IdnvNavigation).FirstOrDefault(x => x.Id == idPN);
             return PartialView(phieu);
+        }
+
+        [HttpPost("/loadTableLichSuNhap")]
+        public IActionResult loadTableLichSuNhap(string fromDay, string toDay)
+        {
+            DateTime FromDay = DateTime.ParseExact(fromDay, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            DateTime ToDay = DateTime.ParseExact(toDay, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+
+            webContext context = new webContext();
+            ViewBag.ListPhieuNhap = context.PhieuNhap
+                                                    .FromSqlRaw("select*from PhieuNhap where CONVERT(date,NgayTao) >= '" + FromDay.ToString("yyyy-MM-dd") + "' and CONVERT(date,NgayTao) <= '" + ToDay.ToString("yyyy-MM-dd") + "' and Active = 1")
+                                                    .Include(x => x.IdnccNavigation)
+                                                    .Include(x => x.IdnvNavigation)
+                                                    .OrderByDescending(x => x.Id)
+                                                    .ToList();
+            return PartialView("TableLichSuNhap");
         }
         public string ConvertViewToString(ControllerContext controllerContext, PartialViewResult pvr, ICompositeViewEngine _viewEngine)
         {

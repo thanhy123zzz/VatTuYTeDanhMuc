@@ -1,0 +1,65 @@
+﻿@{
+    string dayToString(DateTime? a)
+    {
+        if (a == null)
+        {
+            return "";
+        }
+        return a.Value.ToString("dd-MM-yyyy");
+    }
+}
+
+<div id="tableLichSuXuat" class="table-responsive" style="white-space:nowrap;overflow-y: auto;">
+                   <table id="example" class="table table-striped table-hover text-center display nowrap" style="width:100%;max-height500px">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Số phiếu</th>
+                                    <th  class="text-center">Tên nhà cung cấp</th>
+                                    <th  class="text-center">Ngày tạo</th>
+                                    <th  class="text-center">Số hoá đơn</th>
+                                    <th  class="text-center">Ngày hoá đơn</th>
+                                    <th  class="text-center">Nhân viên tạo</th>
+                                    <th  class="text-center">Ghi chú</th>
+                                    <th  class="text-center">Tùy chọn</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+            @foreach (PhieuXuat p in ViewBag.ListPhieuXuat)
+            {
+                                        <tr>
+                                            <td>@p.SoPx</td>
+                                            <td>@p.IdkhNavigation.TenKh</td>
+                                            <td>@p.NgayTao.Value.ToString("dd-MM-yyyy HH:mm")</td>
+                                            <td>@p.SoHd</td>
+                                            <td>@dayToString(p.NgayHd)</td>
+                                            <td>@p.IdnvNavigation.TenNv</td>
+                                            <td>@p.GhiChu</td>
+                                            <td>
+                                                <a href="PhieuNhapKhoPDF" class="btn btn-outline-success">In</a>
+                                                <button type="button" onclick="ViewPhieuNhap('@p.Id')" class="btn btn-outline-primary mx-1">Xem</button>
+                                            </td>
+                                        </tr>
+            }
+
+                            </tbody>
+                        </table>
+                        <script>
+                            $.fn.DataTable.ext.pager.numbers_length = 5;
+                        $("#example").dataTable({
+                            "scrollY": "400px",
+                            "scrollCollapse": true,
+                            bLengthChange: false,
+                            bInfo: false,
+                            scrollX: true,
+                            fixedHeader: true,
+                            language: {
+                                paginate: {
+                                    previous: "Trước",
+                                    next: "Sau",
+                                },
+                                search: "Tìm kiếm",
+
+                            },
+                        });
+                        </script>
+                    </div>
