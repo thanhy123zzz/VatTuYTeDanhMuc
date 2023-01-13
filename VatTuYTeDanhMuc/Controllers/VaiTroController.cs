@@ -3,9 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using VatTuYTeDanhMuc.Models.Entities;
-using VatTuYTeDanhMuc.Models;
 using VatTuYTe.Models;
+using VatTuYTeDanhMuc.Models.Entities;
 
 namespace VatTuYTe.Controllers
 {
@@ -15,25 +14,6 @@ namespace VatTuYTe.Controllers
         {
             ViewData["Title"] = "Danh mục vai trò";
             return View("TableRoles");
-        }
-
-    //update list chucnang
-    [HttpPost("/updateRoles")]
-    public JsonResult updateRoles([FromBody] IEnumerable <FunctionModel> list)
-    {
-      webContext context = new webContext();     
-      int idUser = int.Parse(User.Claims.ElementAt(2).Type);
-      
-      foreach (var item in list)
-      {
-        ChucNang cn = context.ChucNang.FirstOrDefault(n => n.Idmenu == item.Idmenu && n.Idvt == item.Idvt && n.Active == true);
-        if (cn == null)
-        {
-            webContext context = new webContext();
-            List<ChucNang> listcn = context.ChucNang.Where(x => x.Idvt == idvt && x.Active == true).ToList();
-            ViewBag.ListCN = listcn;
-            ViewBag.IDVT = idvt;
-            return PartialView();
         }
 
         //update list chucnang
@@ -98,39 +78,39 @@ namespace VatTuYTe.Controllers
             }
         }
 
-    //thêm vai trò
-    [HttpPost("/addVT")]
-    public string addVT(string tenVT)
-    {
-      webContext context = new webContext();
-      VaiTro vt = new VaiTro();
-      int idUser = int.Parse(User.Claims.ElementAt(2).Type);
-      vt.TenVt = tenVT;
-      vt.Nvtao = idUser;
-      vt.Nvsua = idUser;
-      vt.NgayTao = DateTime.Now;
-      vt.NgaySua = DateTime.Now;
-      vt.Active = true;
-      context.VaiTro.Add(vt);
-      context.SaveChanges();
-      return "Thêm thành công";
-    }
+        //thêm vai trò
+        [HttpPost("/addVT")]
+        public string addVT(string tenVT)
+        {
+            webContext context = new webContext();
+            VaiTro vt = new VaiTro();
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+            vt.TenVt = tenVT;
+            vt.Nvtao = idUser;
+            vt.Nvsua = idUser;
+            vt.NgayTao = DateTime.Now;
+            vt.NgaySua = DateTime.Now;
+            vt.Active = true;
+            context.VaiTro.Add(vt);
+            context.SaveChanges();
+            return "Thêm thành công";
+        }
 
-    //khôi phục vai trò (chưa dùng)
-    [Route("/Roles/khoiphuc/{id}")]
-    public IActionResult khoiphucRoles(int id)
-    {
-      webContext context = new webContext();
-      VaiTro vt = context.VaiTro.Find(id);
-      int idUser = int.Parse(User.Claims.ElementAt(2).Type);
-      vt.Nvsua = idUser;
-      vt.NgaySua = DateTime.Now;
-      vt.Active = true;
-      context.VaiTro.Update(vt);
-      context.SaveChanges();
-      TempData["ThongBao"] = "Khôi phục thành công!";
-      return RedirectToAction("Table");
-    }
+        //khôi phục vai trò (chưa dùng)
+        [Route("/Roles/khoiphuc/{id}")]
+        public IActionResult khoiphucRoles(int id)
+        {
+            webContext context = new webContext();
+            VaiTro vt = context.VaiTro.Find(id);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+            vt.Nvsua = idUser;
+            vt.NgaySua = DateTime.Now;
+            vt.Active = true;
+            context.VaiTro.Update(vt);
+            context.SaveChanges();
+            TempData["ThongBao"] = "Khôi phục thành công!";
+            return RedirectToAction("Table");
+        }
 
 
         ///search vai trò
@@ -151,37 +131,35 @@ namespace VatTuYTe.Controllers
         }
 
 
-    //cập nhật vai trò
-    [HttpPost("/updatevaitro")]
-    public string updatevaitro(int idvt, string tenvt)
-    {
-      webContext context = new webContext();
-      VaiTro vt = context.VaiTro.Find(idvt);
-      int idUser = int.Parse(User.Claims.ElementAt(2).Type);
-      vt.TenVt = tenvt;   
-      vt.Nvsua = idUser;
-      vt.NgaySua = DateTime.Now;
-      vt.Active = true;
-      context.VaiTro.Update(vt);
-      context.SaveChanges();
-      return "Sửa thành công";
-    }
+        //cập nhật vai trò
+        [HttpPost("/updatevaitro")]
+        public string updatevaitro(int idvt, string tenvt)
+        {
+            webContext context = new webContext();
+            VaiTro vt = context.VaiTro.Find(idvt);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+            vt.TenVt = tenvt;
+            vt.Nvsua = idUser;
+            vt.NgaySua = DateTime.Now;
+            vt.Active = true;
+            context.VaiTro.Update(vt);
+            context.SaveChanges();
+            return "Sửa thành công";
+        }
 
-    //Xóa (ẩn) vai trò
-    [HttpPost("/removeVT")]
-    public string removeVT(int idvt)
-    {
-      webContext context = new webContext();
-      VaiTro vt = context.VaiTro.Find(idvt);
-      vt.Active = false;
-      int idUser = int.Parse(User.Claims.ElementAt(2).Type);
-      vt.Nvsua = idUser;
-      vt.NgaySua = DateTime.Now;
-      context.Update(vt);
-      context.SaveChanges();
-      return "Xoá thành công!";
-    }
-
-
+        //Xóa (ẩn) vai trò
+        [HttpPost("/removeVT")]
+        public string removeVT(int idvt)
+        {
+            webContext context = new webContext();
+            VaiTro vt = context.VaiTro.Find(idvt);
+            vt.Active = false;
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+            vt.Nvsua = idUser;
+            vt.NgaySua = DateTime.Now;
+            context.Update(vt);
+            context.SaveChanges();
+            return "Xoá thành công!";
+        }
     }
 }
