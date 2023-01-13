@@ -69,24 +69,28 @@
                 <div class="card pt-3">
                     <div class="card-body">
                       <div style="margin-bottom: -40px; position:absolute; z-index:1;display:flex;">
+                                           <div class="col-lg-2 col-sm-2" style="width: auto;">
+
                         @if (nhap == true)
                         {
-                          <a href="/KhachHang/ViewInsertKH" class="btn btn-secondary">
+                          <a href="/KhachHang/ViewInsertKH" class="btn btn-primary">
                             <span>Thêm Mới</span>
                           </a>
                         }
                         else
                         {
-                          <button class="btn btn-secondary disabled"><span>Thêm mới</span></button>
+                          <button class="btn btn-primary disabled"><span>Thêm mới</span></button>
                         }
-
+                        </div>
                         <div class="dropdown" style="margin-left: 20px">
-                          <select id="active" class="form-select">
+                          <select id="active" onchange="loadTableKH()" class="form-select2" style="width: 180px">
                             <option value="true" selected>Hiện tại</option>
                             <option value="false">Tất cả</option>
                           </select>
                         </div>
                       </div>
+                          <div class="table-responsive" style="white-space:nowrap;overflow-y: auto;">
+
                         <table id="example" class="table table-striped  table-hover text-center display nowrap" style="width:100%">
                             <thead>
                                 <tr>
@@ -162,21 +166,24 @@
 
                             </tbody>
                         </table>
+                        </div>
                     </div>
                 </div>
                 <script>
-                    $('#active').on('change',function(){
-                        var a = $(this).val();
-                        $.ajax({
-                            type: "post",
-                            url: "/loadTableKH",
-                            data: "active=" + a,
-                            success: function (result) {
-                                $('#example_wrapper').replaceWith(result);
-                            },
-                            error: function () {
-                                alert("Fail to delete");
-                            }
-                        });
-                    });
+                    
+     function loadTableKH(){
+      var a = $(active).val();
+    $.ajax({
+      type: "post",
+      url: "/loadTableKH",
+      data: "active=" + a,
+      success: function (result) {
+         console.log(result);
+        $('.table-responsive').replaceWith(result);
+      },
+      error: function () {
+        alert("Fail to delete");
+      }
+    });
+  }
                 </script>
