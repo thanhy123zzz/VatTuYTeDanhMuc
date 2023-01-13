@@ -11,9 +11,11 @@ namespace VatTuYTeDanhMuc.Controllers
        //hiển thị giao diện giá bán, tỉ lệ chung
         public IActionResult table()
         {
-            ViewData["title"] = "Tỉ lệ giá bán chung ";
-            return View("TableGiaBanChung");
-        }
+          ViewData["title"] = "Tỉ lệ giá bán chung ";
+          webContext context = new webContext();
+          TempData["Menu"] = context.Menu.FirstOrDefault(menu => EF.Functions.Like(menu.TenMenu, "%Danh mục giá bán chung%") && menu.Active == true).Id;
+          return View("TableGiaBanChung");
+    }
         //hiển thị table hàng hóa khi chọn nhóm hàng hóa 
         [HttpPost("/loadTableGiaBanChung")]
         public IActionResult loadTableGiaBanChung(int nhomHH)

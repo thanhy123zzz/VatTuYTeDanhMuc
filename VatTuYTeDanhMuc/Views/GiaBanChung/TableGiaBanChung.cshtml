@@ -1,30 +1,34 @@
 ﻿@{
-    webContext context = new webContext();
-    NhanVien getNhanVien(int? id)
-    {
-        NhanVien nv = context.NhanVien.Find(id);
-        if (nv != null) return nv;
-        else return new NhanVien();
-    }
-    List<HhDvt> getListHH_Dvt()
-    {
-        return context.HhDvt.Where(x => x.Active == true).ToList();
-    }
+  webContext context = new webContext();
+  NhanVien getNhanVien(int? id)
+  {
+    NhanVien nv = context.NhanVien.Find(id);
+    if (nv != null) return nv;
+    else return new NhanVien();
+  }
+  List<HhDvt> getListHH_Dvt()
+  {
+    return context.HhDvt.Where(x => x.Active == true).ToList();
+  }
 
-    HangHoa getHangHoa(int? id){
-        return context.HangHoa.Find(id);
-    }
+  HangHoa getHangHoa(int? id){
+    return context.HangHoa.Find(id);
+  }
 
-    Dvt getDVT(int? id){
-        return context.Dvt.Find(id);
-    }
-    List<NhomHangHoa> getNhomHH(){
-        return context.NhomHangHoa.ToList();
-    }
-    List<HangHoa> getListHH()
-    {
-        return context.HangHoa.Where(x => x.Active == true).ToList();
-    }
+  Dvt getDVT(int? id){
+    return context.Dvt.Find(id);
+  }
+  List<NhomHangHoa> getNhomHH(){
+    return context.NhomHangHoa.ToList();
+  }
+  List<HangHoa> getListHH()
+  {
+    return context.HangHoa.Where(x => x.Active == true).ToList();
+  }
+
+
+
+
 }
 @if (TempData["ThongBao"] != null)
 {

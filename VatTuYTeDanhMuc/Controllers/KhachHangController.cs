@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using VatTuYTeDanhMuc.Models.Entities;
@@ -10,8 +11,10 @@ namespace VatTuYTeDanhMuc.Controllers
        
         public IActionResult table()
         {
-            ViewData["Title"] = "Danh mục khách hàng";
-            return View("TableKhachHang");
+          ViewData["Title"] = "Danh mục khách hàng";
+          webContext context = new webContext();
+          TempData["Menu"] = context.Menu.FirstOrDefault(menu => EF.Functions.Like(menu.TenMenu, "%Danh mục khách hàng%") && menu.Active == true).Id;
+          return View("TableKhachHang");
         }
         //giao diện thêm khách hàng
         public IActionResult ViewInsertKH()
