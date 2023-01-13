@@ -1,0 +1,29 @@
+﻿@model VatTuYTeDanhMuc.Models.Entities.PhanQuyen
+
+
+@{
+  var pq = ViewBag.PhanQuyen;
+  webContext context = new webContext();
+  VaiTro getVT(int? id)
+  {
+    VaiTro vtt = context.VaiTro.FirstOrDefault(a => a.Id == id);
+    if (vtt != null) return vtt;
+    else return new VaiTro();
+  }
+}
+
+<div class="col-12 vaitro" style="padding-bottom: 20px;">
+  <label for="vt" class="form-label">Vai trò</label>
+
+  <select id="idvt" onchange="" class="w-100 form-select" asp-for="Idvt" style="height: 38px;">
+    @foreach (var vt in ViewBag.ListPQCN)
+    {
+      <option value="@vt">@getVT(@vt).TenVt</option>
+    }
+  </select>
+
+  <div class="invalid-feedback">
+    Xin hãy chọn vai trò!
+  </div>
+
+</div>
