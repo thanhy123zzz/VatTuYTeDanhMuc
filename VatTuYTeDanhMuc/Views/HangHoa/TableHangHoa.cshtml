@@ -1,64 +1,99 @@
 ﻿@{
-    webContext context = new webContext();
-    List<NhomHangHoa> getListNHH()
-    {
-        return context.NhomHangHoa.ToList();
-    }
-    List<HangHoa> getListHH(){
-        return context.HangHoa.Where(x=>x.Active == true).Take(9).ToList();
-    }
+  webContext context = new webContext();
+  List<NhomHangHoa> getListNHH()
+  {
+    return context.NhomHangHoa.ToList();
+  }
+  List<HangHoa> getListHH(){
+    return context.HangHoa.Where(x=>x.Active == true).Take(9).ToList();
+  }
 
-    NhomHangHoa getNhomHH(int? id){
-       return context.NhomHangHoa.Find(id);
-    }
+  NhomHangHoa getNhomHH(int? id){
+    return context.NhomHangHoa.Find(id);
+  }
 
-    HangSanXuat getHSX(int? id){
-        return context.HangSanXuat.Find(id);
-    }
+  HangSanXuat getHSX(int? id){
+    return context.HangSanXuat.Find(id);
+  }
 
-    NuocSanXuat getNSX(int? id)
+  NuocSanXuat getNSX(int? id)
+  {
+    return context.NuocSanXuat.Find(id);
+  }
+  Dvt getDvt(int? id)
+  {
+    return context.Dvt.Find(id);
+  }
+
+
+
+  var acc = User.FindFirst("VaiTro");
+  int idmenu = (int)TempData.Peek("Menu");
+  int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+
+  string vaitro = null;
+  bool nhap = false, sua = false, xoa = false, print = false, xuat = false, canhan = false;
+  if (acc != null)
+  {
+    vaitro = acc.Value;
+    if (vaitro != null && vaitro != "")
     {
-        return context.NuocSanXuat.Find(id);
+      ChucNang cn = context.ChucNang.FirstOrDefault(c => c.Idvt.Equals(int.Parse(vaitro)) && c.Idmenu.Equals(idmenu));
+      nhap = (bool)cn.Nhap;
+      sua = (bool)cn.Sua;
+      xoa = (bool)cn.Xoa;
+      print = (bool)cn.In;
+      xuat = (bool)cn.Xuat;
+      canhan = (bool)cn.CaNhan;
     }
-    Dvt getDvt(int? id)
-    {
-        return context.Dvt.Find(id);
-    }
+  }
+
+
+
+
 } 
      
 <section class="section">
-        <div style="margin-bottom: 20px; display: flex; justify-content: space-between">
-          <a href="/HangHoa/ViewInsertHangHoa" class="btn btn-secondary" style="margin-left:2rem;"><span>Thêm Sản Phẩm</span></a>
-          <div style="display:flex;justify-content:space-around;">       
-            <div style="display: flex">   
-              <div class="search-bar" style="margin-right:10px">
-                  <div class="search-form d-flex align-items-center">
-                      <input id="search" type="text" name="query" placeholder="Search" title="Enter search keyword">
-                      <button type="submit" title="Search">
-                          <i class="bi bi-search"></i>
-                      </button>
-                  </div>
-              </div>
-              <div class="dropdown" style="margin-right:10px">
-              <select id="active" onchange="changeHH()" class="form-select">
-                                    <option value="true" selected>Hiện tại</option>  
-                                    <option value="false">Tất cả</option>  
-                 </select>
-              </div>
-              <div class="dropdown" >
-              <select id="nhomHH" onchange="changeHH()"
-                class="form-select2" style="width:50%;"
-                aria-label="Default select example">
-                <option selected disabled value="">Nhóm hàng hoá</option>
-                @foreach(NhomHangHoa n in getListNHH()){
-                    <option value="@n.Id">@n.TenNhh</option>
-                }
-              </select>
-            </div>
-            
+  <div style="margin-bottom: 20px; display: flex; justify-content: space-between">
+    @if (nhap == true)
+    {
+    <a href="/HangHoa/ViewInsertHangHoa" class="btn btn-secondary" style="margin-left:2rem;"><span>Thêm Sản Phẩm</span></a>
+    }
+    else
+    {
+      <button class="btn btn-secondary disabled"><span>Thêm Sản Phẩm</span></button>
+    }  
+    <div style="display:flex;justify-content:space-around;">
+      <div style="display: flex">
+        <div class="search-bar" style="margin-right:10px">
+          <div class="search-form d-flex align-items-center">
+            <input id="search" type="text" name="query" placeholder="Search" title="Enter search keyword">
+            <button type="submit" title="Search">
+              <i class="bi bi-search"></i>
+            </button>
           </div>
-          </div>
-        </div>       
+        </div>
+        <div class="dropdown" style="margin-right:10px">
+          <select id="active" onchange="changeHH()" class="form-select">
+            <option value="true" selected>Hiện tại</option>
+            <option value="false">Tất cả</option>
+          </select>
+        </div>
+        <div class="dropdown">
+          <select id="nhomHH" onchange="changeHH()"
+                  class="form-select2" style="width:50%;"
+                  aria-label="Default select example">
+            <option selected disabled value="">Nhóm hàng hoá</option>
+            @foreach (NhomHangHoa n in getListNHH())
+            {
+              <option value="@n.Id">@n.TenNhh</option>
+            }
+          </select>
+        </div>
+
+      </div>
+    </div>
+  </div>       
 
 <div class="product" id="tableHH" style="display: flex; flex-wrap: wrap">
     <input type="hidden" id="SL" value="9"/>
@@ -85,12 +120,32 @@
                     <h6>Nước sản xuất: @getNSX(hh.Idnsx).TenNsx</h6>
                     <div class="social-links"
                          style="display: flex; justify-content: space-between">
-                        <div>
-                            <a  class="chinhsua" href="/HangHoa/ViewUpdateHangHoa/@hh.Id">
-                                    <i title="Chỉnh sửa" class="bi bi-pencil-square"></i>
-                            </a>
-                            <a href="/HangHoa/xoa/@hh.Id" onclick="return confirm('Bạn có xoá hàng hoá này?')"><i title="Xoá" class="bi bi-trash"></i></a>
-                        </div>
+                      <div>
+                        <!---->
+                        @if (sua == true)
+                        {
+                          <a class="chinhsua" href="/HangHoa/ViewUpdateHangHoa/@hh.Id">
+                            <i title="Chỉnh sửa" class="bi bi-pencil-square"></i>
+                          </a>
+                        }
+                        else
+                        {
+                          <button class=" btn p-0 disabled border-0">
+                            <i class="bi bi-pencil-square" style="margin-right: 10px; margin-left: 10px"></i>
+                          </button>
+                        }
+                        @if (xoa == true)
+                        {
+                          <a href="/HangHoa/xoa/@hh.Id" onclick="return confirm('Bạn có xoá hàng hoá này?')"><i title="Xoá" class="bi bi-trash"></i></a>
+                        }
+                        else
+                        {
+                          <button class=" btn p-0 disabled border-0">
+                            <i class="bi bi-trash" style="margin-right: 10px; margin-left: 10px"></i>
+                          </button>
+                        }
+
+                      </div>
                         <a href="CTLap.html" class="chitiet"><i class="=">Chi tiết</i></a>
                     </div>
                 </div>

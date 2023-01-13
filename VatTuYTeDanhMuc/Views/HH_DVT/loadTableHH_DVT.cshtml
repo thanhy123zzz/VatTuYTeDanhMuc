@@ -1,10 +1,33 @@
 ﻿@{
-    webContext context = new webContext();
-    Dvt getDVT(int? id)
+  webContext context = new webContext();
+  Dvt getDVT(int? id)
+  {
+    return context.Dvt.Find(id);
+  }
+  Dvt dvt = ViewBag.DVC;
+
+  var acc = User.FindFirst("VaiTro");
+  int idmenu = (int)TempData.Peek("Menu");
+  int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+
+  string vaitro = null;
+  bool nhap = false, sua = false, xoa = false, print = false, xuat = false, canhan = false;
+  if (acc != null)
+  {
+    vaitro = acc.Value;
+    if (vaitro != null && vaitro != "")
     {
-        return context.Dvt.Find(id);
+      ChucNang cn = context.ChucNang.FirstOrDefault(c => c.Idvt.Equals(int.Parse(vaitro)) && c.Idmenu.Equals(idmenu));
+      nhap = (bool)cn.Nhap;
+      sua = (bool)cn.Sua;
+      xoa = (bool)cn.Xoa;
+      print = (bool)cn.In;
+      xuat = (bool)cn.Xuat;
+      canhan = (bool)cn.CaNhan;
     }
-     Dvt dvt = ViewBag.DVC;
+  }
+
+
 }
                   <tbody id="tbodyHH_DVT">
                         <tr style="background-color:lightgrey;">
@@ -20,10 +43,26 @@
                         <tr>
                                 <td>@getDVT(h.Iddvt).TenDvt<input class="inputDisabled text-center" type="hidden" value="@h.Iddvt"/></td>
                                 <td><input class="inputDisabled text-center" type="text" value="@h.SlquyDoi" disabled/></td>
-                            <td>
-                                    <button value="@h.Id" class="edit btn btn-primary" style="margin-right: 5px" id="edit">Sửa</button>
-                                     <button value="@h.Id" class ="remove btn btn-danger">Xóa</button>
-                            </td>
+                                <td>
+                                  @if (sua == true)
+                                  {
+                                      <button value="@h.Id" class="edit btn btn-primary" style="margin-right: 5px" id="edit">Sửa</button>
+                                  }
+                                  else
+                                  {
+                                      <button class=" btn p-0 disabled border-0"> Sửa </button>
+                                  }
+                                  @if (xoa == true)
+                                  {
+                                      <button value="@h.Id" class="remove btn btn-danger">Xóa</button>
+                                  }
+                                  else
+                                  {
+                                    <button class=" btn p-0 disabled border-0">
+                                      Xóa
+                                    </button>
+                                  }
+                                </td>
                         </tr>
                         }
                     </tbody>
