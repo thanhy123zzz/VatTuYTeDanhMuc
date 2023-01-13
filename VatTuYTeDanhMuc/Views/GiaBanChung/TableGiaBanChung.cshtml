@@ -29,6 +29,42 @@
 
 
 
+    Dvt getDVT(int? id){
+        return context.Dvt.Find(id);
+    }
+    List<NhomHangHoa> getNhomHH(){
+        return context.NhomHangHoa.ToList();
+    }
+    List<HangHoa> getListHH()
+    {
+        return context.HangHoa.Where(x => x.Active == true).ToList();
+    }
+
+
+    var acc = User.FindFirst("VaiTro");
+
+  int idmenu = (int)TempData.Peek("Menu");
+
+  int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+  //int idCN = int.Parse(User.Claims.ElementAt(4).Value);
+
+  string vaitro = null;
+  bool nhap = false, sua = false, xoa = false, print = false, xuat = false, canhan = false;
+  if (acc != null)
+  {
+    vaitro = acc.Value;
+    if (vaitro != null && vaitro != "")
+    {
+      ChucNang cn = context.ChucNang.FirstOrDefault(c => c.Idvt.Equals(int.Parse(vaitro)) && c.Idmenu.Equals(idmenu));
+      nhap = (bool)cn.Nhap;
+      sua = (bool)cn.Sua;
+      xoa = (bool)cn.Xoa;
+      print = (bool)cn.In;
+      xuat = (bool)cn.Xuat;
+      canhan = (bool)cn.CaNhan;
+    }
+  }
+
 }
 @if (TempData["ThongBao"] != null)
 {
@@ -75,9 +111,16 @@
                                                 <span>Trở về</span>
                                             </button>
                                         </div>
+                                        @if(nhap==true){
                                         <button href="#" value="@ViewBag.ID" class="addnew btn btn-primary" style="border-radius:0" id="add_new">
-                                            <span>Thêm Mới</span>
-                                        </button>
+                                                <span>Thêm Mới</span>
+                                            </button>        
+                                        }else{
+                                    <button href="#" value="@ViewBag.ID" class="disabled btn btn-primary" style="border-radius:0" id="add_new">
+                                                <span>Thêm Mới</span>
+                                            </button>
+                                        }
+                                        
                                     </div>
                                 </div>
                             </th>
@@ -547,20 +590,7 @@
                     }
                 });
             });
-            $("#myTable").on("click", ".btn-secondary", function () {
-                var nhomHH = $('#nhomHH').val();
-                 $.ajax({
-                                type: "post",
-                                url: "/loadTableGiaBanChung",
-                                data: "nhomHH=" + nhomHH,
-                                success: function (result) {
-                                    $('#tbodyHH').replaceWith(result);
-                                },
-                                error: function () {
-                                    alert("Fail");
-                                }
-                        });               
-            });
+            
 
         })
 

@@ -17,6 +17,8 @@ namespace VatTuYTeDanhMuc.Controllers
 		public IActionResult table()
 		{
             ViewData["Title"] = "Giá bán theo khách hàng";
+            webContext context = new webContext();
+            TempData["Menu"] = context.Menu.FirstOrDefault(menu => EF.Functions.Like(menu.TenMenu, "%Danh mục giá bán chung khách hàng%") && menu.Active == true).Id;
             return View("TableGiaBanChungKH");
 		}
 

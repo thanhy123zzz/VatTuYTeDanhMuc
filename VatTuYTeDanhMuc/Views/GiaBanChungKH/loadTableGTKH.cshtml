@@ -11,6 +11,30 @@
         return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
 
     }
+
+    var acc = User.FindFirst("VaiTro");
+
+    int idmenu = (int)TempData.Peek("Menu");
+
+    int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+
+    string vaitro = null;
+    bool nhap = false, sua = false, xoa = false, print = false, xuat = false, canhan = false;
+    if (acc != null)
+    {
+        vaitro = acc.Value;
+        if (vaitro != null && vaitro != "")
+        {
+            ChucNang cn = context.ChucNang.FirstOrDefault(c => c.Idvt.Equals(int.Parse(vaitro)) && c.Idmenu.Equals(idmenu));
+            nhap = (bool)cn.Nhap;
+            sua = (bool)cn.Sua;
+            xoa = (bool)cn.Xoa;
+            print = (bool)cn.In;
+            xuat = (bool)cn.Xuat;
+            canhan = (bool)cn.CaNhan;
+        }
+    }
+
     }
 <tbody id="tbodyGTKH">
     @if (@ViewBag.idkh == null || @ViewBag.idhh == null || @ViewBag.iddvt == null)
@@ -25,8 +49,17 @@
                                      <td style="text-align:right"><input class='inputDisabled text-center infomal'  type=text ></td>
                              <td style="display:none"><input class='inputDisabled text-center' value=@ViewBag.iddvt type=text ></td>
                              <td style="display:none"><input class='inputDisabled text-center' value=@ViewBag.idhh type=text ></td>
-                             <td><button   class="add btn btn-primary" style="margin-right: 5px" id="edit">Thêm</button>
-                             
+                             <td>
+                @if (nhap == true)
+                {
+                                             <button   class="add btn btn-primary" style="margin-right: 5px" id="edit">Thêm</button>
+
+                }
+                else
+                {
+                                             <button   class="disabled btn btn-primary" style="margin-right: 5px" id="edit">Thêm</button>
+
+                }                             </td>
                                     
                                 </tr>
                     
@@ -38,8 +71,21 @@
                                     <td style="text-align:right">@format(@ViewBag.GTKH.TiLeLe)</td>
                                     <td style="text-align:right">@format(@ViewBag.GTKH.GiaBanSi)</td>
                                     <td style="text-align:right">@format(@ViewBag.GTKH.GiaBanLe)</td>
-                                <td><button value="@ViewBag.GTKH.Id" class="edit btn btn-primary" style="margin-right: 5px" id="edit">Sửa</button>
-                                    <button  class="more btn btn-success" value="@ViewBag.idhh" style="margin-right: 5px" id="edit">more</button>
+                                <td>
+                                 @if(sua==true){
+                                    <button value="@ViewBag.GTKH.Id" class="edit btn btn-primary" style="margin-right: 5px" id="edit">Sửa</button>
+
+                                 }else{
+                                  <button value="@ViewBag.GTKH.Id" class="disabled btn btn-primary" style="margin-right: 5px" id="edit">Sửa</button>
+
+                                 }
+                                 @if(xoa==true){
+                                   <button  class="more btn btn-success" value="@ViewBag.idhh" style="margin-right: 5px" id="edit">more</button>
+
+                                 }else{
+                                  <button  class="more btn btn-success" value="@ViewBag.idhh" style="margin-right: 5px" id="edit">more</button>
+
+                                 }
                                     </td>
 
                                 

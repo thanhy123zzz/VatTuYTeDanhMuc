@@ -18,7 +18,7 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             ViewData["Title"] = "Danh mục nước sản xuất";
             webContext context = new webContext();
-            ViewBag.nuocsx = context.NuocSanXuat.ToList();
+            TempData["Menu"] = context.Menu.FirstOrDefault(menu => EF.Functions.Like(menu.TenMenu, "%Danh mục nước sản xuất%") && menu.Active == true).Id;
             return View("TableNuocSX");
         }
 
@@ -40,6 +40,8 @@ namespace VatTuYTeDanhMuc.Controllers
             nsx.Idcn = idCN;
             nsx.Nvtao = idUser;
             nsx.NgayTao = DateTime.Now;
+            nsx.Nvsua = idUser;
+            nsx.NgaySua = DateTime.Now;
             nsx.Active = true;
             nsx.Idcn = 1;
             context.Add(nsx);

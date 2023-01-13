@@ -11,10 +11,10 @@ namespace VatTuYTeDanhMuc.Controllers
        
         public IActionResult table()
         {
-          ViewData["Title"] = "Danh mục khách hàng";
-          webContext context = new webContext();
-          TempData["Menu"] = context.Menu.FirstOrDefault(menu => EF.Functions.Like(menu.TenMenu, "%Danh mục khách hàng%") && menu.Active == true).Id;
-          return View("TableKhachHang");
+            ViewData["Title"] = "Danh mục khách hàng";
+            webContext context = new webContext();
+            TempData["Menu"] = context.Menu.FirstOrDefault(menu => EF.Functions.Like(menu.TenMenu, "%Danh mục khách hàng%") && menu.Active == true).Id;
+            return View("TableKhachHang");
         }
         //giao diện thêm khách hàng
         public IActionResult ViewInsertKH()
@@ -30,6 +30,8 @@ namespace VatTuYTeDanhMuc.Controllers
             webContext context = new webContext();
             kh.Nvtao = idUser;
             kh.NgayTao = DateTime.Now;
+            kh.NgaySua = DateTime.Now;
+            kh.Nvsua = idUser;
             kh.Active = true;
             kh.Idcn = idCN;
            

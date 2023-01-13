@@ -45,6 +45,30 @@
         return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
 
     }
+    var acc = User.FindFirst("VaiTro");
+
+    int idmenu = (int)TempData.Peek("Menu");
+
+    int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+    //int idCN = int.Parse(User.Claims.ElementAt(4).Value);
+
+    string vaitro = null;
+    bool nhap = false, sua = false, xoa = false, print = false, xuat = false, canhan = false;
+    if (acc != null)
+    {
+        vaitro = acc.Value;
+        if (vaitro != null && vaitro != "")
+        {
+            ChucNang cn = context.ChucNang.FirstOrDefault(c => c.Idvt.Equals(int.Parse(vaitro)) && c.Idmenu.Equals(idmenu));
+            nhap = (bool)cn.Nhap;
+            sua = (bool)cn.Sua;
+            xoa = (bool)cn.Xoa;
+            print = (bool)cn.In;
+            xuat = (bool)cn.Xuat;
+            canhan = (bool)cn.CaNhan;
+        }
+    }
+
 }
 <tbody id="tbodyHH">
     @foreach (HhDvt h in ViewBag.HHDVT)
@@ -62,8 +86,22 @@
                                                <td style="display:none"><input value="@h.Idhh" class='inputDisabled text-center'  type=text ></td>
 
                                        <td>
-                                            <button value="@h.Id" class="edit2 btn btn-primary" style="margin-right: 5px" id="edit">Sửa</button>
-                                            <button value="@h.Id" class="delete btn btn-danger" style="margin-right: 5px">Xóa</button>
+                @if (sua == true)
+                {
+                                          <button value="@h.Id" class="edit1 btn btn-primary" style="margin-right: 5px" id="edit">Sửa</button>
+                }
+                else
+                {
+                                            <button value="@h.Id" class="btn btn-primary disabled" style="margin-right: 5px" id="edit">Sửa</button>
+                }
+                @if (xoa == true)
+                {
+                                                <button value="@h.Id" class="delete btn btn-danger" style="margin-right: 5px" id="edit">Xóa</button>
+                }
+                else
+                {
+                                                      <button value="@h.Id" class="disabled btn btn-danger" style="margin-right: 5px" id="edit">Xóa</button>
+                }
 
 
                                        </td>
