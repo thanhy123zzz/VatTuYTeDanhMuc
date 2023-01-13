@@ -44,9 +44,6 @@
       canhan = (bool)cn.CaNhan;
     }
   }
-
-
-
 }
 @if (TempData["ThongBao"] != null)
 {
@@ -63,17 +60,17 @@
                  <div class="col-lg-2 col-sm-2" style="width: auto;">
                 @if (nhap == true)
                 {
-                    <a href="/DonViTinh/ViewInsertDVT" class="btn btn-secondary">
+                    <a href="/DonViTinh/ViewInsertDVT" class="btn btn-primary">
                       <span>Thêm Mới</span>
                     </a>
                 }
                 else
                 {
-                     <button class="btn btn-secondary disabled"><span>Thêm mới</span></button>
+                     <button class="btn btn-primary disabled"><span>Thêm mới</span></button>
                 }
                  </div>
                  <div class="col-lg-2 col-sm-2">
-                     <select id="active" onchange="changeHH()" class="form-select2">
+                     <select onchange="loadTableHH_DVT()" id="active" class="form-select2">
                       <option value="true" selected>Hiện tại</option>
                       <option value="false">Tất cả</option>
                     </select>
@@ -139,18 +136,19 @@
 
 
 <script>
-  $('#active').on('change', function () {
-    var a = $(this).val();
+  function loadTableHH_DVT(){
+      var a = $(active).val();
     $.ajax({
       type: "post",
       url: "/loadTableDVT",
       data: "active=" + a,
       success: function (result) {
-        $('#example_wrapper').replaceWith(result);
+         console.log(result);
+        $('.table-responsive').replaceWith(result);
       },
       error: function () {
         alert("Fail to delete");
       }
     });
-  });
+  }
 </script>

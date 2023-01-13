@@ -26,21 +26,6 @@
     return context.HangHoa.Where(x => x.Active == true).ToList();
   }
 
-
-
-
-    Dvt getDVT(int? id){
-        return context.Dvt.Find(id);
-    }
-    List<NhomHangHoa> getNhomHH(){
-        return context.NhomHangHoa.ToList();
-    }
-    List<HangHoa> getListHH()
-    {
-        return context.HangHoa.Where(x => x.Active == true).ToList();
-    }
-
-
     var acc = User.FindFirst("VaiTro");
 
   int idmenu = (int)TempData.Peek("Menu");
