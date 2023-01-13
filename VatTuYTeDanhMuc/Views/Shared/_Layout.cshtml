@@ -1,14 +1,27 @@
 ﻿@{
-    var acc = User.FindFirst("User");
-    string tentk = null, name = null;
-    int idUser = 0;
-    if (acc != null)
-    {
-        tentk = acc.Subject.Name;
-        name = User.Claims.ElementAt(3).Value;
-        idUser = int.Parse(User.Claims.ElementAt(3).Type);
-        //ViewData["NhanVien"] = idUser;
-    }
+  webContext context = new webContext();
+  var acc = User.FindFirst("User");
+  string tentk = null, name = null, vaitro = null;
+  int idUser = 0;
+  if (acc != null)
+  {
+    vaitro = acc.Value;
+    tentk = acc.Subject.Name;
+    name = User.Claims.ElementAt(2).Value;
+    idUser = int.Parse(User.Claims.ElementAt(2).Type);
+    //ViewData["NhanVien"] = idUser;
+  }
+
+  List<int?> menu(){
+    return context.ChucNang.Where(x => x.Active == true && x.Idvt == int.Parse(vaitro)).Select(x => x.Idmenu).ToList();
+  }
+
+  //List<ChucNang> listCN()
+  //{
+  //  return context.ChucNang.Where(x => x.Active == true && x.Idvt == int.Parse(vaitro)).ToList();
+  //}
+
+
 }
 <!DOCTYPE html>
 <html lang="en">

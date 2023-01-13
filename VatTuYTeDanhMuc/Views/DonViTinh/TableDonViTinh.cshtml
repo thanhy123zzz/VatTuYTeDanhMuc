@@ -29,7 +29,7 @@
   int idmenu = (int)TempData.Peek("Menu");
 
   int idUser = int.Parse(User.Claims.ElementAt(2).Type);
-  int idCN = int.Parse(User.Claims.ElementAt(4).Value);
+  //int idCN = int.Parse(User.Claims.ElementAt(4).Value);
 
   string vaitro = null;
   bool nhap = false, sua = false, xoa = false, print = false, xuat = false, canhan = false;
@@ -47,8 +47,6 @@
       canhan = (bool)cn.CaNhan;
     }
   }
-
-
 
 
 
