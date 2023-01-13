@@ -6,45 +6,46 @@ using VatTuYTeDanhMuc.Models.Entities;
 
 namespace VatTuYTeDanhMuc.Controllers
 {
-    public class DonViTinhController : Controller
+  public class DonViTinhController : Controller
+  {
+    public IActionResult Table()
     {
-        
+      ViewData["Title"] = "Danh mục đơn vị tính";
+      webContext context = new webContext();
+      TempData["Menu"] = context.Menu.FirstOrDefault(menu => EF.Functions.Like(menu.TenMenu, "%Danh mục đơn vị tính%") && menu.Active == true).Id;
+      return View("TableDonViTinh");
+    }
 
-        public IActionResult Table()
-        {
-            ViewData["Title"] = "Danh mục đơn vị tính";
-            return View("TableDonViTinh");
-        }
+    //Trả về view thêm đơn vị tính
+    public IActionResult ViewInsertDVT()
+    {
+      ViewData["Title"] = "Thêm đơn vị tính";
+      return View();
+    }
+    [HttpPost("/loadTableDVT")]
+    public IActionResult loadTableDVT(bool active)
+    {
+      webContext context = new webContext();
+      if (active)
+      {
+        ViewBag.DVT = context.Dvt.Where(x => x.Active == true).ToList();
+      }
+      else
+      {
+        ViewBag.DVT = context.Dvt.ToList();
+      }
+      return PartialView();
+    }
 
-        //Trả về view thêm đơn vị tính
-        public IActionResult ViewInsertDVT()
-        {
-            ViewData["Title"] = "Thêm đơn vị tính";
-            return View();
-        }
-        [HttpPost("/loadTableDVT")]
-        public IActionResult loadTableDVT(bool active)
-        {
-            webContext context = new webContext();
-            if (active) {
-                ViewBag.DVT = context.Dvt.Where(x => x.Active == true).ToList();
-            }
-            else
-            {
-                ViewBag.DVT = context.Dvt.ToList();
-            }
-            return PartialView();
-        }
-
-        //Trả về view sửa đơn vị tính
-        [Route("/DonViTinh/ViewUpdateDVT/{id}")]
-        public IActionResult ViewUpdateDVT(int id)
-        {
-            ViewData["Title"] = "Sửa đơn vị tính";
-            webContext context = new webContext();
-            Dvt dvt = context.Dvt.Find(id);
-            return View(dvt);
-        }
+    //Trả về view sửa đơn vị tính
+    [Route("/DonViTinh/ViewUpdateDVT/{id}")]
+    public IActionResult ViewUpdateDVT(int id)
+    {
+      ViewData["Title"] = "Sửa đơn vị tính";
+      webContext context = new webContext();
+      Dvt dvt = context.Dvt.Find(id);
+      return View(dvt);
+    }
 
         //insert đơn vị tính
         [HttpPost]
@@ -80,11 +81,11 @@ namespace VatTuYTeDanhMuc.Controllers
             dv.TenDvt = dvt.TenDvt;
             dv.MaDvt = dvt.MaDvt;
 
-            context.Dvt.Update(dv);
-            context.SaveChanges();
-            TempData["ThongBao"] = "Sửa thành công!";
-            return RedirectToAction("Table");
-        }
+      context.Dvt.Update(dv);
+      context.SaveChanges();
+      TempData["ThongBao"] = "Sửa thành công!";
+      return RedirectToAction("Table");
+    }
 
         //Xoá đơn vị tính
         [Route("/DonViTinh/xoa/{id}")]
@@ -111,10 +112,10 @@ namespace VatTuYTeDanhMuc.Controllers
             dvt.Nvsua = idUser;
             dvt.Active = true;
 
-            context.Dvt.Update(dvt);
-            context.SaveChanges();
-            TempData["ThongBao"] = "Khôi phục thành công!";
-            return RedirectToAction("Table");
-        }
+      context.Dvt.Update(dvt);
+      context.SaveChanges();
+      TempData["ThongBao"] = "Khôi phục thành công!";
+      return RedirectToAction("Table");
     }
+  }
 }

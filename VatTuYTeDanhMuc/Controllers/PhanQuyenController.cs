@@ -44,21 +44,21 @@ namespace VatTuYTe.Controllers
 
 
 
-        //0000 yy okk
-        //Xóa (ẩn) phân quyền
-        [HttpPost("/removePQ")]
-        public string removePQ(int id)
-        {
-            webContext context = new webContext();
-            PhanQuyen pq = context.PhanQuyen.Find(id);
-            pq.Active = false;
-            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
-            pq.Nvsua = idUser;
-            pq.NgaySua = DateTime.Now;
-            context.Update(pq);
-            context.SaveChanges();
-            return "Xoá thành công!";
-        }
+    //0000 yy okk
+    //Xóa (ẩn) phân quyền
+    [HttpPost("/removePQ")]
+    public string removePQ(int id)
+    {
+      webContext context = new webContext();
+      PhanQuyen pq = context.PhanQuyen.Find(id);
+      pq.Active = false;
+      int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+      pq.Nvsua = idUser;
+      pq.NgaySua = DateTime.Now;
+      context.Update(pq);
+      context.SaveChanges();
+      return "Xoá thành công!";
+    }
 
 
         //ok yy
@@ -147,6 +147,28 @@ namespace VatTuYTe.Controllers
             ViewBag.IDTK = idtk;
             return PartialView();
         }
+        if (idvt == 0)
+        {
+          return "Hãy chọn vai trò!";
+        }      
+        return "Lỗi!";
+      }
+      else
+      {
+        int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+        pq.Idtk = idtk;
+        pq.Idvt = idvt;
+        pq.Idcn = idcn;
+        pq.Nvtao = idUser;
+        pq.Nvsua = idUser;
+        pq.NgayTao = DateTime.Now;
+        pq.NgaySua = DateTime.Now;
+        pq.Active = true;
+        context.PhanQuyen.Add(pq);
+        context.SaveChanges();
+        return "Thêm thành công";
+      }    
+    }
 
         ///search nhan vien okk
         [HttpPost("/searchTableNV")]
@@ -200,5 +222,20 @@ namespace VatTuYTe.Controllers
             return "Sửa thành công";
         }
 
+    //cập nhật vai trò
+    [HttpPost("/updatepq")]
+    public string updatepq(int idvt, int idpq, int idcn)
+    {
+      webContext context = new webContext();
+      PhanQuyen pq = context.PhanQuyen.Find(idpq);
+      int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+      pq.Idvt = idvt;
+      pq.Idcn = idcn;
+      pq.Nvsua = idUser;
+      pq.NgaySua = DateTime.Now;
+      pq.Active = true;
+      context.PhanQuyen.Update(pq);
+      context.SaveChanges();
+      return "Sửa thành công";
     }
 }

@@ -1,26 +1,58 @@
 ﻿@{
-    webContext context = new webContext();
-    NhanVien getNhanVien(int? id)
+  webContext context = new webContext();
+  NhanVien getNhanVien(int? id)
+  {
+    NhanVien nv = context.NhanVien.Find(id);
+    if (nv != null) return nv;
+    else return new NhanVien();
+  }
+  List<Dvt> getListDVT()
+  {
+    return context.Dvt.Where(x => x.Active == true).ToList();
+  }
+  string formatDay(DateTime? date)
+  {
+    if (date != null)
     {
-        NhanVien nv = context.NhanVien.Find(id);
-        if (nv != null) return nv;
-        else return new NhanVien();
+      return date.Value.ToString("dd/MM/yyyy HH:mm");
     }
-    List<Dvt> getListDVT()
+    else
     {
-        return context.Dvt.Where(x => x.Active == true).ToList();
+      return null;
     }
-    string formatDay(DateTime? date)
+  }
+
+
+
+  var acc = User.FindFirst("VaiTro");
+
+  int idmenu = (int)TempData.Peek("Menu");
+
+  int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+  //int idCN = int.Parse(User.Claims.ElementAt(4).Value);
+
+  string vaitro = null;
+  bool nhap = false, sua = false, xoa = false, print = false, xuat = false, canhan = false;
+  if (acc != null)
+  {
+    vaitro = acc.Value;
+    if (vaitro != null && vaitro != "")
     {
-        if (date != null)
-        {
-            return date.Value.ToString("dd/MM/yyyy HH:mm");
-        }
-        else
-        {
-            return null;
-        }
+      ChucNang cn = context.ChucNang.FirstOrDefault(c => c.Idvt.Equals(int.Parse(vaitro)) && c.Idmenu.Equals(idmenu));
+      nhap = (bool)cn.Nhap;
+      sua = (bool)cn.Sua;
+      xoa = (bool)cn.Xoa;
+      print = (bool)cn.In;
+      xuat = (bool)cn.Xuat;
+      canhan = (bool)cn.CaNhan;
     }
+  }
+
+
+
+
+
+
 }
 
 <table id="example" class="table table-striped table-hover text-center display nowrap" style="width:100%">
@@ -47,14 +79,26 @@
                              <td>@getNhanVien(@dvt.Nvsua).TenNv</td>
                              <td>@formatDay(@dvt.NgaySua)</td>
                              <td>
-                                <a href="/NuocSanXuat/ViewUpdateDVT/@dvt.Id">
-                                  <i class="bi bi-pencil-square"
-                                   style="margin-right: 10px; margin-left: 10px"></i>
-                                </a>
-                                <a href="/DonViTinh/khoiphuc/@dvt.Id" onclick="return confirm('Bạn có muốn khôi phục đơn vị tính này?')">
-                                      <i title="Khôi phục" class="bi bi-reply-all-fill"
+                               @if (sua == true)
+                               {
+                                 <a href="/NuocSanXuat/ViewUpdateDVT/@dvt.Id">
+                                   <i class="bi bi-pencil-square"
                                       style="margin-right: 10px; margin-left: 10px"></i>
-                                </a>
+                                 </a>
+                                 <a href="/DonViTinh/khoiphuc/@dvt.Id" onclick="return confirm('Bạn có muốn khôi phục đơn vị tính này?')">
+                                   <i title="Khôi phục" class="bi bi-reply-all-fill"
+                                      style="margin-right: 10px; margin-left: 10px"></i>
+                                 </a>
+                               }
+                               else
+                               {
+                                 <button class=" btn p-0 disabled border-0">
+                                   <i class="bi bi-pencil-square" style="margin-right: 10px; margin-left: 10px"></i>
+                                 </button>
+                                 <button class=" btn p-0 disabled border-0">
+                                   <i class="bi bi-reply-all-fill" style="margin-right: 10px; margin-left: 10px"></i>
+                                 </button>
+                               }
                              </td>
                      </tr>
              }else{
@@ -66,14 +110,31 @@
                                      <td>@getNhanVien(@dvt.Nvsua).TenNv</td>
                                      <td>@formatDay(@dvt.NgaySua)</td>
                                      <td>
-                                        <a href="/NuocSanXuat/ViewUpdateDVT/@dvt.Id">
-                                          <i class="bi bi-pencil-square"
-                                   style="margin-right: 10px; margin-left: 10px"></i>
-                                        </a>
-                                        <a href="/DonViTinh/xoa/@dvt.Id" onclick="return confirm('Bạn có muốn xoá đơn vị tính này?')">
-                                              <i title="Khôi phục" class="bi bi-trash"
-                                      style="margin-right: 10px; margin-left: 10px"></i>
-                                        </a>
+                                       @if (sua == true)
+                                       {
+                                         <a href="/DonViTinh/ViewUpdateDVT/@dvt.Id">
+                                           <i class="bi bi-pencil-square" style="margin-right: 10px; margin-left: 10px"></i>
+                                         </a>
+                                       }
+                                       else
+                                       {
+                                         <button class=" btn p-0 disabled border-0">
+                                           <i class="bi bi-pencil-square" style="margin-right: 10px; margin-left: 10px"></i>
+                                         </button>
+                                       }
+                                       @if (xoa == true)
+                                       {
+
+                                         <a href="/DonViTinh/xoa/@dvt.Id" onclick="return confirm('Bạn có xoá đơn vị tính này?')">
+                                           <i class="bi bi-trash" style="margin-right: 10px; margin-left: 10px"></i>
+                                         </a>
+                                       }
+                                       else
+                                       {
+                                         <button class=" btn p-0 disabled border-0">
+                                           <i class="bi bi-trash" style="margin-right: 10px; margin-left: 10px"></i>
+                                         </button>
+                                       }
                                      </td>
                              </tr>
              }

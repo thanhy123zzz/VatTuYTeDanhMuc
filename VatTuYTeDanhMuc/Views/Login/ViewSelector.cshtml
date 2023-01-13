@@ -1,26 +1,26 @@
 ﻿@model VatTuYTeDanhMuc.Models.Entities.PhanQuyen
 
 @{
-    Layout = null;
+  Layout = null;
 
-    webContext context = new webContext();
+  webContext context = new webContext();
 
-    List<VaiTro> ListVT()
-    {
-        return context.VaiTro.Where(z => z.Active == true).ToList();
-    }
+  List<VaiTro> ListVT()
+  {
+    return context.VaiTro.Where(z => z.Active == true).ToList();
+  }
 
-    List<ChiNhanh> ListCN()
-    {
-        return context.ChiNhanh.Where(x => x.Active == true).ToList();
-    }
+  List<ChiNhanh> ListCN()
+  {
+    return context.ChiNhanh.Where(x => x.Active == true).ToList();
+  }
 
-    ChiNhanh getCN(int? id)
-    {
-        ChiNhanh cn = context.ChiNhanh.FirstOrDefault(a => a.Id == id);
-        if (cn != null) return cn;
-        else return new ChiNhanh();
-    }
+  ChiNhanh getCN(int? id)
+  {
+    ChiNhanh cn = context.ChiNhanh.FirstOrDefault(a => a.Id == id);
+    if (cn != null) return cn;
+    else return new ChiNhanh();
+  }
 
 
 
@@ -87,10 +87,10 @@
                         <input type="hidden" value="@ViewBag.TaiKhoan" id="tk" asp-for="Idtk"/>
                         <select id="idcn" onchange="loadPQCN()" class="w-100 form-select" asp-for="Idcn" style="height: 38px;">
                           <option selected disabled>--- Chọn chi nhánh ---</option>
-                                                    @foreach (var cn in ViewBag.ChiNhanh)
-                                                    {
-                                <option value="@cn">@getCN(@cn).TenCn</option>
-                                                    }
+                          @foreach (var cn in ViewBag.ChiNhanh)
+                          {
+                            <option value="@cn">@getCN(@cn).TenCn</option>
+                          }
                         </select>
                         <div class="invalid-feedback">
                           Xin hãy điền chọn chi nhánh!
@@ -102,10 +102,10 @@
                       <label for="vt" class="form-label">Vai trò</label>
                       <select id="idvt" onchange="" class="w-100 form-select" asp-for="Idvt" style="height: 38px;" disabled>
                         <option selected disabled>--- Chọn vai trò ---</option>
-                                                @foreach (VaiTro vt in ListVT())
-                                                {
-                              <option value="@vt.Id">@vt.TenVt</option>
-                                                }
+                        @foreach (VaiTro vt in ListVT())
+                        {
+                          <option value="@vt.Id">@vt.TenVt</option>
+                        }
                       </select>
                       <div class="invalid-feedback">
                         Xin hãy chọn vai trò!
@@ -161,7 +161,6 @@
 
 
     $(function () {
-
 
       $("#idcn").change(function () {
         $('#idvt').prop('disabled', false);
