@@ -35,7 +35,9 @@ namespace VatTuYTeDanhMuc.Controllers
        public IActionResult InsertNSX(NuocSanXuat nsx)
         {
             webContext context = new webContext();
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+            int idCN = int.Parse(User.Claims.ElementAt(4).Value);
+            nsx.Idcn = idCN;
             nsx.Nvtao = idUser;
             nsx.NgayTao = DateTime.Now;
             nsx.Active = true;
@@ -52,7 +54,7 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             NuocSanXuat nsx = context.NuocSanXuat.Find(id);
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             nsx.NgaySua = DateTime.Now;
             nsx.Nvsua = idUser;
             nsx.Active = false;
@@ -78,7 +80,7 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             NuocSanXuat n = context.NuocSanXuat.Find(nsx.Id);
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             n.MaNsx = nsx.MaNsx;
             n.TenNsx = nsx.TenNsx;
             n.Idcn = nsx.Idcn;
@@ -109,7 +111,7 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             NuocSanXuat hsx = context.NuocSanXuat.Find(id);
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             hsx.NgaySua = DateTime.Now;
             hsx.Nvsua = idUser;
             hsx.Active = true;

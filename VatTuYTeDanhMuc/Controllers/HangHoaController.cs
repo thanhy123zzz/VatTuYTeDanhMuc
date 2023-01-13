@@ -33,7 +33,9 @@ namespace VatTuYTeDanhMuc.Controllers
         public IActionResult insertHangHoa(HangHoa hh, IFormFile Avt)
         {
             webContext context = new webContext();
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+            int idCN = int.Parse(User.Claims.ElementAt(4).Value);
+            hh.Idcn = idCN; 
             hh.Avatar = UploadedFile(hh, Avt);
             hh.Nvtao = idUser;
             hh.Active = true;
@@ -76,7 +78,9 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             HangHoa dv = context.HangHoa.Find(dvt.Id);
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+            int idCN = int.Parse(User.Claims.ElementAt(4).Value);
+            dv.Idcn = idCN;
             dv.Nvsua = idUser;
             dv.NgaySua = DateTime.Now;
             dv.TenHh = dvt.TenHh;
@@ -98,7 +102,7 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             HangHoa dvt = context.HangHoa.Find(id);
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             dvt.NgaySua = DateTime.Now;
             dvt.Nvsua = idUser;
             dvt.Active = false;
@@ -114,6 +118,9 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             HangHoa dvt = context.HangHoa.Find(id);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+            dvt.NgaySua = DateTime.Now;
+            dvt.Nvsua = idUser;
             dvt.Active = true;
 
             context.HangHoa.Update(dvt);

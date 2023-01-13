@@ -45,7 +45,7 @@ namespace VatTuYTeDanhMuc.Controllers
 
             }
             GiaTheoNhomHangHoa h = context.GiaTheoNhomHangHoa.Find(id);
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             h.Nvsua = idUser;
             h.NgaySua = DateTime.Now;
             h.Id = id;
@@ -97,7 +97,9 @@ namespace VatTuYTeDanhMuc.Controllers
                         }
 
             }
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+            int idCN = int.Parse(User.Claims.ElementAt(4).Value);
+           
             h.Nvtao = idUser;
             h.NgayTao = DateTime.Now;
             h.Idnhh = idnhh;

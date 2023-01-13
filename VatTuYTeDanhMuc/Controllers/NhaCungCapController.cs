@@ -23,7 +23,9 @@ namespace VatTuYTeDanhMuc.Controllers
         public IActionResult Insert(NhaCungCap ncc)
         {
             webContext context = new webContext();
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+            int idCN = int.Parse(User.Claims.ElementAt(4).Value);
+            ncc.Idcn = idCN;
             ncc.Nvtao = idUser;
             ncc.NgayTao = DateTime.Now;
             ncc.Idcn = 1;
@@ -48,7 +50,7 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             NhaCungCap n = context.NhaCungCap.Find(ncc.Id);
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             n.MaNcc = ncc.MaNcc;
             n.TenNcc = ncc.TenNcc;
             n.DiaChi = ncc.DiaChi;
@@ -70,7 +72,7 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             NhaCungCap n =context.NhaCungCap.Find(id);
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             n.NgaySua = DateTime.Now;
             n.Nvsua = idUser;
             n.Active = false;
@@ -98,7 +100,7 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             NhaCungCap ncc = context.NhaCungCap.Find(id);
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             ncc.NgaySua = DateTime.Now;
             ncc.Nvsua = idUser;
             ncc.Active = true;

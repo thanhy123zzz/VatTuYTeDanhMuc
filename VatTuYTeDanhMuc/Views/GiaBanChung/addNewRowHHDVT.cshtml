@@ -104,7 +104,7 @@ else
 }
 <script>
 	$('.infomal').on('blur', format);
-	function format(){
+	function format(){ 
 	if(checkNumber(this.value)){
 		const value = this.value.replace(/,/g, '');
 		this.value = parseFloat(value).toLocaleString('en-US', {

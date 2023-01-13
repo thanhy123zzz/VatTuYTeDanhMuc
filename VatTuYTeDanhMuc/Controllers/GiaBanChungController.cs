@@ -76,7 +76,7 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             HangHoa h = context.HangHoa.Find(id);
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             h.Nvsua = idUser;
             h.NgaySua = DateTime.Now;
             h.TiLeLe = Math.Round(tilele,2);
@@ -94,7 +94,7 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             HhDvt h = context.HhDvt.Find(id);
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             h.Nvsua = idUser;
             h.NgaySua = DateTime.Now;
             h.TiLeLe = Math.Round(tilele,2);
@@ -114,7 +114,8 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             HhDvt h = new HhDvt();
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+            int idCN = int.Parse(User.Claims.ElementAt(4).Value);
             var hhdvt = context.HhDvt.FirstOrDefault(x => x.Idhh == idhh && x.Iddvt == iddvt && x.Active == true);
             var hhdvt1 = context.HangHoa.FirstOrDefault(x => x.Id == idhh && x.Iddvtchinh == iddvt && x.Active == true);
             if (sl == 0)
@@ -127,6 +128,7 @@ namespace VatTuYTeDanhMuc.Controllers
                
             }
             else
+            
             h.Nvtao = idUser;
             h.Idhh = idhh;
             h.Iddvt = iddvt;

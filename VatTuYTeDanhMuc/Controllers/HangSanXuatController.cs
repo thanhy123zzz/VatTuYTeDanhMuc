@@ -22,7 +22,9 @@ namespace VatTuYTeDanhMuc.Controllers
         public IActionResult Insert(HangSanXuat hsx)
         {
             webContext context = new webContext();
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+            int idCN = int.Parse(User.Claims.ElementAt(4).Value);
+            hsx.Idcn = idCN;
             hsx.Nvtao = idUser;
             hsx.NgayTao = DateTime.Now;
             hsx.Active = true;
@@ -39,7 +41,7 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             HangSanXuat hsx = context.HangSanXuat.Find(id);
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             hsx.NgaySua = DateTime.Now;
             hsx.Nvsua = idUser;
             hsx.Active = false;
@@ -62,7 +64,7 @@ namespace VatTuYTeDanhMuc.Controllers
         public IActionResult UpdateHSX(HangSanXuat hsx)
         {
             webContext context = new webContext();
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             HangSanXuat h = context.HangSanXuat.Find(hsx.Id);
             h.MaHsx = hsx.MaHsx;
             h.TenHsx = hsx.TenHsx;
@@ -93,7 +95,7 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             HangSanXuat hsx = context.HangSanXuat.Find(id);
-            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
+            int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             hsx.NgaySua = DateTime.Now;
             hsx.Nvsua = idUser;
             hsx.Active = true;
