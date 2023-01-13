@@ -162,8 +162,6 @@ namespace VatTuYTe.Controllers
             }
             return View();
         }
-
-
         [Authorize]
         public ActionResult LogOut()
         {
