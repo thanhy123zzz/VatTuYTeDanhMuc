@@ -49,7 +49,7 @@ namespace VatTuYTeDanhMuc.Controllers
 
             string Host = GetLocalIPAddress();
             List<ChiTietPhieuXuatTam> ListCTPNT = context.ChiTietPhieuXuatTam.Where(x => x.Host == Host).OrderByDescending(x => x.Id).ToList();
-
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
             var tran = context.Database.BeginTransaction();
             try
             {
@@ -57,7 +57,7 @@ namespace VatTuYTeDanhMuc.Controllers
                 phieuXuat.NgayTao = DateTime.ParseExact(NgayTao, "dd-MM-yyyy HH:mm", CultureInfo.InvariantCulture);
                 phieuXuat.Active = true;
                 phieuXuat.Idcn = 1;
-                phieuXuat.Idnv = 3;
+                phieuXuat.Idnv = idUser;
                 phieuXuat.SoPx = getSoPhieu();
                 context.PhieuXuat.Add(phieuXuat);
                 context.SaveChanges();
@@ -716,6 +716,7 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             webContext context = new webContext();
             ChiTietPhieuXuatTam ct = new ChiTietPhieuXuatTam();
+            int idUser = int.Parse(User.Claims.ElementAt(3).Type);
             ct.Idhh = idHH;
             ct.Iddvt = idDVT;
             ct.Thue = Math.Round(ThueXuat, 2);
@@ -723,7 +724,7 @@ namespace VatTuYTeDanhMuc.Controllers
             ct.DonGia = Math.Round(DonGia, 2);
             ct.Cktm = Math.Round(ChietKhau, 2);
             ct.Host = GetLocalIPAddress();
-            ct.Nvtao = 3;
+            ct.Nvtao = idUser;
             ct.NgayTao = DateTime.ParseExact(DateTime.Now.ToString("dd-MM-yyyy"), "dd-MM-yyyy", CultureInfo.InvariantCulture);
             context.ChiTietPhieuXuatTam.Add(ct);
             context.SaveChanges();

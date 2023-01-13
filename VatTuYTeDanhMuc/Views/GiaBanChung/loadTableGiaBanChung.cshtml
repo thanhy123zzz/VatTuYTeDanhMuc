@@ -43,8 +43,8 @@
                        <td style="display:none">@h.MaHh</td>
                                <td style="text-align:left">@h.TenHh</td>
                        <td>@getdvt(@h.Iddvtchinh).TenDvt</td>
-                               <td style="text-align:right">@h.TiLeSi</td>
-                               <td style="text-align:right">@h.TiLeLe</td>
+                               <td style="text-align:right">@format(@h.TiLeSi)</td>
+                               <td style="text-align:right">@format(@h.TiLeLe)</td>
                                <td style="text-align:right">@format(@h.GiaBanSi)</td>
                                <td style="text-align:right">@format(@h.GiaBanLe)</td>
                        
@@ -65,13 +65,13 @@
                                <td style="display:none">@h.MaHh</td>
                                        <td style="text-align:left">@h.TenHh</td>
                                <td>@getdvt(@h.Iddvtchinh).TenDvt</td>
-                                       <td style="text-align:right">@h.TiLeSi</td>
-                                       <td style="text-align:right">@h.TiLeLe</td>
+                                       <td style="text-align:right">@format(@h.TiLeSi)</td>
+                                       <td style="text-align:right">@format(@h.TiLeLe)</td>
                                        <td style="text-align:right">@format(@h.GiaBanSi)</td>
                                        <td style="text-align:right">@format(@h.GiaBanLe)</td>
                                        <td>
                                     <button value="@h.Id" class="edit btn btn-primary" style="margin-right: 5px" id="edit">Sửa</button>
-                                                     
+                                                      
                                 
                                 <button value="@h.Id" class="more btn btn-success" style="margin-right: 5px" id="">more</button>
                                                         </td>

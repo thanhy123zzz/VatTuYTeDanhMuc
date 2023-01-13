@@ -22,6 +22,15 @@
             return null;
         }
     }
+
+
+    string loaiKH(bool? loaikh){
+        if(loaikh == true){
+            return "Lẻ";
+        }else{
+            return "Sỉ";
+        }
+   }
 }
 @if (TempData["ThongBao"] != null)
 {
@@ -58,8 +67,8 @@
                                     <th class="text-center">Ngày tạo</th>
                                     <th class="text-center">NV sửa</th>
                                     <th class="text-center">Ngày sửa</th>
-
-                                    <th class="text-center">Ghi chú</th>
+                                     
+                                    <th class="text-center">Loại KH</th>
 
 
                                     <th class="text-center">Tùy chọn</th>
@@ -82,7 +91,7 @@
                                         <td>@formatDay(@item.NgayTao)</td>
                                         <td>@getNhanVien(@item.Nvsua).TenNv</td>
                                         <td>@formatDay(@item.NgaySua)</td>
-                                        <td>@item.GhiChu</td>
+                                        <td>@loaiKH(@item.LoaiKh)</td>
 
                                         <td>
                                             <a href="/KhachHang/Update/@item.Id">

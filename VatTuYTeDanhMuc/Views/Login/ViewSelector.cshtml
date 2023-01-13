@@ -1,0 +1,193 @@
+﻿@model VatTuYTeDanhMuc.Models.Entities.PhanQuyen
+
+@{
+    Layout = null;
+
+    webContext context = new webContext();
+
+    List<VaiTro> ListVT()
+    {
+        return context.VaiTro.Where(z => z.Active == true).ToList();
+    }
+
+    List<ChiNhanh> ListCN()
+    {
+        return context.ChiNhanh.Where(x => x.Active == true).ToList();
+    }
+
+    ChiNhanh getCN(int? id)
+    {
+        ChiNhanh cn = context.ChiNhanh.FirstOrDefault(a => a.Id == id);
+        if (cn != null) return cn;
+        else return new ChiNhanh();
+    }
+
+
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+  <title>Đăng nhập</title>
+  <meta content="" name="description" />
+  <meta content="" name="keywords" />
+
+  <!-- Favicons -->
+  <link href="~/assets/img/favicon.png" rel="icon" />
+  <link href="~/assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+
+  <!-- Fonts -->
+  <link rel="stylesheet" href="~/assets/fonts/fonts.css" />
+
+  <!-- Vendor CSS Files -->
+  <link href="~/assets/vendor/bootstrap/css/bootstrap.min.css"
+        rel="stylesheet" />
+  <link href="~/assets/vendor/bootstrap-icons/bootstrap-icons.css"
+        rel="stylesheet" />
+  <link href="~/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+  <link href="~/assets/vendor/quill/quill.snow.css" rel="stylesheet" />
+  <link href="~/assets/vendor/quill/quill.bubble.css" rel="stylesheet" />
+  <link href="~/assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
+  <link href="~/assets/vendor/simple-datatables/style.css" rel="stylesheet" />
+
+  <!-- Template Main CSS File -->
+  <link href="~/assets/css/style.css" rel="stylesheet" />
+  <link rel="stylesheet" href="~/assets/css/Modalcss.css" />
+
+  <script src="~/jquery-3.6.1.min.js"></script>
+</head>
+<body>
+  <main>
+    <div class="container">
+      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+              <div class="d-flex justify-content-center py-4">
+                <a href="index.html"
+                   class="logo d-flex align-items-center w-auto">
+                  <img src="assets/img/logo.png" alt="" />
+                  <span class="d-none d-lg-block">VTYT</span>
+                </a>
+              </div>
+              <!-- End Logo -->
+
+              <div class="card mb-3" style="padding: 30px;">
+                <div class="card-body" style="padding-top: 20px;">
+
+
+                  <form class="row g-3 needs-validation" action="/Login/Selector" novalidate method="post">
+                    <div class="col-12" style="padding-bottom: 10px;">
+                      <label for="chin" class="form-label">Chi nhánh</label>
+                      <div class="input-group has-validation">
+                        <input type="hidden" value="@ViewBag.TaiKhoan" id="tk" asp-for="Idtk"/>
+                        <select id="idcn" onchange="loadPQCN()" class="w-100 form-select" asp-for="Idcn" style="height: 38px;">
+                          <option selected disabled>--- Chọn chi nhánh ---</option>
+                                                    @foreach (var cn in ViewBag.ChiNhanh)
+                                                    {
+                                <option value="@cn">@getCN(@cn).TenCn</option>
+                                                    }
+                        </select>
+                        <div class="invalid-feedback">
+                          Xin hãy điền chọn chi nhánh!
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-12 vaitro" style="padding-bottom: 20px;">
+                      <label for="vt" class="form-label">Vai trò</label>
+                      <select id="idvt" onchange="" class="w-100 form-select" asp-for="Idvt" style="height: 38px;" disabled>
+                        <option selected disabled>--- Chọn vai trò ---</option>
+                                                @foreach (VaiTro vt in ListVT())
+                                                {
+                              <option value="@vt.Id">@vt.TenVt</option>
+                                                }
+                      </select>
+                      <div class="invalid-feedback">
+                        Xin hãy chọn vai trò!
+                      </div>
+                    </div>
+
+                    <div class="col-6">
+                      <button class="btn btn-primary w-100" type="submit">
+                        Truy cập
+                      </button>
+                    </div>
+                    <div class="col-6">
+                      <button class="btn btn-primary w-100" type="button">
+                        Hủy
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <!-- End #main -->
+
+  <a href="#"
+     class="back-to-top d-flex align-items-center justify-content-center">
+    <i class="bi bi-arrow-up-short"></i>
+  </a>
+
+
+
+
+  <script>
+
+    function loadPQCN() {
+      var tk = $('#tk').val();
+      var idcn = $('#idcn').val();
+      $.ajax({
+        type: "post",
+        url: "/loadQuyen",
+        data: "tk=" + tk + "&idcn=" + idcn,
+        success: function (result) {
+          $('.vaitro').replaceWith(result);
+        },
+        error: function () {
+          alert("Failhu");
+        }
+      });
+    }
+
+
+    $(function () {
+
+
+      $("#idcn").change(function () {
+        $('#idvt').prop('disabled', false);
+      });
+    })
+
+
+  </script>
+
+
+
+
+
+
+
+  <!-- Vendor JS Files -->
+  <script src="~/assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="~/assets/vendor/chart.js/chart.min.js"></script>
+  <script src="~/assets/vendor/echarts/echarts.min.js"></script>
+  <script src="~/assets/vendor/quill/quill.min.js"></script>
+  <script src="~/assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="~/assets/vendor/tinymce/tinymce.min.js"></script>
+  <script src="~/assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="~/assets/js/main.js"></script>
+</body>
+</html>
