@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using VatTuYTeDanhMuc.Models.Entities;
@@ -8,12 +7,12 @@ namespace VatTuYTeDanhMuc.Controllers
 {
     public class KhachHangController : Controller
     {
-       
+
         public IActionResult table()
         {
             ViewData["Title"] = "Danh mục khách hàng";
             webContext context = new webContext();
-            TempData["Menu"] = context.Menu.FirstOrDefault(menu => EF.Functions.Like(menu.TenMenu, "%Danh mục khách hàng%") && menu.Active == true).Id;
+            TempData["Menu"] = context.Menu.Where(x => x.MaMenu == "KhachHang").FirstOrDefault().Id;
             return View("TableKhachHang");
         }
         //giao diện thêm khách hàng
@@ -34,7 +33,7 @@ namespace VatTuYTeDanhMuc.Controllers
             kh.Nvsua = idUser;
             kh.Active = true;
             kh.Idcn = idCN;
-           
+
             kh.Idnv = idUser;
             kh.Idcn = idCN;
 
@@ -86,7 +85,7 @@ namespace VatTuYTeDanhMuc.Controllers
             KhachHang kh = context.KhachHang.Find(id);
             int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             kh.NgaySua = DateTime.Now;
-            kh.Nvsua = idUser; 
+            kh.Nvsua = idUser;
             kh.Active = false;
 
             context.KhachHang.Update(kh);

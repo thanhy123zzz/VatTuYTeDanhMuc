@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using VatTuYTeDanhMuc.Models.Entities;
@@ -12,7 +11,7 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             ViewData["Title"] = "Danh mục nhóm nhân viên";
             webContext context = new webContext();
-            TempData["Menu"] = context.Menu.FirstOrDefault(menu => EF.Functions.Like(menu.TenMenu, "%Danh mục nhóm nhân viên%") && menu.Active == true).Id;
+            TempData["Menu"] = context.Menu.Where(x => x.MaMenu == "NhomNhanVien").FirstOrDefault().Id;
             return View("TableNhomNhanVien");
         }
 

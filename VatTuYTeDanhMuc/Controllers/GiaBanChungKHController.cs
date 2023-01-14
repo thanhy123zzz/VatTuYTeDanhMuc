@@ -6,28 +6,28 @@ using VatTuYTeDanhMuc.Models.Entities;
 
 namespace VatTuYTeDanhMuc.Controllers
 {
-	public class GiaBanChungKHController : Controller
-	{
-		public IActionResult Index()
-		{
-			return View();
-		}
+    public class GiaBanChungKHController : Controller
+    {
+        public IActionResult Index()
+        {
+            return View();
+        }
 
         //hiển thị giao diện giá bán theo khách hàng
-		public IActionResult table()
-		{
+        public IActionResult table()
+        {
             ViewData["Title"] = "Giá bán theo khách hàng";
             webContext context = new webContext();
-            TempData["Menu"] = context.Menu.FirstOrDefault(menu => EF.Functions.Like(menu.TenMenu, "%Danh mục giá bán chung khách hàng%") && menu.Active == true).Id;
+            TempData["Menu"] = context.Menu.Where(x => x.MaMenu == "GiaBanChungKH").FirstOrDefault().Id;
             return View("TableGiaBanChungKH");
-		}
+        }
 
         //load table giá bán chung theo khách hàng(sau khi chọn nhóm hàng hóa và khách hàng)
         [HttpPost("/loadTableGiaBanChungKH")]
         public IActionResult loadTableGiaBanChungKH(int nhomHH, int idkh)
         {
             webContext context = new webContext();
-            ViewBag.HangHoa = context.HangHoa.Where(x => x.Idnhh == nhomHH &&x.Active == true);
+            ViewBag.HangHoa = context.HangHoa.Where(x => x.Idnhh == nhomHH && x.Active == true);
             ViewBag.KH = context.GiaTheoKhachHang.Where(x => x.Idkh == idkh);
             ViewBag.IDKH = idkh;
             ViewBag.IDNHH = nhomHH;
@@ -49,8 +49,9 @@ namespace VatTuYTeDanhMuc.Controllers
                 ViewBag.idkh = null;
                 ViewBag.iddvt = null;
                 ViewBag.idhh = null;
-            }else
-            ViewBag.idkh = idkh;
+            }
+            else
+                ViewBag.idkh = idkh;
             ViewBag.iddvt = iddvt;
             ViewBag.idhh = idhh;
             return PartialView();
@@ -60,14 +61,14 @@ namespace VatTuYTeDanhMuc.Controllers
         public IActionResult addNewRowGTKH(int id)
         {
             webContext context = new webContext();
-            
-            if(id == 0)
+
+            if (id == 0)
             {
                 return ViewBag.ID = null;
             }
             else
-            ViewBag.GTKH = context.GiaTheoKhachHang.Find(id);
-            ViewBag.ID = id; 
+                ViewBag.GTKH = context.GiaTheoKhachHang.Find(id);
+            ViewBag.ID = id;
             return PartialView();
         }
         //hiện dòng sau khi nhấn nút sửa cho các đơn vị tính phụ
@@ -95,8 +96,8 @@ namespace VatTuYTeDanhMuc.Controllers
             int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             h.Nvsua = idUser;
             h.NgaySua = DateTime.Now;
-            h.TiLeLe = Math.Round(tilele,2);
-            h.TiLeSi = Math.Round(tilesi,2);
+            h.TiLeLe = Math.Round(tilele, 2);
+            h.TiLeSi = Math.Round(tilesi, 2);
             h.GiaBanLe = giabanle;
             h.GiaBanSi = giabansi;
             h.Active = true;
@@ -113,11 +114,11 @@ namespace VatTuYTeDanhMuc.Controllers
             GiaTheoKhachHang h = new GiaTheoKhachHang();
             int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             int idCN = int.Parse(User.Claims.ElementAt(4).Value);
-            h.Idcn = idCN; 
+            h.Idcn = idCN;
             h.Nvtao = idUser;
             h.NgayTao = DateTime.Now;
-            h.TiLeLe = Math.Round(tilele,2);
-            h.TiLeSi = Math.Round(tilesi,2);
+            h.TiLeLe = Math.Round(tilele, 2);
+            h.TiLeSi = Math.Round(tilesi, 2);
             h.GiaBanLe = giabanle;
             h.GiaBanSi = giabansi;
             h.Idhh = idhh;
@@ -129,7 +130,7 @@ namespace VatTuYTeDanhMuc.Controllers
             context.SaveChanges();
             return "Thêm thành công";
         }
-       // Hiển thị bảng đơn vị tính phụ
+        // Hiển thị bảng đơn vị tính phụ
         [HttpPost("/loadTableGBCKH_DVT")]
         public IActionResult loadTableGBCKH_DVT(int idhh)
         {
@@ -145,7 +146,7 @@ namespace VatTuYTeDanhMuc.Controllers
         }
 
         //hiển thị bảng giá theo khách hàng theo các đơn vị tính phụ
-        
+
         [HttpPost("/loadTableGTKH_DVT")]
         public IActionResult loadTableGTKH_DVT(int idkh, int iddvt, int idhh)
         {
@@ -179,7 +180,7 @@ namespace VatTuYTeDanhMuc.Controllers
             h.Active = false;
             context.Update(h);
             context.SaveChanges();
-          
+
             return "Xóa thành công";
         }
         //tìm kiếm hàng hóa

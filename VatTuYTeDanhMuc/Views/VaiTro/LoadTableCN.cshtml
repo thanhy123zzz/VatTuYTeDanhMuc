@@ -20,7 +20,7 @@
       {
         if (item.Idmenu == menu.Id)
         {
-          <tr class="wh-input" onchange="addListCN(@menu.Id)">
+          <tr class="wh-input">
             <td>
               @menu.TenMenu
               <input type="hidden" name="Idmenu" value="@menu.Id" id="idmenu" />           
@@ -55,7 +55,7 @@
       }
       if (i == 0)
       {
-        <tr class="wh-input" onchange="addListCN(@menu.Id)">
+        <tr class="wh-input">
          <td >
             @menu.TenMenu
             <input type="hidden" name="Idmenu" value="@menu.Id" id="idmenu" />
@@ -87,7 +87,7 @@
   {
     @foreach (var menu in listmenu())
     {
-      <tr class="wh-input" onchange="addListCN(@menu.Id)">
+      <tr class="wh-input">
        <td>
           @menu.TenMenu
           <input type="hidden" name="Idmenu" value="@menu.Id" id="idmenu" />

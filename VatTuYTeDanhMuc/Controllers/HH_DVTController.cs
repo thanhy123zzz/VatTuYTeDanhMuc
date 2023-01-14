@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using VatTuYTeDanhMuc.Models.Entities;
 
@@ -11,11 +10,11 @@ namespace VatTuYTeDanhMuc.Controllers
     {
         public IActionResult Table()
         {
-          ViewData["Title"] = "Danh mục Hàng hoá - Đơn vị tính";
+            ViewData["Title"] = "Danh mục Hàng hoá - Đơn vị tính";
 
-          webContext context = new webContext();
-          TempData["Menu"] = context.Menu.FirstOrDefault(menu => EF.Functions.Like(menu.TenMenu, "%Danh mục hàng hóa đơn vị tính%") && menu.Active == true).Id;
-          return View("TableHH_DVT");
+            webContext context = new webContext();
+            TempData["Menu"] = context.Menu.Where(x => x.MaMenu == "HH_DVT").FirstOrDefault().Id;
+            return View("TableHH_DVT");
         }
 
         //Trả về view thêm đơn vị tính
@@ -88,16 +87,16 @@ namespace VatTuYTeDanhMuc.Controllers
             return PartialView();
         }
         [HttpPost("/searchTableHH")]
-        public IActionResult searchTableHH(int nhomHH,string key)
+        public IActionResult searchTableHH(int nhomHH, string key)
         {
             webContext context = new webContext();
             if (nhomHH == 0)
             {
-                ViewBag.HangHoas = context.HangHoa.FromSqlRaw("select*from HangHoa where concat_ws(' ',MaHH,TenHH) LIKE N'%"+key+"%';").ToList();
+                ViewBag.HangHoas = context.HangHoa.FromSqlRaw("select*from HangHoa where concat_ws(' ',MaHH,TenHH) LIKE N'%" + key + "%';").ToList();
             }
             else
             {
-                ViewBag.HangHoas = context.HangHoa.FromSqlRaw("select*from HangHoa where IdNhh = '"+nhomHH+"' and concat_ws(' ',MaHH,TenHH) LIKE N'%" + key + "%';").ToList();
+                ViewBag.HangHoas = context.HangHoa.FromSqlRaw("select*from HangHoa where IdNhh = '" + nhomHH + "' and concat_ws(' ',MaHH,TenHH) LIKE N'%" + key + "%';").ToList();
             }
             return PartialView("loadTableHangHoa");
         }
@@ -129,7 +128,7 @@ namespace VatTuYTeDanhMuc.Controllers
         }
 
         [HttpPost("/updateHH_DVT")]
-        public string updateHH_DVT(int idHH, int sl, int idDVT,int id)
+        public string updateHH_DVT(int idHH, int sl, int idDVT, int id)
         {
             webContext context = new webContext();
             HhDvt h = context.HhDvt.Find(id);
@@ -145,10 +144,10 @@ namespace VatTuYTeDanhMuc.Controllers
         }
 
         [HttpPost("/addNewRowHH_DVT")]
-        public IActionResult addNewRowHH_DVT(int idDVT, int sl,int id)
+        public IActionResult addNewRowHH_DVT(int idDVT, int sl, int id)
         {
-            if(idDVT==0)
-            ViewBag.idDVT = null;
+            if (idDVT == 0)
+                ViewBag.idDVT = null;
             else
             {
                 ViewBag.idDVT = idDVT;
@@ -158,7 +157,7 @@ namespace VatTuYTeDanhMuc.Controllers
             return PartialView();
         }
         [HttpPost("/removeHH_DVT")]
-        public string removeHH_DVT( int id)
+        public string removeHH_DVT(int id)
         {
             webContext context = new webContext();
             HhDvt h = context.HhDvt.Find(id);

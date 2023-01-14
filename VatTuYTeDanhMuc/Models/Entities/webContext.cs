@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:
@@ -47,6 +49,7 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public virtual DbSet<NhomHangHoa> NhomHangHoa { get; set; }
         public virtual DbSet<NhomNhanVien> NhomNhanVien { get; set; }
         public virtual DbSet<NuocSanXuat> NuocSanXuat { get; set; }
+        public virtual DbSet<Phan> Phan { get; set; }
         public virtual DbSet<PhanQuyen> PhanQuyen { get; set; }
         public virtual DbSet<PhieuNhap> PhieuNhap { get; set; }
         public virtual DbSet<PhieuThuNo> PhieuThuNo { get; set; }
@@ -840,6 +843,8 @@ namespace VatTuYTeDanhMuc.Models.Entities
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
 
+                entity.Property(e => e.Idphan).HasColumnName("IDPhan");
+
                 entity.Property(e => e.MaMenu).HasMaxLength(50);
 
                 entity.Property(e => e.NgaySua).HasColumnType("datetime");
@@ -851,6 +856,11 @@ namespace VatTuYTeDanhMuc.Models.Entities
                 entity.Property(e => e.Nvtao).HasColumnName("NVTao");
 
                 entity.Property(e => e.TenMenu).HasMaxLength(100);
+
+                entity.HasOne(d => d.IdphanNavigation)
+                    .WithMany(p => p.Menu)
+                    .HasForeignKey(d => d.Idphan)
+                    .HasConstraintName("FK__Menu__IDPhan__11F49EE0");
             });
 
             modelBuilder.Entity<NccNganHang>(entity =>
@@ -1117,6 +1127,13 @@ namespace VatTuYTeDanhMuc.Models.Entities
                 entity.Property(e => e.TenNsx)
                     .HasColumnName("TenNSX")
                     .HasMaxLength(500);
+            });
+
+            modelBuilder.Entity<Phan>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.TenPhan).HasMaxLength(50);
             });
 
             modelBuilder.Entity<PhanQuyen>(entity =>

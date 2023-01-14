@@ -2,11 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
 using System.Linq;
-using System.Runtime.Intrinsics.X86;
 using VatTuYTeDanhMuc.Models.Entities;
 
 namespace VatTuYTeDanhMuc.Controllers
@@ -22,7 +20,7 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             ViewData["Title"] = "Danh mục hàng hoá";
             webContext context = new webContext();
-            TempData["Menu"] = context.Menu.FirstOrDefault(menu => EF.Functions.Like(menu.TenMenu, "%Danh mục nhóm hàng hoá%") && menu.Active == true).Id;
+            TempData["Menu"] = context.Menu.Where(x => x.MaMenu == "HangHoa").FirstOrDefault().Id;
             return View("TableHangHoa");
         }
         public IActionResult ViewInsertHangHoa()
@@ -37,7 +35,7 @@ namespace VatTuYTeDanhMuc.Controllers
             webContext context = new webContext();
             int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             int idCN = int.Parse(User.Claims.ElementAt(4).Value);
-            hh.Idcn = idCN; 
+            hh.Idcn = idCN;
             hh.Avatar = UploadedFile(hh, Avt);
             hh.Nvtao = idUser;
             hh.Nvsua = idUser;
@@ -56,7 +54,7 @@ namespace VatTuYTeDanhMuc.Controllers
             if (avt != null)
             {
                 string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "ImagesHangHoa");
-                uniqueFileName = model.MaHh+ ".jpg";
+                uniqueFileName = model.MaHh + ".jpg";
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
@@ -162,29 +160,29 @@ namespace VatTuYTeDanhMuc.Controllers
             return PartialView("_viewTableHH");
         }
         [HttpPost("/loadMoreTableHH")]
-        public IActionResult loadMoreTableHH(bool active, int nhomHH,int SL)
+        public IActionResult loadMoreTableHH(bool active, int nhomHH, int SL)
         {
             webContext context = new webContext();
             if (active)
             {
                 if (nhomHH != 0)
                 {
-                    ViewBag.HangHoas = context.HangHoa.Where(x => x.Active == active && x.Idnhh == nhomHH).Take(SL+9).ToList();
+                    ViewBag.HangHoas = context.HangHoa.Where(x => x.Active == active && x.Idnhh == nhomHH).Take(SL + 9).ToList();
                 }
                 else
                 {
-                    ViewBag.HangHoas = context.HangHoa.Where(x => x.Active == active).Take(SL+9).ToList();
+                    ViewBag.HangHoas = context.HangHoa.Where(x => x.Active == active).Take(SL + 9).ToList();
                 }
             }
             else
             {
                 if (nhomHH != 0)
                 {
-                    ViewBag.HangHoas = context.HangHoa.Where(x => x.Idnhh == nhomHH).Take(SL+9).ToList();
+                    ViewBag.HangHoas = context.HangHoa.Where(x => x.Idnhh == nhomHH).Take(SL + 9).ToList();
                 }
                 else
                 {
-                    ViewBag.HangHoas = context.HangHoa.Take(SL+9).ToList();
+                    ViewBag.HangHoas = context.HangHoa.Take(SL + 9).ToList();
                 }
             }
             return PartialView("_viewTableHH");
@@ -210,7 +208,7 @@ namespace VatTuYTeDanhMuc.Controllers
             }
             return PartialView();
         }*/
-        
-        
+
+
     }
 }
