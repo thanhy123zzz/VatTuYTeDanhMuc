@@ -36,7 +36,7 @@ namespace VatTuYTe.Controllers
 
             foreach (var item in list)
             {
-                ChucNang cn = context.ChucNang.FirstOrDefault(n => n.Idmenu == item.Idmenu && n.Idvt == item.Idvt && n.Active == true);
+                ChucNang cn = context.ChucNang.FirstOrDefault(n => n.Idmenu == item.Idmenu && n.Idvt == item.Idvt);
                 if (cn == null)
                 {
                     ChucNang cnn = new ChucNang();
