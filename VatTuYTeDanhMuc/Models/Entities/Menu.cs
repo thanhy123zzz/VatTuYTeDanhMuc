@@ -22,7 +22,9 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public int? Nvsua { get; set; }
         public DateTime? NgaySua { get; set; }
         public bool? Active { get; set; }
+        public int? Idphan { get; set; }
 
+        public virtual Phan IdphanNavigation { get; set; }
         public virtual ICollection<ChucNang> ChucNang { get; set; }
     }
 }

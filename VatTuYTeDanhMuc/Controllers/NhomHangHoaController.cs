@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using VatTuYTeDanhMuc.Models.Entities;
@@ -12,8 +11,8 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             ViewData["Title"] = "Danh mục nhóm hàng hóa";
             webContext context = new webContext();
-            TempData["Menu"] = context.Menu.FirstOrDefault(menu => EF.Functions.Like(menu.TenMenu, "%Danh mục nhóm hàng hoá%") && menu.Active == true).Id;
-            return View("TableNhomHangHoa");  
+            TempData["Menu"] = context.Menu.Where(x => x.MaMenu == "NhomHangHoa").FirstOrDefault().Id;
+            return View("TableNhomHangHoa");
         }
         // hiển thị view Insert
         public IActionResult ViewInsertNHH()
@@ -22,7 +21,7 @@ namespace VatTuYTeDanhMuc.Controllers
             return View();
         }
         // Insert nhóm hàng hóa 
-        public IActionResult InsertNHH(NhomHangHoa nhh) 
+        public IActionResult InsertNHH(NhomHangHoa nhh)
         {
             webContext context = new webContext();
             int idUser = int.Parse(User.Claims.ElementAt(2).Type);
@@ -38,12 +37,12 @@ namespace VatTuYTeDanhMuc.Controllers
             context.NhomHangHoa.Add(nhh);
             context.SaveChanges();
             TempData["ThongBao"] = "Thêm thành công!";
-            return RedirectToAction("table"); 
+            return RedirectToAction("table");
         }
 
         // xóa nhóm hàng hóa
         [Route("/NhomHangHoa/Delete/{id}")]
-        public IActionResult DeleteNHH(int id )
+        public IActionResult DeleteNHH(int id)
         {
             webContext context = new webContext();
             NhomHangHoa nhh = context.NhomHangHoa.Find(id);
@@ -59,7 +58,7 @@ namespace VatTuYTeDanhMuc.Controllers
         }
         // trả về view update 
         [Route("/NhomHangHoa/updateNHH/{id}")]
-        public IActionResult ViewUpdateNHH(int id )
+        public IActionResult ViewUpdateNHH(int id)
         {
             webContext context = new webContext();
             NhomHangHoa a = context.NhomHangHoa.Find(id);

@@ -8,12 +8,12 @@ namespace VatTuYTeDanhMuc.Controllers
 {
     public class GiaBanChungController : Controller
     {
-       //hiển thị giao diện giá bán, tỉ lệ chung
+        //hiển thị giao diện giá bán, tỉ lệ chung
         public IActionResult table()
         {
             ViewData["title"] = "Tỉ lệ giá bán chung ";
             webContext context = new webContext();
-            TempData["Menu"] = context.Menu.FirstOrDefault(menu => EF.Functions.Like(menu.TenMenu, "%Danh mục giá bán chung%") && menu.Active == true).Id;
+            TempData["Menu"] = context.Menu.Where(x => x.MaMenu == "GiaBanChung").FirstOrDefault().Id;
             return View("TableGiaBanChung");
         }
         //hiển thị table hàng hóa khi chọn nhóm hàng hóa 
@@ -21,7 +21,7 @@ namespace VatTuYTeDanhMuc.Controllers
         public IActionResult loadTableGiaBanChung(int nhomHH)
         {
             webContext context = new webContext();
-            ViewBag.HangHoa = context.HangHoa.Where(x => x.Idnhh == nhomHH && x.Active==true);
+            ViewBag.HangHoa = context.HangHoa.Where(x => x.Idnhh == nhomHH && x.Active == true);
             return PartialView();
         }
         //hiển thị dòng sửa đơn vị tính chính khi nhấn nút sửa
@@ -37,7 +37,7 @@ namespace VatTuYTeDanhMuc.Controllers
             }
             ViewBag.idHH = idDVT;
             ViewBag.ID = id;
-            ViewBag.HH = context.HangHoa.Find(id) ;
+            ViewBag.HH = context.HangHoa.Find(id);
             return PartialView();
         }
         //tìm kiếm hàng hóa
@@ -74,18 +74,18 @@ namespace VatTuYTeDanhMuc.Controllers
 
         //cập nhập đơn vị tính chính
         [HttpPost("/updateTLHH")]
-        public string updateTLHH(float giabansi, float giabanle, float tilesi,float tilele, int id)
+        public string updateTLHH(float giabansi, float giabanle, float tilesi, float tilele, int id)
         {
             webContext context = new webContext();
             HangHoa h = context.HangHoa.Find(id);
             int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             h.Nvsua = idUser;
             h.NgaySua = DateTime.Now;
-            h.TiLeLe = Math.Round(tilele,2);
-            h.TiLeSi = Math.Round(tilesi,2);
+            h.TiLeLe = Math.Round(tilele, 2);
+            h.TiLeSi = Math.Round(tilesi, 2);
             h.GiaBanLe = giabanle;
             h.GiaBanSi = giabansi;
-        
+
             context.HangHoa.Update(h);
             context.SaveChanges();
             return "Sửa thành công ";
@@ -99,8 +99,8 @@ namespace VatTuYTeDanhMuc.Controllers
             int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             h.Nvsua = idUser;
             h.NgaySua = DateTime.Now;
-            h.TiLeLe = Math.Round(tilele,2);
-            h.TiLeSi = Math.Round(tilesi,2);
+            h.TiLeLe = Math.Round(tilele, 2);
+            h.TiLeSi = Math.Round(tilesi, 2);
             h.GiaBanLe = giabanle;
             h.GiaBanSi = giabansi;
             h.SlquyDoi = sl;
@@ -112,7 +112,7 @@ namespace VatTuYTeDanhMuc.Controllers
 
         //Thêm đơn vị tính phụ
         [HttpPost("/addTLHH_DVT")]
-        public string addTLHH_DVT(float giabansi, float giabanle, float tilesi, float tilele, int sl, int idhh,int iddvt)
+        public string addTLHH_DVT(float giabansi, float giabanle, float tilesi, float tilele, int sl, int idhh, int iddvt)
         {
             webContext context = new webContext();
             HhDvt h = new HhDvt();
@@ -126,18 +126,18 @@ namespace VatTuYTeDanhMuc.Controllers
             }
             if (hhdvt != null || hhdvt1 != null)
             {
-               return "Đơn vị tính này đã được sử dụng";
-               
+                return "Đơn vị tính này đã được sử dụng";
+
             }
             else
-            
-            h.Nvtao = idUser;
+
+                h.Nvtao = idUser;
             h.Idhh = idhh;
             h.Iddvt = iddvt;
             h.SlquyDoi = sl;
             h.NgayTao = DateTime.Now;
-            h.TiLeLe = Math.Round(tilele,2);
-            h.TiLeSi = Math.Round(tilesi,2);
+            h.TiLeLe = Math.Round(tilele, 2);
+            h.TiLeSi = Math.Round(tilesi, 2);
             h.GiaBanLe = giabanle;
             h.GiaBanSi = giabansi;
 
@@ -145,13 +145,13 @@ namespace VatTuYTeDanhMuc.Controllers
             context.SaveChanges();
             return "Thêm thành công";
         }
-        
+
         [HttpPost("/loadTableGiaBanChungDVT")]
         public IActionResult loadTableGiaBanChungDVT(int idhh)
         {
             webContext context = new webContext();
             ViewBag.HHDVT = context.HhDvt.Where(x => x.Idhh == idhh && x.Active == true);
-            ViewBag.ID = idhh;  
+            ViewBag.ID = idhh;
             return PartialView();
         }
 
@@ -167,7 +167,7 @@ namespace VatTuYTeDanhMuc.Controllers
         }
         //hiện dòng mới để thêm đơn vị tính phụ
         [HttpPost("/addNewRowHH_DVT_GBC")]
-       public IActionResult addNewRowHH_DVT_GBC(int idhh)
+        public IActionResult addNewRowHH_DVT_GBC(int idhh)
         {
             webContext context = new webContext();
             ViewBag.IDHH = idhh;

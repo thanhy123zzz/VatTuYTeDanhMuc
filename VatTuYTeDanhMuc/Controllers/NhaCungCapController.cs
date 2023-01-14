@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using VatTuYTeDanhMuc.Models.Entities;
@@ -8,12 +7,12 @@ namespace VatTuYTeDanhMuc.Controllers
 {
     public class NhaCungCapController : Controller
     {
-       
+
         public IActionResult table()
         {
             ViewData["Title"] = "Danh mục nhà cung cấp";
             webContext context = new webContext();
-            TempData["Menu"] = context.Menu.FirstOrDefault(menu => EF.Functions.Like(menu.TenMenu, "%Danh mục nhà cung cấp%") && menu.Active == true).Id;
+            TempData["Menu"] = context.Menu.Where(x => x.MaMenu == "NhaCungCap").FirstOrDefault().Id;
             return View("TableNhaCungCap");
         }
         //hiển thị view insert
@@ -63,8 +62,8 @@ namespace VatTuYTeDanhMuc.Controllers
             n.Email = ncc.Email;
             n.GhiChu = ncc.GhiChu;
             n.Idcn = ncc.Idcn;
-            n.Nvsua = idUser; 
-            n.NgaySua = DateTime.Now;   
+            n.Nvsua = idUser;
+            n.NgaySua = DateTime.Now;
 
             context.NhaCungCap.Update(n);
             context.SaveChanges();
@@ -76,7 +75,7 @@ namespace VatTuYTeDanhMuc.Controllers
         public IActionResult Delete(int id)
         {
             webContext context = new webContext();
-            NhaCungCap n =context.NhaCungCap.Find(id);
+            NhaCungCap n = context.NhaCungCap.Find(id);
             int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             n.NgaySua = DateTime.Now;
             n.Nvsua = idUser;

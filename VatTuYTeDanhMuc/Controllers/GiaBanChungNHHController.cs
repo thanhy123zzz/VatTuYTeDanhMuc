@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using VatTuYTeDanhMuc.Models.Entities;
 
@@ -17,14 +16,14 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             ViewData["Title"] = "Cài đặt tỉ lệ theo nhóm hàng hóa";
             webContext context = new webContext();
-            TempData["Menu"] = context.Menu.FirstOrDefault(menu => EF.Functions.Like(menu.TenMenu, "%Danh mục giá bán chung nhóm hàng hóa%") && menu.Active == true).Id;
+            TempData["Menu"] = context.Menu.Where(x => x.MaMenu == "GiaBanChungNHH").FirstOrDefault().Id;
             return View("tableGiaBanChungNHH");
         }
         [HttpPost("/addNewRowGBCNHH")]
         public IActionResult addNewRowGBCNHH(int id)
         {
             webContext context = new webContext();
-            ViewBag.nhh = context.GiaTheoNhomHangHoa.FirstOrDefault(x =>x.Id == id && x.Active == true);
+            ViewBag.nhh = context.GiaTheoNhomHangHoa.FirstOrDefault(x => x.Id == id && x.Active == true);
 
             return PartialView();
         }
@@ -32,7 +31,7 @@ namespace VatTuYTeDanhMuc.Controllers
         public string UpdateGBCNHH(float giatrimin, float giatrimax, float tilesi, float tilele, int id)
         {
             webContext context = new webContext();
-            
+
             var ListGiaTheoNhomHh = context.GiaTheoNhomHangHoa.Where(x => x.Id == id && x.Active == true).ToList();
             if (giatrimin >= giatrimax)
             {
@@ -53,8 +52,8 @@ namespace VatTuYTeDanhMuc.Controllers
             h.Id = id;
             h.Min = giatrimin;
             h.Max = giatrimax;
-            h.TiLeSi = Math.Round(tilesi,2);
-            h.TiLeLe = Math.Round(tilele,2);
+            h.TiLeSi = Math.Round(tilesi, 2);
+            h.TiLeLe = Math.Round(tilele, 2);
 
             context.GiaTheoNhomHangHoa.Update(h);
             context.SaveChanges();
@@ -72,7 +71,7 @@ namespace VatTuYTeDanhMuc.Controllers
         public IActionResult loadTableGTNHH(int idnhh)
         {
             webContext context = new webContext();
-            ViewBag.NHH = context.GiaTheoNhomHangHoa.Where(x =>x.Idnhh==idnhh && x.Active==true);
+            ViewBag.NHH = context.GiaTheoNhomHangHoa.Where(x => x.Idnhh == idnhh && x.Active == true);
             ViewBag.idnhh = idnhh;
             return PartialView();
         }
@@ -84,7 +83,7 @@ namespace VatTuYTeDanhMuc.Controllers
             return PartialView();
         }
         [HttpPost("addGBCNHH")]
-        public string addGBCNHH(float max, float min, float tilesi, float tilele,int idnhh)
+        public string addGBCNHH(float max, float min, float tilesi, float tilele, int idnhh)
         {
             webContext context = new webContext();
             GiaTheoNhomHangHoa h = new GiaTheoNhomHangHoa();
@@ -93,28 +92,30 @@ namespace VatTuYTeDanhMuc.Controllers
             {
                 return "Giá trị max phải lớn hơn giá trị min";
             }
-            foreach (GiaTheoNhomHangHoa g in ListGiaTheoNhomHh){
-                if((min - g.Min >= 0 && min - g.Max <= 0) || (max - g.Max <= 0 && max - g.Min >= 0)){
+            foreach (GiaTheoNhomHangHoa g in ListGiaTheoNhomHh)
+            {
+                if ((min - g.Min >= 0 && min - g.Max <= 0) || (max - g.Max <= 0 && max - g.Min >= 0))
+                {
                     return "Giá trị Min và Max không hợp lệ";
-                        }
+                }
 
             }
             int idUser = int.Parse(User.Claims.ElementAt(2).Type);
             int idCN = int.Parse(User.Claims.ElementAt(4).Value);
-           
+
             h.Nvtao = idUser;
             h.NgayTao = DateTime.Now;
             h.Idnhh = idnhh;
-                h.Max = max;
-                h.Min = min;
-                h.TiLeSi = Math.Round(tilesi,2);
-                h.TiLeLe = Math.Round(tilele, 2);
-               
-                h.Active = true;
-                context.GiaTheoNhomHangHoa.Add(h);
-                context.SaveChanges();
-                return "Thêm thành công";
-            
+            h.Max = max;
+            h.Min = min;
+            h.TiLeSi = Math.Round(tilesi, 2);
+            h.TiLeLe = Math.Round(tilele, 2);
+
+            h.Active = true;
+            context.GiaTheoNhomHangHoa.Add(h);
+            context.SaveChanges();
+            return "Thêm thành công";
+
         }
         [HttpPost("/deleteHGBCNHH")]
         public string deleteGBCNHH(int id)
@@ -130,15 +131,15 @@ namespace VatTuYTeDanhMuc.Controllers
             return "Xoá thành công!";
         }
         [HttpPost("/searchTableGBCNHH")]
-        public IActionResult searchTableGBCNHH( string key)
+        public IActionResult searchTableGBCNHH(string key)
         {
             webContext context = new webContext();
-            
-            
-                ViewBag.NHH = context.NhomHangHoa.FromSqlRaw("select*from nhomhanghoa where concat_ws(' ',MaNHH,TenNHH) LIKE N'%" + key + "%' and active='true';").ToList();
-            
-            
-            
+
+
+            ViewBag.NHH = context.NhomHangHoa.FromSqlRaw("select*from nhomhanghoa where concat_ws(' ',MaNHH,TenNHH) LIKE N'%" + key + "%' and active='true';").ToList();
+
+
+
             return PartialView("loadTableNHH");
         }
     }

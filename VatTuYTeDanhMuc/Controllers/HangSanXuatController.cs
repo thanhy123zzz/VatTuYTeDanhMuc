@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using VatTuYTeDanhMuc.Models.Entities;
@@ -12,14 +11,14 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             ViewData["Title"] = "Danh mục hãng sản xuất";
             webContext context = new webContext();
-            TempData["Menu"] = context.Menu.FirstOrDefault(menu => EF.Functions.Like(menu.TenMenu, "%Danh mục hãng sản xuất%") && menu.Active == true).Id;
+            TempData["Menu"] = context.Menu.Where(x => x.MaMenu == "HangSanXuat").FirstOrDefault().Id;
             return View("TableHangSanXuat");
         }
         //hiển thị view insert
         public IActionResult ViewInsert()
         {
             ViewData["Title"] = "Thêm hãng sản xuất";
-            return View();  
+            return View();
         }
         //thêm hãng sản xuất
         public IActionResult Insert(HangSanXuat hsx)
@@ -54,7 +53,7 @@ namespace VatTuYTeDanhMuc.Controllers
             context.HangSanXuat.Update(hsx);
             context.SaveChanges();
 
-            
+
             return RedirectToAction("table");
         }
         [Route("/HangSanXuat/Update/{id}")]

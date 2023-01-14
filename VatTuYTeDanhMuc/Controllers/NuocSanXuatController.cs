@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using VatTuYTeDanhMuc.Models.Entities;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Routing;
 using System;
 using System.Linq;
-using Microsoft.Data.SqlClient;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Http;
+using VatTuYTeDanhMuc.Models.Entities;
 
 
 namespace VatTuYTeDanhMuc.Controllers
@@ -18,12 +14,12 @@ namespace VatTuYTeDanhMuc.Controllers
         {
             ViewData["Title"] = "Danh mục nước sản xuất";
             webContext context = new webContext();
-            TempData["Menu"] = context.Menu.FirstOrDefault(menu => EF.Functions.Like(menu.TenMenu, "%Danh mục nước sản xuất%") && menu.Active == true).Id;
+            TempData["Menu"] = context.Menu.Where(x => x.MaMenu == "NuocSanXuat").FirstOrDefault().Id;
             return View("TableNuocSX");
         }
 
         //hiển thị view thêm nhà sản xuất
-       public IActionResult ViewInsertNSX()
+        public IActionResult ViewInsertNSX()
         {
             ViewData["Title"] = "Thêm danh mục nước sản xuất";
 
@@ -32,7 +28,7 @@ namespace VatTuYTeDanhMuc.Controllers
 
         // thêm nhà sản xuất
         [HttpPost]
-       public IActionResult InsertNSX(NuocSanXuat nsx)
+        public IActionResult InsertNSX(NuocSanXuat nsx)
         {
             webContext context = new webContext();
             int idUser = int.Parse(User.Claims.ElementAt(2).Type);
