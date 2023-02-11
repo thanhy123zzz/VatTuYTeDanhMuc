@@ -4,7 +4,7 @@
   @foreach (VaiTro vt in ViewBag.loadTableVT)
   {
     <tr onclick="loadTableCN(@vt.Id)">
-      <td>
+      <td style="text-align:left;">
         @vt.TenVt
         <input type="hidden" value="@vt.Id" id="idvt" />
       </td>

@@ -8,7 +8,7 @@ namespace VatTuYTeDanhMuc.Controllers
     public class KhachHangController : Controller
     {
 
-        public IActionResult table()
+        public IActionResult Table()
         {
             ViewData["Title"] = "Danh mục khách hàng";
             webContext context = new webContext();
