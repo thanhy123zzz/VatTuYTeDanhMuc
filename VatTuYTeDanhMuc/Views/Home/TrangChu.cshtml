@@ -1,32 +1,45 @@
 ﻿@{
-    var acc = User.FindFirst("VaiTro");
-    string idmenu = ViewBag.Menu;
-    string vaitro = null;
-    bool nhap = false, sua = false, xoa = false, print = false, xuat = false, canhan = false;
-    if (acc != null)
+  var acc = User.FindFirst("VaiTro");
+  string idmenu = ViewBag.Menu;
+  string vaitro = null;
+  bool nhap = false, sua = false, xoa = false, print = false, xuat = false, canhan = false;
+  if (acc != null)
+  {
+    vaitro = acc.Value;
+    if (vaitro != null && vaitro != "")
     {
-        vaitro = acc.Value;
-        if (vaitro != null && vaitro != "")
+      webContext context = new webContext();
+      ChucNang cn;
+      Menu menu = context.Menu.FirstOrDefault(d => d.MaMenu.Equals(idmenu));
+      if (menu == null)
+      {
+        cn = context.ChucNang.FirstOrDefault(c => c.Idvt.Equals(int.Parse(vaitro)));
+        if (cn != null)
         {
-            webContext context = new webContext();
-            ChucNang cn;
-            Menu menu = context.Menu.FirstOrDefault(d => d.MaMenu.Equals(idmenu));
-            if (menu == null)
-            {
-                cn = context.ChucNang.FirstOrDefault(c => c.Idvt.Equals(int.Parse(vaitro)));
-            }
-            else
-            {
-                cn = context.ChucNang.FirstOrDefault(c => c.Idvt.Equals(int.Parse(vaitro)) && c.Idmenu.Equals(menu.Id));
-            }
-            nhap = (bool)cn.Nhap;
-            sua = (bool)cn.Sua;
-            xoa = (bool)cn.Xoa;
-            print = (bool)cn.In;
-            xuat = (bool)cn.Xuat;
-            canhan = (bool)cn.CaNhan;
+          nhap = (bool)cn.Nhap;
+          sua = (bool)cn.Sua;
+          xoa = (bool)cn.Xoa;
+          print = (bool)cn.In;
+          xuat = (bool)cn.Xuat;
+          canhan = (bool)cn.CaNhan;
         }
+      }
+      else
+      {
+        cn = context.ChucNang.FirstOrDefault(c => c.Idvt.Equals(int.Parse(vaitro)) && c.Idmenu.Equals(menu.Id));
+        if (cn != null)
+        {
+          nhap = (bool)cn.Nhap;
+          sua = (bool)cn.Sua;
+          xoa = (bool)cn.Xoa;
+          print = (bool)cn.In;
+          xuat = (bool)cn.Xuat;
+          canhan = (bool)cn.CaNhan;
+        }
+      }
+
     }
+  }
 }
 
-<h1>Trang chủ</h1>
+  <h1>Trang chủ</h1>

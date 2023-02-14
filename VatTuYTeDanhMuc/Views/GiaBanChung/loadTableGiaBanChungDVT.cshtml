@@ -1,66 +1,69 @@
 ﻿@{
-    webContext context = new webContext();
-    bool count(int id)
+  webContext context = new webContext();
+  bool count(int id)
+  {
+    if (context.HhDvt.Where(x => x.Idhh == id && x.Active == true).ToList().Count() == 0)
     {
-        if (context.HhDvt.Where(x => x.Idhh == id && x.Active == true).ToList().Count() == 0)
-        {
-            return true;
-        }
-        return false;
+      return true;
     }
-    Dvt getdvt(int? id)
-    {
-        Dvt nv = context.Dvt.Find(id);
-        if (nv != null) return nv;
-        else return new Dvt();
-    }
-    NuocSanXuat getnsx(int? id)
-    {
-        NuocSanXuat nsx = context.NuocSanXuat.Find(id);
-        if (nsx != null) return nsx;
-        else return new NuocSanXuat();
-    }
-    HangSanXuat gethsx(int? id)
-    {
-        HangSanXuat nv = context.HangSanXuat.Find(id);
-        if (nv != null) return nv;
-        else return new HangSanXuat();
-    }
-    HangHoa gethh(int? id)
-	{
-		HangHoa nv = context.HangHoa.Find(id);
-		if (nv != null) return nv;
-		else return new HangHoa();
-	}
-    string format(double? a)
-    {
-        return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
+    return false;
+  }
+  Dvt getdvt(int? id)
+  {
+    Dvt nv = context.Dvt.Find(id);
+    if (nv != null) return nv;
+    else return new Dvt();
+  }
+  NuocSanXuat getnsx(int? id)
+  {
+    NuocSanXuat nsx = context.NuocSanXuat.Find(id);
+    if (nsx != null) return nsx;
+    else return new NuocSanXuat();
+  }
+  HangSanXuat gethsx(int? id)
+  {
+    HangSanXuat nv = context.HangSanXuat.Find(id);
+    if (nv != null) return nv;
+    else return new HangSanXuat();
+  }
+  HangHoa gethh(int? id)
+  {
+    HangHoa nv = context.HangHoa.Find(id);
+    if (nv != null) return nv;
+    else return new HangHoa();
+  }
+  string format(double? a)
+  {
+    return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
 
-    }
+  }
 
-    var acc = User.FindFirst("VaiTro");
+  var acc = User.FindFirst("VaiTro");
 
-    int idmenu = (int)TempData.Peek("Menu");
+  int idmenu = (int)TempData.Peek("Menu");
 
-    int idUser = int.Parse(User.Claims.ElementAt(2).Type);
-    //int idCN = int.Parse(User.Claims.ElementAt(4).Value);
+  int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+  //int idCN = int.Parse(User.Claims.ElementAt(4).Value);
 
-    string vaitro = null;
-    bool nhap = false, sua = false, xoa = false, print = false, xuat = false, canhan = false;
-    if (acc != null)
+  string vaitro = null;
+  bool nhap = false, sua = false, xoa = false, print = false, xuat = false, canhan = false;
+  if (acc != null)
+  {
+    vaitro = acc.Value;
+    if (vaitro != null && vaitro != "")
     {
-        vaitro = acc.Value;
-        if (vaitro != null && vaitro != "")
-        {
-            ChucNang cn = context.ChucNang.FirstOrDefault(c => c.Idvt.Equals(int.Parse(vaitro)) && c.Idmenu.Equals(idmenu));
-            nhap = (bool)cn.Nhap;
-            sua = (bool)cn.Sua;
-            xoa = (bool)cn.Xoa;
-            print = (bool)cn.In;
-            xuat = (bool)cn.Xuat;
-            canhan = (bool)cn.CaNhan;
-        }
+      ChucNang cn = context.ChucNang.FirstOrDefault(c => c.Idvt.Equals(int.Parse(vaitro)) && c.Idmenu.Equals(idmenu));
+      if (cn != null)
+      {
+        nhap = (bool)cn.Nhap;
+        sua = (bool)cn.Sua;
+        xoa = (bool)cn.Xoa;
+        print = (bool)cn.In;
+        xuat = (bool)cn.Xuat;
+        canhan = (bool)cn.CaNhan;
+      }
     }
+  }
 }
 
 <tbody id="tbodyHH" >

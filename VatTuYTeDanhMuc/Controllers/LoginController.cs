@@ -37,9 +37,19 @@ namespace VatTuYTe.Controllers
     [Authorize(Roles = "NV")]
     public IActionResult ViewSelector()
     {
-      ViewBag.TaiKhoan = TempData["TaiKhoan"];
-      ViewBag.ChiNhanh = TempData["ChiNhanh"];
+      //ViewBag.TaiKhoan = TempData["TaiKhoan"];
+      //ViewBag.ChiNhanh = TempData["ChiNhanh"];
+      //return View();
+
+      string user = User.Claims.ElementAt(0).Value;
+      ViewBag.TaiKhoan = user;
+
+      webContext context = new webContext();
+      int idtk = context.TaiKhoan.FirstOrDefault(k => k.Active == true && k.TenTaiKhoan == user).Id;
+      ViewBag.ChiNhanh = context.PhanQuyen.Where(aa => aa.Idtk.Equals(idtk) && aa.Active == true).Select(aa => aa.Idcn).Distinct().ToList();
+
       return View();
+
     }
 
 
@@ -101,9 +111,9 @@ namespace VatTuYTe.Controllers
         {
           // PhanQuyen vaitro = context.PhanQuyen.FirstOrDefault(c => c.Idtk.Equals(acc.Id) && c.Active == true);
 
-          var listpq = context.PhanQuyen.Where(j => j.Idtk.Equals(acc.Id) && j.Active == true).Select(j => j.Id).Distinct().ToList();
-          TempData["TaiKhoan"] = user;
-          TempData["ChiNhanh"] = listpq;
+          //var listpq = context.PhanQuyen.Where(j => j.Idtk.Equals(acc.Id) && j.Active == true).Select(j => j.Id).Distinct().ToList();
+          //TempData["TaiKhoan"] = user;
+          //TempData["ChiNhanh"] = listpq;
 
           if (acc.Loai == true)
           {
