@@ -1,32 +1,35 @@
 ﻿@{
-    string format(double? a)
+  string format(double? a)
+  {
+    return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
+
+  }
+  webContext context = new webContext();
+  var acc = User.FindFirst("VaiTro");
+
+  int idmenu = (int)TempData.Peek("Menu");
+
+  int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+
+  string vaitro = null;
+  bool nhap = false, sua = false, xoa = false, print = false, xuat = false, canhan = false;
+  if (acc != null)
+  {
+    vaitro = acc.Value;
+    if (vaitro != null && vaitro != "")
     {
-        return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
-
+      ChucNang cn = context.ChucNang.FirstOrDefault(c => c.Idvt.Equals(int.Parse(vaitro)) && c.Idmenu.Equals(idmenu));
+      if (cn != null)
+      {
+        nhap = (bool)cn.Nhap;
+        sua = (bool)cn.Sua;
+        xoa = (bool)cn.Xoa;
+        print = (bool)cn.In;
+        xuat = (bool)cn.Xuat;
+        canhan = (bool)cn.CaNhan;
+      }
     }
-    webContext context = new webContext();
-    var acc = User.FindFirst("VaiTro");
-
-    int idmenu = (int)TempData.Peek("Menu");
-
-    int idUser = int.Parse(User.Claims.ElementAt(2).Type);
-
-    string vaitro = null;
-    bool nhap = false, sua = false, xoa = false, print = false, xuat = false, canhan = false;
-    if (acc != null)
-    {
-        vaitro = acc.Value;
-        if (vaitro != null && vaitro != "")
-        {
-            ChucNang cn = context.ChucNang.FirstOrDefault(c => c.Idvt.Equals(int.Parse(vaitro)) && c.Idmenu.Equals(idmenu));
-            nhap = (bool)cn.Nhap;
-            sua = (bool)cn.Sua;
-            xoa = (bool)cn.Xoa;
-            print = (bool)cn.In;
-            xuat = (bool)cn.Xuat;
-            canhan = (bool)cn.CaNhan;
-        }
-    }
+  }
 }
 <tbody id="tbodyGTNHH">
     @if (ViewBag.idnhh == null)

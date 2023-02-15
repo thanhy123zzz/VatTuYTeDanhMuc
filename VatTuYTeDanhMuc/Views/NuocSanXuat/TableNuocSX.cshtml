@@ -35,12 +35,15 @@
     if (vaitro != null && vaitro != "")
     {
       ChucNang cn = context.ChucNang.FirstOrDefault(c => c.Idvt.Equals(int.Parse(vaitro)) && c.Idmenu.Equals(idmenu));
-      nhap = (bool)cn.Nhap;
-      sua = (bool)cn.Sua;
-      xoa = (bool)cn.Xoa;
-      print = (bool)cn.In;
-      xuat = (bool)cn.Xuat;
-      canhan = (bool)cn.CaNhan;
+      if (cn != null)
+      {
+        nhap = (bool)cn.Nhap;
+        sua = (bool)cn.Sua;
+        xoa = (bool)cn.Xoa;
+        print = (bool)cn.In;
+        xuat = (bool)cn.Xuat;
+        canhan = (bool)cn.CaNhan;
+      }
     }
   }
 

@@ -1,56 +1,59 @@
 ﻿@model VatTuYTeDanhMuc.Models.Entities.NhomHangHoa
 @{
-    webContext context = new webContext();
-    NhanVien getNhanVien(int? id)
+  webContext context = new webContext();
+  NhanVien getNhanVien(int? id)
+  {
+    NhanVien nv = context.NhanVien.Find(id);
+    if (nv != null) return nv;
+    else return new NhanVien();
+  }
+  List<NhomHangHoa> getListNHH()
+  {
+    return context.NhomHangHoa.Where(x => x.Active == true).ToList();
+  }
+  string formatDay(DateTime? date)
+  {
+    if (date != null)
     {
-        NhanVien nv = context.NhanVien.Find(id);
-        if (nv != null) return nv;
-        else return new NhanVien();
+      return date.Value.ToString("dd/MM/yyyy HH:mm");
     }
-    List<NhomHangHoa> getListNHH()
+    else
     {
-        return context.NhomHangHoa.Where(x => x.Active == true).ToList();
+      return null;
     }
-    string formatDay(DateTime? date)
+  }
+  string format(double? a)
+  {
+    return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
+
+  }
+
+
+  var acc = User.FindFirst("VaiTro");
+
+  int idmenu = (int)TempData.Peek("Menu");
+
+  int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+
+  string vaitro = null;
+  bool nhap = false, sua = false, xoa = false, print = false, xuat = false, canhan = false;
+  if (acc != null)
+  {
+    vaitro = acc.Value;
+    if (vaitro != null && vaitro != "")
     {
-        if (date != null)
-        {
-            return date.Value.ToString("dd/MM/yyyy HH:mm");
-        }
-        else
-        {
-            return null;
-        }
+      ChucNang cn = context.ChucNang.FirstOrDefault(c => c.Idvt.Equals(int.Parse(vaitro)) && c.Idmenu.Equals(idmenu));
+      if (cn != null)
+      {
+        nhap = (bool)cn.Nhap;
+        sua = (bool)cn.Sua;
+        xoa = (bool)cn.Xoa;
+        print = (bool)cn.In;
+        xuat = (bool)cn.Xuat;
+        canhan = (bool)cn.CaNhan;
+      }
     }
-    string format(double? a)
-    {
-        return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
-
-    }
-
-
-    var acc = User.FindFirst("VaiTro");
-
-    int idmenu = (int)TempData.Peek("Menu");
-
-    int idUser = int.Parse(User.Claims.ElementAt(2).Type);
-
-    string vaitro = null;
-    bool nhap = false, sua = false, xoa = false, print = false, xuat = false, canhan = false;
-    if (acc != null)
-    {
-        vaitro = acc.Value;
-        if (vaitro != null && vaitro != "")
-        {
-            ChucNang cn = context.ChucNang.FirstOrDefault(c => c.Idvt.Equals(int.Parse(vaitro)) && c.Idmenu.Equals(idmenu));
-            nhap = (bool)cn.Nhap;
-            sua = (bool)cn.Sua;
-            xoa = (bool)cn.Xoa;
-            print = (bool)cn.In;
-            xuat = (bool)cn.Xuat;
-            canhan = (bool)cn.CaNhan;
-        }
-    }
+  }
 
 }
 @if (TempData["ThongBao"] != null)
