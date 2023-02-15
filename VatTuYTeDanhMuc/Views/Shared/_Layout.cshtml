@@ -350,6 +350,23 @@
 
                 },
             });
+            $("#LichSuNhap").dataTable({
+                "scrollY": "400px",
+                "scrollCollapse": true,
+                bLengthChange: false,
+                bInfo: false,
+                scrollX: true,
+                fixedHeader: true,
+                searching: false,
+                language: {
+                    paginate: {
+                        previous: "Trước",
+                        next: "Sau",
+                    },
+                    search: "Tìm kiếm",
+
+                },
+            });
             /* $('.form-select').select2({
                  matcher: function(params, data) {
                      // If there are no search terms, return all of the data
