@@ -548,7 +548,8 @@
                 var tilele = $(this).parents('tr').find("td:eq(5) input[type='text']").val(); 
                 var tilesi = $(this).parents('tr').find("td:eq(4) input[type='text']").val(); 
                 var giabanle = $(this).parents('tr').find("td:eq(7) input[type='text']").val();
-                var giabansi = $(this).parents('tr').find("td:eq(6) input[type='text']").val();                 
+                var giabansi = $(this).parents('tr').find("td:eq(6) input[type='text']").val();
+                console.log(sl);
                 $.ajax({                   
                     type: "post",
                     url: "/addTLHH_DVT",
