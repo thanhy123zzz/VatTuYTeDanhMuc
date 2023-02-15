@@ -48,6 +48,7 @@ namespace VatTuYTe.Controllers
       int idtk = context.TaiKhoan.FirstOrDefault(k => k.Active == true && k.TenTaiKhoan == user).Id;
       ViewBag.ChiNhanh = context.PhanQuyen.Where(aa => aa.Idtk.Equals(idtk) && aa.Active == true).Select(aa => aa.Idcn).Distinct().ToList();
 
+      //
       return View();
 
     }
