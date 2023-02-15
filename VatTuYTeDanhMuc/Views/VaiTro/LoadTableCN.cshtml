@@ -20,66 +20,73 @@
       {
         if (item.Idmenu == menu.Id)
         {
-          <tr class="wh-input">
-            <td>
-              @menu.TenMenu
-              <input type="hidden" name="Idmenu" value="@menu.Id" id="idmenu" />           
-            </td>
-           <td style="text-align:center;">
-              @*<input type="hidden" name="Idvt" value="@ViewBag.IDVT" id="idvt" />*@
-              @Html.CheckBox("Nhap", item.Nhap == true ? true : false)
-            </td>
-           <td style="text-align:center;">
-              @Html.CheckBox("Sua", item.Sua == true ? true : false)
-            </td>
-           <td style="text-align:center;">
-              @Html.CheckBox("Xoa", item.Xoa == true ? true : false)
-            </td>
-           <td style="text-align:center;">
-              @Html.CheckBox("In", item.In == true ? true : false)
-            </td>
-           <td style="text-align:center;">
-              @Html.CheckBox("Xuat", item.Xuat == true ? true : false)
-            </td>
-           <td style="text-align:center;">
+    <tr class="wh-input">
+        <td>
+            @menu.TenMenu
+            <input type="hidden" name="Idmenu" value="@menu.Id" id="idmenu" />
+        </td>
+        <td style="text-align:center;">
+            @*<input type="hidden" name="Idvt" value="@ViewBag.IDVT" id="idvt" />*@
+            @Html.CheckBox("Nhap", item.Nhap == true ? true : false)
+        </td>
+        <td style="text-align:center;">
+            @Html.CheckBox("Sua", item.Sua == true ? true : false)
+        </td>
+        <td style="text-align:center;">
+            @Html.CheckBox("Xoa", item.Xoa == true ? true : false)
+        </td>
+        <td style="text-align:center;">
+            @Html.CheckBox("In", item.In == true ? true : false)
+        </td>
+        <td style="text-align:center;">
+            @Html.CheckBox("Xuat", item.Xuat == true ? true : false)
+        </td>
+        <td style="text-align:center;">
 
-              @Html.CheckBox("Canhan", item.CaNhan == true ? true : false)
-            </td>
-            @*<td>
-                  <button value="@item.Id" class="edit btn btn-primary" style="margin-right: 5px" id="edit">Sửa</button>
-                  <button value="@item.Id" class="remove btn btn-danger">Xóa</button>
-              </td>*@
-          </tr>
+            @Html.CheckBox("Canhan", item.CaNhan == true ? true : false)
+        </td>
+        <td style="text-align:center;">
+
+            @Html.CheckBox("Canhan", item.CaNhan == true ? true : false)
+        </td>
+        @*<td>
+            <button value="@item.Id" class="edit btn btn-primary" style="margin-right: 5px" id="edit">Sửa</button>
+            <button value="@item.Id" class="remove btn btn-danger">Xóa</button>
+        </td>*@
+    </tr>
           i++;
         }
       }
       if (i == 0)
       {
-        <tr class="wh-input">
-         <td >
-            @menu.TenMenu
-            <input type="hidden" name="Idmenu" value="@menu.Id" id="idmenu" />
-            @*<input type="hidden" name="Idvt" value="@ViewBag.IDVT" id="idvt" />*@
-          </td>
-         <td style="text-align:center;">
-            @Html.CheckBox("Nhap")
-          </td>
-         <td style="text-align:center;">
-            @Html.CheckBox("Sua")
-          </td>
-         <td style="text-align:center;">
-            @Html.CheckBox("Xoa")
-          </td>
-         <td style="text-align:center;">
-            @Html.CheckBox("In")
-          </td>
-         <td style="text-align:center;">
-            @Html.CheckBox("Xuat")
-          </td>
-         <td style="text-align:center;">
-            @Html.CheckBox("Canhan")
-          </td>
-        </tr>
+<tr class="wh-input">
+    <td>
+        @menu.TenMenu
+        <input type="hidden" name="Idmenu" value="@menu.Id" id="idmenu" />
+        @*<input type="hidden" name="Idvt" value="@ViewBag.IDVT" id="idvt" />*@
+    </td>
+    <td style="text-align:center;">
+        @Html.CheckBox("Nhap")
+    </td>
+    <td style="text-align:center;">
+        @Html.CheckBox("Sua")
+    </td>
+    <td style="text-align:center;">
+        @Html.CheckBox("Xoa")
+    </td>
+    <td style="text-align:center;">
+        @Html.CheckBox("In")
+    </td>
+    <td style="text-align:center;">
+        @Html.CheckBox("Xuat")
+    </td>
+    <td style="text-align:center;">
+        @Html.CheckBox("Canhan")
+    </td>
+    <td style="text-align:center;">
+        @Html.CheckBox("Canhan")
+    </td>
+</tr>
       }
     }
   }
@@ -87,31 +94,34 @@
   {
     @foreach (var menu in listmenu())
     {
-      <tr class="wh-input">
-       <td>
-          @menu.TenMenu
-          <input type="hidden" name="Idmenu" value="@menu.Id" id="idmenu" />
-          @*<input type="hidden" name="Idvt" value="@ViewBag.IDVT" id="idvt" />*@
-        </td>
-       <td style="text-align:center;">
-          @Html.CheckBox("Nhap")
-        </td>
-       <td style="text-align:center;">
-          @Html.CheckBox("Sua")
-        </td>
-       <td style="text-align:center;">
-          @Html.CheckBox("Xoa")
-        </td>
-       <td style="text-align:center;">
-          @Html.CheckBox("In")
-        </td>
-       <td style="text-align:center;">
-          @Html.CheckBox("Xuat")
-        </td>
-       <td style="text-align:center;">
-          @Html.CheckBox("Canhan")
-        </td>
-      </tr>
+<tr class="wh-input">
+    <td>
+        @menu.TenMenu
+        <input type="hidden" name="Idmenu" value="@menu.Id" id="idmenu" />
+        @*<input type="hidden" name="Idvt" value="@ViewBag.IDVT" id="idvt" />*@
+    </td>
+    <td style="text-align:center;">
+        @Html.CheckBox("Nhap")
+    </td>
+    <td style="text-align:center;">
+        @Html.CheckBox("Sua")
+    </td>
+    <td style="text-align:center;">
+        @Html.CheckBox("Xoa")
+    </td>
+    <td style="text-align:center;">
+        @Html.CheckBox("In")
+    </td>
+    <td style="text-align:center;">
+        @Html.CheckBox("Xuat")
+    </td>
+    <td style="text-align:center;">
+        @Html.CheckBox("Canhan")
+    </td>
+    <td style="text-align:center;">
+        @Html.CheckBox("Canhan")
+    </td>
+</tr>
     }
   }
 </tbody>

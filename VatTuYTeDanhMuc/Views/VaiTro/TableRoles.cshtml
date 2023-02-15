@@ -81,7 +81,7 @@
           <table class="table table-bordered  mb-0  text-center bg-light" id="myTable">
             <thead style="position: sticky; top: 0; background: #e9ecef;">
               <tr style="background: white;">
-                <th colspan="7" class="p-0">
+                <th colspan="8" class="p-0">
                   <div class="group-btn">
                     <div class="d-flex justify-content-end">
                       <button class="btn btn-primary" style="border-radius:0" type="button" id="btn-save">
@@ -92,18 +92,29 @@
                 </th>
               </tr>
               <tr>
-                <th class="text-center" rowspan="2" style="vertical-align : middle;text-align:center;">Danh sách menu</th>
-                <th class="text-center" colspan="6">Chức năng</th>
+                <th class="text-center" rowspan="3" style="vertical-align : middle;text-align:center;">Danh sách menu</th>
+                <th class="text-center" colspan="7">Chức năng</th>
                 @*<th class="text-center">Tùy chọn</th>*@
               </tr>
               <tr>
-                <th class="text-center">Nhập</th>
-                <th class="text-center">Sửa</th>
-                <th class="text-center">Xóa</th>
-                <th class="text-center">In</th>
-                <th class="text-center">Xuất</th>
-                <th class="text-center">Cá nhân</th>
+                  <th class="text-center">Nhập</th>
+                  <th class="text-center">Sửa</th>
+                  <th class="text-center">Xóa</th>
+                  <th class="text-center">In</th>
+                  <th class="text-center">Xuất</th>
+                  <th class="text-center">Cá nhân</th>
+                  <th class="text-center"></th>
               </tr>
+              <tr>
+                  <th class="text-center"><input type="checkbox" style="width: 17px; height: 17px"></th>
+                  <th class="text-center"><input type="checkbox" style="width: 17px; height: 17px"></th>
+                  <th class="text-center"><input type="checkbox" style="width: 17px; height: 17px"></th>
+                  <th class="text-center"><input type="checkbox" style="width: 17px; height: 17px"></th>
+                  <th class="text-center"><input type="checkbox" style="width: 17px; height: 17px"></th>
+                  <th class="text-center"><input type="checkbox" style="width: 17px; height: 17px"></th>
+                  <th class="text-center">Chọn tất cả</th>
+              </tr>
+                
             </thead>
             <tbody id="chucnang">
             </tbody>
@@ -349,4 +360,5 @@
       }
     });
   });
+    
 </script>
