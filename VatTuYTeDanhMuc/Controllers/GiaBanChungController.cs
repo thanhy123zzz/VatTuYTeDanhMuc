@@ -112,7 +112,7 @@ namespace VatTuYTeDanhMuc.Controllers
 
         //Thêm đơn vị tính phụ
         [HttpPost("/addTLHH_DVT")]
-        public string addTLHH_DVT(float giabansi, float giabanle, float tilesi, float tilele, int sl, int idhh, int iddvt)
+        public string addTLHH_DVT(float giabansi, float giabanle, float tilesi, float tilele, float sl, int idhh, int iddvt)
         {
             webContext context = new webContext();
             HhDvt h = new HhDvt();

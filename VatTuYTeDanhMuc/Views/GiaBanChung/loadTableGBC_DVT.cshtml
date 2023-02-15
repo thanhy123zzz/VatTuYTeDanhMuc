@@ -1,73 +1,76 @@
 ﻿@{
-    webContext context = new webContext();
-    NhanVien getNhanVien(int? id)
-    {
-        NhanVien nv = context.NhanVien.Find(id);
-        if (nv != null) return nv;
-        else return new NhanVien();
-    }
-    List<HhDvt> getListHH_Dvt()
-    {
-        return context.HhDvt.Where(x => x.Active == true).ToList();
-    }
+  webContext context = new webContext();
+  NhanVien getNhanVien(int? id)
+  {
+    NhanVien nv = context.NhanVien.Find(id);
+    if (nv != null) return nv;
+    else return new NhanVien();
+  }
+  List<HhDvt> getListHH_Dvt()
+  {
+    return context.HhDvt.Where(x => x.Active == true).ToList();
+  }
 
-    HangHoa getHangHoa(int? id)
-    {
-        return context.HangHoa.Find(id);
-    }
+  HangHoa getHangHoa(int? id)
+  {
+    return context.HangHoa.Find(id);
+  }
 
-    Dvt getDVT(int? id)
-    {
-        return context.Dvt.Find(id);
-    }
-    List<NhomHangHoa> getNhomHH()
-    {
-        return context.NhomHangHoa.ToList();
-    }
-    List<HangHoa> getListHH()
-    {
-        return context.HangHoa.Where(x => x.Active == true).ToList();
-    }
-    HangHoa gethh(int? id)
-    {
-        HangHoa nv = context.HangHoa.Find(id);
-        if (nv != null) return nv;
-        else return new HangHoa();
-    }
-    Dvt getdvt(int? id)
-    {
-        Dvt nv = context.Dvt.Find(id);
-        if (nv != null) return nv;
-        else return new Dvt();
-    }
-    string format(double? a)
-    {
-        return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
+  Dvt getDVT(int? id)
+  {
+    return context.Dvt.Find(id);
+  }
+  List<NhomHangHoa> getNhomHH()
+  {
+    return context.NhomHangHoa.ToList();
+  }
+  List<HangHoa> getListHH()
+  {
+    return context.HangHoa.Where(x => x.Active == true).ToList();
+  }
+  HangHoa gethh(int? id)
+  {
+    HangHoa nv = context.HangHoa.Find(id);
+    if (nv != null) return nv;
+    else return new HangHoa();
+  }
+  Dvt getdvt(int? id)
+  {
+    Dvt nv = context.Dvt.Find(id);
+    if (nv != null) return nv;
+    else return new Dvt();
+  }
+  string format(double? a)
+  {
+    return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
 
-    }
-    var acc = User.FindFirst("VaiTro");
+  }
+  var acc = User.FindFirst("VaiTro");
 
-    int idmenu = (int)TempData.Peek("Menu");
+  int idmenu = (int)TempData.Peek("Menu");
 
-    int idUser = int.Parse(User.Claims.ElementAt(2).Type);
-    //int idCN = int.Parse(User.Claims.ElementAt(4).Value);
+  int idUser = int.Parse(User.Claims.ElementAt(2).Type);
+  //int idCN = int.Parse(User.Claims.ElementAt(4).Value);
 
-    string vaitro = null;
-    bool nhap = false, sua = false, xoa = false, print = false, xuat = false, canhan = false;
-    if (acc != null)
+  string vaitro = null;
+  bool nhap = false, sua = false, xoa = false, print = false, xuat = false, canhan = false;
+  if (acc != null)
+  {
+    vaitro = acc.Value;
+    if (vaitro != null && vaitro != "")
     {
-        vaitro = acc.Value;
-        if (vaitro != null && vaitro != "")
-        {
-            ChucNang cn = context.ChucNang.FirstOrDefault(c => c.Idvt.Equals(int.Parse(vaitro)) && c.Idmenu.Equals(idmenu));
-            nhap = (bool)cn.Nhap;
-            sua = (bool)cn.Sua;
-            xoa = (bool)cn.Xoa;
-            print = (bool)cn.In;
-            xuat = (bool)cn.Xuat;
-            canhan = (bool)cn.CaNhan;
-        }
+      ChucNang cn = context.ChucNang.FirstOrDefault(c => c.Idvt.Equals(int.Parse(vaitro)) && c.Idmenu.Equals(idmenu));
+      if (cn != null)
+      {
+        nhap = (bool)cn.Nhap;
+        sua = (bool)cn.Sua;
+        xoa = (bool)cn.Xoa;
+        print = (bool)cn.In;
+        xuat = (bool)cn.Xuat;
+        canhan = (bool)cn.CaNhan;
+      }
     }
+  }
 
 }
 <tbody id="tbodyHH">

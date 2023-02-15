@@ -84,7 +84,7 @@
                     <div class="col-12" style="padding-bottom: 10px;">
                       <label for="chin" class="form-label">Chi nhánh</label>
                       <div class="input-group has-validation">
-                        <input type="hidden" value="@ViewBag.TaiKhoan" id="tk" asp-for="Idtk"/>
+                        <input type="hidden" value="@ViewBag.TaiKhoan" id="tk" asp-for="Idtk" />
                         <select id="idcn" onchange="loadPQCN()" class="w-100 form-select" asp-for="Idcn" style="height: 38px;">
                           <option selected disabled>--- Chọn chi nhánh ---</option>
                           @foreach (var cn in ViewBag.ChiNhanh)
@@ -112,14 +112,15 @@
                       </div>
                     </div>
 
+
                     <div class="col-6">
-                      <button class="btn btn-primary w-100" type="submit">
-                        Truy cập
+                      <button class="btn btn-secondary w-100" type="button" onclick="window.history.go(-1);">
+                        Quay lại
                       </button>
                     </div>
                     <div class="col-6">
-                      <button class="btn btn-primary w-100" type="button">
-                        Hủy
+                      <button class="btn btn-primary w-100" type="submit">
+                        Truy cập
                       </button>
                     </div>
                   </form>
