@@ -189,14 +189,14 @@ namespace VatTuYTeDanhMuc.Controllers
                 {
                     options = options,
                     giaBan = 0,
-                    slCon = getSLCon(idHH, (Int32)hh.Iddvtchinh),
+                    slCon = getSLCon(idHH, (int)hh.Iddvtchinh),
                     hinhAnh = hh.Avatar
                 });
             }
 
 
             //nếu giá theo khách hàng không tồn tại thì xét tiếp
-            if (GiaTheoKH == null || (GiaTheoKH.TiLeLe == 0 && GiaTheoKH.TiLeSi == 0 && GiaTheoKH.GiaBanSi == 0 && GiaTheoKH.GiaBanLe == 0))
+            if (GiaTheoKH == null || (GiaTheoKH.TiLeLe == 0 && GiaTheoKH.GiaBanLe == 0) || (GiaTheoKH.TiLeSi == 0 && GiaTheoKH.GiaBanSi == 0))
             {
                 //Xét tiếp tới giá theo nhóm hàng hoá
                 var listGTNHH = context.GiaTheoNhomHangHoa.Where(x => x.Idnhh == hh.Idnhh).ToList();
@@ -965,7 +965,7 @@ namespace VatTuYTeDanhMuc.Controllers
             else
             {
                 var sl = (double)context.HhDvt.Where(x => x.Idhh == idHH && x.Iddvt == idDVT).FirstOrDefault().SlquyDoi;
-                return a * sl;
+                return Math.Round(a.Value / sl, 2);
             }
         }
     }
