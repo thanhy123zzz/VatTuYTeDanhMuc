@@ -435,6 +435,11 @@
             $($.fn.dataTable.tables(true)).DataTable()
                 .columns.adjust();
         });
+        $('#sidebar').on('hide.bs.collapse',function(e){
+            $($.fn.dataTable.tables(true)).DataTable()
+                .columns.adjust();
+            console.log('2');
+        });
         function change() {
             $('#HanDung').val();
         }

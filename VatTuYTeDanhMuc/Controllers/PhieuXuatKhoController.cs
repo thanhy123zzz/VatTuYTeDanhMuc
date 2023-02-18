@@ -843,18 +843,33 @@ namespace VatTuYTeDanhMuc.Controllers
         }
 
         [HttpPost("/loadTableLichSuXuat")]
-        public IActionResult loadTableLichSuXuat(string fromDay, string toDay)
+        public IActionResult loadTableLichSuXuat(string fromDay, string toDay, string soPhieuLS, string soHDLS, int khLS, int hhLS)
         {
             DateTime FromDay = DateTime.ParseExact(fromDay, "dd-MM-yyyy", CultureInfo.InvariantCulture);
             DateTime ToDay = DateTime.ParseExact(toDay, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-
             webContext context = new webContext();
-            ViewBag.ListPhieuXuat = context.PhieuXuat
-                                                    .FromSqlRaw("select*from PhieuXuat where CONVERT(date,NgayTao) >= '" + FromDay.ToString("yyyy-MM-dd") + "' and CONVERT(date,NgayTao) <= '" + ToDay.ToString("yyyy-MM-dd") + "' and Active = 1")
-                                                    .Include(x => x.IdkhNavigation)
-                                                    .Include(x => x.IdnvNavigation)
-                                                    .OrderByDescending(x => x.Id)
-                                                    .ToList();
+            List<PhieuXuat> listPhieu = context.PhieuXuat
+            .Where(x => x.NgayTao.Value.Date >= FromDay
+                && x.NgayTao.Value.Date <= ToDay
+                && x.Active == true)
+            .Include(x => x.IdkhNavigation)
+            .Include(x => x.IdnvNavigation)
+            .Include(x => x.ChiTietPhieuXuat)
+            .OrderByDescending(x => x.Id)
+            .ToList();
+            if (khLS == 0 && hhLS == 0)
+            {
+                ViewBag.ListPhieuXuat = listPhieu.Where(x => (soHDLS == null ? true : (x.SoHd?.ToLower().Contains(soHDLS.ToLower()) ?? false))
+                && (soPhieuLS == null ? true : x.SoPx.Contains(soPhieuLS.ToUpper())));
+            }
+            else
+            {
+                ViewBag.ListPhieuXuat = listPhieu.Where(x => (hhLS == 0 ? true : (x.ChiTietPhieuXuat.Where(y => y.Idhh == hhLS).Count() > 0 ? true : false))
+                && (khLS == 0 ? true : x.Idkh == khLS)
+                && (soPhieuLS == null ? true : x.SoPx.Contains(soPhieuLS.ToUpper()))
+                && (soHDLS == null ? true : (x.SoHd?.Contains(soHDLS.ToUpper()) ?? false)));
+            }
+
             return PartialView("TableLichSuXuat");
         }
 

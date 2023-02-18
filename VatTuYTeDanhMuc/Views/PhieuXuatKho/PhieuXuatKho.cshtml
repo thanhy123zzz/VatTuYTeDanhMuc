@@ -2,15 +2,9 @@
 @{
     webContext context = new webContext();
     string ht = GetLocalIPAddress();
-    List<KhachHang> getListKH()
-    {
-        return context.KhachHang.Where(x => x.Active == true).ToList();
-    }
+    List<KhachHang> getListKH = context.KhachHang.Where(x => x.Active == true).ToList();
 
-    List<HangHoa> getListHH()
-    {
-        return context.HangHoa.Where(x => x.Active == true).ToList();
-    }
+    List<HangHoa> getListHH = context.HangHoa.Where(x => x.Active == true).ToList();
 
     var a = context.ChiTietPhieuNhap.Select(x => x.SoLo).Distinct().ToList();
 
@@ -108,7 +102,7 @@
                         <div class="col-sm-5 col-lg-5">
                             <select required onchange="appendDVTKH()" name="@nameof(Model.Idkh)" id="KH" class="form-select2">
                                 <option selected value=""></option>
-                                    @foreach (KhachHang n in getListKH())
+                                    @foreach (KhachHang n in getListKH)
                                     {
                                        <option value="@n.Id" label="@n.MaKh">@n.TenKh</option>
                                     }
@@ -140,7 +134,7 @@
                   <div class="col-md-5 mb-2 col-lg-5">
                       <select id="selectHH" onchange="appendDVT()" class="form-select2">
                         <option selected disabled value=""></option>
-                            @foreach (HangHoa h in getListHH())
+                            @foreach (HangHoa h in getListHH)
                                {
                                  <option value="@h.Id" data-extra="{'Ma':'@h.MaHh'}">@h.TenHh</option>
                                }
@@ -259,19 +253,54 @@
        </div>
        <div class = "tab-content">
          <div class="tab-pane fade" id="bordered-justified-profile" role="tabpanel" aria-labelledby="profile-tab">
-            <div class="row justify-content-start" style="position:absolute; z-index:1">
-                 <div class="col-lg-5 col-sm-5">
-                     <input class="form-control" type="text" id="fromDay" value="@DateTime.Now.ToString("dd-MM-yyyy")" placeholder="Từ ngày"/>
-                 </div>
-                 <div class="col-lg-5 col-sm-5">
+             <div class="form-group p-2 mb-2" id="groupTTSearchLichSu" style="border-radius: 5px; border: 1px solid black;">
+                 <div class="row">
+                  <label class="col-sm-1 col-lg-1 col-form-label">Tên KH</label>
+                   <div class="col-sm-5 col-lg-5">
+                        <select id="khLS" class="form-select2">
+                                <option selected value="0">Tất cả</option>
+                                @foreach (KhachHang n in getListKH)
+                                {
+                                   <option value="@n.Id">@n.TenKh</option>
+                                }
+                        </select>
+                   </div>
+                   <label class="col-sm-1 col-lg-1 col-form-label">Từ ngày</label>
+                      <div class="col-md-2 mb-2 col-lg-2">
+                        <input class="form-control" type="text" id="fromDay" value="@DateTime.Now.ToString("dd-MM-yyyy")" placeholder="Từ ngày"/>
+                      </div>
+                  <label class="col-sm-1 col-lg-1 col-form-label">Đến ngày</label>
+                  <div class="col-lg-2 col-sm-2">
                      <input class="form-control" type="text" id="toDay" value="@DateTime.Now.ToString("dd-MM-yyyy")" placeholder="Tới ngày"/>
                  </div>
-                 <div class="col-lg-1 col-sm-1">
-                     <button type="button" class="btn btn-secondary" onclick="loadTableLichSuXuat()"><i class="bi bi-search"></i></button>
-                 </div>
-             </div>
+
+            </div>
+                    <div class="row">
+                      <label class="col-sm-1 col-lg-1 col-form-label">Hàng hoá</label>
+                      <div class="col-sm-4 col-lg-4">
+                        <select id="hhLS" class="form-select2">
+                                <option selected value="0">Tất cả</option>
+                                @foreach (HangHoa n in getListHH)
+                                {
+                                       <option value="@n.Id">@n.TenHh</option>
+                                }
+                        </select>
+                       </div>
+                    <label class="col-sm-1 col-lg-1 col-form-label">Số phiếu</label>
+                      <div class="col-md-2 mb-2 col-lg-2">
+                        <input class="form-control" type="text" id="soPhieuLS" placeholder="Số phiếu"/>
+                    </div>
+                    <label class="col-sm-1 col-lg-1 col-form-label">Số HĐ</label>
+                      <div class="col-md-2 mb-2 col-lg-2">
+                        <input class="form-control" type="text" id="soHDLS" placeholder="Số hoá đơn"/>
+                      </div> 
+                      <div class="col-md-1 mb-2 col-lg-1 d-flex justify-content-end">
+                         <button type="button" class="btn btn-primary" onclick="loadTableLichSuXuat()"><i class="bi bi-search"></i></button>
+                      </div>
+                    </div>
+            </div>
              <div id="tableLichSuXuat" class="table-responsive" style="white-space:nowrap;overflow-y: auto;">
-                   <table id="example" class="table table-striped table-hover text-center display nowrap" style="width:100%;max-height:500px">
+                   <table id="LichSuNhap" class="table table-striped table-hover text-center display nowrap" style="width:100%;max-height:500px">
                             <thead>
                                 <tr>
                                     <th class="text-center">Số phiếu</th>
@@ -304,6 +333,11 @@
 
                             </tbody>
                         </table>
+             </div>
+             <div class="row">
+                    <div class="d-flex justify-content-end">
+                      <button class="btn btn-outline-success col-lg-2 col-sm-2" type="submit">Xuất tất cả</button>
+                    </div>
              </div>
          </div>
          <div class="d-lg-none" id="tabXemPhieu">
@@ -654,11 +688,15 @@
     function loadTableLichSuXuat(){
         var toDay = $('#toDay').val();
         var fromDay = $('#fromDay').val();
-        
+        var khLS = $('#khLS').val();
+        var hhLS = $('#hhLS').val();
+        var soPhieuLS = $("#soPhieuLS").val();
+        var soHDLS = $('#soHDLS').val();
          $.ajax({
                         type: "post",
                         url: "/loadTableLichSuXuat",
-                        data: "toDay=" + toDay + "&fromDay="+fromDay,
+                        data: "toDay=" + toDay + "&fromDay=" + fromDay + "&khLS=" 
+                        + khLS + "&hhLS=" + hhLS + "&soPhieuLS=" + soPhieuLS + "&soHDLS=" + soHDLS,
                         success: function (result) {
                             $('#tableLichSuXuat').replaceWith(result);
                         },
