@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
+using SelectPdf;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -248,19 +249,58 @@ namespace VatTuYTeDanhMuc.Controllers
         }
 
         [HttpPost("/loadTableLichSuNhap")]
-        public IActionResult loadTableLichSuNhap(string fromDay, string toDay)
+        public IActionResult loadTableLichSuNhap(string fromDay, string toDay, string soPhieuLS, string soHDLS, int nhaCC, int hhLS)
         {
             DateTime FromDay = DateTime.ParseExact(fromDay, "dd-MM-yyyy", CultureInfo.InvariantCulture);
             DateTime ToDay = DateTime.ParseExact(toDay, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-
             webContext context = new webContext();
-            ViewBag.ListPhieuNhap = context.PhieuNhap
-                                                    .FromSqlRaw("select*from PhieuNhap where CONVERT(date,NgayTao) >= '" + FromDay.ToString("yyyy-MM-dd") + "' and CONVERT(date,NgayTao) <= '" + ToDay.ToString("yyyy-MM-dd") + "' and Active = 1")
-                                                    .Include(x => x.IdnccNavigation)
-                                                    .Include(x => x.IdnvNavigation)
-                                                    .OrderByDescending(x => x.Id)
-                                                    .ToList();
+            List<PhieuNhap> listPhieu = context.PhieuNhap
+            .Where(x => x.NgayTao.Value.Date >= FromDay
+            && x.NgayTao.Value.Date <= ToDay
+            && x.Active == true)
+            .Include(x => x.IdnccNavigation)
+            .Include(x => x.IdnvNavigation)
+            .Include(x => x.ChiTietPhieuNhap)
+            .OrderByDescending(x => x.Id)
+            .ToList();
+            if (nhaCC == 0 && hhLS == 0)
+            {
+                ViewBag.ListPhieuNhap = listPhieu.Where(x => (soHDLS == null ? true : (x.SoHd?.Contains(soHDLS) ?? false))
+                && (soPhieuLS == null ? true : x.SoPn.Contains(soPhieuLS.ToUpper())));
+            }
+            else
+            {
+
+                ViewBag.ListPhieuNhap = listPhieu.Where(x => (hhLS == 0 ? true : (x.ChiTietPhieuNhap.Where(y => y.Idhh == hhLS).Count() > 0 ? true : false))
+                && (nhaCC == 0 ? true : x.Idncc == nhaCC)
+                && (soPhieuLS == null ? true : x.SoPn.Contains(soPhieuLS.ToUpper()))
+                && (soHDLS == null ? true : (x.SoHd?.Contains(soHDLS.ToUpper()) ?? false)));
+            }
+
             return PartialView("TableLichSuNhap");
+        }
+        [Route("/download/phieunhapkho/{id:int}")]
+        public IActionResult downloadPhieuNhap(int id)
+        {
+            var fullView = new HtmlToPdf();
+            fullView.Options.WebPageWidth = 1280;
+            fullView.Options.PdfPageSize = PdfPageSize.A4;
+            fullView.Options.MarginTop = 40;
+            fullView.Options.MarginBottom = 40;
+            fullView.Options.PdfPageOrientation = PdfPageOrientation.Portrait;
+
+            var currentUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
+
+            var pdf = fullView.ConvertUrl(currentUrl + "/phieuNhapKhoPDF/" + id);
+
+            var pdfBytes = pdf.Save();
+            return File(pdfBytes, "application/pdf", "PhieuNhap.pdf");
+        }
+
+        [Route("/phieuNhapKhoPDF/{id:int}")]
+        public IActionResult viewPDF()
+        {
+            return View("PhieunhapkhoPDF");
         }
         public string ConvertViewToString(ControllerContext controllerContext, PartialViewResult pvr, ICompositeViewEngine _viewEngine)
         {
