@@ -43,140 +43,106 @@
     <script src="/select/js/selectize.min.js"></script>
     <link rel="stylesheet" href="~/select/css/selectize.bootstrap4.min.css" />
 
-    <style>
-      @media (max-width: 767px) {
-        header {
-          display: block !important;
-        }
-      }
-    </style>
+    
 </head>
 <body>
-    < <section class="section">
+    <section class="section">
         <div class="card p-0">
             <div class="card-body">
-                <header class="justify-content-between"
-                        style="overflow: auto; display: flex">
+                <header class="d-flex justify-content-between mb-2">
                     <div class="infor-DN d-flex col-sm-7 col-lg-7">
                         <img src="/assets/img/apple-touch-icon.png"
                              alt=""
-                             style="height: 168px; width: 168px" />
-                        <div class="infomation col-sm-8">
-                            <div class="row mb-1 gx-0">
-                                <label for="inputText" class="col-lg-2 col-form-label">Tên CTy</label>
-                                <div class="col-lg-10">
-                                    <input type="text"
-                                           class="form-control"
-                                           placeholder="Tên CTy" />
-                                </div>
+                             style="height: 120px; width: 120px" />
+
+                        <div class="infomation col-sm-8" style="margin-left: 40px">
+                            <div class="row mb-1">
+                                <label class="col-lg-10 col-form-label p-0"
+                                       style="text-transform: uppercase"><b>công ty</b></label>
                             </div>
-                            <div class="row mb-1 gx-0">
-                                <label for="inputText"
-                                       class="col-sm-2 col-lg-2 col-form-label">Địa chỉ</label>
-                                <div class="col-sm-10 col-lg-10">
-                                    <input type="text"
-                                           class="form-control"
-                                           placeholder="Địa chỉ" />
-                                </div>
+                            <div class="row">
+                                <label class="col-lg-10 col-form-label p-0">Địa chỉ: </label>
                             </div>
-                            <div class="row mb-1 gx-0">
-                                <label for="inputText"
-                                       class="col-sm-2 col-lg-2 col-form-label">SĐT</label>
-                                <div class="col-sm-3 col-lg-3">
-                                    <input type="text"
-                                           class="form-control"
-                                           placeholder="Số điện thoại" />
-                                </div>
-                                <label for="inputText"
-                                       class="col-sm-1 col-lg-1 col-form-label">Email</label>
-                                <div class="col-sm-6 col-lg-6">
-                                    <input type="text"
-                                           class="form-control"
-                                           placeholder="Email" />
-                                </div>
+                            <div class="row">
+                                <label class="col-lg-10 col-form-label p-0">SĐT: </label>
                             </div>
-                            <div class="row mb-1 gx-0">
-                                <label for="inputText"
-                                       class="col-sm-2 col-lg-2 col-form-label">MST</label>
-                                <div class="col-sm-10 col-lg-10">
-                                    <input type="text"
-                                           class="form-control"
-                                           placeholder="Mã số thuế" />
-                                </div>
+                            <div class="row">
+                                <label class="col-lg-10 col-form-label p-0">Email: </label>
+                            </div>
+                            <div class="row">
+                                <label class="col-lg-10 col-form-label p-0">
+                                    Mã Số thuế:
+                                </label>
                             </div>
                         </div>
                     </div>
                     <div class="thongtinphieu col-sm-3 col-lg-3">
-                        <div class="row mb-1 gx-0">
-                            <label for="inputText" class="col-sm-6 col-lg-6 col-form-label">Số phiếu</label>
+                        <div class="row mb-1">
+                            <label class="col-sm-5 col-lg-5 col-form-label p-0">Số phiếu:</label>
                             <div class="col-sm-6 col-lg-6">
-                                <input type="text"
-                                       class="form-control"
-                                       placeholder="Số phiếu" />
+                                <label for="" class="col-form-label p-0">02156845855</label>
                             </div>
                         </div>
-                        <div class="row mb-1 gx-0">
-                            <label for="inputText" class="col-sm-6 col-lg-6 col-form-label">Ngày tạo phiếu</label>
+                        <div class="row mb-1">
+                            <label class="col-sm-5 col-lg-5 col-form-label p-0">Ngày tạo phiếu:</label>
                             <div class="col-sm-6 col-lg-6">
-                                <input type="text"
-                                       class="form-control"
-                                       id="fromDay"
-                                       placeholder="Ngày tạo phiếu" />
+                                <label for="" class="col-form-label p-0">22/02/2023</label>
                             </div>
                         </div>
-                        <div class="row mb-1 gx-0">
-                            <label for="inputText" class="col-sm-6 col-lg-6 col-form-label">Số hóa đơn</label>
+                        <div class="row mb-1">
+                            <label class="col-sm-5 col-lg-5 col-form-label p-0">Số hóa đơn:</label>
                             <div class="col-sm-6 col-lg-6">
-                                <input type="text"
-                                       class="form-control"
-                                       placeholder="Số hóa đơn" />
+                                <label for="" class="col-form-label p-0">hd0122458</label>
                             </div>
                         </div>
-                        <div class="row mb-1 gx-0">
-                            <label for="inputText" class="col-sm-6 col-lg-6 col-form-label">Ngày hóa đơn</label>
+                        <div class="row mb-1">
+                            <label class="col-sm-5 col-lg-5 col-form-label p-0">Ngày hóa đơn:</label>
                             <div class="col-sm-6 col-lg-6">
-                                <input type="text"
-                                       class="form-control"
-                                       id="fromDay"
-                                       placeholder="Ngày hóa đơn" />
+                                <label for="" class="col-form-label p-0">20/02/2023</label>
                             </div>
                         </div>
                     </div>
                 </header>
-                <article style="overflow: auto">
-                    <h2 class="text-center" style="color: black">
+                <article>
+                    <h3 class="text-center" style="color: black">
                         <b>PHIẾU NHẬP KHO</b>
-                    </h2>
+                    </h3>
                     <div class="infor-NCC">
                         <div class="row mb-1">
-                            <label for="inputText" class="col-lg-2 col-form-label">Người bán hàng</label>
-                            <div class="col-lg-10">
-                                <input type="text" class="form-control" />
+                            <label class="col-lg-2 col-sm-2 col-form-label p-0"><i><b>Người bán hàng:</b></i></label>
+                            <div class="col-lg-10 col-sm-10">
+                                <label for=""
+                                       class="col-form-label p-0"
+                                       style="word-break: break-all"><b>Tên nhà cc</b></label>
                             </div>
                         </div>
                         <div class="row mb-1">
-                            <label for="inputText" class="col-sm-2 col-form-label">Địa chỉ</label>
+                            <label class="col-sm-2 col-form-label p-0"><i><b>Địa chỉ:</b></i></label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" />
+                                <label for=""
+                                       class="col-form-label p-0"
+                                       style="word-break: break-all"><b>45b gò vấp</b></label>
                             </div>
                         </div>
                         <div class="row mb-1">
-                            <label for="inputText" class="col-sm-2 col-form-label">Số điện thoại</label>
+                            <label class="col-sm-2 col-form-label p-0"><i><b>Số điện thoại:</b></i></label>
                             <div class="col-sm-4">
-                                <input type="text" class="form-control" />
+                                <label for="" class="col-form-label p-0"><b>012489587855</b></label>
                             </div>
 
-                            <label for="inputText" class="col-sm-1 col-form-label">Email</label>
+                            <label class="col-sm-1 col-form-label p-0"><i><b>Email:</b></i></label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" />
+                                <label for="" class="col-form-label p-0"><b>adfafjlahsdlfhals@adfasf.com</b></label>
                             </div>
                         </div>
                         <div class="row mb-2">
-                            <label for="inputText" class="col-sm-2 col-form-label">Ghi chú</label>
+                            <label class="col-sm-2 col-form-label p-0"><i><b>Ghi chú:</b></i></label>
                             <div class="col-sm-10">
-                                <textarea rows="1"
-                                          name="GhiChu"
-                                          class="form-control"></textarea>
+                                <label for=""
+                                       class="col-form-label p-0"
+                                       style="word-break: break-all">
+                                    <b>ghi chú gì đó</b>
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -189,7 +155,9 @@
                                     <th class="text-center">STT</th>
                                     <th class="text-center">Mã hàng</th>
                                     <th class="text-center">Tên hàng</th>
-                                    <th class="text-center">Số lượng</th>
+                                    <th class="text-center">Số Lô</th>
+                                    <th class="text-center">Hạn dùng</th>
+                                    <th class="text-center">S.LG</th>
                                     <th class="text-center">ĐVT</th>
                                     <th class="text-center">Đơn giá</th>
                                     <th class="text-center">Chiết khấu</th>
@@ -208,23 +176,36 @@
                                     <td>...</td>
                                     <td>...</td>
                                     <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
+                    <div class="form-group p-2 mb-2"
+                         style="border-radius: 5px; border: 1px solid black">
+                        <div class="row">
+                            <label class="col-sm-3 col-lg-3 col-form-label"
+                                   style="border-right: 1px solid black"><b>Tiền hàng: 150000đ</b></label>
+
+                            <label class="col-sm-3 col-lg-3 col-form-label"
+                                   style="border-right: 1px solid black"><b>Tiền CK: 150000đ</b></label>
+
+                            <label class="col-sm-3 col-lg-3 col-form-label"
+                                   style="border-right: 1px solid black"><b>Tiền thuế: 150000đ</b></label>
+
+                            <label class="col-sm-3 col-lg-3 col-form-label"><b>Thanh toán: 150000đ</b></label>
+                        </div>
+                    </div>
                     <div class="sign">
                         <div class="row">
-                            <label for="inputText"
-                                   class="col-sm-3 col-3 text-center text-dark"
+                            <label class="col-sm-3 col-3 text-center text-dark"
                                    style="padding-bottom: 120px"><b>Thủ kho</b></label>
-                            <label for="inputText"
-                                   class="col-sm-3 col-3 text-center text-dark"
+                            <label class="col-sm-3 col-3 text-center text-dark"
                                    style="padding-bottom: 120px"><b>Người nhận hàng</b></label>
-                            <label for="inputText"
-                                   class="col-sm-3 col-3 text-center text-dark"
+                            <label class="col-sm-3 col-3 text-center text-dark"
                                    style="padding-bottom: 120px"><b>Người giao hàng</b></label>
-                            <label for="inputText"
-                                   class="col-sm-3 col-3 text-center text-dark"
+                            <label class="col-sm-3 col-3 text-center text-dark"
                                    style="padding-bottom: 120px"><b>Người lập phiếu</b></label>
                         </div>
                     </div>
