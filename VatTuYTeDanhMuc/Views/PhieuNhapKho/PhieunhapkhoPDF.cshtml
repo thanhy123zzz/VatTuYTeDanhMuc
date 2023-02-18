@@ -12,162 +12,226 @@
     <meta content="" name="keywords" />
 
     <!-- Favicons -->
-    <link href="/assets/img/favicon.png" rel="icon" />
-    <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+    <link href="~/assets/img/favicon.png" rel="icon" />
+    <link href="~/assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
 
     <!-- Fonts -->
-    <link rel="stylesheet" href="/assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="~/assets/fonts/fonts.css" />
 
-    <!-- Vendor CSS Files -->
-    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css"
-          rel="stylesheet" />
-    <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css"
-          rel="stylesheet" />
-    <link href="/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
-    <link href="/assets/vendor/quill/quill.snow.css" rel="stylesheet" />
-    <link href="/assets/vendor/quill/quill.bubble.css" rel="stylesheet" />
-    <link href="/assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
-    <link href="/assets/vendor/simple-datatables/style.css" rel="stylesheet" />
+    <link href="~/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
-    <!-- Datatable CSS-->
-    <link href="/assets/Datatable/datatables.min.css" rel="stylesheet" />
-    <link href="~/assets/vendor/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="~/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+    <link href="~/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
+    <link href="~/assets/vendor/quill/quill.snow.css" rel="stylesheet" />
+    <link href="~/assets/vendor/quill/quill.bubble.css" rel="stylesheet" />
+    <link href="~/assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
+
+    <link href="~/assets/vendor/simple-datatables/style.css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="~/datatables.min.css" />
+
     <!-- Template Main CSS File -->
-    <link href="/assets/css/style.css" rel="stylesheet" />
-    <link href="/assets/css/Modalcss.css" rel="stylesheet" />
+    <link href="~/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/assets/css/Modalcss.css" type="text/css" />
+    <link href="~/assets/css/style.css" rel="stylesheet" />
 
+    <script src="~/jquery-3.6.1.min.js"></script>
 
+    <script src="~/umd/popper.min.js"></script>
+    <script src="~/moment.js/moment.min.js"></script>
+    <script src="~/bootstrap-datetimepicker.min.js"></script>
+    <script src="/select/js/selectize.min.js"></script>
+    <link rel="stylesheet" href="~/select/css/selectize.bootstrap4.min.css" />
+
+    <style>
+      @media (max-width: 767px) {
+        header {
+          display: block !important;
+        }
+      }
+    </style>
 </head>
 <body>
-    <div class="card">
-        <div class="card-body">
-            <div class="card-title d-flex justify-content-center">
-                Phiếu Nhập Kho
-            </div>
-            <!-- Bordered Tabs Justified -->
-
-            <div class="tab-content pt-2" id="borderedTabJustifiedContent">
-                <div class="tab-pane fade show active" id="bordered-justified-home" role="tabpanel" aria-labelledby="home-tab">
-                    <div class="form-group  p-2 mb-2" style="border-radius: 5px; border: 1px solid #ced4da;">
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-lg-2 col-form-label">Số phiếu</label>
-                            <div class="col-sm-4 col-lg-4">
-                                <input type="text" class="form-control" id="inputText">
+    < <section class="section">
+        <div class="card p-0">
+            <div class="card-body">
+                <header class="justify-content-between"
+                        style="overflow: auto; display: flex">
+                    <div class="infor-DN d-flex col-sm-7 col-lg-7">
+                        <img src="/assets/img/apple-touch-icon.png"
+                             alt=""
+                             style="height: 168px; width: 168px" />
+                        <div class="infomation col-sm-8">
+                            <div class="row mb-1 gx-0">
+                                <label for="inputText" class="col-lg-2 col-form-label">Tên CTy</label>
+                                <div class="col-lg-10">
+                                    <input type="text"
+                                           class="form-control"
+                                           placeholder="Tên CTy" />
+                                </div>
                             </div>
-                            <label class="col-sm-2 col-lg-2 col-form-label">Ngày nhập</label>
-                            <div class="col-sm-4 col-lg-4">
-                                <input type="text" class="form-control" id="inputText">
+                            <div class="row mb-1 gx-0">
+                                <label for="inputText"
+                                       class="col-sm-2 col-lg-2 col-form-label">Địa chỉ</label>
+                                <div class="col-sm-10 col-lg-10">
+                                    <input type="text"
+                                           class="form-control"
+                                           placeholder="Địa chỉ" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label class="col-sm-3 col-lg-2 col-form-label">Nhà cung cấp</label>
-                            <div class="col-sm-9 col-lg-10">
-                                <input type="text" class="form-control" id="inputText">
+                            <div class="row mb-1 gx-0">
+                                <label for="inputText"
+                                       class="col-sm-2 col-lg-2 col-form-label">SĐT</label>
+                                <div class="col-sm-3 col-lg-3">
+                                    <input type="text"
+                                           class="form-control"
+                                           placeholder="Số điện thoại" />
+                                </div>
+                                <label for="inputText"
+                                       class="col-sm-1 col-lg-1 col-form-label">Email</label>
+                                <div class="col-sm-6 col-lg-6">
+                                    <input type="text"
+                                           class="form-control"
+                                           placeholder="Email" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-lg-2 col-form-label">Số hóa đơn</label>
-                            <div class="col-sm-2 col-lg-2">
-                                <input type="text" class="form-control" id="inputText">
-                            </div>
-                            <label class="col-sm-2 col-lg-2 col-form-label">Ngày hóa đơn</label>
-                            <div class="col-sm-2 col-lg-2">
-                                <input type="text" class="form-control" id="inputText">
-                            </div>
-                            <label class="col-sm-1 col-lg-1 col-form-label">Số seri</label>
-                            <div class="col-sm-3 col-lg-3">
-                                <input type="text" class="form-control" id="inputText">
+                            <div class="row mb-1 gx-0">
+                                <label for="inputText"
+                                       class="col-sm-2 col-lg-2 col-form-label">MST</label>
+                                <div class="col-sm-10 col-lg-10">
+                                    <input type="text"
+                                           class="form-control"
+                                           placeholder="Mã số thuế" />
+                                </div>
                             </div>
                         </div>
                     </div>
-                   
-                    <div class="table-group mb-3" style="max-height: 400px; overflow: auto;">
-                        <table class="table table-bordered table-hover table-striped text-center">
+                    <div class="thongtinphieu col-sm-3 col-lg-3">
+                        <div class="row mb-1 gx-0">
+                            <label for="inputText" class="col-sm-6 col-lg-6 col-form-label">Số phiếu</label>
+                            <div class="col-sm-6 col-lg-6">
+                                <input type="text"
+                                       class="form-control"
+                                       placeholder="Số phiếu" />
+                            </div>
+                        </div>
+                        <div class="row mb-1 gx-0">
+                            <label for="inputText" class="col-sm-6 col-lg-6 col-form-label">Ngày tạo phiếu</label>
+                            <div class="col-sm-6 col-lg-6">
+                                <input type="text"
+                                       class="form-control"
+                                       id="fromDay"
+                                       placeholder="Ngày tạo phiếu" />
+                            </div>
+                        </div>
+                        <div class="row mb-1 gx-0">
+                            <label for="inputText" class="col-sm-6 col-lg-6 col-form-label">Số hóa đơn</label>
+                            <div class="col-sm-6 col-lg-6">
+                                <input type="text"
+                                       class="form-control"
+                                       placeholder="Số hóa đơn" />
+                            </div>
+                        </div>
+                        <div class="row mb-1 gx-0">
+                            <label for="inputText" class="col-sm-6 col-lg-6 col-form-label">Ngày hóa đơn</label>
+                            <div class="col-sm-6 col-lg-6">
+                                <input type="text"
+                                       class="form-control"
+                                       id="fromDay"
+                                       placeholder="Ngày hóa đơn" />
+                            </div>
+                        </div>
+                    </div>
+                </header>
+                <article style="overflow: auto">
+                    <h2 class="text-center" style="color: black">
+                        <b>PHIẾU NHẬP KHO</b>
+                    </h2>
+                    <div class="infor-NCC">
+                        <div class="row mb-1">
+                            <label for="inputText" class="col-lg-2 col-form-label">Người bán hàng</label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <label for="inputText" class="col-sm-2 col-form-label">Địa chỉ</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <label for="inputText" class="col-sm-2 col-form-label">Số điện thoại</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" />
+                            </div>
+
+                            <label for="inputText" class="col-sm-1 col-form-label">Email</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label for="inputText" class="col-sm-2 col-form-label">Ghi chú</label>
+                            <div class="col-sm-10">
+                                <textarea rows="1"
+                                          name="GhiChu"
+                                          class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <table id="tableChiTietPhieuNhap"
+                               class="table table-striped table-hover text-center display nowrap"
+                               style="width: 100%">
                             <thead>
                                 <tr>
-                                    <th>Tên biệt dược, hàng hóa</th>
-                                    <th>ĐVT</th>
-                                    <th>Số lô</th>
-                                    <th>Số lượng</th>
-                                    <th>Đơn giá</th>
-                                    <th>Thành tiền</th>
-                                    <th>%CK</th>
-                                    <th>Hạn dùng</th>
-                                    <th>Ngày SX</th>
-                                    <th>Thuế suất</th>
-                                    <th>Giá bán</th>
-                                    <th>Mã nhập</th>
+                                    <th class="text-center">STT</th>
+                                    <th class="text-center">Mã hàng</th>
+                                    <th class="text-center">Tên hàng</th>
+                                    <th class="text-center">Số lượng</th>
+                                    <th class="text-center">ĐVT</th>
+                                    <th class="text-center">Đơn giá</th>
+                                    <th class="text-center">Chiết khấu</th>
+                                    <th class="text-center">VAT</th>
+                                    <th class="text-center">Thành tiền</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <th>...</th>
-                                    <th>...</th>
-                                    <th>...</th>
-                                    <th>...</th>
-                                    <th>...</th>
-                                    <th>...</th>
-                                    <th>...</th>
-                                    <th>...</th>
-                                    <th>...</th>
-                                    <th>...</th>
-                                    <th>...</th>
-                                    <th>...</th>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="form-group">
-                        <div class="form-group  p-2 mb-2" style="border-radius: 5px; border: 1px solid #ced4da;">
-                            <div class="row mb-3">
-                                <div class="col-sm-1 col-lg-1 d-flex justify-content-center" style="transform: scale(1.5);">
-                                    <input type="radio" name="HTthanhtoan" id="">
-                                </div>
-                                <label class="col-sm-2 col-lg-2 col-form-label">Mua tiền mặt</label>
-                                <div class="col-sm-1 col-lg-1 d-flex justify-content-center" style="transform: scale(1.5);">
-                                    <input type="radio" name="HTthanhtoan" id="">
-                                </div>
-                                <label class="col-sm-3 col-lg-3 col-form-label">Mua nợ hẹn ngày thanh toán</label>
-                                <div class="col-sm-5 col-lg-5">
-                                    <input type="text" class="form-control" id="">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-lg-2 col-form-label">Tiền chiết khấu</label>
-                                <div class="col-sm-4 col-lg-4">
-                                    <input type="text" class="form-control" id="">
-                                </div>
-                                <label class="col-sm-2 col-lg-2 col-form-label">Cộng tiền hàng</label>
-                                <div class="col-sm-4 col-lg-4">
-                                    <input type="text" class="form-control" id="inputText">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-lg-2 col-form-label">Người lập phiếu</label>
-                                <div class="col-sm-10 col-lg-10">
-                                    <input type="text" class="form-control" id="inputText">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-
-                                <label class="col-sm-2 col-lg-2 col-form-label">Tiền thuế GTGT</label>
-                                <div class="col-sm-4 col-lg-4">
-                                    <input type="text" class="form-control" id="inputText">
-                                </div>
-                                <label class="col-sm-2 col-lg-2 col-form-label">Tiền phải trả</label>
-                                <div class="col-sm-4 col-lg-4">
-                                    <input type="text" class="form-control" id="inputText">
-                                </div>
-                            </div>
+                    <div class="sign">
+                        <div class="row">
+                            <label for="inputText"
+                                   class="col-sm-3 col-3 text-center text-dark"
+                                   style="padding-bottom: 120px"><b>Thủ kho</b></label>
+                            <label for="inputText"
+                                   class="col-sm-3 col-3 text-center text-dark"
+                                   style="padding-bottom: 120px"><b>Người nhận hàng</b></label>
+                            <label for="inputText"
+                                   class="col-sm-3 col-3 text-center text-dark"
+                                   style="padding-bottom: 120px"><b>Người giao hàng</b></label>
+                            <label for="inputText"
+                                   class="col-sm-3 col-3 text-center text-dark"
+                                   style="padding-bottom: 120px"><b>Người lập phiếu</b></label>
                         </div>
                     </div>
-                </div>
-
-
-            </div><!-- End Bordered Tabs Justified -->
-
+                </article>
+            </div>
         </div>
-    </div>
+    </section>
     <script src="/assets/js/ajax.js"></script>
     <!-- Vendor JS Files -->
     <script src="/assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -186,8 +250,10 @@
     <script>
         $(document).ready(function () {
             $.fn.DataTable.ext.pager.numbers_length = 5;
-            $("#example").dataTable({
-
+            $("#tableChiTietPhieuNhap").dataTable({
+                bPaginate: false,
+                bFilter: false,
+                bSearch: false,
                 bLengthChange: false,
                 bInfo: false,
                 scrollX: true,
