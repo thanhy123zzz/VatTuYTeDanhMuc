@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
+using SelectPdf;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -871,6 +872,35 @@ namespace VatTuYTeDanhMuc.Controllers
             }
 
             return PartialView("TableLichSuXuat");
+        }
+
+        [Route("/download/phieuxuatkho/{id:int}")]
+        public IActionResult downloadPhieuXuat(int id)
+        {
+            var fullView = new HtmlToPdf();
+            fullView.Options.WebPageWidth = 1280;
+            fullView.Options.PdfPageSize = PdfPageSize.A4;
+            fullView.Options.MarginTop = 20;
+            fullView.Options.MarginBottom = 20;
+            fullView.Options.PdfPageOrientation = PdfPageOrientation.Portrait;
+
+            var currentUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
+
+            var pdf = fullView.ConvertUrl(currentUrl + "/phieuXuatKhoPDF/" + id);
+
+            var pdfBytes = pdf.Save();
+            return File(pdfBytes, "application/pdf", "PhieuXuat.pdf");
+        }
+
+        [Route("/phieuXuatKhoPDF/{id:int}")]
+        public IActionResult viewPDF(int id)
+        {
+            webContext context = new webContext();
+            var phieu = context.PhieuXuat
+                .Include(x => x.IdkhNavigation)
+                .Include(x => x.ChiTietPhieuXuat)
+                .Where(x => x.Id == id).FirstOrDefault();
+            return View("PhieuxuatkhoPDF", phieu);
         }
 
         double? getTiLe(double? tl)

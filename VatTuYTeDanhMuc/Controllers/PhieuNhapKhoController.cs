@@ -285,8 +285,8 @@ namespace VatTuYTeDanhMuc.Controllers
             var fullView = new HtmlToPdf();
             fullView.Options.WebPageWidth = 1280;
             fullView.Options.PdfPageSize = PdfPageSize.A4;
-            fullView.Options.MarginTop = 40;
-            fullView.Options.MarginBottom = 40;
+            fullView.Options.MarginTop = 20;
+            fullView.Options.MarginBottom = 20;
             fullView.Options.PdfPageOrientation = PdfPageOrientation.Portrait;
 
             var currentUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
@@ -298,9 +298,14 @@ namespace VatTuYTeDanhMuc.Controllers
         }
 
         [Route("/phieuNhapKhoPDF/{id:int}")]
-        public IActionResult viewPDF()
+        public IActionResult viewPDF(int id)
         {
-            return View("PhieunhapkhoPDF");
+            webContext context = new webContext();
+            var phieu = context.PhieuNhap
+                .Include(x => x.IdnccNavigation)
+                .Include(x => x.ChiTietPhieuNhap)
+                .Where(x => x.Id == id).FirstOrDefault();
+            return View("PhieunhapkhoPDF", phieu);
         }
         public string ConvertViewToString(ControllerContext controllerContext, PartialViewResult pvr, ICompositeViewEngine _viewEngine)
         {
