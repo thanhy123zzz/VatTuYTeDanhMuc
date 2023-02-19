@@ -100,10 +100,10 @@
                                 <th>Số lô</th>
                                 <th>Số lượng</th>
                                 <th>Đơn giá</th>
-                                <th>Thành tiền</th>
+                                
                                 <th>%CK</th>
                                 <th>Thuế suất</th>
-                                <th>Giá bán</th>
+                                <th>Thành tiền</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -111,16 +111,16 @@
                             {
                                             <tr>
                                                 <td class="text-start">@getHangHoa(c.Idhh).TenHh</td>
-                                                <td class="text-start">@getDvt(getHangHoa(c.Idhh).Iddvtchinh).TenDvt</td>
+                                                <td class="text-center">@getDvt(getHangHoa(c.Idhh).Iddvtchinh).TenDvt</td>
                                                 <td class="text-center">@formatDay(c.Hsd)</td>
                                                 <td class="text-center">@formatDay(c.Nsx)</td>
-                                                <td class="text-end">@c.SoLo</td>
+                                                <td class="text-center">@c.SoLo</td>
                                                 <td class="text-end">@format((Double)c.Slg)</td>
                                                 <td class="text-end">@format(c.DonGia)</td>
-                                                <td class="text-end">@format(c.Slg * c.DonGia)</td>
+                                                
                                                 <td class="text-end">@format(c.Cktm)</td>
                                                 <td class="text-end">@format(c.Thue)</td>
-                                                <td class="text-end">@format(getGiaBan(c.Idhh))</td>
+                                                    <td class="text-end">@format(c.Slg * c.DonGia)</td>
                                             </tr>
                             }
                         </tbody>
@@ -140,7 +140,7 @@
                         <div class="col-md-2 col-lg-2">
                             <input type="text" class="form-control" value="@format(TienThue)" readonly placeholder="Tiền thuế">
                         </div>
-                        <label class="col-sm-1 col-lg-1 col-form-label">Th.Toán</label>
+                        <label class="col-sm-1 col-lg-1 col-form-label">Phải trả</label>
                         <div class="col-md-2 col-lg-2">
                             <input type="text" class="form-control" value="@format(TienThanhToan)" readonly placeholder="Thanh toán">
                         </div>
