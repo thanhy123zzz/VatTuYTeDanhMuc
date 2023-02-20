@@ -26,7 +26,7 @@ namespace VatTuYTeDanhMuc.Controllers
         }
         //hiển thị dòng sửa đơn vị tính chính khi nhấn nút sửa
         [HttpPost("/addNewRowHH")]
-        public IActionResult addNewRowHH(int idDVT, int sl, int id)
+        public IActionResult addNewRowHH(int idDVT, int sl, int id, int idnhh)
         {
             webContext context = new webContext();
             if (idDVT == 0)
@@ -37,6 +37,7 @@ namespace VatTuYTeDanhMuc.Controllers
             }
             ViewBag.idHH = idDVT;
             ViewBag.ID = id;
+            ViewBag.idnhh = idnhh;
             ViewBag.HH = context.HangHoa.Find(id);
             return PartialView();
         }

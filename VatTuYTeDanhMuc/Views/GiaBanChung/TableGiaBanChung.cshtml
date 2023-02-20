@@ -204,11 +204,13 @@
                 var sl = $(this).parents('tr').find("td:eq(1) input[type='text']").val();
                 var thiss = $(this);
                 var id = $(this).attr("value");
+                var idnhh = $('#nhomHH').val();
+
                 $.ajax({
                     
                     type: "post",
                     url: "/addNewRowHH",
-                    data: "idDVT="+ a + "&sl="+sl + "&id="+id,
+                    data: "idDVT="+ a + "&sl="+sl + "&id="+id + "&idnhh=" + idnhh,
                     success: function (result) {
                         
                         thiss.parents('tr').replaceWith(result);
@@ -365,7 +367,23 @@
                         alert("Fail");
                     }
                 });
-                alert(result);
+               
+            });
+            $("#myTable").on("click", ".huy1", function () {
+                var id = $(this).attr("value");
+                
+                $.ajax({
+            type: "post",
+            url: "/loadTableGiaBanChung",
+            data: "nhomHH=" + id,
+            success: function (result) {
+                $('#tbodyHH').replaceWith(result);
+            },
+            error: function () {
+                alert("Fail");
+            }
+        });
+               
             });
            $("#myTable").on("click", ".more", function () {
                 var id = $(this).attr("value");
