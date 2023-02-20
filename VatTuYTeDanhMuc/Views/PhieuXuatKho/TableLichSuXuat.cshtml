@@ -14,7 +14,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">Số phiếu</th>
-                                    <th  class="text-center">Tên nhà cung cấp</th>
+                                    <th  class="text-center">Tên khách hàng</th>
                                     <th  class="text-center">Ngày tạo</th>
                                     <th  class="text-center">Số hoá đơn</th>
                                     <th  class="text-center">Ngày hoá đơn</th>
@@ -27,15 +27,15 @@
             @foreach (PhieuXuat p in ViewBag.ListPhieuXuat)
             {
                                         <tr>
-                                            <td>@p.SoPx</td>
-                                            <td>@p.IdkhNavigation.TenKh</td>
-                                            <td>@p.NgayTao.Value.ToString("dd-MM-yyyy HH:mm")</td>
-                                            <td>@p.SoHd</td>
-                                            <td>@dayToString(p.NgayHd)</td>
-                                            <td>@p.IdnvNavigation.TenNv</td>
-                                            <td>@p.GhiChu</td>
+                                            <td class="text-center">@p.SoPx</td>
+                                            <td class="text-start">@p.IdkhNavigation.TenKh</td>
+                                            <td class="text-center">@p.NgayTao.Value.ToString("dd-MM-yyyy HH:mm")</td>
+                                            <td class="text-center">@p.SoHd</td>
+                                            <td class="text-center">@dayToString(p.NgayHd)</td>
+                                            <td class="text-start">@p.IdnvNavigation.TenNv</td>
+                                            <td class="text-start">@p.GhiChu</td>
                                             <td>
-                                                <a href="PhieuNhapKhoPDF" class="btn btn-outline-success">In</a>
+                                                <a href="/download/phieuxuatkho/@p.Id" class="btn btn-outline-success">In</a>
                                                 <button type="button" onclick="ViewPhieuXuat('@p.Id')" class="btn btn-outline-primary mx-1">Xem</button>
                                             </td>
                                         </tr>

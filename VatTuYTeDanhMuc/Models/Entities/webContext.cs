@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:
@@ -58,6 +60,7 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public virtual DbSet<SoThuTu> SoThuTu { get; set; }
         public virtual DbSet<TaiKhoan> TaiKhoan { get; set; }
         public virtual DbSet<TrangThai> TrangThai { get; set; }
+        public virtual DbSet<TtdoanhNghiep> TtdoanhNghiep { get; set; }
         public virtual DbSet<VaiTro> VaiTro { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -1347,6 +1350,8 @@ namespace VatTuYTeDanhMuc.Models.Entities
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
+                entity.Property(e => e.Cktm).HasColumnName("CKTM");
+
                 entity.Property(e => e.Idcn).HasColumnName("IDCN");
 
                 entity.Property(e => e.Idctpn).HasColumnName("IDCTPN");
@@ -1462,6 +1467,37 @@ namespace VatTuYTeDanhMuc.Models.Entities
                     .HasForeignKey(d => d.Iddvvc)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_TrangThai_DVVC");
+            });
+
+            modelBuilder.Entity<TtdoanhNghiep>(entity =>
+            {
+                entity.ToTable("TTDoanhNghiep");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.ChuTk)
+                    .HasColumnName("ChuTK")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.DiaChi).HasMaxLength(200);
+
+                entity.Property(e => e.Email).HasMaxLength(50);
+
+                entity.Property(e => e.MaSoThue).HasMaxLength(50);
+
+                entity.Property(e => e.Sdt)
+                    .HasColumnName("SDT")
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.Stk)
+                    .HasColumnName("STK")
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.Ten).HasMaxLength(200);
+
+                entity.Property(e => e.TenNh)
+                    .HasColumnName("TenNH")
+                    .HasMaxLength(200);
             });
 
             modelBuilder.Entity<VaiTro>(entity =>

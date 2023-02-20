@@ -14,6 +14,9 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public DateTime? NgayNhap { get; set; }
         public double? Slcon { get; set; }
         public int? Idcn { get; set; }
+        public double? GiaNhap { get; set; }
+        public double? Thue { get; set; }
+        public double? Cktm { get; set; }
 
         public virtual ChiTietPhieuNhap IdctpnNavigation { get; set; }
     }

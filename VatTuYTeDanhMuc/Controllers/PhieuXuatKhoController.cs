@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
+using SelectPdf;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -196,7 +197,7 @@ namespace VatTuYTeDanhMuc.Controllers
 
 
             //nếu giá theo khách hàng không tồn tại thì xét tiếp
-            if (GiaTheoKH == null || (GiaTheoKH.TiLeLe == 0 && GiaTheoKH.GiaBanLe == 0) || (GiaTheoKH.TiLeSi == 0 && GiaTheoKH.GiaBanSi == 0))
+            if (GiaTheoKH == null || (GiaTheoKH.TiLeLe == 0 && GiaTheoKH.GiaBanLe == 0 && GiaTheoKH.TiLeSi == 0 && GiaTheoKH.GiaBanSi == 0))
             {
                 //Xét tiếp tới giá theo nhóm hàng hoá
                 var listGTNHH = context.GiaTheoNhomHangHoa.Where(x => x.Idnhh == hh.Idnhh).ToList();
@@ -207,15 +208,15 @@ namespace VatTuYTeDanhMuc.Controllers
                     //xét nhiều khoản min max khác nhau
                     foreach (var h in listGTNHH)
                     {
-                        if (GiaHangTon.IdctpnNavigation.DonGia >= h.Min && GiaHangTon.IdctpnNavigation.DonGia <= h.Max)
+                        if (GiaHangTon.GiaNhap >= h.Min && GiaHangTon.GiaNhap <= h.Max)
                         {
                             if (kh.LoaiKh == true)
                             {
-                                GiaBan = getGiaBan(h.TiLeLe, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue); // giá bán nhân tỉ lệ
+                                GiaBan = getGiaBan(h.TiLeLe, GiaHangTon.GiaNhap, GiaHangTon.Thue); // giá bán nhân tỉ lệ
                             }
                             else // nếu loại khách hàng là sĩ
                             {
-                                GiaBan = getGiaBan(h.TiLeSi, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue);
+                                GiaBan = getGiaBan(h.TiLeSi, GiaHangTon.GiaNhap, GiaHangTon.Thue);
                             }
                             return Json(new
                             {
@@ -235,7 +236,7 @@ namespace VatTuYTeDanhMuc.Controllers
                         }
                         else // xét tỉ lẹ lẻ
                         {
-                            GiaBan = getGiaBan(hh.TiLeLe, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue); // giá bán nhân tỉ lệ
+                            GiaBan = getGiaBan(hh.TiLeLe, GiaHangTon.GiaNhap, GiaHangTon.Thue); // giá bán nhân tỉ lệ
                         }
                         return Json(new
                         {
@@ -253,7 +254,7 @@ namespace VatTuYTeDanhMuc.Controllers
                         }
                         else // xét tỉ lẹ lẻ
                         {
-                            GiaBan = getGiaBan(hh.TiLeSi, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue);
+                            GiaBan = getGiaBan(hh.TiLeSi, GiaHangTon.GiaNhap, GiaHangTon.Thue);
                         }
                         return Json(new
                         {
@@ -275,7 +276,7 @@ namespace VatTuYTeDanhMuc.Controllers
                         }
                         else // xét tỉ lẹ lẻ
                         {
-                            GiaBan = getGiaBan(hh.TiLeLe, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue); // giá bán nhân tỉ lệ
+                            GiaBan = getGiaBan(hh.TiLeLe, GiaHangTon.GiaNhap, GiaHangTon.Thue); // giá bán nhân tỉ lệ
                         }
                         return Json(new
                         {
@@ -293,7 +294,7 @@ namespace VatTuYTeDanhMuc.Controllers
                         }
                         else // xét tỉ lẹ lẻ
                         {
-                            GiaBan = getGiaBan(hh.TiLeSi, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue);
+                            GiaBan = getGiaBan(hh.TiLeSi, GiaHangTon.GiaNhap, GiaHangTon.Thue);
                         }
                         return Json(new
                         {
@@ -316,7 +317,7 @@ namespace VatTuYTeDanhMuc.Controllers
                     }
                     else // xét tỉ lẹ lẻ
                     {
-                        GiaBan = getGiaBan(GiaTheoKH.TiLeLe, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue); // giá bán nhân tỉ lệ
+                        GiaBan = getGiaBan(GiaTheoKH.TiLeLe, GiaHangTon.GiaNhap, GiaHangTon.Thue); // giá bán nhân tỉ lệ
                     }
                     return Json(new
                     {
@@ -334,7 +335,7 @@ namespace VatTuYTeDanhMuc.Controllers
                     }
                     else // xét tỉ lẹ lẻ
                     {
-                        GiaBan = getGiaBan(GiaTheoKH.TiLeSi, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue);
+                        GiaBan = getGiaBan(GiaTheoKH.TiLeSi, GiaHangTon.GiaNhap, GiaHangTon.Thue);
                     }
                     return Json(new
                     {
@@ -403,15 +404,15 @@ namespace VatTuYTeDanhMuc.Controllers
                         //xét nhiều khoản min max khác nhau
                         foreach (var h in listGTNHH)
                         {
-                            if (GiaHangTon.IdctpnNavigation.DonGia >= h.Min && GiaHangTon.IdctpnNavigation.DonGia <= h.Max)
+                            if (GiaHangTon.GiaNhap >= h.Min && GiaHangTon.GiaNhap <= h.Max)
                             {
                                 if (kh.LoaiKh == true)
                                 {
-                                    GiaBan = getGiaBan(h.TiLeLe, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue); // giá bán nhân tỉ lệ
+                                    GiaBan = getGiaBan(h.TiLeLe, GiaHangTon.GiaNhap, GiaHangTon.Thue); // giá bán nhân tỉ lệ
                                 }
                                 else // nếu loại khách hàng là sĩ
                                 {
-                                    GiaBan = getGiaBan(h.TiLeSi, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue);
+                                    GiaBan = getGiaBan(h.TiLeSi, GiaHangTon.GiaNhap, GiaHangTon.Thue);
                                 }
                                 return Json(new
                                 {
@@ -429,7 +430,7 @@ namespace VatTuYTeDanhMuc.Controllers
                             }
                             else // xét tỉ lệ lẻ
                             {
-                                GiaBan = getGiaBan(hh.TiLeLe, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue); // giá bán nhân tỉ lệ
+                                GiaBan = getGiaBan(hh.TiLeLe, GiaHangTon.GiaNhap, GiaHangTon.Thue); // giá bán nhân tỉ lệ
                             }
                             return Json(new
                             {
@@ -445,7 +446,7 @@ namespace VatTuYTeDanhMuc.Controllers
                             }
                             else // xét tỉ lẹ lẻ
                             {
-                                GiaBan = getGiaBan(hh.TiLeSi, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue);
+                                GiaBan = getGiaBan(hh.TiLeSi, GiaHangTon.GiaNhap, GiaHangTon.Thue);
                             }
                             return Json(new
                             {
@@ -465,7 +466,7 @@ namespace VatTuYTeDanhMuc.Controllers
                             }
                             else // xét tỉ lẹ lẻ
                             {
-                                GiaBan = getGiaBan(hh.TiLeLe, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue); // giá bán nhân tỉ lệ
+                                GiaBan = getGiaBan(hh.TiLeLe, GiaHangTon.GiaNhap, GiaHangTon.Thue); // giá bán nhân tỉ lệ
                             }
                             return Json(new
                             {
@@ -481,7 +482,7 @@ namespace VatTuYTeDanhMuc.Controllers
                             }
                             else // xét tỉ lẹ lẻ
                             {
-                                GiaBan = getGiaBan(hh.TiLeSi, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue);
+                                GiaBan = getGiaBan(hh.TiLeSi, GiaHangTon.GiaNhap, GiaHangTon.Thue);
                             }
                             return Json(new
                             {
@@ -502,7 +503,7 @@ namespace VatTuYTeDanhMuc.Controllers
                         }
                         else // xét tỉ lẹ lẻ
                         {
-                            GiaBan = getGiaBan(GiaTheoKH.TiLeLe, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue); // giá bán nhân tỉ lệ
+                            GiaBan = getGiaBan(GiaTheoKH.TiLeLe, GiaHangTon.GiaNhap, GiaHangTon.Thue); // giá bán nhân tỉ lệ
                         }
                         return Json(new
                         {
@@ -518,7 +519,7 @@ namespace VatTuYTeDanhMuc.Controllers
                         }
                         else // xét tỉ lẹ lẻ
                         {
-                            GiaBan = getGiaBan(GiaTheoKH.TiLeSi, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue);
+                            GiaBan = getGiaBan(GiaTheoKH.TiLeSi, GiaHangTon.GiaNhap, GiaHangTon.Thue);
                         }
                         return Json(new
                         {
@@ -578,15 +579,15 @@ namespace VatTuYTeDanhMuc.Controllers
                         //xét nhiều khoản min max khác nhau
                         foreach (var h in listGTNHH)
                         {
-                            if (GiaHangTon.IdctpnNavigation.DonGia >= h.Min && GiaHangTon.IdctpnNavigation.DonGia <= h.Max)
+                            if (GiaHangTon.GiaNhap >= h.Min && GiaHangTon.GiaNhap <= h.Max)
                             {
                                 if (kh.LoaiKh == true)
                                 {
-                                    GiaBan = getGiaBan(h.TiLeLe, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue); // giá bán nhân tỉ lệ
+                                    GiaBan = getGiaBan(h.TiLeLe, GiaHangTon.GiaNhap, GiaHangTon.Thue); // giá bán nhân tỉ lệ
                                 }
                                 else // nếu loại khách hàng là sĩ
                                 {
-                                    GiaBan = getGiaBan(h.TiLeSi, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue);
+                                    GiaBan = getGiaBan(h.TiLeSi, GiaHangTon.GiaNhap, GiaHangTon.Thue);
                                 }
                                 return Json(new
                                 {
@@ -604,7 +605,7 @@ namespace VatTuYTeDanhMuc.Controllers
                             }
                             else // xét tỉ lẹ lẻ
                             {
-                                GiaBan = getGiaBan(dvthh.TiLeLe, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue);// giá bán nhân tỉ lệ
+                                GiaBan = getGiaBan(dvthh.TiLeLe, GiaHangTon.GiaNhap, GiaHangTon.Thue);// giá bán nhân tỉ lệ
                             }
                             return Json(new
                             {
@@ -620,7 +621,7 @@ namespace VatTuYTeDanhMuc.Controllers
                             }
                             else // xét tỉ lẹ lẻ
                             {
-                                GiaBan = getGiaBan(dvthh.TiLeSi, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue);
+                                GiaBan = getGiaBan(dvthh.TiLeSi, GiaHangTon.GiaNhap, GiaHangTon.Thue);
 
                             }
                             return Json(new
@@ -641,7 +642,7 @@ namespace VatTuYTeDanhMuc.Controllers
                             }
                             else // xét tỉ lẹ lẻ
                             {
-                                GiaBan = getGiaBan(dvthh.TiLeLe, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue); // giá bán nhân tỉ lệ
+                                GiaBan = getGiaBan(dvthh.TiLeLe, GiaHangTon.GiaNhap, GiaHangTon.Thue); // giá bán nhân tỉ lệ
                             }
                             return Json(new
                             {
@@ -657,7 +658,7 @@ namespace VatTuYTeDanhMuc.Controllers
                             }
                             else // xét tỉ lẹ lẻ
                             {
-                                GiaBan = getGiaBan(dvthh.TiLeSi, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue);
+                                GiaBan = getGiaBan(dvthh.TiLeSi, GiaHangTon.GiaNhap, GiaHangTon.Thue);
                             }
                             return Json(new
                             {
@@ -678,7 +679,7 @@ namespace VatTuYTeDanhMuc.Controllers
                         }
                         else // xét tỉ lẹ lẻ
                         {
-                            GiaBan = getGiaBan(GiaTheoKH.TiLeLe, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue); // giá bán nhân tỉ lệ
+                            GiaBan = getGiaBan(GiaTheoKH.TiLeLe, GiaHangTon.GiaNhap, GiaHangTon.Thue); // giá bán nhân tỉ lệ
                         }
                         return Json(new
                         {
@@ -694,7 +695,7 @@ namespace VatTuYTeDanhMuc.Controllers
                         }
                         else // xét tỉ lẹ lẻ
                         {
-                            GiaBan = getGiaBan(GiaTheoKH.TiLeSi, GiaHangTon.IdctpnNavigation.DonGia, GiaHangTon.IdctpnNavigation.Thue);
+                            GiaBan = getGiaBan(GiaTheoKH.TiLeSi, GiaHangTon.GiaNhap, GiaHangTon.Thue);
                         }
                         return Json(new
                         {
@@ -871,6 +872,35 @@ namespace VatTuYTeDanhMuc.Controllers
             }
 
             return PartialView("TableLichSuXuat");
+        }
+
+        [Route("/download/phieuxuatkho/{id:int}")]
+        public IActionResult downloadPhieuXuat(int id)
+        {
+            var fullView = new HtmlToPdf();
+            fullView.Options.WebPageWidth = 1280;
+            fullView.Options.PdfPageSize = PdfPageSize.A4;
+            fullView.Options.MarginTop = 20;
+            fullView.Options.MarginBottom = 20;
+            fullView.Options.PdfPageOrientation = PdfPageOrientation.Portrait;
+
+            var currentUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
+
+            var pdf = fullView.ConvertUrl(currentUrl + "/phieuXuatKhoPDF/" + id);
+
+            var pdfBytes = pdf.Save();
+            return File(pdfBytes, "application/pdf", "PhieuXuat.pdf");
+        }
+
+        [Route("/phieuXuatKhoPDF/{id:int}")]
+        public IActionResult viewPDF(int id)
+        {
+            webContext context = new webContext();
+            var phieu = context.PhieuXuat
+                .Include(x => x.IdkhNavigation)
+                .Include(x => x.ChiTietPhieuXuat)
+                .Where(x => x.Id == id).FirstOrDefault();
+            return View("PhieuxuatkhoPDF", phieu);
         }
 
         double? getTiLe(double? tl)
