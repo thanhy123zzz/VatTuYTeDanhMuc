@@ -1,1 +1,1 @@
-﻿scaffold-DbContext "Data Source=LAPTOP-FPKNLS6A\SQLEXPRESS;Initial Catalog=web;Persist Security Info=True;User ID=sa;Password=123456" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models\EntitiesNew -Force
+﻿scaffold-DbContext "Data Source=LAPTOP-FPKNLS6A\SQLEXPRESS;Initial Catalog=web;Persist Security Info=True;User ID=sa;Password=123456" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models\Entities -Force

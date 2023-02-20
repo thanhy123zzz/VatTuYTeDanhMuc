@@ -587,7 +587,14 @@
                             if(result.giaBan == 0){
                                 alert('Hết hàng');
                             }else{
-                                $('#DonGia').val(toDecimal(result.giaBan));
+                                if(result.giaBan==null){
+                                    $('#DonGia').addClass('is-invalid');
+                                    $('#DonGia').val('Chưa có giá!');
+                                }else{
+                                    $('#DonGia').removeClass('is-invalid');
+                                    $('#DonGia').val(toDecimal(result.giaBan));
+                                }
+                                
                                 $('#SLcon').val(toDecimal(result.slCon));
                             }
                             $('#imageHH').attr("src","/ImagesHangHoa/"+result.hinhAnh);
@@ -623,7 +630,13 @@
                             if(result.giaBan == 0){
                                 alert('Hết hàng');
                             }else{
-                                $('#DonGia').val(toDecimal(result.giaBan));
+                                if(result.giaBan==null){
+                                    $('#DonGia').addClass('is-invalid');
+                                    $('#DonGia').val('Chưa có giá!');
+                                }else{
+                                    $('#DonGia').removeClass('is-invalid');
+                                    $('#DonGia').val(toDecimal(result.giaBan));
+                                }
                                 $('#SLcon').val(toDecimal(result.slCon));
                             }
                         },
@@ -654,7 +667,13 @@
                             if(result == 0){
                                 alert('Hết hàng');
                             }else{
-                                $('#DonGia').val(toDecimal(result.giaBan));
+                                if(result.giaBan==null){
+                                    $('#DonGia').addClass('is-invalid');
+                                    $('#DonGia').val('Chưa có giá!');
+                                }else{
+                                    $('#DonGia').removeClass('is-invalid');
+                                    $('#DonGia').val(toDecimal(result.giaBan));
+                                }
                                 $('#SLcon').val(toDecimal(result.slCon));
                             }
                         },

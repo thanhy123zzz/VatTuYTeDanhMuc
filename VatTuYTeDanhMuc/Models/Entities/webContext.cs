@@ -1350,6 +1350,8 @@ namespace VatTuYTeDanhMuc.Models.Entities
 
                 entity.Property(e => e.Id).HasColumnName("ID");
 
+                entity.Property(e => e.Cktm).HasColumnName("CKTM");
+
                 entity.Property(e => e.Idcn).HasColumnName("IDCN");
 
                 entity.Property(e => e.Idctpn).HasColumnName("IDCTPN");

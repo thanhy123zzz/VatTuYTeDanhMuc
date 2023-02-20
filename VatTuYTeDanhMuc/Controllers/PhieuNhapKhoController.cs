@@ -74,6 +74,9 @@ namespace VatTuYTeDanhMuc.Controllers
                     sl.Slcon = Math.Round((double)ct.Slg, 2);
                     sl.Idcn = int.Parse(User.Claims.ElementAt(4).Value);
                     sl.NgayNhap = phieuNhap.NgayTao;
+                    sl.Thue = ct.Thue;
+                    sl.Cktm = ct.Cktm;
+                    sl.GiaNhap = ct.DonGia;
                     context.SoLuongHhcon.Add(sl);
                     context.SaveChanges();
                 }
