@@ -1,0 +1,258 @@
+﻿@model ChiTietPhieuXuatTamNoiBo
+@{
+    webContext context = new webContext();
+
+    List<HangHoa> getListHH()
+    {
+        return context.HangHoa.ToList();
+    }
+    string format(Double? a)
+    {
+        return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
+    }
+    var a = context.ChiTietPhieuNhap.Select(x => x.SoLo).Distinct().ToList();
+
+    List<HhDvt> listHHDVT()
+    {
+        return context.HhDvt.Include(x => x.IddvtNavigation)
+        .Where(x => x.Idhh == Model.Idhh).ToList();
+    }
+    double? getSLCon(int? idHH, int? idDVT)
+    {
+        webContext context = new webContext();
+        HangHoa hh = context.HangHoa.FirstOrDefault(x => x.Id == idHH);
+
+        double? a = context.SoLuongHhcon.Include(x => x.IdctpnNavigation)
+        .Where(x => x.IdctpnNavigation.Idhh == idHH)
+        .Sum(x => x.Slcon);
+
+        if (hh.Iddvtchinh == idDVT)
+        {
+            return a;
+        }
+        else
+        {
+            var sl = (double)context.HhDvt.Where(x => x.Idhh == idHH && x.Iddvt == idDVT).FirstOrDefault().SlquyDoi;
+            return a * sl;
+        }
+    }
+    HangHoa getHH()
+    {
+        return context.HangHoa.Include(x => x.IddvtchinhNavigation).Where(x => x.Id == Model.Idhh).FirstOrDefault();
+    }
+}
+@if (Model != null)
+{
+            <div class="form-group p-2 mb-2" id="groupTTChiTietNB" style="border-radius: 5px; border: 1px solid black;">
+                <div class="row">
+                    <label class="col-sm-1 col-lg-1 col-form-label">Tên hàng</label>
+                    <div class="col-md-5 mb-2 col-lg-5">
+                        <select id="selectHH" asp-for="Idhh" onchange="appendDVT_NB()" class="form-select2">
+                            <option selected disabled value=""></option>
+                    @foreach (HangHoa h in getListHH())
+                    {
+                                        <option value="@h.Id" data-extra="{'Ma':'@h.MaHh'}">@h.TenHh</option>
+                    }
+                        </select>
+                    </div>
+                    <label class="col-sm-1 col-lg-1 col-form-label">SL còn</label>
+                    <div class="col-md-2 mb-2 col-lg-2">
+                        <input type="text" value="@getSLCon(Model.Idhh,Model.Iddvt)" readonly class="form-control" id="SLcon"
+                placeholder="Số lượng còn">
+                    </div>
+                    <label class="col-sm-1 col-lg-1 col-form-label">ĐV tính</label>
+                    <div class="col-sm-2 col-lg-2">
+                        <select id="selectDVT" asp-for="Iddvt" onchange="loadTienDVT()" class="form-select">
+                            <option value="@getHH().Iddvtchinh">@getHH().IddvtchinhNavigation.TenDvt</option>
+                    @foreach (HhDvt d in listHHDVT())
+                    {
+                                        <option value="@d.Iddvt">@d.IddvtNavigation.TenDvt</option>
+                    }
+                        </select>
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <label class="col-sm-1 col-lg-1 col-form-label">Số lượng</label>
+                    <div class="col-md-2 mb-2 col-lg-2">
+                        <input type="text" value="@format(Model.Slg)" class="form-control" data-toggle="popover"
+                data-content="Không được để trống" oninput="inputSLHH()" id="SLHH" placeholder="Số lượng">
+                    </div>
+                    <label class="col-sm-1 col-lg-1 col-form-label">Đơn giá</label>
+                    <div class="col-md-2 mb-2 col-lg-2">
+                        <input type="text" value="@format(Model.DonGia)" class="form-control" readonly oninput="inputDoGia()"
+                id="DonGia" placeholder="Đơn giá">
+                    </div>
+                    <label class="col-sm-1 col-lg-1 col-form-label">Th.Tiền</label>
+                    <div class="col-md-2 mb-2 col-lg-2">
+                        <input type="text" value="@format(Model.DonGia*Model.Slg)" class="form-control" oninput="inputThanhTien()"
+                id="ThanhTien" readonly placeholder="Thành tiền">
+                    </div>
+                        <label class="col-sm-1 col-lg-1 col-form-label">Hình ảnh</label>
+                        <div class="col-md-2 mb-2 col-lg-2">
+                            <img id="imageHH" class="col-lg-3 col-md-3" src="~/ImagesHangHoa/@getHH().Avatar"
+                style="object-fit:contain;max-width:25%;box-shadow: 0 1px 4px 0 rgb(0 0 0 / 37%);">
+                        </div>
+                </div>
+                <div class="row justify-content-between">
+
+
+                    <div class="col-md-3 mb-2 col-lg-3">
+
+                    </div>
+                    <div class="col-md-3 mb-2 col-lg-3 d-flex justify-content-end">
+                        <button class="btn btn-primary" onclick="editChiTietPhieuTamNB('@Model.Id')" type="button">Lưu</button>
+                        <button class="btn btn-secondary" style="margin-left:5px;" onclick="editChitietPhieuXuatTamNB(0)"
+                type="button">Huỷ</button>
+                    </div>
+                </div>
+                <script>
+                    $('#ChietKhau').on('input', function () {
+                        if (getValue(this.value) > 100) {
+                            $(this).val('');
+                            alert('Chiết khấu không quá 100%');
+                        }
+                    });
+                    function getValue(str) {
+                        return Number(str.replace(/[^0-9.-]+/g, ""));
+                    }
+                    function checkNumber(str) {
+                        return /[0-9,.\-$]+/.test(str);
+                    }
+                    $('#SLHH,#ThanhTien,#DonGia,#GiaBan,#ChietKhau').on('blur', format);
+
+                    function format() {
+                        if (checkNumber(this.value)) {
+                            const value = this.value.replace(/,/g, '');
+                            this.value = parseFloat(value).toLocaleString('en-US', {
+                                style: 'decimal',
+                                maximumFractionDigits: 2,
+                                minimumFractionDigits: 2
+                            })
+                        }
+                    }
+                    function toDecimal(str) {
+                        return parseFloat(str).toLocaleString('en-US', {
+                            style: 'decimal',
+                            maximumFractionDigits: 2,
+                            minimumFractionDigits: 2
+                        });
+                    }
+                    $('#selectHH').selectize({
+                        sortField: 'text',
+                        dataAttr: 'data-extra',
+                        searchField: ['value', 'text', 'Ma']
+                    });
+                    $('#ThueXuat').selectize({
+                        create: true,
+                        dataAttr: 'data-extra',
+                        searchField: ['value', 'text', 'Ma']
+                    });
+                </script>
+            </div>
+
+}
+else
+{
+            <div class="form-group p-2 mb-2" id="groupTTChiTietNB" style="border-radius: 5px; border: 1px solid black;">
+                <div class="row">
+                    <label class="col-sm-1 col-lg-1 col-form-label">Tên hàng</label>
+                    <div class="col-md-5 mb-2 col-lg-5">
+                        <select id="selectHH" onchange="appendDVT_NB()" class="form-select2">
+                            <option selected disabled value=""></option>
+                    @foreach (HangHoa h in getListHH())
+                    {
+                                        <option value="@h.Id" data-extra="{'Ma':'@h.MaHh'}">@h.TenHh</option>
+                    }
+                        </select>
+                    </div>
+                    <label class="col-sm-1 col-lg-1 col-form-label">SL còn</label>
+                    <div class="col-md-2 mb-2 col-lg-2">
+                        <input type="text"  readonly class="form-control" id="SLcon"
+                placeholder="Số lượng còn">
+                    </div>
+                    <label class="col-sm-1 col-lg-1 col-form-label">ĐV tính</label>
+                    <div class="col-sm-2 col-lg-2">
+                        <select id="selectDVT" onchange="loadTienDVT()" class="form-select">
+
+                        </select>
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <label class="col-sm-1 col-lg-1 col-form-label">Số lượng</label>
+                    <div class="col-md-2 mb-2 col-lg-2">
+                        <input type="text" class="form-control" data-toggle="popover" data-content="Không được để trống"
+                oninput="inputSLHH()" id="SLHH" placeholder="Số lượng">
+                    </div>
+                    <label class="col-sm-1 col-lg-1 col-form-label">Đơn giá</label>
+                    <div class="col-md-2 mb-2 col-lg-2">
+                        <input type="text" class="form-control" readonly oninput="inputDoGia()" id="DonGia" placeholder="Đơn giá">
+                    </div>
+                    <label class="col-sm-1 col-lg-1 col-form-label">Th.Tiền</label>
+                    <div class="col-md-2 mb-2 col-lg-2">
+                        <input type="text" class="form-control" oninput="inputThanhTien()" id="ThanhTien" readonly
+                placeholder="Thành tiền">
+                    </div>
+                        <label class="col-sm-1 col-lg-1 col-form-label">Hình ảnh</label>
+                        <div class="col-md-2 mb-2 col-lg-2">
+                            <img id="imageHH" class="col-lg-3 col-md-3"
+                style="object-fit:contain;max-width:25%;box-shadow: 0 1px 4px 0 rgb(0 0 0 / 37%);">
+                        </div>
+                </div>
+                <div class="row justify-content-between">
+
+                    
+                    <div class="col-md-3 mb-2 col-lg-3">
+
+                    </div>
+                    <div class="col-md-3 mb-2 col-lg-3 d-flex justify-content-end">
+                        <button class="btn btn-primary" onclick="addChiTietPhieuXuatTamNB()" type="button">Thêm </button>
+                    </div>
+                </div>
+                <script>
+                    $('#ChietKhau').on('input', function () {
+                        if (getValue(this.value) > 100) {
+                            $(this).val('');
+                            alert('Chiết khấu không quá 100%');
+                        }
+                    });
+                    function getValue(str) {
+                        return Number(str.replace(/[^0-9.-]+/g, ""));
+                    }
+                    function checkNumber(str) {
+                        return /[0-9,.\-$]+/.test(str);
+                    }
+                    $('#SLHH,#ThanhTien,#DonGia,#GiaBan,#ChietKhau').on('blur', format);
+                    function format() {
+                        if (checkNumber(this.value)) {
+                            const value = this.value.replace(/,/g, '');
+                            this.value = parseFloat(value).toLocaleString('en-US', {
+                                style: 'decimal',
+                                maximumFractionDigits: 2,
+                                minimumFractionDigits: 2
+                            })
+                        }
+                    }
+                    function toDecimal(str) {
+                        return parseFloat(str).toLocaleString('en-US', {
+                            style: 'decimal',
+                            maximumFractionDigits: 2,
+                            minimumFractionDigits: 2
+                        });
+                    }
+                    $('#selectHH').selectize({
+                        sortField: 'text',
+                        dataAttr: 'data-extra',
+                        searchField: ['value', 'text', 'Ma']
+                    });
+                    $('#ThueXuat').selectize({
+                        create: true,
+                        dataAttr: 'data-extra',
+                        searchField: ['value', 'text', 'Ma']
+                    });
+                </script>
+            </div>
+}

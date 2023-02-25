@@ -1,9 +1,9 @@
-﻿@model PhieuXuat
+﻿@model PhieuXuatNoiBo
 @{
     webContext context = new webContext();
     string ht = GetLocalIPAddress();
     List<KhachHang> getListKH = context.KhachHang.Where(x => x.Active == true).ToList();
-    List<ChiNhanh> getListCN = context.ChiNhanh.Where(x => x.Active == true).ToList();
+    List<Kho> getListK = context.Kho.Where(x => x.Active == true).ToList();
 
     List<HangHoa> getListHH = context.HangHoa.Where(x => x.Active == true).ToList();
 
@@ -33,7 +33,7 @@
 
         DateTime d = DateTime.Now;
         string ngayThangNam = d.ToString("yyMMdd");
-        string SoPhieu = cn + "_" + qd.TiepDauNgu + ngayThangNam;
+        string SoPhieu = cn + "_" + qd.TiepDauNgu + ngayThangNam + "NB";
         var list = context.SoThuTu.FromSqlRaw("select*from SoThuTu where '" + DateTime.Now.ToString("yyyy-MM-dd") + "' = Convert(date,ngay) and Loai = 'XuatKho'").FirstOrDefault();
         int stt;
         if (list  == null)
@@ -58,11 +58,11 @@
         }
         return SoPhieu;
     }
-    List<PhieuXuat> getListPhieuXuat()
+    List<PhieuXuatNoiBo> getListPhieuXuatNB()
     {
-        var list = context.PhieuXuat
-        .FromSqlRaw("select*from PhieuXuat where CONVERT(date,NgayTao) = '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and Active = 1")
-        .Include(x => x.IdkhNavigation)
+        var list = context.PhieuXuatNoiBo
+        .FromSqlRaw("select*from PhieuXuatNoiBo where CONVERT(date,NgayTao) = '" + DateTime.Now.ToString("yyyy-MM-dd") + "' and Active = 1")
+        .Include(x => x.IdkNavigation)
         .Include(x => x.IdnvNavigation)
         .OrderByDescending(x => x.Id)
         .ToList();
@@ -84,28 +84,28 @@
         <!-- Bordered Tabs Justified -->
         <ul class="nav nav-tabs nav-tabs-bordered d-flex" id="borderedTabJustified" role="tablist">
             <li class="nav-item flex-fill" role="presentation">
-                <button class="nav-link w-100 active" id="home-tab" onclick="offTabXuat()" data-bs-toggle="tab" data-bs-target="#borderedTabJustifiedContent" type="button" role="tab" aria-controls="home" aria-selected="true">Phiếu xuất kho</button>
+                <button class="nav-link w-100 active" id="home-tab" onclick="offTabXuat()" data-bs-toggle="tab" data-bs-target="#borderedTabJustifiedContent" type="button" role="tab" aria-controls="home" aria-selected="true">Phiếu xuất kho nội bộ</button>
             </li>
             <li class="nav-item flex-fill" role="presentation">
-                <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Lịch sử xuất kho</button>
+                <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-justified-profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Lịch sử xuất kho nội bộ</button>
             </li>
         </ul>
         <div class="tab-content pt-2">
-        <form onsubmit="return confirm('Bạn có muốn tạo phiếu xuất kho?')" action="/them-phieu-xuat" enctype="multipart/form-data" method="post" class="tab-pane fade active show" id="borderedTabJustifiedContent">
+        <form onsubmit="return confirm('Bạn có muốn tạo phiếu xuất kho?')" action="/them-phieu-xuat-NB" enctype="multipart/form-data" method="post" class="tab-pane fade active show" id="borderedTabJustifiedContent">
             <div id="bordered-justified-home" role="tabpanel" aria-labelledby="home-tab">
                 <div class="form-group  p-2 mb-2" style="border-radius: 5px; border: 1px solid black; background-color: lightgrey;">
                     <div class="row mb-2">
                         <label class="col-sm-1 col-lg-1 col-form-label">Số phiếu</label>
                         <div class="col-sm-2 col-lg-2">
-                            <input value="@getSoPhieu()" required readonly type="text" class="form-control" name="@nameof(Model.SoPx)" id="inputText">
+                            <input value="@getSoPhieu()" required readonly type="text" class="form-control" name="@nameof(Model.SoPxnb)" id="inputText">
                         </div>
-                        <label class="col-sm-1 col-lg-1 col-form-label">C.Nhánh</label>
+                        <label class="col-sm-1 col-lg-1 col-form-label">Kho </label>
                         <div class="col-sm-5 col-lg-5">
-                            <select required name="@nameof(Model.Idkh)" id="KH" class="form-select2">
+                            <select onchange="appendDVTKH_NB()" required name="@nameof(Model.Idk)" id="K" class="form-select2">
                                 <option selected value=""></option>
-                                    @foreach (ChiNhanh n in getListCN)
+                                    @foreach (Kho n in getListK)
                                     {
-                                       <option value="@n.Id" label="@n.MaCn">@n.TenCn</option>
+                                       <option value="@n.Id" label="@n.MaKho">@n.TenKho</option>
                                     }
                             </select>
                         </div>
@@ -129,11 +129,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group p-2 mb-2" id="groupTTChiTiet" style="border-radius: 5px; border: 1px solid black;">
+                <div class="form-group p-2 mb-2" id="groupTTChiTietNB" style="border-radius: 5px; border: 1px solid black;">
                  <div class="row">
                     <label class="col-sm-1 col-lg-1 col-form-label">Tên hàng</label>
                   <div class="col-md-5 mb-2 col-lg-5">
-                      <select id="selectHH" onchange="appendDVT()" class="form-select2">
+                      <select id="selectHH" onchange="appendDVT_NB()" class="form-select2">
                         <option selected disabled value=""></option>
                             @foreach (HangHoa h in getListHH)
                                {
@@ -147,7 +147,7 @@
                       </div>
                   <label class="col-sm-1 col-lg-1 col-form-label">ĐV tính</label>
               <div class="col-sm-2 col-lg-2">
-                  <select id="selectDVT" onchange="loadTienDVT()" class="form-select">
+                  <select id="selectDVT" onchange="loadTienDVTNB()" class="form-select">
                       <option selected value=""></option>
                   </select>
               </div>
@@ -157,7 +157,7 @@
                      
                       <label class="col-sm-1 col-lg-1 col-form-label">Số lượng</label>
                       <div class="col-md-2 mb-2 col-lg-2">
-                          <input type="text" class="form-control" data-toggle="popover" data-content="Không được để trống" oninput="inputSLHH()" id="SLHH" placeholder="Số lượng">
+                          <input type="text" class="form-control" data-toggle="popover" data-content="Không được để trống" oninput="inputSLHH_NB()" id="SLHH" placeholder="Số lượng">
                       </div>
                       <label class="col-sm-1 col-lg-1 col-form-label">Đơn giá</label>
                       <div class="col-md-2 mb-2 col-lg-2">
@@ -167,24 +167,25 @@
                       <div class="col-md-2 mb-2 col-lg-2">
                           <input type="text" class="form-control" oninput="inputThanhTien()" id="ThanhTien" readonly placeholder="Thành tiền">
                       </div>
-                    </div>
-                    <div class="row justify-content-between">
-                        
-                      <label class="col-sm-1 col-lg-1 col-form-label">Hình ảnh</label>
+                        <label class="col-sm-1 col-lg-1 col-form-label">Hình ảnh</label>
                       <div class="col-md-2 mb-2 col-lg-2">
                          <img id="imageHH" class="col-lg-3 col-md-3" style="object-fit:contain;max-width:25%;box-shadow: 0 1px 4px 0 rgb(0 0 0 / 37%);">
                       </div>
+                    </div>
+                    <div class="row justify-content-between">
+                        
+                    
                       <div class="col-md-3 mb-2 col-lg-3">
                         
                       </div>
                       <div class="col-md-3 mb-2 col-lg-3 d-flex justify-content-end">
-                         <button class="btn btn-primary" onclick="addChiTietPhieuXuatTam()" type="button">Thêm </button>
+                         <button class="btn btn-primary" onclick="addChiTietPhieuXuatTamNB()" type="button">Thêm </button>
                       </div>
                     </div>
             </div>
             </div>
             <div class="table-responsive" style="max-height: 400px;overflow-x: auto;white-space:nowrap;">
-                    <table class="table table-bordered table-hover table-striped text-center" id="tableChiTietPhieuNhap">
+                    <table class="table table-bordered table-hover table-striped text-center" id="tableChiTietPhieuNhapNB">
                         <thead style="position: sticky; top: 0;">
                             <tr>
                                 <th>Tên hàng hóa</th>
@@ -192,8 +193,7 @@
                                 <th>Số lượng</th>
                                 <th>Đơn giá</th>
                                 <th>Thành tiền</th>
-                                <th>%CK</th>
-                                <th>Thuế suất</th>
+                                
                                 <th>Thao tác</th>
                             </tr>
                         </thead>
@@ -204,8 +204,7 @@
                                 <th>...</th>
                                 <th>...</th>
                                 <th>...</th>
-                                <th>...</th>
-                                <th>...</th>
+                                
                                 <th>...</th>
                             </tr>
                         </tbody>
@@ -217,14 +216,7 @@
                         <div class="col-md-2 col-lg-2">
                             <input type="text" class="form-control" readonly id="TienHang" placeholder="Tiền hàng">
                         </div>
-                        <label class="col-sm-1 col-lg-1 col-form-label">Tiền CK</label>
-                        <div class="col-md-2 col-lg-2">
-                            <input type="text" class="form-control" readonly id="TienCK" placeholder="Tiền chiết khấu">
-                        </div>
-                        <label class="col-sm-1 col-lg-1 col-form-label">Tiền thuế</label>
-                        <div class="col-md-2 col-lg-2">
-                            <input type="text" class="form-control" readonly id="TienThue" placeholder="Tiền thuế">
-                        </div>
+                       
                         <label class="col-sm-1 col-lg-1 col-form-label">Th.Toán</label>
                         <div class="col-md-2 col-lg-2">
                             <input type="text" class="form-control" readonly id="TienThanhToan" placeholder="Thanh toán">
@@ -242,13 +234,13 @@
          <div class="tab-pane fade" id="bordered-justified-profile" role="tabpanel" aria-labelledby="profile-tab">
              <div class="form-group p-2 mb-2" id="groupTTSearchLichSu" style="border-radius: 5px; border: 1px solid black;">
                  <div class="row">
-                  <label class="col-sm-1 col-lg-1 col-form-label">Tên KH</label>
+                  <label class="col-sm-1 col-lg-1 col-form-label">Tên Kho</label>
                    <div class="col-sm-5 col-lg-5">
-                        <select id="khLS" class="form-select2">
+                        <select id="kLS" class="form-select2">
                                 <option selected value="0">Tất cả</option>
-                                @foreach (KhachHang n in getListKH)
+                                @foreach (Kho n in getListK)
                                 {
-                                   <option value="@n.Id">@n.TenKh</option>
+                                   <option value="@n.Id">@n.TenKho</option>
                                 }
                         </select>
                    </div>
@@ -282,7 +274,7 @@
                         <input class="form-control" type="text" id="soHDLS" placeholder="Số hoá đơn"/>
                       </div> 
                       <div class="col-md-1 mb-2 col-lg-1 d-flex justify-content-end">
-                         <button type="button" class="btn btn-primary" onclick="loadTableLichSuXuat()"><i class="bi bi-search"></i></button>
+                         <button type="button" class="btn btn-primary" onclick="loadTableLichSuXuatNB()"><i class="bi bi-search"></i></button>
                       </div>
                     </div>
             </div>
@@ -301,11 +293,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach (PhieuXuat p in getListPhieuXuat())
+                            @foreach (PhieuXuatNoiBo p in getListPhieuXuatNB())
                             {
                                     <tr>
-                                        <td>@p.SoPx</td>
-                                        <td>@p.IdkhNavigation.TenKh</td>
+                                        <td>@p.SoPxnb</td>
+                                        <td>@p.IdkNavigation.TenKho</td>
                                         <td>@p.NgayTao.Value.ToString("dd-MM-yyyy HH:mm")</td>
                                         <td>@p.SoHd</td>
                                         <td>@dayToString(p.NgayHd)</td>
@@ -313,7 +305,7 @@
                                         <td>@p.GhiChu</td>
                                         <td>
                                             <a href="PhieuNhapKhoPDF" class="btn btn-outline-success">In</a>
-                                            <button type="button" onclick="ViewPhieuXuat('@p.Id')" class="btn btn-outline-primary mx-1">Xem</button>
+                                            <button type="button" onclick="ViewPhieuXuatNB('@p.Id')" class="btn btn-outline-primary mx-1">Xem</button>
                                         </td>
                                     </tr>
                             }
@@ -327,7 +319,7 @@
                     </div>
              </div>
          </div>
-         <div class="d-lg-none" id="tabXemPhieu">
+         <div class="d-lg-none" id="tabXemPhieuNB">
 
           </div>
         </div>
@@ -357,7 +349,7 @@
                     });
         }
     };
-    function inputSLHH(){
+    function inputSLHH_NB(){
         $('#SLHH').removeClass('is-invalid');
         var SL  = $('#SLHH').val();
         var idHH = $('#selectHH').val();
@@ -365,7 +357,7 @@
         if(idHH!=""&&idDVT!=""){
         $.ajax({
               type: "post",
-                        url: "/checkSLC",
+                        url: "/checkSLC_NB",
                         data: "idHH=" + idHH + "&idDVT= " + idDVT,
                         success: function (result) {
                             if(getValue(SL) > result){
@@ -421,13 +413,11 @@
                         minimumFractionDigits: 2
         });
     }
-    function addChiTietPhieuXuatTam(){
+    function addChiTietPhieuXuatTamNB(){
         var idHH = $('#selectHH').val();
         var idDVT = $('#selectDVT').val();
-        var ThueXuat = $('#ThueXuat').val();
         var SL = getValue($('#SLHH').val());
         var DonGia = getValue($('#DonGia').val());
-        var ChietKhau = getValue($('#ChietKhau').val());
 
         if(idHH==""){
             $('#selectHH').nextAll('.form-select2').addClass('is-invalid');
@@ -441,46 +431,41 @@
         }
         $.ajax({
                         type: "post",
-                        url: "/add-Chi-Tiet-Phieu-Xuat-Tam",
-                        data: "idHH=" + idHH + "&ThueXuat=" 
-                        + ThueXuat + "&SL=" + SL + "&DonGia=" + DonGia + 
-                        "&ChietKhau=" + ChietKhau + "&idDVT="+idDVT 
+                        url: "/add-Chi-Tiet-Phieu-Xuat-Tam-NB",
+                        data: "idHH=" + idHH + "&SL=" + SL + "&DonGia=" + DonGia + 
+                         "&idDVT="+idDVT 
                         ,
                         success: function (result) {
-                            $('#tableChiTietPhieuNhap').replaceWith(result.table);
-
-                            $('#TienHang').val(toDecimal(result.tienHang));
-                            $('#TienCK').val(toDecimal(result.tienCK));
-                            $('#TienThue').val(toDecimal(result.tienThue));
+                            $('#tableChiTietPhieuNhapNB').replaceWith(result.table);
+                            $('#TienHang').val(toDecimal(result.tienHang));                          
                             $('#TienThanhToan').val(toDecimal(result.tienThanhToan));
                             console.log('hi');
-                            editChitietPhieuXuatTam(0);
+                            editChitietPhieuXuatTamNB(0);
                         },
                         error: function () {
                             alert("Fail1");
                         }
                     });
     }
-    function editChitietPhieuXuatTam(id){
+    function editChitietPhieuXuatTamNB(id){
          $.ajax({
               type: "post",
-                        url: "/editChitietPhieuXuatTam",
+                        url: "/editChitietPhieuXuatTamNB",
                         data: "id=" + id,
                         success: function (result) {
-                            $('#groupTTChiTiet').replaceWith(result);
+                           console.log('ok');
+                            $('#groupTTChiTietNB').replaceWith(result);
                         },
                         error: function () {
-                            alert("Fail2");
+                           alert("Fail1");
                         }
           });
     }
-    function editChiTietPhieuTam(id){
+    function editChiTietPhieuTamNB(id){
         var idHH = $('#selectHH').val();
         var idDVT = $('#selectDVT').val();
-        var ThueXuat = $('#ThueXuat').val();
         var SL = getValue($('#SLHH').val());
         var DonGia = getValue($('#DonGia').val());
-        var ChietKhau = getValue($('#ChietKhau').val());
 
         if(idHH==""){
             $('#selectHH').nextAll('.form-select2').addClass('is-invalid');
@@ -494,34 +479,32 @@
         }
         $.ajax({
                         type: "post",
-                        url: "/edit-Chi-Tiet-Phieu-Xuat-Tam",
-                        data: "idHH=" + idHH + "&ThueXuat=" 
-                        + ThueXuat + "&SL=" + SL + "&DonGia=" + DonGia + 
-                        "&ChietKhau=" + ChietKhau + "&idDVT="+idDVT + "&id="+id 
+                        url: "/edit-Chi-Tiet-Phieu-Xuat-Tam-NB",
+                        data: "idHH=" + idHH + "&SL=" + SL + "&DonGia=" + DonGia + 
+                         "&idDVT="+idDVT + "&id="+id 
                         ,
                         success: function (result) {
-                            $('#tableChiTietPhieuNhap').replaceWith(result.table);
+                            $('#tableChiTietPhieuNhapNB').replaceWith(result.table);
 
                             $('#TienHang').val(toDecimal(result.tienHang));
-                            $('#TienCK').val(toDecimal(result.tienCK));
-                            $('#TienThue').val(toDecimal(result.tienThue));
+                           
                             $('#TienThanhToan').val(toDecimal(result.tienThanhToan));
 
-                            editChitietPhieuXuatTam(0);
+                            editChitietPhieuXuatTamNB(0);
                         },
                         error: function () {
                             alert("Fail");
                         }
                     });
     }
-    function deletePhieuXuatTam(id){
+    function deletePhieuXuatTamNB(id){
         if(confirm("Bạn có muốn xoá nội dung này")){
             $.ajax({
                         type: "post",
-                        url: "/delete-Chi-Tiet-Phieu-Xuat",
+                        url: "/delete-Chi-Tiet-Phieu-Xuat-NB",
                         data: "id="+id,
                         success: function (result) {
-                            $('#tableChiTietPhieuNhap').replaceWith(result.table);
+                            $('#tableChiTietPhieuNhapNB').replaceWith(result.table);
                             $('#TienHang').val(toDecimal(result.tienHang));
                             $('#TienCK').val(toDecimal(result.tienCK));
                             $('#TienThue').val(toDecimal(result.tienThue));
@@ -533,17 +516,17 @@
                     });
         }
     }
-    function ViewPhieuXuat(idPhieuXuat){
+    function ViewPhieuXuatNB(idPhieuXuat){
         $('#bordered-justified-profile').removeClass('active');
         $('#bordered-justified-profile').removeClass('show');
-        $('#tabXemPhieu').removeClass('d-lg-none');
+        $('#tabXemPhieuNB').removeClass('d-lg-none');
 
         $.ajax({
                         type: "post",
-                        url: "/ViewThongTinPhieuXuat",
+                        url: "/ViewThongTinPhieuXuatNB",
                         data: "idPX=" + idPhieuXuat,
                         success: function (result) {
-                            $('#tabXemPhieu').replaceWith(result);
+                            $('#tabXemPhieuNB').replaceWith(result);
                         },
                         error: function () {
                             alert("Fail");
@@ -551,16 +534,16 @@
                     });
     }
     function offTabXuat(){
-        $('#tabXemPhieu').addClass('d-lg-none');
+        $('#tabXemPhieuNB').addClass('d-lg-none');
     }
     function cancelXemPhieu(){
-        $('#tabXemPhieu').addClass('d-lg-none');
+        $('#tabXemPhieuNB').addClass('d-lg-none');
         $('#bordered-justified-profile').addClass('active');
         $('#bordered-justified-profile').addClass('show');
     }
 
-    function appendDVT(){ 
-        var idKH = $('#KH').val();
+    function appendDVT_NB(){ 
+        var idK = $('#K').val();
         $('#selectHH').nextAll('.form-select2').removeClass('is-invalid');
         var idHH = $('#selectHH').val();
         if(idHH!=""){
@@ -574,7 +557,14 @@
                             if(result.giaBan == 0){
                                 alert('Hết hàng');
                             }else{
-                                $('#DonGia').val(toDecimal(result.giaBan));
+                                if(result.giaBan==null){
+                                    $('#DonGia').addClass('is-invalid');
+                                    $('#DonGia').val('Chưa có giá!');
+                                }else{
+                                    $('#DonGia').removeClass('is-invalid');
+                                    $('#DonGia').val(toDecimal(result.giaBan));
+                                }
+
                                 $('#SLcon').val(toDecimal(result.slCon));
                             }
                             $('#imageHH').attr("src","/ImagesHangHoa/"+result.hinhAnh);
@@ -582,22 +572,25 @@
 
                         },
                         error: function () {
-                            alert("Fail HH");
+                            alert("Fail HHH");
                         }
                     });
         }
         if(idHH==""){
         $('#selectHH').nextAll('.form-select2').addClass('is-invalid');
        }
-       
+       if(idK==""){
+        $('#K').nextAll('.form-select2').addClass('is-invalid');
+       }
+      
     }
-    function appendDVTKH(){ 
-        $('#KH').nextAll('.form-select2').removeClass('is-invalid');
+    function appendDVTKH_NB(){ 
+        $('#K').nextAll('.form-select2').removeClass('is-invalid');
         var idHH = $('#selectHH').val();
         if(idHH!=""){
             $.ajax({
                         type: "post",       
-                        url: "/loadListDVT",
+                        url: "/loadListDVT_NB",
                         data: "idHH=" + idHH,
                         success: function (result) {
                             console.log(result);
@@ -619,10 +612,13 @@
         if(idHH==""){
         $('#selectHH').nextAll('.form-select2').addClass('is-invalid');
        }
+       if(idK==""){
+        $('#K').nextAll('.form-select2').addClass('is-invalid');
+       }
        
     }
 
-    function loadTienDVT(){
+    function loadTienDVTNB(){
         var idKH = $('#KH').val();
         var idHH = $('#selectHH').val();
         var idDVT = $('#selectDVT').val();
@@ -630,8 +626,8 @@
         if(idHH!=""&&idKH!=""){
             $.ajax({
                         type: "post",       
-                        url: "/loadTienDVT",
-                        data: "idHH=" + idHH + "&idKH="+idKH + "&idDVT="+idDVT,
+                        url: "/loadTienDVTNB",
+                        data: "idHH=" + idHH + "&idDVT="+idDVT,
                         success: function (result) {
                             if(result == 0){
                                 alert('Hết hàng');
@@ -667,18 +663,18 @@
     span.onclick = function() { 
       modal.style.display = "none";
     }
-    function loadTableLichSuXuat(){
+    function loadTableLichSuXuatNB(){
         var toDay = $('#toDay').val();
         var fromDay = $('#fromDay').val();
-        var khLS = $('#khLS').val();
+        var kLS = $('#kLS').val();
         var hhLS = $('#hhLS').val();
         var soPhieuLS = $("#soPhieuLS").val();
         var soHDLS = $('#soHDLS').val();
          $.ajax({
                         type: "post",
-                        url: "/loadTableLichSuXuat",
-                        data: "toDay=" + toDay + "&fromDay=" + fromDay + "&khLS=" 
-                        + khLS + "&hhLS=" + hhLS + "&soPhieuLS=" + soPhieuLS + "&soHDLS=" + soHDLS,
+                        url: "/loadTableLichSuXuatNB",
+                        data: "toDay=" + toDay + "&fromDay=" + fromDay + "&kLS=" 
+                        + kLS + "&hhLS=" + hhLS + "&soPhieuLS=" + soPhieuLS + "&soHDLS=" + soHDLS,
                         success: function (result) {
                             $('#tableLichSuXuat').replaceWith(result);
                         },
