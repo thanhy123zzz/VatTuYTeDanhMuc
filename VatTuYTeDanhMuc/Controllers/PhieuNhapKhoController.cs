@@ -310,6 +310,58 @@ namespace VatTuYTeDanhMuc.Controllers
                 .Where(x => x.Id == id).FirstOrDefault();
             return View("PhieunhapkhoPDF", phieu);
         }
+
+        [HttpPost("/download/BaoCaoPhieuNhap")]
+        public IActionResult downloadBaoCaoPhieuNhap(string fromDay, string toDay, string soPhieuLS, string soHDLS, int nhaCC, int hhLS)
+        {
+            var fullView = new HtmlToPdf();
+            fullView.Options.WebPageWidth = 1280;
+            fullView.Options.PdfPageSize = PdfPageSize.A4;
+            fullView.Options.MarginTop = 20;
+            fullView.Options.MarginBottom = 20;
+            fullView.Options.PdfPageOrientation = PdfPageOrientation.Portrait;
+
+            var url = Url.Action("viewBaoCaoPhieuNhapPDF", "PhieuNhapKho", new { fromDay = fromDay, toDay = toDay, soPhieuLS = soPhieuLS, soHDLS = soHDLS, nhaCC = nhaCC, hhLS = hhLS });
+
+            var currentUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}" + url;
+
+            var pdf = fullView.ConvertUrl(currentUrl);
+
+            var pdfBytes = pdf.Save();
+            return File(pdfBytes, "application/pdf", "BaoCaoPhieuNhap.pdf");
+        }
+        public IActionResult viewBaoCaoPhieuNhapPDF(string fromDay, string toDay, string soPhieuLS, string soHDLS, int nhaCC, int hhLS)
+        {
+            DateTime FromDay = DateTime.ParseExact(fromDay, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            DateTime ToDay = DateTime.ParseExact(toDay, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            ViewBag.tuNgay = fromDay;
+            ViewBag.denNgay = toDay;
+            webContext context = new webContext();
+            List<PhieuNhap> listPhieu = context.PhieuNhap
+            .Where(x => x.NgayTao.Value.Date >= FromDay
+            && x.NgayTao.Value.Date <= ToDay
+            && x.Active == true)
+            .Include(x => x.IdnccNavigation)
+            .Include(x => x.IdnvNavigation)
+            .Include(x => x.ChiTietPhieuNhap)
+            .OrderByDescending(x => x.Id)
+            .ToList();
+            if (nhaCC == 0 && hhLS == 0)
+            {
+
+                return View("BaocaophieunhapPDF", listPhieu.Where(x => (soHDLS == null ? true : (x.SoHd?.Contains(soHDLS) ?? false))
+                && (soPhieuLS == null ? true : x.SoPn.Contains(soPhieuLS.ToUpper()))).ToList());
+            }
+            else
+            {
+                return View("BaocaophieunhapPDF", listPhieu.Where(x => (hhLS == 0 ? true : (x.ChiTietPhieuNhap.Where(y => y.Idhh == hhLS).Count() > 0 ? true : false))
+                && (nhaCC == 0 ? true : x.Idncc == nhaCC)
+                && (soPhieuLS == null ? true : x.SoPn.Contains(soPhieuLS.ToUpper()))
+                && (soHDLS == null ? true : (x.SoHd?.Contains(soHDLS.ToUpper()) ?? false))).ToList());
+            }
+
+        }
+
         public string ConvertViewToString(ControllerContext controllerContext, PartialViewResult pvr, ICompositeViewEngine _viewEngine)
         {
             using (StringWriter writer = new StringWriter())

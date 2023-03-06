@@ -903,6 +903,58 @@ namespace VatTuYTeDanhMuc.Controllers
             return View("PhieuxuatkhoPDF", phieu);
         }
 
+        [HttpPost("/download/BaoCaoPhieuXuat")]
+        public IActionResult downloadBaoCaoPhieuXuat(string fromDay, string toDay, string soPhieuLS, string soHDLS, int khLS, int hhLS)
+        {
+            var fullView = new HtmlToPdf();
+            fullView.Options.WebPageWidth = 1280;
+            fullView.Options.PdfPageSize = PdfPageSize.A4;
+            fullView.Options.MarginTop = 20;
+            fullView.Options.MarginBottom = 20;
+            fullView.Options.PdfPageOrientation = PdfPageOrientation.Portrait;
+
+            var url = Url.Action("viewBaoCaoPhieuXuatPDF", "PhieuXuatKho", new { fromDay = fromDay, toDay = toDay, soPhieuLS = soPhieuLS, soHDLS = soHDLS, khLS = khLS, hhLS = hhLS });
+
+            var currentUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}" + url;
+
+            var pdf = fullView.ConvertUrl(currentUrl);
+
+            var pdfBytes = pdf.Save();
+            return File(pdfBytes, "application/pdf", "BaoCaoPhieuXuat.pdf");
+        }
+        public IActionResult viewBaoCaoPhieuXuatPDF(string fromDay, string toDay, string soPhieuLS, string soHDLS, int khLS, int hhLS)
+        {
+            DateTime FromDay = DateTime.ParseExact(fromDay, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            DateTime ToDay = DateTime.ParseExact(toDay, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+            ViewBag.tuNgay = fromDay;
+            ViewBag.denNgay = toDay;
+            webContext context = new webContext();
+            List<PhieuXuat> listPhieu = context.PhieuXuat
+            .Where(x => x.NgayTao.Value.Date >= FromDay
+            && x.NgayTao.Value.Date <= ToDay
+            && x.Active == true)
+            .Include(x => x.IdkhNavigation)
+            .Include(x => x.IdnvNavigation)
+            .Include(x => x.ChiTietPhieuXuat)
+            .OrderByDescending(x => x.Id)
+            .ToList();
+            if (khLS == 0 && hhLS == 0)
+            {
+
+                return View("BaocaophieuxuatPDF", listPhieu.Where(x => (soHDLS == null ? true : (x.SoHd?.Contains(soHDLS) ?? false))
+                && (soPhieuLS == null ? true : x.SoPx.Contains(soPhieuLS.ToUpper()))).ToList());
+            }
+            else
+            {
+                return View("BaocaophieuxuatPDF", listPhieu.Where(x => (hhLS == 0 ? true : (x.ChiTietPhieuXuat.Where(y => y.Idhh == hhLS).Count() > 0 ? true : false))
+                && (khLS == 0 ? true : x.Idkh == khLS)
+                && (soPhieuLS == null ? true : x.SoPx.Contains(soPhieuLS.ToUpper()))
+                && (soHDLS == null ? true : (x.SoHd?.Contains(soHDLS.ToUpper()) ?? false))).ToList());
+            }
+
+        }
+
+
         double? getTiLe(double? tl)
         {
             double a = (tl.Value / 100) + 1;
