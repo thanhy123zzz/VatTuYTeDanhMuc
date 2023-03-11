@@ -17,6 +17,7 @@ namespace VatTuYTeDanhMuc.Models.Entities
             PhieuThuNo = new HashSet<PhieuThuNo>();
             PhieuTraNo = new HashSet<PhieuTraNo>();
             PhieuXuat = new HashSet<PhieuXuat>();
+            PhieuXuatNoiBo = new HashSet<PhieuXuatNoiBo>();
         }
 
         public int Id { get; set; }
@@ -47,5 +48,6 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public virtual ICollection<PhieuThuNo> PhieuThuNo { get; set; }
         public virtual ICollection<PhieuTraNo> PhieuTraNo { get; set; }
         public virtual ICollection<PhieuXuat> PhieuXuat { get; set; }
+        public virtual ICollection<PhieuXuatNoiBo> PhieuXuatNoiBo { get; set; }
     }
 }
