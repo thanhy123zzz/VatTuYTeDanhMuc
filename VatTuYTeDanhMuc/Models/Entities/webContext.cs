@@ -70,7 +70,7 @@ namespace VatTuYTeDanhMuc.Models.Entities
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Data Source=vppphucuong.ddns.net;Initial Catalog=Banhang;User ID=sa;Password=Vpsoft1234");
+                optionsBuilder.UseSqlServer("Data Source=vppphucuong.ddns.net;Initial Catalog=Banhang;User ID=saBanHang;Password=@1234@");
             }
         }
 
