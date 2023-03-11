@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace VatTuYTeDanhMuc.Models.Entities
 {
     public partial class Dvt
-    {
+    { 
         public Dvt()
         {
             ChiTietPhieuXuat = new HashSet<ChiTietPhieuXuat>();

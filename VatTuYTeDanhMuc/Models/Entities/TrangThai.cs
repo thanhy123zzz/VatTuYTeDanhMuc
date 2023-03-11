@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace VatTuYTeDanhMuc.Models.Entities
 {
     public partial class TrangThai
-    {
+    { 
         public TrangThai()
         {
             PhieuXuat = new HashSet<PhieuXuat>();
