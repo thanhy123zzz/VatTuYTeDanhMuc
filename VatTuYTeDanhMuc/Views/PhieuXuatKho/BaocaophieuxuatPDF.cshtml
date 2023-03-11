@@ -1,4 +1,4 @@
-﻿@model List<PhieuNhap>
+﻿@model List<PhieuXuat>
 @{
     Layout = null;
     webContext context = new webContext();
@@ -89,7 +89,7 @@
                             <b>BÁO CÁO</b>
                         </h4>
                         <h4 class="text-center" style="color: black">
-                            <b>PHIẾU NHẬP KHO</b>
+                            <b>PHIẾU XUẤT KHO</b>
                         </h4>
                         <div class="row justify-content-between">
                             <label class="col-lg-6 col-form-label p-0">Từ: @ViewBag.tuNgay</label>
@@ -98,7 +98,7 @@
                     </div>
                 </header>
                 <article>
-                   
+
                     <div>
                         <table id="tableChiTietPhieuNhap"
                                class="table table-striped table-hover text-center display nowrap"
@@ -109,7 +109,7 @@
                                     <th class="text-center">Số phiếu</th>
                                     <th class="text-center">Ngày HĐ</th>
                                     <th class="text-center">Số HĐ</th>
-                                    <th class="text-center">Nhà CC</th>
+                                    <th class="text-center">Khách hàng</th>
                                     <th class="text-center">∑ Tiền hàng</th>
                                     <th class="text-center">∑ Tiền CK</th>
                                     <th class="text-center">∑ VAT</th>
@@ -123,29 +123,30 @@
                                     double tongThue = 0;
                                     double tongThanhToan = 0;
                                 }
-                                @foreach(PhieuNhap pn in Model){
-                                <tr>
+                                @foreach (PhieuXuat pn in Model)
+                                {
+                                    <tr>
                                         @{
-                                            var ListCTPNT = pn.ChiTietPhieuNhap.ToList();
-                                            var TienHang = Math.Round(ListCTPNT.Sum(x => x.Slg * x.DonGia).Value,2);
-                                            var TienCK = Math.Round(ListCTPNT.Sum(x => (x.Slg * x.DonGia * x.Cktm) / 100).Value,2);
-                                            var TienThue = Math.Round(ListCTPNT.Sum(x => (((x.Slg * x.DonGia) - ((x.Slg * x.DonGia * x.Cktm) / 100)) * x.Thue) / 100).Value,2);
-                                            var TienThanhToan = Math.Round(TienHang - TienCK + TienThue,2);
+                                            var ListCTPNT = pn.ChiTietPhieuXuat.ToList();
+                                            var TienHang = Math.Round(ListCTPNT.Sum(x => x.Slg * x.DonGia).Value, 2);
+                                            var TienCK = Math.Round(ListCTPNT.Sum(x => (x.Slg * x.DonGia * x.Cktm) / 100).Value, 2);
+                                            var TienThue = Math.Round(ListCTPNT.Sum(x => (((x.Slg * x.DonGia) - ((x.Slg * x.DonGia * x.Cktm) / 100)) * x.Thue) / 100).Value, 2);
+                                            var TienThanhToan = Math.Round(TienHang - TienCK + TienThue, 2);
                                             tongTH += TienHang;
                                             tongCK += TienCK;
                                             tongThue += TienThue;
                                             tongThanhToan += TienThanhToan;
                                         }
-                                    <td class="text-center">@pn.NgayTao.Value.ToString("dd-MM-yy")</td>
-                                    <td class="text-center">@pn.SoPn</td>
-                                    <td class="text-center">@pn.NgayHd.Value.ToString("dd-MM-yy")</td>
-                                    <td class="text-center">@pn.SoHd</td>
-                                    <td class="text-start">@pn.IdnccNavigation.TenNcc</td>
-                                    <td class="text-end">@toDecimal(TienHang)</td>
-                                    <td class="text-end">@toDecimal(TienCK)</td>
-                                    <td class="text-end">@toDecimal(TienThue)</td>
-                                    <td class="text-end">@toDecimal(TienThanhToan)</td>
-                                </tr>
+                                        <td class="text-center">@pn.NgayTao.Value.ToString("dd-MM-yy")</td>
+                                        <td class="text-center">@pn.SoPx</td>
+                                        <td class="text-center">@pn.NgayHd.Value.ToString("dd-MM-yy")</td>
+                                        <td class="text-center">@pn.SoHd</td>
+                                        <td class="text-start">@pn.IdkhNavigation.TenKh</td>
+                                        <td class="text-end">@toDecimal(TienHang)</td>
+                                        <td class="text-end">@toDecimal(TienCK)</td>
+                                        <td class="text-end">@toDecimal(TienThue)</td>
+                                        <td class="text-end">@toDecimal(TienThanhToan)</td>
+                                    </tr>
                                 }
                             </tbody>
                             <tfoot>
