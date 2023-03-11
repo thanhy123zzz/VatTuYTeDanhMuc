@@ -8,10 +8,12 @@ using System.Collections.Generic;
 namespace VatTuYTeDanhMuc.Models.Entities
 {
     public partial class Dvt
-    {
+    { 
         public Dvt()
         {
             ChiTietPhieuXuat = new HashSet<ChiTietPhieuXuat>();
+            ChiTietPhieuXuatNoiBo = new HashSet<ChiTietPhieuXuatNoiBo>();
+            ChiTietPhieuXuatTamNoiBo = new HashSet<ChiTietPhieuXuatTamNoiBo>();
             GiaTheoKhachHang = new HashSet<GiaTheoKhachHang>();
             HangHoa = new HashSet<HangHoa>();
             HhDvt = new HashSet<HhDvt>();
@@ -28,6 +30,8 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public int? Idcn { get; set; }
 
         public virtual ICollection<ChiTietPhieuXuat> ChiTietPhieuXuat { get; set; }
+        public virtual ICollection<ChiTietPhieuXuatNoiBo> ChiTietPhieuXuatNoiBo { get; set; }
+        public virtual ICollection<ChiTietPhieuXuatTamNoiBo> ChiTietPhieuXuatTamNoiBo { get; set; }
         public virtual ICollection<GiaTheoKhachHang> GiaTheoKhachHang { get; set; }
         public virtual ICollection<HangHoa> HangHoa { get; set; }
         public virtual ICollection<HhDvt> HhDvt { get; set; }

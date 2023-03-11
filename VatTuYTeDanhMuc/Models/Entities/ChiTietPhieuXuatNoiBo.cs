@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace VatTuYTeDanhMuc.Models.Entities
 {
     public partial class ChiTietPhieuXuatNoiBo
-    {
+    { 
         public int Id { get; set; }
         public int? Idpxnb { get; set; }
         public int? Idhh { get; set; }

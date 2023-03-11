@@ -8,11 +8,13 @@ using System.Collections.Generic;
 namespace VatTuYTeDanhMuc.Models.Entities
 {
     public partial class HangHoa
-    {
+    { 
         public HangHoa()
         {
             ChiTietPhieuNhap = new HashSet<ChiTietPhieuNhap>();
             ChiTietPhieuXuat = new HashSet<ChiTietPhieuXuat>();
+            ChiTietPhieuXuatNoiBo = new HashSet<ChiTietPhieuXuatNoiBo>();
+            ChiTietPhieuXuatTamNoiBo = new HashSet<ChiTietPhieuXuatTamNoiBo>();
             GiaTheoKhachHang = new HashSet<GiaTheoKhachHang>();
             HhDvt = new HashSet<HhDvt>();
             HinhAnhHangHoa = new HashSet<HinhAnhHangHoa>();
@@ -43,6 +45,8 @@ namespace VatTuYTeDanhMuc.Models.Entities
         public virtual NuocSanXuat IdnsxNavigation { get; set; }
         public virtual ICollection<ChiTietPhieuNhap> ChiTietPhieuNhap { get; set; }
         public virtual ICollection<ChiTietPhieuXuat> ChiTietPhieuXuat { get; set; }
+        public virtual ICollection<ChiTietPhieuXuatNoiBo> ChiTietPhieuXuatNoiBo { get; set; }
+        public virtual ICollection<ChiTietPhieuXuatTamNoiBo> ChiTietPhieuXuatTamNoiBo { get; set; }
         public virtual ICollection<GiaTheoKhachHang> GiaTheoKhachHang { get; set; }
         public virtual ICollection<HhDvt> HhDvt { get; set; }
         public virtual ICollection<HinhAnhHangHoa> HinhAnhHangHoa { get; set; }

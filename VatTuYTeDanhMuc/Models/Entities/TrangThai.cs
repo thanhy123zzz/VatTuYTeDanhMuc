@@ -8,10 +8,11 @@ using System.Collections.Generic;
 namespace VatTuYTeDanhMuc.Models.Entities
 {
     public partial class TrangThai
-    {
+    { 
         public TrangThai()
         {
             PhieuXuat = new HashSet<PhieuXuat>();
+            PhieuXuatNoiBo = new HashSet<PhieuXuatNoiBo>();
         }
 
         public int Id { get; set; }
@@ -35,5 +36,6 @@ namespace VatTuYTeDanhMuc.Models.Entities
 
         public virtual Dvvc IddvvcNavigation { get; set; }
         public virtual ICollection<PhieuXuat> PhieuXuat { get; set; }
+        public virtual ICollection<PhieuXuatNoiBo> PhieuXuatNoiBo { get; set; }
     }
 }
