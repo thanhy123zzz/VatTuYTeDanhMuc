@@ -252,12 +252,12 @@
         </form>
        </div>
        <div class = "tab-content">
-         <div class="tab-pane fade" id="bordered-justified-profile" role="tabpanel" aria-labelledby="profile-tab">
+         <form action="/download/BaoCaoPhieuXuat" method="post" class="tab-pane fade" id="bordered-justified-profile" role="tabpanel" aria-labelledby="profile-tab">
              <div class="form-group p-2 mb-2" id="groupTTSearchLichSu" style="border-radius: 5px; border: 1px solid black;">
                  <div class="row">
                   <label class="col-sm-1 col-lg-1 col-form-label">Tên KH</label>
                    <div class="col-sm-5 col-lg-5">
-                        <select id="khLS" class="form-select2">
+                        <select id="khLS" name="khLS" class="form-select2">
                                 <option selected value="0">Tất cả</option>
                                 @foreach (KhachHang n in getListKH)
                                 {
@@ -267,18 +267,18 @@
                    </div>
                    <label class="col-sm-1 col-lg-1 col-form-label">Từ ngày</label>
                       <div class="col-md-2 mb-2 col-lg-2">
-                        <input class="form-control" type="text" id="fromDay" value="@DateTime.Now.ToString("dd-MM-yyyy")" placeholder="Từ ngày"/>
+                        <input class="form-control" type="text" name="fromDay" id="fromDay" value="@DateTime.Now.ToString("dd-MM-yyyy")" placeholder="Từ ngày"/>
                       </div>
                   <label class="col-sm-1 col-lg-1 col-form-label">Đến ngày</label>
                   <div class="col-lg-2 col-sm-2">
-                     <input class="form-control" type="text" id="toDay" value="@DateTime.Now.ToString("dd-MM-yyyy")" placeholder="Tới ngày"/>
+                     <input class="form-control" type="text"  name="toDay" id="toDay" value="@DateTime.Now.ToString("dd-MM-yyyy")" placeholder="Tới ngày"/>
                  </div>
 
             </div>
                     <div class="row">
                       <label class="col-sm-1 col-lg-1 col-form-label">Hàng hoá</label>
                       <div class="col-sm-4 col-lg-4">
-                        <select id="hhLS" class="form-select2">
+                        <select id="hhLS" name="hhLS" class="form-select2">
                                 <option selected value="0">Tất cả</option>
                                 @foreach (HangHoa n in getListHH)
                                 {
@@ -288,11 +288,11 @@
                        </div>
                     <label class="col-sm-1 col-lg-1 col-form-label">Số phiếu</label>
                       <div class="col-md-2 mb-2 col-lg-2">
-                        <input class="form-control" type="text" id="soPhieuLS" placeholder="Số phiếu"/>
+                        <input class="form-control" type="text" name="soPhieuLS" id="soPhieuLS" placeholder="Số phiếu"/>
                     </div>
                     <label class="col-sm-1 col-lg-1 col-form-label">Số HĐ</label>
                       <div class="col-md-2 mb-2 col-lg-2">
-                        <input class="form-control" type="text" id="soHDLS" placeholder="Số hoá đơn"/>
+                        <input class="form-control" type="text" name="soHDLS" id="soHDLS" placeholder="Số hoá đơn"/>
                       </div> 
                       <div class="col-md-1 mb-2 col-lg-1 d-flex justify-content-end">
                          <button type="button" class="btn btn-primary" onclick="loadTableLichSuXuat()"><i class="bi bi-search"></i></button>
@@ -339,7 +339,7 @@
                       <button class="btn btn-outline-success col-lg-2 col-sm-2" type="submit">Xuất tất cả</button>
                     </div>
              </div>
-         </div>
+         </form>
          <div class="d-lg-none" id="tabXemPhieu">
 
           </div>
