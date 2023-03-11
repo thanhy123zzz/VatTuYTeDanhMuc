@@ -1,0 +1,66 @@
+﻿@{
+    webContext context = new webContext();
+    string h = GetLocalIPAddress();
+    List<ChiTietPhieuXuatTamNoiBo> getListCTPNT()
+    {
+        return context.ChiTietPhieuXuatTamNoiBo.Where(x => x.Host == h).OrderByDescending(x => x.Id).ToList();
+    }
+    Dvt getDvt(int? id)
+    {
+        return context.Dvt.Find(id);
+    }
+    HangHoa getHangHoa(int? id)
+    {
+        return context.HangHoa.Find(id);
+    }
+    string GetLocalIPAddress()
+    {
+        var host = Dns.GetHostEntry(Dns.GetHostName());
+        foreach (var ip in host.AddressList)
+        {
+            if (ip.AddressFamily == AddressFamily.InterNetwork)
+            {
+                return ip.ToString();
+            }
+        }
+        throw new Exception("No network adapters with an IPv4 address in the system!");
+    }
+    string format(Double? a)
+    {
+        return a?.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
+    }
+}
+<table class="table table-bordered table-hover table-striped text-center" id="tableChiTietPhieuNhapNB">
+    <thead style="position: sticky; top: 0;">
+        <tr>
+            <th>Tên hàng hóa</th>
+            <th>ĐVT</th>
+            <th>Số lượng</th>
+            <th>Đơn giá</th>
+            <th>Thành tiền</th>
+            
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ChiTietPhieuXuatTamNoiBo c in getListCTPNT())
+        {
+                <tr>
+                    <td class="text-start">@getHangHoa(c.Idhh).TenHh</td>
+                    <td class="text-start">@getDvt(c.Iddvt).TenDvt</td>
+                    <td class="text-end">@format((Double)c.Slg)</td>
+                    <td class="text-end">@format(c.DonGia)</td>
+                    <td class="text-end">@format(c.Slg * c.DonGia)</td>
+                   
+                    <td>
+                        <button class="btn btn-primary" type="button" onclick="editChitietPhieuXuatTamNB('@c.Id')">
+                            Sửa
+                        </button>
+                        <button class="btn btn-danger" type="button" onclick="deletePhieuXuatTamNB('@c.Id')">
+                            Xoá
+                        </button>
+                    </td>
+                </tr>
+        }
+    </tbody>
+</table>
