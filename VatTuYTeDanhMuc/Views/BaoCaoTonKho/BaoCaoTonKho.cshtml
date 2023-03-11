@@ -1,0 +1,91 @@
+﻿<div class="card">
+    <div class="card-body">
+        <div class="row justify-content-start mb-2 mt-3">
+            <div class="col-lg-2 col-sm-2 pl-0">
+                <input class="form-control" type="text" id="fromDay" value="" placeholder="Từ ngày">
+            </div>
+            <div class="col-lg-2 col-sm-2">
+                <input class="form-control" type="text" id="toDay" value="" placeholder="Tới ngày">
+            </div>
+
+            <div class="col-lg-1 col-sm-1">
+                <button type="button" class="btn btn-secondary"><i class="bi bi-search"></i></button>
+            </div>
+        </div>
+        <table id="CTNhapHang"
+               class="table table-striped table-hover table-border border-dark"
+               style="width: 100%">
+            <thead>
+                <tr>
+                    <th rowspan="2"
+                        style="vertical-align: middle; text-align: center"
+                        class="text-center">
+                        Mã HH
+                    </th>
+                    <th rowspan="2"
+                        style="vertical-align: middle; text-align: center"
+                        class="text-center">
+                        Tên HH
+                    </th>
+                    <th rowspan="2"
+                        style="vertical-align: middle; text-align: center"
+                        class="text-center">
+                        ĐVT
+                    </th>
+                    <th colspan="2" class="text-center">Đầu kì</th>
+                    <th colspan="2" class="text-center">Nhập</th>
+                    <th colspan="2" class="text-center">Xuất</th>
+                    <th colspan="2" class="text-center">Cuối kì</th>
+                </tr>
+                <tr>
+                    <th class="text-center">lượng</th>
+                    <th class="text-center">tiền</th>
+                    <th class="text-center">lượng</th>
+                    <th class="text-center">tiền</th>
+                    <th class="text-center">lượng</th>
+                    <th class="text-center">tiền</th>
+                    <th class="text-center">lượng</th>
+                    <th class="text-center">tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-center">sadfsaf</td>
+                    <td class="text-center">ádf</td>
+                    <td class="text-center">ádf</td>
+                    <td class="text-center">ádf</td>
+                    <td class="text-end">ádfsa</td>
+                    <td class="text-center">sadf</td>
+                    <td class="text-end">ádf</td>
+                    <td class="text-center">ádfasdf</td>
+                    <td class="text-end">ádfasdf</td>
+                    <td class="text-center">ádfasf</td>
+                    <td class="text-end">sadfasfsa</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $.fn.DataTable.ext.pager.numbers_length = 5;
+        $("#CTNhapHang").dataTable({
+            "pageLength": 15,
+            "scrollCollapse": true,
+            bLengthChange: false,
+            bInfo: false,
+            scrollX: true,
+            fixedHeader: true,
+            searching: false,
+            language: {
+                paginate: {
+                    previous: "Trước",
+                    next: "Sau",
+                },
+                search: "Tìm kiếm",
+
+            },
+        });
+
+    }
+</script>

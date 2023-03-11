@@ -1,0 +1,270 @@
+﻿<div class="card">
+    <div class="card-body">
+        <ul class="nav nav-tabs nav-tabs-bordered d-flex"
+            id="borderedTabJustified"
+            role="tablist">
+            <li class="nav-item flex-fill" role="presentation">
+                <button class="nav-link w-100 active"
+                        id="detail-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#bordered-justified-detail"
+                        type="button"
+                        role="tab"
+                        aria-controls="detail"
+                        aria-selected="true">
+                    Chi tiết
+                </button>
+            </li>
+            <li class="nav-item flex-fill" role="presentation">
+                <button class="nav-link w-100"
+                        id="synthesise-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#bordered-justified-synthesise"
+                        type="button"
+                        role="tab"
+                        aria-controls="synthesise"
+                        aria-selected="false">
+                    Tổng hợp
+                </button>
+            </li>
+        </ul>
+        <div class="tab-content pt-2">
+            <div class="tab-pane fade show active"
+                 id="bordered-justified-detail"
+                 role="tabpanel"
+                 aria-labelledby="detail-tab">
+                <div class="form-group p-2 mb-2"
+                     id="groupTTSearchLichSu"
+                     style="border-radius: 5px; border: 1px solid black">
+                    <div class="row">
+                        <label class="col-sm-1 col-lg-1 col-form-label">Nhà CC</label>
+                        <div class="col-sm-5 col-lg-5">
+                            <select name="nhaCC" id="nhaCCLS" class="form-select2">
+                                <option selected value="0">Tất cả</option>
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <label class="col-sm-1 col-lg-1 col-form-label">Từ ngày</label>
+                        <div class="col-md-2 mb-2 col-lg-2">
+                            <input class="form-control"
+                                   type="text"
+                                   name="fromDay"
+                                   id="fromDay"
+                                   value=""
+                                   placeholder="Từ ngày" />
+                        </div>
+                        <label class="col-sm-1 col-lg-1 col-form-label">Đến ngày</label>
+                        <div class="col-lg-2 col-sm-2">
+                            <input class="form-control"
+                                   type="text"
+                                   name="toDay"
+                                   id="toDay"
+                                   value=""
+                                   placeholder="Tới ngày" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm-1 col-lg-1 col-form-label">Hàng hóa</label>
+                        <div class="col-sm-4 col-lg-4">
+                            <select name="hhLS" id="hhLS" class="form-select2">
+                                <option selected value="0">Tất cả</option>
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <label class="col-sm-1 col-lg-1 col-form-label">Số phiếu</label>
+                        <div class="col-md-2 mb-2 col-lg-2">
+                            <input class="form-control"
+                                   type="text"
+                                   name="soPhieuLS"
+                                   id="soPhieuLS"
+                                   placeholder="Số phiếu" />
+                        </div>
+                        <label class="col-sm-1 col-lg-1 col-form-label">Số HĐ</label>
+                        <div class="col-md-2 mb-2 col-lg-2">
+                            <input class="form-control"
+                                   type="text"
+                                   name="soHDLS"
+                                   id="soHDLS"
+                                   placeholder="Số hoá đơn" />
+                        </div>
+                        <div class="col-md-1 mb-2 col-lg-1 d-flex justify-content-end">
+                            <button type="button" class="btn btn-primary" onclick="">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <table id="CTNhapHang"
+                       class="table table-striped table-hover text-center display nowrap"
+                       style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">STT</th>
+                            <th class="text-center">Ngày nhập</th>
+                            <th class="text-center">Số phiếu</th>
+                            <th class="text-center">Tên nhà cung cấp</th>
+                            <th class="text-center">Mã HH</th>
+                            <th class="text-center">Tên hàng hóa</th>
+                            <th class="text-center">Số lô</th>
+                            <th class="text-center">Hạn dùng</th>
+                            <th class="text-center">Số lượng</th>
+                            <th class="text-center">Đơn giá</th>
+                            <th class="text-center">Chiết khấu</th>
+                            <th class="text-center">VAT</th>
+                            <th class="text-center">Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-start"></td>
+                            <td class="text-center"></td>
+                            <td class="text-start"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-end"></td>
+                            <td class="text-end"></td>
+                            <td class="text-end"></td>
+                            <td class="text-end"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-success col-lg-2 col-sm-2"
+                                type="submit">
+                            In
+                        </button>
+                        <button class="btn btn-danger col-lg-2 col-sm-2"
+                                style="margin-left: 20px"
+                                type="submit">
+                            Xuất tất cả
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade"
+                 id="bordered-justified-synthesise"
+                 role="tabpanel"
+                 aria-labelledby="synthesise-tab">
+                <div class="row justify-content-start mb-2">
+                    <div class="col-lg-2 col-sm-2 pl-0">
+                        <input class="form-control"
+                               type="text"
+                               id="fromDay"
+                               value=""
+                               placeholder="Từ ngày" />
+                    </div>
+                    <div class="col-lg-2 col-sm-2">
+                        <input class="form-control"
+                               type="text"
+                               id="toDay"
+                               value=""
+                               placeholder="Tới ngày" />
+                    </div>
+                    <div class="col-sm-3 col-lg-3">
+                        <select required
+                                onchange=""
+                                name=""
+                                id="Nhacc"
+                                class="form-select2">
+                            <option selected value="">Nhóm hàng hóa</option>
+                            <option value="nhóm hàng hóa"
+                                    label="nhóm hàng hóa"></option>
+                        </select>
+                    </div>
+                    <div class="col-lg-1 col-sm-1">
+                        <button type="button" class="btn btn-secondary">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <table id="THNhapHang"
+                       class="table table-striped table-hover text-center display nowrap"
+                       style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th class="text-center">STT</th>
+                            <th class="text-center">Mã HH</th>
+                            <th class="text-center">Tên HH</th>
+                            <th class="text-center">Số lượng</th>
+                            <th class="text-center">ĐVT</th>
+                            <th class="text-center">Tiền hàng</th>
+                            <th class="text-center">Chiết khấu</th>
+                            <th class="text-center">VAT</th>
+                            <th class="text-center">Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-start"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-end"></td>
+                            <td class="text-end"></td>
+                            <td class="text-end"></td>
+                            <td class="text-end"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-success col-lg-2 col-sm-2"
+                                type="submit">
+                            In
+                        </button>
+                        <button class="btn btn-danger col-lg-2 col-sm-2"
+                                style="margin-left: 20px"
+                                type="submit">
+                            Xuất tất cả
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $.fn.DataTable.ext.pager.numbers_length = 5;
+        $("#CTNhapHang").dataTable({
+            "pageLength": 15,
+            "scrollCollapse": true,
+            bLengthChange: false,
+            bInfo: false,
+            scrollX: true,
+            fixedHeader: true,
+            searching: false,
+            language: {
+                paginate: {
+                    previous: "Trước",
+                    next: "Sau",
+                },
+                search: "Tìm kiếm",
+
+            },
+        });
+        $("#THNhapHang").dataTable({
+            "pageLength": 15,
+            "scrollCollapse": true,
+            bLengthChange: false,
+            bInfo: false,
+            scrollX: true,
+            fixedHeader: true,
+            searching: false,
+            language: {
+                paginate: {
+                    previous: "Trước",
+                    next: "Sau",
+                },
+                search: "Tìm kiếm",
+
+            },
+        });
+    }
+</script>
