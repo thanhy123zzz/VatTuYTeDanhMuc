@@ -12,6 +12,8 @@ namespace VatTuYTeDanhMuc.Models
 
     public NccNganHang nccNganHang { get; set; }
 
+    public Httt httt { get; set; }
+
     public List<ChiTietTraNo> chiTietTraNos { get; set; }
   }
 }

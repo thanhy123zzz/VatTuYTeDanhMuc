@@ -1,0 +1,47 @@
+﻿@model PhieuTraNoModel
+@{
+  webContext context = new webContext();
+
+  double? SumTT(int? id)
+  {
+    if (ViewBag.ListPTN != null)
+    {
+      List<ChiTietTraNo> list = ViewBag.ListPTN;
+      return list.Where(x => x.Idptn == id).Sum(x => x.SoTien);
+
+    }
+    else return 0;
+  }
+
+
+}
+
+
+
+<tbody id="tablePTN1">
+
+  @foreach (PhieuTraNo item in ViewBag.ListPTN)
+  {
+    <tr >
+      <td>
+        <input type="hidden" name="Id" value="@item.Id" id="Id" />
+        @item.SoPhieu
+      </td>
+      <td>
+        @item.NgayTra
+      </td>
+      <td>
+        @
+      </td>
+      <td>
+
+      </td>
+      <td>
+
+      </td>
+      <td><input type="text" /></td>
+    </tr>
+  }
+
+
+</tbody>

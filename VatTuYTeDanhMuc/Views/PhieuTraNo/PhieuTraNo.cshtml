@@ -5,6 +5,10 @@
   List<NhaCungCap> getListNCC = context.NhaCungCap.Where(x => x.Active == true).ToList();
   List<NganHang> getListNH = context.NganHang.Where(x => x.Active == true).ToList();
 
+
+  List<Httt> getListHTTT = context.Httt.Where(x => x.Active == true).ToList();
+
+
   //List<NccNganHang> getListNHNCC(int ncc)
   //{
   //  List<NccNganHang> tkk = context.NccNganHang.Where(a => a.Idncc == ncc).ToList();
@@ -115,7 +119,7 @@
             <input class="form-control" type="text" id="toDay" value="" placeholder="Tới ngày">
           </div>
           <div class="col-sm-3 col-lg-3">
-            <select required name="@nameof(Model.phieuTraNo.Idncc)" id="nhaCC1" onchange="getNHNCC()" class="form-select2">
+            <select required name="@nameof(Model.phieuTraNo.Idncc)" id="nhaCC1" onchange="getPTN()" class="form-select2">
               <option selected value=""></option>
               @foreach (NhaCungCap n in getListNCC)
               {
@@ -139,7 +143,7 @@
                 <th class="text-end">Thanh toán</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="tablePTN1">
               <tr>
                 <td>...</td>
                 <td>...</td>
@@ -164,9 +168,12 @@
             </div>
             <label class="col-sm-2 col-lg-2 col-form-label">Hình thức thanh toán</label>
             <div class="col-md-2 col-lg-2">
-              <select required onchange="" name="" id="httt" class="form-select2">
+              <select required onchange="getNHNCC()" name="@nameof(Model.httt.Id)" id="httt" class="form-select2">
                 <option selected value="">Hình thức</option>
-                <option value="n" label=""></option>
+                @foreach (Httt n in getListHTTT)
+                {
+                  <option value="@n.Id">@n.TenHttt</option>
+                }
               </select>
             </div>
 
@@ -174,7 +181,7 @@
           <div class="row nhncc" style=" --bs-gutter-x: 0.5rem;">
             <label class="col-sm-2 col-lg-2 col-form-label">Ngân hàng</label>
             <div class="col-md-2 col-lg-2">
-              <select required name="@nameof(Model.nccNganHang.Idnh)" id="nganhang" class="form-select">
+              <select required name="@nameof(Model.nccNganHang.Idnh)" id="nganhang" class="form-select" disabled>
                 <option selected value=""></option>
                 @*//load sau khi chọn*@
               </select>
@@ -301,25 +308,55 @@
 
 
 <script>
+  $(document).ready(function () {
+    
+  });
+
+
+
+
+  function getPTN() {
+    var idncc = $('#nhaCC1').val();
+
+      $.ajax({
+        type: "post",
+        url: "/getPTN",
+        data: "idncc=" + idncc,
+        success: function (result) {
+          $('#nganhang').append(result.options);
+        },
+        error: function () {
+          alert("Failhu");
+        }
+      });
+
+  
+  }
+
 
   function getNHNCC() {
     var idncc = $('#nhaCC1').val();
-   // alert(idncc);
-    $.ajax({
-      type: "post",
-      url: "/getNganHangNCC",
-      data: "idncc=" + idncc,
-      success: function (result) {
-        //alert(idncc);
-        //$('#nganhang').val(result.options);
-        $('#nganhang').empty();
-        $('#nganhang').append(result.options);
-        //$('#DVT').val(result.tenDVT);
-      },
-      error: function () {
-        alert("Failhu");
-      }
-    });
+    var idhttt = $('#httt').val();
+    if (idhttt == 4) {
+      //thay dieu kien sau nay neu them vdt
+      $.ajax({
+        type: "post",
+        url: "/getNganHangNCC",
+        data: "idncc=" + idncc + "&idhttt=" + idhttt,
+        success: function (result) {
+          $('#nganhang').prop('disabled', false);
+          $('#nganhang').empty();
+          $('#nganhang').append(result.options);
+        },
+        error: function () {
+          alert("Failhu");
+        }
+      });
+    }
+    else {
+      $('#nganhang').empty();
+      $('#nganhang').prop('disabled', true);
+    }   
   }
 
   //okk

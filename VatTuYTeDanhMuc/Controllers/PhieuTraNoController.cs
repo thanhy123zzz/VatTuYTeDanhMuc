@@ -25,36 +25,46 @@ namespace VatTuYTeDanhMuc.Controllers
     }
 
 
-    [HttpPost("/getNganHangNCC")]
-    public IActionResult loadNHNCC(int idncc)
+
+    [HttpPost("/getPTN")]
+    public IActionResult loadTablePTN(int idncc)
     {
       webContext context = new webContext();
-    //  List<NccNganHang> listnhncc = context.NccNganHang.Where(a => a.Idncc == idncc && a.Active == true).ToList();
-      var listnhncc = context.NccNganHang.Where(a => a.Idncc == idncc && a.Active == true).Include(x => x.IdnccNavigation).Include(x => x.IdnhNavigation).ToList();
-      //  ViewBag.ListNHNCC = listnhncc;
-      //get taikhoan(idtk)
+     // var listnhncc = context.ChiTietTraNo.Where(a => a.IdptnNavigation.Idncc == idncc && a.Active == true).Include(x => x.IdpnNavigation.Idncc == idncc).ToList();
+      var listptn = context.PhieuTraNo.Where(a => a.IdnccNavigation.Id == idncc && a.Active == true).ToList();
+      ViewBag.ListPTN = listptn;
+      return PartialView();
+    }
 
-      int i = 0;
-      string options = null;// = "<option selected value = '" + hh.Iddvtchinh + "'>" + hh.IddvtchinhNavigation.TenDvt + "</option>";
-      foreach (NccNganHang d in listnhncc)
-      {
-        if (i == 0)
+
+
+
+
+    [HttpPost("/getNganHangNCC")]
+    public IActionResult loadNHNCC(int idncc, int idhttt)
+    {
+      webContext context = new webContext();
+      string options = null;
+        var listnhncc = context.NccNganHang.Where(a => a.Idncc == idncc && a.IdnhNavigation.Idhttt== idhttt && a.Active == true).Include(x => x.IdnccNavigation).Include(x => x.IdnhNavigation).ToList();
+        int i = 0;
+        // = "<option selected value = '" + hh.Iddvtchinh + "'>" + hh.IddvtchinhNavigation.TenDvt + "</option>";
+        foreach (NccNganHang d in listnhncc)
         {
-          options = "<option selected value = '" + d.Idnh + "'>" + d.IdnhNavigation.TenNh + "</option>";
+          if (i == 0)
+          {
+            options = "<option selected value = '" + d.Idnh + "'>" + d.IdnhNavigation.TenNh + "</option>";
+          }
+          else
+          {
+            options += "<option value = '" + d.Idnh + "'>" + d.IdnhNavigation.TenNh + "</option>";
+          }
+          i++;
         }
-        else 
-        { 
-          options += "<option value = '" + d.Idnh + "'>" + d.IdnhNavigation.TenNh + "</option>";
-        }
-        i++;
-      }
-
+      
       return Json(new
       {
         options = options
       });
-
-      //return PartialView();
     }
 
 
