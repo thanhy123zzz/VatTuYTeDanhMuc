@@ -1,0 +1,35 @@
+﻿@model PhieuTraNoModel
+@{
+  webContext context = new webContext();
+  NganHang getNganHang(int? id)
+  {
+    NganHang nh = context.NganHang.Find(id);
+    if (nh != null) return nh;
+    else return new NganHang();
+  }
+}
+
+
+<div class="row nhncc" style=" --bs-gutter-x: 0.5rem;">
+  <label class="col-sm-2 col-lg-2 col-form-label">Ngân hàng</label>
+  <div class="col-md-2 col-lg-2">
+    <select required name="@nameof(Model.nccNganHang.Idnh)" id="nganhang" class="form-select2">
+      <option selected value=""></option>
+      @*//load sau khi chọn*@
+      @foreach (NccNganHang n in ViewBag.ListNHNCC)
+      {
+        <option value="@n.Id">@getNganHang(n.Id).TenNh</option>
+      }
+    </select>
+  </div>
+  <label class="col-sm-1 col-lg-1 col-form-label">Người nhận</label>
+  <div class="col-md-3 col-lg-3">
+    <input type="text" class="form-control" readonly="" id="nguoinhan" placeholder="Người nhận">
+  </div>
+  <label class="col-sm-1 col-lg-1 col-form-label">Ghi chú</label>
+  <div class="col-md-3 col-lg-3">
+    <textarea rows="1" name="GhiChu" class="form-control"></textarea>
+  </div>
+</div>
+
+

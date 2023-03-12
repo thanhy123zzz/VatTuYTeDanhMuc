@@ -17,7 +17,6 @@
     font-weight: bold;
     color: #0d6efd;
   }
-
 </style>
 
 @if (TempData["ThongBao"] != null)
@@ -78,52 +77,77 @@
       </div>
       @*<input type="hidden" id="idvt" />*@
       <div class="col-lg-8 col-8 p-0 border-dark" style=" overflow: auto; max-height: 480px; min-width: 600px;">
-          <table class="table table-bordered  mb-0  text-center bg-light" id="myTable">
-            <thead style="position: sticky; top: 0; background: #e9ecef;">
-              <tr style="background: white;">
-                <th colspan="8" class="p-0">
-                  <div class="group-btn">
-                    <div class="d-flex justify-content-end">
-                      <button class="btn btn-primary" style="border-radius:0" type="button" id="btn-save">
-                        <span>Lưu</span>
-                      </button>
-                    </div>
+        <table class="table table-bordered  mb-0  text-center bg-light" id="myTable">
+          <thead style="position: sticky; top: 0; background: #e9ecef;">
+            <tr style="background: white;">
+              <th colspan="8" class="p-0">
+                <div class="group-btn">
+                  <div class="d-flex justify-content-end">
+                    <button class="btn btn-primary" style="border-radius:0" type="button" id="btn-save">
+                      <span>Lưu</span>
+                    </button>
                   </div>
-                </th>
-              </tr>
-              <tr>
-                <th class="text-center" rowspan="3" style="vertical-align : middle;text-align:center;">Danh sách menu</th>
-                <th class="text-center" colspan="7">Chức năng</th>
-                @*<th class="text-center">Tùy chọn</th>*@
-              </tr>
-              <tr>
-                  <th class="text-center">Nhập</th>
-                  <th class="text-center">Sửa</th>
-                  <th class="text-center">Xóa</th>
-                  <th class="text-center">In</th>
-                  <th class="text-center">Xuất</th>
-                  <th class="text-center">Cá nhân</th>
-                  <th class="text-center"></th>
-              </tr>
-              <tr>
-                  <th class="text-center"><input type="checkbox" style="width: 17px; height: 17px"></th>
-                  <th class="text-center"><input type="checkbox" style="width: 17px; height: 17px"></th>
-                  <th class="text-center"><input type="checkbox" style="width: 17px; height: 17px"></th>
-                  <th class="text-center"><input type="checkbox" style="width: 17px; height: 17px"></th>
-                  <th class="text-center"><input type="checkbox" style="width: 17px; height: 17px"></th>
-                  <th class="text-center"><input type="checkbox" style="width: 17px; height: 17px"></th>
-                  <th class="text-center">Chọn tất cả</th>
-              </tr>
-                
-            </thead>
-            <tbody id="chucnang">
-            </tbody>
-          </table>
+                </div>
+              </th>
+            </tr>
+            <tr>
+              <th class="text-center" rowspan="3" style="vertical-align : middle;text-align:center;">Danh sách menu</th>
+              <th class="text-center" colspan="7">Chức năng</th>
+              @*<th class="text-center">Tùy chọn</th>*@
+            </tr>
+            <tr>
+              <th class="text-center">Nhập</th>
+              <th class="text-center">Sửa</th>
+              <th class="text-center">Xóa</th>
+              <th class="text-center">In</th>
+              <th class="text-center">Xuất</th>
+              <th class="text-center">Cá nhân</th>
+              <th class="text-center"></th>
+            </tr>
+            <tr>
+              <th class="text-center"><input type="checkbox" id="checkAllNhap" style="width: 17px; height: 17px"></th>
+              <th class="text-center"><input type="checkbox" id="checkAllSua" style="width: 17px; height: 17px"></th>
+              <th class="text-center"><input type="checkbox" id="checkAllXoa" style="width: 17px; height: 17px"></th>
+              <th class="text-center"><input type="checkbox" id="checkAllIn" style="width: 17px; height: 17px"></th>
+              <th class="text-center"><input type="checkbox" id="checkAllXuat" style="width: 17px; height: 17px"></th>
+              <th class="text-center"><input type="checkbox" id="checkAllCN" style="width: 17px; height: 17px"></th>
+              <th class="text-center">Tất cả</th>
+            </tr>
+
+          </thead>
+          <tbody id="chucnang">
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 </div>
 <script>
+
+  $(function () {
+    $("#checkAllNhap").click(function () {
+      $("input[name='Nhap']").attr("checked", this.checked);
+      alert($("input[name='Nhap']").length);
+      alert($("input[name='Nhap']:checked").length);
+    });
+
+    $("input[name='Nhap']").click(function () {
+      if ($("input[name='Nhap']").length >= $("input[name='Nhap']:checked").length) {
+        alert("Bằng");
+        $("#checkAllNhap").attr("checked", "checked");
+
+      }
+      else {
+        alert("Không bằng");
+        $("#checkAllNhap").removeAttr("checked");
+      }
+    });
+  });
+
+
+
+
+
 
 
   $("#vaitro tr").click(function () {
@@ -140,7 +164,7 @@
       type: "post",
       url: "/loadTableCN",
       data: "idvt=" + id,
-      success: function (result) {       
+      success: function (result) {
         $('#chucnang').replaceWith(result);
       },
       error: function () {
@@ -171,7 +195,7 @@
       var print = $(this).find("td:eq(4) input[type='checkbox'] ").is(":checked");
       var xuat = $(this).find("td:eq(5) input[type='checkbox'] ").is(":checked");
       var canhan = $(this).find("td:eq(6) input[type='checkbox'] ").is(":checked");
-    
+
       var FunctionModel = {};
       FunctionModel.Idmenu = Number(idmenu);
       FunctionModel.Idvt = Number(idvt);
@@ -182,19 +206,19 @@
       FunctionModel.Xuat = xuat;
       FunctionModel.CaNhan = canhan;
 
-      listOfFunctionModel.push(FunctionModel);   
+      listOfFunctionModel.push(FunctionModel);
     });
 
     $.ajax({
-      url:'/updateRoles',
-      type:'POST',
-      dataType:'JSON',
-      contentType:'application/json; charset=utf-8',
+      url: '/updateRoles',
+      type: 'POST',
+      dataType: 'JSON',
+      contentType: 'application/json; charset=utf-8',
       data: JSON.stringify(listOfFunctionModel),
-      success:function(result) {      
+      success: function (result) {
         alert(result);
       },
-      error:function () {
+      error: function () {
         alert("Loix");
       }
     });
@@ -303,7 +327,7 @@
         }
       });
     });
-  
+
     //ok
     $("#myTable1").on("click", ".remove", function () {
       if (confirm('Bạn có muốn xoá?')) {
@@ -353,12 +377,12 @@
       url: "/searchTableVT",
       data: "key=" + key, //"vaitro=" + vaitro + "&key=" + key,
       success: function (result) {
-        $('#vaitro').replaceWith(result);        
+        $('#vaitro').replaceWith(result);
       },
       error: function () {
         alert("Faill11122");
       }
     });
   });
-    
+
 </script>
