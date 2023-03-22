@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using VatTuYTeDanhMuc.Models.Entities;
@@ -31,9 +32,34 @@ namespace VatTuYTeDanhMuc.Controllers
     {
       webContext context = new webContext();
      // var listnhncc = context.ChiTietTraNo.Where(a => a.IdptnNavigation.Idncc == idncc && a.Active == true).Include(x => x.IdpnNavigation.Idncc == idncc).ToList();
-      var listptn = context.PhieuTraNo.Where(a => a.IdnccNavigation.Id == idncc && a.Active == true).ToList();
-      ViewBag.ListPTN = listptn;
-      return PartialView();
+      var listptn = context.PhieuTraNo.Include(a=> a.ChiTietTraNo).Where(a => a.IdnccNavigation.Id == idncc && a.Active == true).ToList();
+        //    var phieu = context.PhieuNhap.Include(x => x.ChiTietPhieuNhap).Include(x => x.IdnccNavigation).Include(x => x.IdnvNavigation).FirstOrDefault(x => x.Id == idPN);
+      
+      string list = null;
+      foreach (PhieuTraNo item in listptn)
+      {
+        double? conlai = item.TongTien - item.ChiTietTraNo.Sum(x => x.SoTien);
+        
+        list += "<tr ><td class='text-start'>" + item.SoPhieu +"</td>" +
+                      "<td class='text-center'>" + item.NgayTra?.ToString("dd/MM/yyyy")+"</td>" +
+                      "<td class='text-end'>" + item.TongTien + "</td>" +
+                      "<td class='text-end'>" + item.ChiTietTraNo.Sum(x=>x.SoTien)+"</td>"+
+                      "<td class='text-end' class='remaining-amount'>" + conlai + "</td>" +
+                      "<td class='text-end'><input type='text' style='text-align: right;' class='payment-input input-text qty text form-control' onkeypress='return isMoney(event)' onchange='updateTongTien()' oninput='inputTongTien()' /></td>" +
+                 "</tr>";
+      }
+
+      string listempty = "<tr><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td>" +
+                 "<td><input type='text' disabled/></td></tr>";
+
+      return Json(new
+      {
+        list = list,
+        listempty = listempty
+      });
+
+      //ViewBag.ListPTN = listptn;
+     // return PartialView();
     }
 
 

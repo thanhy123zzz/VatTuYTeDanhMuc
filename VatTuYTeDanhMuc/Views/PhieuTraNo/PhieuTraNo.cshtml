@@ -137,20 +137,21 @@
               <tr>
                 <th class="text-center">Số phiếu</th>
                 <th class="text-center">Ngày thanh toán</th>
-                <th class="text-end">Tổng cộng</th>
-                <th class="text-end">Đã thanh toán</th>
-                <th class="text-end">Còn lại</th>
-                <th class="text-end">Thanh toán</th>
+                <th class="text-center">Tổng cộng</th>
+                <th class="text-center">Đã thanh toán</th>
+                <th class="text-center">Còn lại</th>
+                <th class="text-center">Thanh toán</th>
               </tr>
             </thead>
-            <tbody id="tablePTN1">
+            <tbody id="tablePTN1" >
               <tr>
                 <td>...</td>
                 <td>...</td>
                 <td>...</td>
                 <td>...</td>
                 <td>...</td>
-                <td><input type="text" /></td>
+                <td><input type="text" style="text-align: right;" disabled/></td>
+                @*<td><input type="text" /></td>*@
               </tr>
             </tbody>
           </table>
@@ -164,7 +165,7 @@
             </div>
             <label class="col-sm-2 col-lg-2 col-form-label">Ngày thanh toán</label>
             <div class="col-md-2 col-lg-2">
-              <input class="form-control" type="text" id="toDay" value="" placeholder="Ngày thanh toán">
+              <input class="form-control" type="text" id="paymentDay" value="@DateTime.Now.ToString("dd-MM-yyyy")" placeholder="Ngày thanh toán">
             </div>
             <label class="col-sm-2 col-lg-2 col-form-label">Hình thức thanh toán</label>
             <div class="col-md-2 col-lg-2">
@@ -309,11 +310,108 @@
 
 <script>
   $(document).ready(function () {
-    
+    $('.payment-input').bind("cut copy paste drag drop", function (e) {
+      e.preventDefault();
+    });
+
+
   });
 
+  function isMoney(e) {
+    var charCode = (e.which) ? e.which : e.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+      return false;
+    return true;
+  }
 
 
+
+  function updateTongTien() {
+    var tongtien = 0;
+
+    $("#tablePTN1").find("tr").each(function () {
+      // var idmenu = $(this).find("td:eq(0) input[type='hidden']").val();
+      //var idvt = $(this).find("td:eq(1) input[type='hidden']").val();
+      var tien = $(this).find("td:eq(5) input[type='text']").val();
+     // var tienPS = toDecimal(tien);
+
+    //  alert(tien);
+    // alert(tienPS);
+      
+      if (tien != null && tien != "" & tien >= 0) {
+      //  $(this).find("td:eq(5) input[type='text']").val(tienPS);
+        //tongtien = parseInt(tongtien) + parseInt(tien);
+        tongtien = parseInt(tongtien) + parseInt(tien);
+       /* $(this).val = tienPS;*/
+      }         
+    });
+    //alert(tongtien)
+    $('#Tongtien').val(toDecimal(tongtien));
+
+  }
+
+
+
+  //function inputTongTien() {
+  //  var TT = $(this).val();
+  //  alert(TT);
+  //  var TTT = toDecimal(TT);
+  //  alert(TTT);
+  //  if (checkNumber(TTT)) {
+  //    $(this)('.payment-input').val(TTT);
+  //  }
+  //};
+
+
+  //function inputTongTien() {
+  //  var TT = $(this).val();
+  //  alert(TT);
+  //  var TTT = toDecimal(getValue(TT));
+  //  alert(TTT);
+  //  if (checkNumber(TTT)) {
+  //    $('.payment-input').val(TTT);
+  //  }
+  //};
+
+
+
+  //$('.payment-input').keyup(function () {
+  //  var key = $(this).val();
+  //  var TTT = toDecimal(key);
+  //  if (checkNumber(TTT)) {
+  //    $(this).val(TTT);
+  //  }
+  //});
+  function getValue(str) {
+    return Number(str.replace(/[^0-9.-]+/g, ""));
+  }
+
+  function checkNumber(str) {
+    return /[0-9,.\-$]+/.test(str);
+  }
+  //$('#payment-input,#TongTien,#DonGia,#GiaBan,#ChietKhau').on('blur', format);
+  //function format() {
+  //  if (checkNumber(this.value)) {
+  //    const value = this.value.replace(/,/g, '');
+  //    this.value = parseFloat(value).toLocaleString('en-US', {
+  //      style: 'decimal',
+  //      maximumFractionDigits: 2,
+  //      minimumFractionDigits: 2
+  //    })
+  //  }
+  //}
+
+
+  function toDecimal(str) {
+    return parseFloat(str).toLocaleString('en-US', {
+      style: 'decimal',
+      maximumFractionDigits: 2,
+      minimumFractionDigits: 2
+    });
+  }
+ 
+  ///thêm giá trị lớn nhất của payment-input <= với tổng số nợ còn lại
+  ///maxlength="12" class="payment-input input-text qty text form-control" onkeypress="return isMoney(event)"
 
   function getPTN() {
     var idncc = $('#nhaCC1').val();
@@ -323,7 +421,13 @@
         url: "/getPTN",
         data: "idncc=" + idncc,
         success: function (result) {
-          $('#nganhang').append(result.options);
+          if (result.list != null) {
+            $('#tablePTN1').empty();
+            $('#tablePTN1').append(result.list);
+          } else {
+            $('#tablePTN1').empty();
+            $('#tablePTN1').append(result.listempty);
+          }
         },
         error: function () {
           alert("Failhu");
